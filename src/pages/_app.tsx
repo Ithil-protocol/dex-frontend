@@ -15,6 +15,7 @@ import {
 } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { infuraProvider } from "wagmi/providers/infura";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -24,9 +25,10 @@ export interface MyAppProps extends AppProps {
 }
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet, goerli],
+  [goerli],
   [
     alchemyProvider({ apiKey: "ZLR2ae9uziqXiA-4OM8RB13sqjuMRVHy" }),
+    infuraProvider({ apiKey: "40fc95ffa3e24163ab868f6f82e91969"}),
     publicProvider(),
   ]
 );
