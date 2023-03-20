@@ -3,10 +3,17 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@mui/material';
-
+import { useAccount, useBalance } from 'wagmi';
+import {BigNumber} from 'ethers'; 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const { address, connector } = useAccount();
+  const { data, isError, isLoading } = useBalance({
+    address
+  })
+  console.log(data?.value.toString());
   return (
     <>
       <Head>
