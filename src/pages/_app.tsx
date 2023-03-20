@@ -16,6 +16,9 @@ import {
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
+import { getDefaultWallets } from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import '@rainbow-me/rainbowkit/styles.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -33,26 +36,32 @@ const { chains, provider, webSocketProvider } = configureChains(
   ]
 );
 
+const { connectors } = getDefaultWallets({
+  appName: 'ithil dex',
+  chains
+});
+
 const client = createClient({
   autoConnect: true,
   provider,
   webSocketProvider,
+  connectors
 });
+
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <WagmiConfig client={client}>
+      <RainbowKitProvider chains={chains}>
       <CacheProvider value={emotionCache}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <Component {...pageProps} />
         </ThemeProvider>
       </CacheProvider>
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 }
