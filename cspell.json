@@ -4,6 +4,21 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [],
-  "ignoreWords": [],
+  "ignoreWords": [
+    "Parens",
+    "flowtype",
+    "ithil",
+    "ithildex",
+    "linebreak",
+    "maxtimeout",
+    "mintimeout",
+    "npmrc",
+    "rainbowkit",
+    "roboto",
+    "rushstack",
+    "sonarjs",
+    "svgr",
+    "wagmi"
+  ],
   "import": []
 }
