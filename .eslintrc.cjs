@@ -29,7 +29,7 @@ module.exports = {
     ],
     "arrow-parens": "warn",
     indent: ["error", 2],
-    "linebreak-style": ["error", "unix"],
+    // "linebreak-style": ["error", "unix"],
     "no-delete-var": "warn",
     "no-unused-vars": [
       "warn",
