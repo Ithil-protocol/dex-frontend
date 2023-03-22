@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
@@ -7,13 +8,21 @@ import { useAccount, useBalance, useContractEvent } from 'wagmi';
 import {BigNumber} from 'ethers'; 
 import { contractABI } from 'store/abi';
 const inter = Inter({ subsets: ['latin'] })
+=======
+import Head from "next/head";
+// import { Inter } from "next/font/google";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Button } from "@mui/material";
+import { useAccount, useBalance } from "wagmi";
+
+// const inter = Inter({ subsets: ["latin"] });
+>>>>>>> 4034ab5c25b657723478ffddf91d55fca55f335d
 
 export default function Home() {
-
-  const { address, connector } = useAccount();
-  const { data, isError, isLoading } = useBalance({
-    address
-  })
+  const { address } = useAccount();
+  const { data } = useBalance({
+    address,
+  });
   console.log(data?.value.toString());
 
   // const data = useContractEvent({
@@ -32,9 +41,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-     <Button variant='contained' >hello</Button>
+      <Button variant="contained">hello</Button>
       <ConnectButton />
-        
     </>
-  )
+  );
 }
