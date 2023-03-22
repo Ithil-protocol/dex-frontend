@@ -3,8 +3,9 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@mui/material';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount, useBalance, useContractEvent } from 'wagmi';
 import {BigNumber} from 'ethers'; 
+import { contractABI } from 'store/abi';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -14,6 +15,15 @@ export default function Home() {
     address
   })
   console.log(data?.value.toString());
+
+  // const data = useContractEvent({
+  //   address: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+  //   abi: contractABI,
+  //   eventName: 'NewOwner',
+  //   listener(node, label, owner) {
+  //     console.log(node, label, owner)
+  //   },
+  // })
   return (
     <>
       <Head>
