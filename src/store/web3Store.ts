@@ -1,4 +1,4 @@
-import { orderType } from "./../types/allType";
+import { orderType } from "types";
 import { contractABI } from "./abi";
 import { useContractRead } from "wagmi";
 const abi = "";
