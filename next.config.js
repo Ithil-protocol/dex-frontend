@@ -1,3 +1,5 @@
+const path = require('path');
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -5,6 +7,11 @@
 const nextConfig = {
   productionBrowserSourceMaps: false,
   swcMinify: true,
+
+  sassOptions: {
+    includePaths: [path.join(__dirname)],
+    prependData: "@use 'sass' as *;"
+  },
 
   webpack(config) {
     // Grab the existing rule that handles SVG imports
