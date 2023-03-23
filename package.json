@@ -14,18 +14,23 @@
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.13",
     "@rainbow-me/rainbowkit": "^0.12.1",
+    "@svgr/webpack": "^6.5.1",
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "cryptocurrency-icons": "^0.18.1",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "ethers": "^5",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "recharts": "^2.5.0",
+    "sass": "^1.59.3",
     "sharp": "^0.31.3",
     "typescript": "5.0.2",
-    "wagmi": "^0.12.2"
+    "wagmi": "^0.12.2",
+    "zustand": "^4.3.6"
   },
   "devDependencies": {
     "eslint-config-prettier": "^8.7.0"
