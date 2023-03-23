@@ -4,16 +4,21 @@ import { Inter } from 'next/font/google'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@mui/material';
 import { useAccount, useBalance } from 'wagmi';
-import {BigNumber} from 'ethers'; 
+import { BigNumber } from 'ethers';
+// import Eth from 'cryptocurrency-icons/svg/color/eth.svg';
+import Eth from 'cryptocurrency-icons/svg/icon/eth.svg';
+import PoolsSelect from 'components/PoolsSelect/PoolsSelect';
+
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  const { address, connector } = useAccount();
-  const { data, isError, isLoading } = useBalance({
-    address
-  })
-  console.log(data?.value.toString());
+  // const { address, connector } = useAccount();
+  // const { data, isError, isLoading } = useBalance({
+  //   address
+  // })
+  // console.log(data?.value.toString());
   return (
     <>
       <Head>
@@ -22,9 +27,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-     <Button variant='contained' >hello</Button>
-      <ConnectButton />
-        
+      {/* <PoolsSelect /> */}
+      {/* <ConnectButton /> */}
     </>
   )
 }

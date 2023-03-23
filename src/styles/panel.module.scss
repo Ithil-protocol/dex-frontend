@@ -1,0 +1,47 @@
+.layout {
+    display: grid;
+    padding: 15px;
+    gap: 15px;
+    grid-template-columns: minmax(max-content, 300px) 1fr minmax(max-content, 300px);
+    grid-template-rows: 60px 270px auto 200px; //for visualization only
+    grid-template-areas:
+        "navbar navbar navbar"
+        "order candlestick form"
+        "order depth market"
+        "open open market";
+}
+
+.navbar {
+    grid-area: navbar;
+    background-color: #13e262;
+}
+
+.orders {
+    grid-area: order;
+    background-color: #13dbe2;
+}
+
+.candlestick {
+    grid-area: candlestick;
+    background-color: #e213a4;
+}
+
+.form {
+    grid-area: form;
+    background-color: #e25f13;
+}
+
+.depth {
+    grid-area: depth;
+    background-color: #dee213;
+}
+
+.market {
+    grid-area: market;
+    background-color: #3213e2;
+}
+
+.open {
+    grid-area: open;
+    background-color: #cce269;
+}
