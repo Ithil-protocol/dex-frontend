@@ -2,13 +2,47 @@
     display: grid;
     padding: 15px;
     gap: 15px;
-    grid-template-columns: minmax(max-content, 300px) 1fr minmax(max-content, 300px);
-    grid-template-rows: 60px 270px auto 200px; //for visualization only
+    grid-template-columns: 300px 1fr 300px;
+    grid-template-rows: 60px 270px 200px 200px; //for visualization only
+    grid-auto-rows: 200px;
     grid-template-areas:
         "navbar navbar navbar"
         "order candlestick form"
         "order depth market"
         "open open market";
+
+    @include media("<lg") {
+        grid-template-columns: repeat(2, 1fr) 300px;
+        grid-template-areas:
+            "navbar navbar navbar"
+            "candlestick candlestick form"
+            "order market form"
+            "depth depth form"
+            "open open open";
+    }
+
+    @include media("<md") {
+        grid-template-columns: repeat(2, 1fr) 300px;
+        grid-template-areas:
+            "navbar navbar navbar"
+            "candlestick candlestick form"
+            "order order form"
+            "market market form"
+            "depth depth form"
+            "open open open";
+    }
+
+    @include media("<sm") {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "navbar"
+            "form"
+            "candlestick"
+            "order"
+            "market"
+            "depth"
+            "open";
+    }
 }
 
 .navbar {

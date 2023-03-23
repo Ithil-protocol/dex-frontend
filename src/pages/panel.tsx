@@ -23,7 +23,7 @@ const Panel = () => {
                 <Form />
             </div>
             <div className={styles.depth}>
-                <DepthChart />
+                {/* <DepthChart /> */}
             </div>
             <div className={styles.market}>
                 <MarketTrades />
