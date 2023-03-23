@@ -1,24 +1,26 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Button } from '@mui/material';
-import { useAccount, useBalance } from 'wagmi';
-import { BigNumber } from 'ethers';
-// import Eth from 'cryptocurrency-icons/svg/color/eth.svg';
-import Eth from 'cryptocurrency-icons/svg/icon/eth.svg';
-import PoolsSelect from 'components/PoolsSelect/PoolsSelect';
+import Head from "next/head";
+// import { Inter } from "next/font/google";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Button } from "@mui/material";
+import { useAccount, useBalance } from "wagmi";
 
-
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const { address } = useAccount();
+  const { data } = useBalance({
+    address,
+  });
+  console.log(data?.value.toString());
 
-  // const { address, connector } = useAccount();
-  // const { data, isError, isLoading } = useBalance({
-  //   address
+  // const data = useContractEvent({
+  //   address: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+  //   abi: contractABI,
+  //   eventName: 'NewOwner',
+  //   listener(node, label, owner) {
+  //     console.log(node, label, owner)
+  //   },
   // })
-  // console.log(data?.value.toString());
   return (
     <>
       <Head>
@@ -27,8 +29,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <PoolsSelect /> */}
-      {/* <ConnectButton /> */}
+      <Button variant="contained">hello</Button>
+      <ConnectButton />
     </>
-  )
+  );
 }

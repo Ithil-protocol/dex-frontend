@@ -10,3 +10,10 @@ export interface PoolState {
     pool: string;
     updatePool: (newPool: string) => void
 }
+
+export interface orderType {
+    id:string;
+    value:number;
+    volume:number;
+    time:number;
+}

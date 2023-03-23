@@ -1,0 +1,16 @@
+.git
+.github
+.husky
+.idea
+.nyc_output
+.trashCan
+.vscode
+build
+dist
+node_modules
+public
+thunder-tests
+*.md
+badge.svg
+tests.svg
+/lib
