@@ -11,9 +11,12 @@ export interface PoolState {
   updatePool: (newPool: string) => void;
 }
 
-export interface orderType {
+export interface Order {
   id: string;
   value: number;
   volume: number;
   time: number;
+}
+export interface OrderObj {
+  [index: string]: Order;
 }
