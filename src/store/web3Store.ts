@@ -1,9 +1,9 @@
-import { orderType } from "types";
+import { Order } from "types";
 import { contractABI } from "./abi";
 import { useContractRead } from "wagmi";
 const abi = "";
 const address: `0x${string}` = "0xjkhj";
-console.log(abi,address);
+console.log(abi, address);
 
 // export const getLatestTrade = () => {};
 // export const getBuyOrders = () => {};
@@ -27,7 +27,7 @@ export const useCustomContractRead = () => {
   });
 };
 
-export const buyOrders: orderType[] = [
+export const buyOrders: Order[] = [
   {
     id: "jkhjk46",
     time: 1679521057069,
@@ -166,5 +166,4 @@ export const buyOrders: orderType[] = [
     value: 28050,
     volume: 1,
   },
-  
 ];
