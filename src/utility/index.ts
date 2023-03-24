@@ -1,10 +1,14 @@
 import { OrderObj, Order } from "types";
 
+// export const addOrderToOrderObj = (order: Order, orderObj: OrderObj) => {
+//   if(orderObj[])
+// };
+
 export const convertOrdersArrayToUniqueObj = (orders: Order[]) => {
   const obj: OrderObj = {};
   orders.forEach((item) => {
     if (obj[item.value]) {
-      obj[item.value].volume += item.volume;
+      obj[item.value].volume += +item.volume;
     } else {
       obj[item.value] = item;
     }
