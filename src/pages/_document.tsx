@@ -1,20 +1,19 @@
-import * as React from "react";
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentProps,
-  DocumentContext,
-} from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
 import { AppType } from "next/app";
-import theme, { roboto } from "styles/theme";
+import Document, {
+  DocumentContext,
+  DocumentProps,
+  Head,
+  Html,
+  Main,
+  NextScript,
+} from "next/document";
+import * as React from "react";
 import createEmotionCache from "styles/createEmotionCache";
+import theme, { roboto } from "styles/theme";
 import { MyAppProps } from "./_app";
 
 interface MyDocumentProps extends DocumentProps {
-  // eslint-disable-next-line no-undef
   emotionStyleTags: JSX.Element[];
 }
 
@@ -86,7 +85,6 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
     <style
       data-emotion={`${style.key} ${style.ids.join(" ")}`}
       key={style.key}
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: style.css }}
     />
   ));
