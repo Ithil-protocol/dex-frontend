@@ -11,15 +11,24 @@ module.exports = {
     "next/core-web-vitals",
     "prettier",
     "plugin:jsx-a11y/recommended",
-    // "plugin:react/recommended",
   ],
+  globals: {
+    JSX: true,
+  },
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "sonarjs"],
+  plugins: ["@typescript-eslint", "@cspell", "sonarjs"],
   rules: {
+    "@cspell/spellchecker": [
+      "warn",
+      {
+        autoFix: false,
+        checkComments: false,
+      },
+    ],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
@@ -30,20 +39,18 @@ module.exports = {
       },
     ],
     "arrow-parens": "warn",
-    indent: ["error", 2],
-    "linebreak-style": ["error", "windows"],
+    indent: ["warn", 2],
+    "linebreak-style": ["warn", "windows"],
     "no-delete-var": "warn",
-
-    "no-unused-vars": 0,
-    //   [
-    //   "warn",
-    //   {
-    //     args: "after-used",
-    //     argsIgnorePattern: "^_",
-    //     ignoreRestSiblings: true,
-    //     vars: "all",
-    //   },
-    // ],
+    "no-unused-vars": [
+      "warn",
+      {
+        args: "after-used",
+        argsIgnorePattern: "^_",
+        ignoreRestSiblings: true,
+        vars: "all",
+      },
+    ],
     "no-use-before-define": [
       "error",
       {
@@ -56,7 +63,6 @@ module.exports = {
     "no-var": "warn",
     "object-shorthand": ["error", "always"],
     quotes: ["warn", "double"],
-    semi: ["error", "always"],
-    "no-undef": 0,
+    semi: ["warn", "always"],
   },
 };
