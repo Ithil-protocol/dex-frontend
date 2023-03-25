@@ -1,9 +1,8 @@
 {
-  "version": "0.2",
-  "ignorePaths": [],
-  "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": [],
+  "dictionaryDefinitions": [],
+  "ignorePaths": [],
+  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
   "ignoreWords": [
     "Parens",
     "flowtype",
@@ -17,12 +16,15 @@
     "rainbowkit",
     "roboto",
     "rushstack",
+    "snyk",
     "sonarjs",
     "svgr",
     "tsbuildinfo",
     "vercel",
-    "wagmi"
+    "wagmi",
+    "zustand"
   ],
   "import": [],
-  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?"]
+  "version": "0.2",
+  "words": []
 }

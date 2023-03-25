@@ -1,4 +1,38 @@
 {
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.sortImports": true
+  },
+  "editor.tabSize": 2,
+  "explorerExclude.backup": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "yarn.lock": true,
+    "README.md": true,
+    "tsconfig.json": true,
+    "package.json": true,
+    "package-lock.json": true,
+    "next.config.js": true,
+    "next-env.d.ts": true,
+    ".prettierignore": true,
+    "cspell.json": true,
+    ".prettierrc.json": true,
+    ".npmrc": true,
+    ".gitignore": true,
+    ".eslintrc.cjs": true,
+    ".eslintignore": true,
+    "temp": true,
+    "public": true,
+    "node_modules": true,
+    ".vscode": true,
+    ".next": true,
+    ".husky": true
+  },
+  "files.eol": "\r\n",
   "files.exclude": {
     "**/.git": false,
     "**/.svn": false,
@@ -27,16 +61,7 @@
     ".next": false,
     ".husky": false
   },
-  "explorerExclude.backup": {},
-  "cSpell.ignoreWords": [
-    "flowtype",
-    "ithildex",
-    "rainbowkit",
-    "rushstack",
-    "snyk",
-    "sonarjs",
-    "svgr",
-    "wagmi",
-    "zustand"
-  ]
+  "prettier.configPath": ".prettierrc.json",
+  "prettier.endOfLine": "crlf",
+  "prettier.useTabs": false
 }

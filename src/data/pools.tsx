@@ -1,6 +1,6 @@
+import DAI from "cryptocurrency-icons/svg/icon/dai.svg";
 import ETH from "cryptocurrency-icons/svg/icon/eth.svg";
 import USDC from "cryptocurrency-icons/svg/icon/usdc.svg";
-import DAI from "cryptocurrency-icons/svg/icon/dai.svg";
 import WBTC from "cryptocurrency-icons/svg/icon/wbtc.svg";
 import { Pool } from "types";
 

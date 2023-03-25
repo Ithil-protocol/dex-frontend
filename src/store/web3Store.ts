@@ -20,7 +20,6 @@ console.log(abi, address);
 // export const submitFulfillOrder = () => {};
 
 export const useCustomContractRead = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useContractRead({
     abi: contractABI,
     address,

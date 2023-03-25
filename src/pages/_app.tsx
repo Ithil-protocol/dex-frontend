@@ -23,7 +23,6 @@ export interface MyAppProps extends AppProps {
 const { chains, provider, webSocketProvider } = configureChains(
   [goerli],
   [
-    // eslint-disable-next-line @cspell/spellchecker
     alchemyProvider({ apiKey: "ZLR2ae9uziqXiA-4OM8RB13sqjuMRVHy" }),
     infuraProvider({ apiKey: "40fc95ffa3e24163ab868f6f82e91969" }),
     publicProvider(),
