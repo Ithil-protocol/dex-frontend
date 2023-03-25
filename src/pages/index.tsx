@@ -2,25 +2,99 @@ import Head from "next/head";
 // import { Inter } from "next/font/google";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button } from "@mui/material";
-import { useAccount, useBalance } from "wagmi";
+import {
+  erc20ABI,
+  useAccount,
+  useBalance,
+  useContract,
+  useContractEvent,
+  useContractWrite,
+  usePrepareContractWrite,
+  useSigner,
+  useWaitForTransaction,
+} from "wagmi";
+import { contractABI } from "store/abi";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
 
 // const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [state, setState] = useState(0);
+  const { data: signer } = useSigner();
   const { address } = useAccount();
-  const { data } = useBalance({
-    address,
+  const contract = useContract({
+    address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+    abi: erc20ABI,
   });
-  console.log(data?.value.toString());
+  useEffect(() => {
+    if (state === 1) {
+      const getAllowance = async () => {
+        if (!contract) {
+          console.log("fail1");
+          return;
+        }
+        if (!signer) {
+          console.log("fail2");
+          return;
+        }
+        const amount = ethers.utils.parseEther("10000000");
+        const token1Allowance = await contract
+          ?.connect(signer)
+          .approve("0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37", amount);
+        console.log(token1Allowance);
+      };
+      getAllowance();
+    }
+  }, [state]);
 
-  // const data = useContractEvent({
-  //   address: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+  const dataa = useContractEvent({
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    abi: contractABI,
+    eventName: "OrderCreated",
+    listener(node, label, owner) {
+      console.log("eveeeeeent",node, label, owner);
+    },
+  });
+
+  // const { config } = usePrepareContractWrite({
+  //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
   //   abi: contractABI,
-  //   eventName: 'NewOwner',
-  //   listener(node, label, owner) {
-  //     console.log(node, label, owner)
-  //   },
-  // })
+  //   functionName: "createOrder",
+  //   args: [
+  //     ethers.utils.parseUnits("0.01", 18),
+  //     ethers.utils.parseUnits("0.1", 6),
+  //     address,
+  //     Date.now() * 1000 + 120,
+  //   ],
+  //   // stateMutability:""
+  // });
+
+  const {
+    data: writeData,
+    isLoading,
+    isSuccess,
+    write,
+  } = useContractWrite({
+    mode:"recklesslyUnprepared",
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    abi: contractABI,
+    functionName: "createOrder",
+    args: [
+      ethers.utils.parseUnits("0.01", 18),
+      ethers.utils.parseUnits("0.1", 6),
+      address,
+      Date.now() * 1000 + 120,
+    ],
+  });
+
+  console.log("writeeeee", writeData);
+  
+  const {data:waitedData} = useWaitForTransaction({
+    hash: writeData?.hash,
+  });
+
+  console.log("__wait", waitedData);
   return (
     <>
       <Head>
@@ -29,7 +103,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Button variant="contained">hello</Button>
+      <Button variant="contained" onClick={() => setState(1)}>
+        hello
+      </Button>
+      <Button variant="contained" disabled={!write} onClick={() => write?.()}>
+        wriiiiiiiiite
+      </Button>
       <ConnectButton />
     </>
   );
