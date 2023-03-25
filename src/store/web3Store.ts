@@ -3,7 +3,7 @@ import { contractABI } from "./abi";
 import { useContractRead } from "wagmi";
 const abi = "";
 const address: `0x${string}` = "0xjkhj";
-console.log(abi,address);
+console.log(abi, address);
 
 // export const getLatestTrade = () => {};
 // export const getBuyOrders = () => {};
@@ -166,5 +166,4 @@ export const buyOrders: orderType[] = [
     value: 28050,
     volume: 1,
   },
-  
 ];

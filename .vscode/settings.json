@@ -1,0 +1,31 @@
+{
+  "files.exclude": {
+    "**/.git": false,
+    "**/.svn": false,
+    "**/.hg": false,
+    "**/CVS": false,
+    "**/.DS_Store": false,
+    "**/Thumbs.db": false,
+    "yarn.lock": false,
+    "README.md": false,
+    "tsconfig.json": false,
+    "package.json": false,
+    "package-lock.json": false,
+    "next.config.js": false,
+    "next-env.d.ts": false,
+    ".prettierignore": false,
+    "cspell.json": false,
+    ".prettierrc.json": false,
+    ".npmrc": false,
+    ".gitignore": false,
+    ".eslintrc.cjs": false,
+    ".eslintignore": false,
+    "temp": false,
+    "public": false,
+    "node_modules": false,
+    ".vscode": false,
+    ".next": false,
+    ".husky": false
+  },
+  "explorerExclude.backup": {}
+}
