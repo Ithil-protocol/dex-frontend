@@ -21,8 +21,7 @@ const theme = createTheme({
       main: red.A400,
     },
   },
-  typography: {
-  },
+  typography: {},
 });
 
 export default theme;

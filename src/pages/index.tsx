@@ -3,7 +3,6 @@ import Head from "next/head";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button } from "@mui/material";
 import {
-  
   erc20ABI,
   useAccount,
   useBalance,
@@ -54,7 +53,7 @@ export default function Home() {
     abi: contractABI,
     eventName: "OrderCreated",
     listener(node, label, owner) {
-      console.log("eveeeeeent",node, label, owner);
+      console.log("eveeeeeent", node, label, owner);
     },
   });
 
@@ -77,7 +76,7 @@ export default function Home() {
     isSuccess,
     write,
   } = useContractWrite({
-    mode:"recklesslyUnprepared",
+    mode: "recklesslyUnprepared",
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     abi: contractABI,
     functionName: "createOrder",
@@ -90,8 +89,8 @@ export default function Home() {
   });
 
   console.log("writeeeee", writeData);
-  
-  const {data:waitedData} = useWaitForTransaction({
+
+  const { data: waitedData } = useWaitForTransaction({
     hash: writeData?.hash,
   });
 
