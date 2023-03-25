@@ -27,5 +27,16 @@
     ".next": false,
     ".husky": false
   },
-  "explorerExclude.backup": {}
+  "explorerExclude.backup": {},
+  "cSpell.ignoreWords": [
+    "flowtype",
+    "ithildex",
+    "rainbowkit",
+    "rushstack",
+    "snyk",
+    "sonarjs",
+    "svgr",
+    "wagmi",
+    "zustand"
+  ]
 }

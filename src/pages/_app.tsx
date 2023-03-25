@@ -1,17 +1,17 @@
-import * as React from "react";
-import { AppProps } from "next/app";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
-import theme from "styles/theme";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
+import { AppProps } from "next/app";
+import * as React from "react";
 import createEmotionCache from "styles/createEmotionCache";
-import { WagmiConfig, createClient, configureChains, goerli } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
+import "styles/global.scss";
+import theme from "styles/theme";
+import { configureChains, createClient, goerli, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
-import { getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
+import { publicProvider } from "wagmi/providers/public";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

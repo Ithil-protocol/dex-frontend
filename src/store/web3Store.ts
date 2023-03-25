@@ -1,6 +1,6 @@
-import { orderType } from "./../types/allType";
-import { contractABI } from "./abi";
+import { Order } from "types";
 import { useContractRead } from "wagmi";
+import { contractABI } from "./abi";
 const abi = "";
 const address: `0x${string}` = "0xjkhj";
 console.log(abi, address);
@@ -20,6 +20,7 @@ console.log(abi, address);
 // export const submitFulfillOrder = () => {};
 
 export const useCustomContractRead = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useContractRead({
     abi: contractABI,
     address,
@@ -27,7 +28,7 @@ export const useCustomContractRead = () => {
   });
 };
 
-export const buyOrders: orderType[] = [
+export const buyOrders: Order[] = [
   {
     id: "jkhjk46",
     time: 1679521057069,
