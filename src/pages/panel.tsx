@@ -5,7 +5,7 @@ import Orders from "components/Orders/Orders";
 import CandlestickChart from "components/CandlestickChart/CandlestickChart";
 import Form from "components/Form/Form";
 import MarketTrades from "components/MarketTrades/MarketTrades";
-import OpenOrders from "components/OpenOrders/OpenOrders";
+import { OpenOrders } from "components/OpenOrders";
 
 const Panel = () => {
   return (
@@ -22,9 +22,7 @@ const Panel = () => {
       <div className={styles.form}>
         <Form />
       </div>
-      <div className={styles.depth}>
-        <DepthChart />
-      </div>
+      <div className={styles.depth}>{/* <DepthChart /> */}</div>
       <div className={styles.market}>
         <MarketTrades />
       </div>
