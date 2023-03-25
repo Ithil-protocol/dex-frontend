@@ -1,0 +1,22 @@
+.order {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-bottom: 2px;
+    padding:8px 12px;
+
+    & > *{
+        z-index: 10;
+    }
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: green;
+    z-index: 0;
+}

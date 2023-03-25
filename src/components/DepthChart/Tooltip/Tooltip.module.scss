@@ -1,0 +1,14 @@
+.tooltip {
+    background-color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+
+    &[data-mode="buy"] {
+        border-color: #30d46f;
+    }
+
+    &[data-mode="sell"] {
+        border-color: #f34444;
+    }
+}
