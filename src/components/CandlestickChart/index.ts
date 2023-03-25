@@ -1,1 +1,1 @@
-export { default } from './CandlestickChart';
+export { default } from "./CandlestickChart";

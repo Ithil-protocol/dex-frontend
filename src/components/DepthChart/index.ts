@@ -1,1 +1,1 @@
-export { default } from './DepthChart';
+export { default } from "./DepthChart";

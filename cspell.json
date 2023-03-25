@@ -13,12 +13,16 @@
     "maxtimeout",
     "mintimeout",
     "npmrc",
+    "pnpm",
     "rainbowkit",
     "roboto",
     "rushstack",
     "sonarjs",
     "svgr",
+    "tsbuildinfo",
+    "vercel",
     "wagmi"
   ],
-  "import": []
+  "import": [],
+  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?"]
 }

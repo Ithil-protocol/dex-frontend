@@ -1,1 +1,1 @@
-export { default } from './MarketTrades';
+export { default } from "./MarketTrades";

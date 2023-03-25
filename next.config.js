@@ -1,4 +1,5 @@
-const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require("path");
 
 /**
  * @type {import('next').NextConfig}
@@ -10,14 +11,14 @@ const nextConfig = {
 
   sassOptions: {
     includePaths: [path.join(__dirname)],
-    prependData: "@use 'sass' as *;"
+    prependData: "@use 'sass' as *;",
   },
 
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.('.svg'),
-    )
+      rule.test?.test?.(".svg")
+    );
 
     config.module.rules.push(
       // Reapply the existing rule, but only for svg imports ending in ?url
@@ -31,12 +32,12 @@ const nextConfig = {
         test: /\.svg$/i,
         issuer: /\.[jt]sx?$/,
         resourceQuery: { not: /url/ }, // exclude if *.svg?url
-        use: ['@svgr/webpack'],
-      },
-    )
+        use: ["@svgr/webpack"],
+      }
+    );
 
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
-    fileLoaderRule.exclude = /\.svg$/i
+    fileLoaderRule.exclude = /\.svg$/i;
 
     return config;
   },
