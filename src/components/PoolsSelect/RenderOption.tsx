@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { Pool } from "types";
 
-const RenderOption = (props: unknown, option: Pool) => (
+const RenderOption = (props: object, option: Pool) => (
   <Box component="li" {...props}>
     {option.underlyingLabel} {option.accountingLabel} {option.accountingIcon}{" "}
     {option.underlyingIcon}
