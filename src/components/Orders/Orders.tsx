@@ -6,11 +6,23 @@ const Orders = () => {
   return (
     <div className={styles.orders}>
       {computedOrders.slice(-8).map((order) => (
-        <Order key={order.id + "buy"} data={order} />
+        <Order
+          key={order.id + "buy"}
+          data={{
+            ...order,
+            type: "maker",
+          }}
+        />
       ))}
       <p className={styles.last}>9854.236</p>
       {computedOrders.slice(-8).map((order) => (
-        <Order key={order.id + "sell"} data={order} />
+        <Order
+          key={order.id + "sell"}
+          data={{
+            ...order,
+            type: "taker",
+          }}
+        />
       ))}
     </div>
   );

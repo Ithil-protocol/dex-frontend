@@ -44,7 +44,7 @@
   }
 
   & > * {
-    background-color: red;
+    // background-color: red;
     border-radius: 4px;
   }
 }
@@ -73,6 +73,7 @@
 .depth {
   grid-area: depth;
   background-color: $color-background-light;
+  padding: 20px 10px;
 }
 
 .market {

@@ -16,6 +16,7 @@ import {
   useSigner,
   useWaitForTransaction,
 } from "wagmi";
+import { formatDate } from "utility";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -115,6 +116,7 @@ export default function Home() {
         wriiiiiiiiite
       </Button>
       <ConnectButton />
+      <h1>{formatDate(1679874841742)}</h1>
     </>
   );
 }
