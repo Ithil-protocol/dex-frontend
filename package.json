@@ -25,6 +25,7 @@
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
     "cryptocurrency-icons": "^0.18.1",
+    "date-fns": "^2.29.3",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "eslint-plugin-jsx-a11y": "^6.7.1",

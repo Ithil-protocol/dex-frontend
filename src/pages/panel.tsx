@@ -1,4 +1,5 @@
 import { CandlestickChart } from "components/CandlestickChart";
+import DepthChart from "components/DepthChart/DepthChart";
 import Form from "components/Form/Form";
 import MarketTrades from "components/MarketTrades/MarketTrades";
 import Navbar from "components/Navbar";
@@ -21,7 +22,9 @@ const Panel = () => {
       <div className={styles.form}>
         <Form />
       </div>
-      <div className={styles.depth}>{/* <DepthChart /> */}</div>
+      <div className={styles.depth}>
+        <DepthChart />
+      </div>
       <div className={styles.market}>
         <MarketTrades />
       </div>

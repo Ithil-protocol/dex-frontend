@@ -4,7 +4,7 @@ import { computedOrders } from "store/web3Store";
 
 const Orders = () => {
   return (
-    <div>
+    <div className={styles.orders}>
       {computedOrders.slice(-8).map((order) => (
         <Order {...order} key={order.id + "buy"} type="buy" />
       ))}
