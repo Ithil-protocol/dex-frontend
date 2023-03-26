@@ -1,7 +1,10 @@
 import Head from "next/head";
 // import { Inter } from "next/font/google";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button } from "@mui/material";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import { contractABI } from "store/abi";
 import {
   erc20ABI,
   useAccount,
@@ -11,11 +14,8 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   useSigner,
-  useWaitForTransaction,
+  useWaitForTransaction
 } from "wagmi";
-import { contractABI } from "store/abi";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -86,6 +86,11 @@ export default function Home() {
       address,
       Date.now() * 1000 + 120,
     ],
+    // overrides:{
+    //   value,gasLimit,gasPrice,maxFeePerGas,nonce,accessList,
+    //   ccipReadEnabled,customData,from,maxPriorityFeePerGas
+    //   ,type
+    // }
   });
 
   console.log("writeeeee", writeData);
