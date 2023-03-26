@@ -4,7 +4,7 @@ import Form from "components/Form/Form";
 import MarketTrades from "components/MarketTrades/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
-import Orders from "components/Orders/Orders";
+import Orders from "components/Orders";
 import styles from "styles/panel.module.scss";
 
 const Panel = () => {
