@@ -2,11 +2,7 @@
   "dictionaries": [],
   "dictionaryDefinitions": [],
   "ignorePaths": [],
-  "ignoreRegExpList": [
-    "0x(.*)?",
-    "id:(.*)?",
-    "apiKey:(.*)?"
-  ],
+  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
   "ignoreWords": [
     "Parens",
     "flowtype",
@@ -30,7 +26,5 @@
   ],
   "import": [],
   "version": "0.2",
-  "words": [
-    "tradingview"
-  ]
+  "words": ["tradingview"]
 }
