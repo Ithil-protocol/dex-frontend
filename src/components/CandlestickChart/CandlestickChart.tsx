@@ -1,9 +1,15 @@
-const CandlestickChart = () => {
+import dynamic from "next/dynamic";
+const SymbolOverviewNoSSR = dynamic(
+  () => import("react-ts-tradingview-widgets").then((w) => w.AdvancedRealTimeChart),
+  {
+    ssr: false,
+  }
+);
+
+export const CandlestickChart = () => {
   return (
-    <div>
-      <h2>Candlestick Chart</h2>
-    </div>
+    <SymbolOverviewNoSSR theme="dark" height={"512px"} width={"100%"} />
+
   );
 };
 
-export default CandlestickChart;

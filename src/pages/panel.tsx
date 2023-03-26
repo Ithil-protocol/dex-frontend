@@ -1,4 +1,4 @@
-import CandlestickChart from "components/CandlestickChart/CandlestickChart";
+import {CandlestickChart} from "components/CandlestickChart";
 import Form from "components/Form/Form";
 import MarketTrades from "components/MarketTrades/MarketTrades";
 import Navbar from "components/Navbar";
