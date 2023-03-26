@@ -14,7 +14,7 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   useSigner,
-  useWaitForTransaction
+  useWaitForTransaction,
 } from "wagmi";
 
 // const inter = Inter({ subsets: ["latin"] });
