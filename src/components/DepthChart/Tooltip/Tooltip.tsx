@@ -1,7 +1,7 @@
 import { pools } from "data/pools";
 import {
   NameType,
-  ValueType
+  ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { TooltipProps } from "recharts/types/component/Tooltip";
 import { usePoolStore } from "store";
