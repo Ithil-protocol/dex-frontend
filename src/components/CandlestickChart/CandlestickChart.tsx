@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Link } from "@mui/material";
 import dynamic from "next/dynamic";
 import styles from "./CandlestickChart.module.scss";
 const AdvancedRealTimeChartNoSSR = dynamic(
@@ -18,13 +18,15 @@ export const CandlestickChart = () => {
         symbol="BTCUSDT"
         copyrightStyles={{ parent: { display: "none" } }}
       />
-      <Typography variant="caption" className={styles.copyright}>
-        <a
+      <Typography variant="caption" className={styles.copyright} fontSize="10px" >
+        <Link
+          underline="none"
+          color={"#2196f3"}
           href={`https://www.tradingview.com/symbols/${"BTCUSDT"}`}
           target={"_blank"}
         >
           {"BTCUSDT"} Chart
-        </a>
+        </Link>
         <p>by TradingView</p>
       </Typography>
     </Box>

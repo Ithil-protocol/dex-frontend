@@ -2,7 +2,11 @@
   "dictionaries": [],
   "dictionaryDefinitions": [],
   "ignorePaths": [],
-  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
+  "ignoreRegExpList": [
+    "0x(.*)?",
+    "id:(.*)?",
+    "apiKey:(.*)?"
+  ],
   "ignoreWords": [
     "Parens",
     "ccip",
@@ -28,5 +32,8 @@
   ],
   "import": [],
   "version": "0.2",
-  "words": ["tradingview"]
+  "words": [
+    "BTCUSDT",
+    "tradingview"
+  ]
 }
