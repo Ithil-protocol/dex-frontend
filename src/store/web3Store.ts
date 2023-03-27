@@ -1,7 +1,7 @@
 import { Order } from "types";
-import { contractABI } from "./abi";
-import { useContractRead } from "wagmi";
 import { computeOrders } from "utility";
+import { useContractRead } from "wagmi";
+import { contractABI } from "./abi";
 const abi = "";
 const address: `0x${string}` = "0xjkhj";
 console.log(abi, address);
@@ -26,6 +26,8 @@ export const useCustomContractRead = () => {
     address,
     functionName: "previewOrder",
   });
+
+  console.log(data);
 };
 
 export const buyOrders: Order[] = [

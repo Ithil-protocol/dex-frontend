@@ -5,18 +5,16 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
+import { formatDate } from "utility";
 import {
   erc20ABI,
   useAccount,
-  useBalance,
   useContract,
   useContractEvent,
   useContractWrite,
-  usePrepareContractWrite,
   useSigner,
   useWaitForTransaction,
 } from "wagmi";
-import { formatDate } from "utility";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -47,16 +45,18 @@ export default function Home() {
       };
       getAllowance();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const dataa = useContractEvent({
+  const data = useContractEvent({
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     abi: contractABI,
     eventName: "OrderCreated",
     listener(node, label, owner) {
-      console.log("eveeeeeent", node, label, owner);
+      console.log("event", node, label, owner);
     },
   });
+  console.log(data);
 
   // const { config } = usePrepareContractWrite({
   //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
@@ -71,30 +71,33 @@ export default function Home() {
   //   // stateMutability:""
   // });
 
-  const {
-    data: writeData,
-    isLoading,
-    isSuccess,
-    write,
-  } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+  const { data: writeData, write } = useContractWrite({
     abi: contractABI,
-    functionName: "createOrder",
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     args: [
       ethers.utils.parseUnits("0.01", 18),
       ethers.utils.parseUnits("0.1", 6),
       address,
       Date.now() * 1000 + 120,
     ],
-    // overrides:{
-    //   value,gasLimit,gasPrice,maxFeePerGas,nonce,accessList,
-    //   ccipReadEnabled,customData,from,maxPriorityFeePerGas
-    //   ,type
-    // }
+    // overrides: {
+    //   accessList,
+    //   ccipReadEnabled,
+    //   customData,
+    //   from,
+    //   gasLimit,
+    //   gasPrice,
+    //   maxFeePerGas,
+    //   maxPriorityFeePerGas,
+    //   nonce,
+    //   type,
+    //   value
+    // },
+    functionName: "createOrder",
+    mode: "recklesslyUnprepared",
   });
 
-  console.log("writeeeee", writeData);
+  console.log("writeData:::", writeData);
 
   const { data: waitedData } = useWaitForTransaction({
     hash: writeData?.hash,
@@ -113,7 +116,7 @@ export default function Home() {
         hello
       </Button>
       <Button variant="contained" disabled={!write} onClick={() => write?.()}>
-        wriiiiiiiiite
+        write...
       </Button>
       <ConnectButton />
       <h1>{formatDate(1679874841742)}</h1>

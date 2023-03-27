@@ -4,6 +4,8 @@
   "ignorePaths": [],
   "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
   "ignoreWords": [
+    "Parens",
+    "ccip",
     "flowtype",
     "ithil",
     "ithilc",
@@ -12,7 +14,6 @@
     "maxtimeout",
     "mintimeout",
     "npmrc",
-    "Parens",
     "pnpm",
     "rainbowkit",
     "roboto",
@@ -29,4 +30,3 @@
   "version": "0.2",
   "words": ["tradingview"]
 }
-
