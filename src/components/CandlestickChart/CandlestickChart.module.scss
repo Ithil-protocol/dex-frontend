@@ -1,0 +1,19 @@
+.copyright {
+  display: flex;
+  width: fit-content;
+  margin-inline: auto;
+  gap: 5px;
+  color: $color-gray;
+  opacity: 0;
+  animation: fadeInCopyright 0.25s ease-in 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInCopyright {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

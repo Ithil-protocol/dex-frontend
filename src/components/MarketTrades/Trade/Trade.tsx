@@ -17,7 +17,7 @@ const Trade = ({ data }: Props) => {
     >
       <TableCell
         style={{
-          color: "#306F76",
+          color: data.type === "taker" ? "#306F76" : "#986161",
           fontSize: 12,
           fontWeight: 900,
         }}

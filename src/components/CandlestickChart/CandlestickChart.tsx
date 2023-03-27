@@ -1,5 +1,7 @@
+import { Box, Typography, Link } from "@mui/material";
 import dynamic from "next/dynamic";
-const SymbolOverviewNoSSR = dynamic(
+import styles from "./CandlestickChart.module.scss";
+const AdvancedRealTimeChartNoSSR = dynamic(
   () =>
     import("react-ts-tradingview-widgets").then((w) => w.AdvancedRealTimeChart),
   {
@@ -8,5 +10,29 @@ const SymbolOverviewNoSSR = dynamic(
 );
 
 export const CandlestickChart = () => {
-  return <SymbolOverviewNoSSR theme="dark" height={"512px"} width={"100%"} />;
+  return (
+    <Box height={"100%"}>
+      <AdvancedRealTimeChartNoSSR
+        theme="dark"
+        autosize
+        symbol="BTCUSDT"
+        copyrightStyles={{ parent: { display: "none" } }}
+      />
+      <Typography
+        variant="caption"
+        className={styles.copyright}
+        fontSize="10px"
+      >
+        <Link
+          underline="none"
+          color={"#2196f3"}
+          href={`https://www.tradingview.com/symbols/${"BTCUSDT"}`}
+          target={"_blank"}
+        >
+          {"BTCUSDT"} Chart
+        </Link>
+        <p>by TradingView</p>
+      </Typography>
+    </Box>
+  );
 };

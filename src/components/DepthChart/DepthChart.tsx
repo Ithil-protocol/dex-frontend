@@ -27,7 +27,6 @@ const data = [
 ];
 
 const DepthChart = () => {
-  console.log("data", data);
   //   return(
   //       <pre>{JSON.stringify(computedOrders,null,2)}</pre>
   //   )
