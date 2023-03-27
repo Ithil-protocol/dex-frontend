@@ -1,7 +1,7 @@
 import { Pool } from "types";
 import styles from "./PoolsSelect.module.scss";
 
-const RenderOption = (props: unknown, option: Pool) => (
+const RenderOption = (props: object, option: Pool) => (
   <li {...props}>
     <span className={styles.underlying_icon}>{option.underlyingIcon}</span>
     <span className={styles.accounting_icon}>{option.accountingIcon}</span>

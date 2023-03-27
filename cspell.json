@@ -5,8 +5,10 @@
   "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
   "ignoreWords": [
     "Parens",
+    "ccip",
     "flowtype",
     "ithil",
+    "ithilc",
     "ithildex",
     "linebreak",
     "maxtimeout",
