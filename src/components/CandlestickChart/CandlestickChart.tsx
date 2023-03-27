@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-const SymbolOverviewNoSSR = dynamic(
+const AdvancedRealTimeChartNoSSR = dynamic(
   () =>
     import("react-ts-tradingview-widgets").then((w) => w.AdvancedRealTimeChart),
   {
@@ -8,5 +8,5 @@ const SymbolOverviewNoSSR = dynamic(
 );
 
 export const CandlestickChart = () => {
-  return <SymbolOverviewNoSSR theme="dark" height={"512px"} width={"100%"} />;
+  return <AdvancedRealTimeChartNoSSR theme="dark" height={"512px"} width={"100%"} />;
 };
