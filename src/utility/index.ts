@@ -42,5 +42,5 @@ export const briefing = (number: number) => {
 
 export const formatDate = (date: number) => {
   // const isoDate = new Date(date).toISOString();
-  return format(new Date(date), "KK:mm dd/LL/yyy");
+  return format(new Date(date), "KK:mm:ss");
 };
