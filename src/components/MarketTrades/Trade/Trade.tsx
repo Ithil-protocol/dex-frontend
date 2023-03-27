@@ -1,10 +1,14 @@
 import { TableCell, TableRow } from "@mui/material";
 import { Order } from "types";
 
-const Trade = ({ item }: { item: Order }) => {
+interface Props {
+  data: Omit<Order, "time"> & { time: string };
+}
+
+const Trade = ({ data }: Props) => {
   return (
     <TableRow
-      key={item.id}
+      key={data.id}
       sx={{
         borderBottom: "2px solid #485369",
       }}
@@ -18,7 +22,7 @@ const Trade = ({ item }: { item: Order }) => {
         component="th"
         scope="row"
       >
-        {item.value}
+        {data.value}
       </TableCell>
       <TableCell
         style={{
@@ -28,7 +32,7 @@ const Trade = ({ item }: { item: Order }) => {
         }}
         align="left"
       >
-        {item.volume}
+        {data.volume}
       </TableCell>
       <TableCell
         style={{
@@ -38,7 +42,7 @@ const Trade = ({ item }: { item: Order }) => {
         }}
         align="left"
       >
-        {item.time}
+        {data.time}
       </TableCell>
     </TableRow>
   );

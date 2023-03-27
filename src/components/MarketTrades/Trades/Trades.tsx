@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Trade from "components/MarketTrades/Trade/Trade";
 import * as React from "react";
 import { buyOrders } from "store/web3Store";
+import { formatDate } from "utility";
 
 export default function Trades() {
   return (
@@ -46,14 +47,18 @@ const TradeTableHead = () => {
 
 const TradesTableBody = () => {
   const orders = React.useMemo(
-    () => buyOrders.sort((a, b) => b.time - a.time).slice(10),
+    () =>
+      buyOrders
+        .sort((a, b) => b.time - a.time)
+        .slice(10)
+        .map((item) => ({ ...item, time: formatDate(item.time) })),
     []
   );
 
   return (
     <TableBody>
       {orders.map((item, i) => (
-        <Trade key={i} item={item} />
+        <Trade key={i} data={item} />
       ))}
     </TableBody>
   );
