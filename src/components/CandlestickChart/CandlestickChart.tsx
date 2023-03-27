@@ -18,7 +18,11 @@ export const CandlestickChart = () => {
         symbol="BTCUSDT"
         copyrightStyles={{ parent: { display: "none" } }}
       />
-      <Typography variant="caption" className={styles.copyright} fontSize="10px" >
+      <Typography
+        variant="caption"
+        className={styles.copyright}
+        fontSize="10px"
+      >
         <Link
           underline="none"
           color={"#2196f3"}
