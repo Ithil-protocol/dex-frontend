@@ -29,8 +29,12 @@ function PoolsSelect() {
           {...params}
           label="Select an option"
           variant="standard"
+          color="secondary"
+          InputLabelProps={{ style: { color: "white" } }}
           inputProps={{
             ...params.inputProps,
+            style: { color: "white" },
+
             autoComplete: "new-password", // disable autocomplete and autofill
           }}
         />
