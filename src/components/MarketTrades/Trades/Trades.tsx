@@ -47,9 +47,12 @@ const TradeTableHead = () => {
 const TradesTableBody = () => {
   return (
     <TableBody>
-      {buyOrders.slice(10).map((item, i) => (
-        <Trade key={i} data={item} />
-      ))}
+      {buyOrders
+        .slice(-10)
+        .sort((a, b) => b.time - a.time)
+        .map((item, i) => (
+          <Trade key={i} data={item} />
+        ))}
     </TableBody>
   );
 };
