@@ -4,7 +4,6 @@ import { useContractRead } from "wagmi";
 import { contractABI } from "./abi";
 const abi = "";
 const address: `0x${string}` = "0xjkhj";
-console.log(abi, address);
 
 // export const getLatestTrade = () => {};
 // export const getBuyOrders = () => {};
@@ -26,8 +25,6 @@ export const useCustomContractRead = () => {
     address,
     functionName: "previewOrder",
   });
-
-  console.log(data);
 };
 
 export const buyOrders: Order[] = [
