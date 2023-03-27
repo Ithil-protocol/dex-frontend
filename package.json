@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "check:format": "prettier --write ./",
+    "check:format": "prettier --write --list-different ./",
     "check:lint": "eslint ./",
     "check:lint:default": "eslint 'src/**/*.{ts,tsx}'",
     "check:security": "snyk test & snyk code test",
@@ -70,9 +70,9 @@
     "tslib": "^2.5.0"
   },
   "lint-staged": {
-    "./src/*": [
-      "eslint",
-      "prettier --write"
+    "*.{ts,tsx}": [
+      "prettier --write --list-different",
+      "eslint --fix"
     ]
   }
 }
