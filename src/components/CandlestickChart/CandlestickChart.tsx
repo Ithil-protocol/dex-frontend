@@ -18,7 +18,7 @@ export const CandlestickChart = () => {
         symbol="BTCUSDT"
         copyrightStyles={{ parent: { display: "none" } }}
       />
-      <Typography variant="caption" className={styles.copyright} >
+      <Typography variant="caption" className={styles.copyright}>
         <a
           href={`https://www.tradingview.com/symbols/${"BTCUSDT"}`}
           target={"_blank"}
