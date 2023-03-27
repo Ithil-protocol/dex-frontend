@@ -1,7 +1,7 @@
 import { pools } from "data/pools";
 import {
   NameType,
-  ValueType,
+  ValueType
 } from "recharts/types/component/DefaultTooltipContent";
 import { TooltipProps } from "recharts/types/component/Tooltip";
 import { usePoolStore } from "store";
@@ -15,7 +15,6 @@ const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
   const { accountingLabel } = pool;
 
   if (!active || !payload) return null;
-  console.log("payload", payload[0]);
 
   const mode = payload[0].name === "yBuy" ? "buy" : "sell";
 
