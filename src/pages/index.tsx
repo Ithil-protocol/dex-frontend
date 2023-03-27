@@ -1,7 +1,10 @@
 import Head from "next/head";
 // import { Inter } from "next/font/google";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button } from "@mui/material";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import { contractABI } from "store/abi";
 import {
   erc20ABI,
   useAccount,
@@ -13,9 +16,7 @@ import {
   useSigner,
   useWaitForTransaction,
 } from "wagmi";
-import { contractABI } from "store/abi";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { formatDate } from "utility";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -86,6 +87,11 @@ export default function Home() {
       address,
       Date.now() * 1000 + 120,
     ],
+    // overrides:{
+    //   value,gasLimit,gasPrice,maxFeePerGas,nonce,accessList,
+    //   ccipReadEnabled,customData,from,maxPriorityFeePerGas
+    //   ,type
+    // }
   });
 
   console.log("writeeeee", writeData);
@@ -110,6 +116,7 @@ export default function Home() {
         wriiiiiiiiite
       </Button>
       <ConnectButton />
+      <h1>{formatDate(1679874841742)}</h1>
     </>
   );
 }

@@ -1,4 +1,5 @@
-import { OrderObj, Order } from "types";
+import { format, parseISO } from "date-fns";
+import { Order, OrderObj } from "types";
 
 // export const addOrderToOrderObj = (order: Order, orderObj: OrderObj) => {
 //   if(orderObj[])
@@ -32,7 +33,14 @@ export const briefing = (number: number) => {
     return (number / 1000).toFixed(0) + "K"; // convert to K for number from > 1000 < 1 million
   } else if (number > 1000000) {
     return (number / 1000000).toFixed(0) + "M"; // convert to M for number from > 1 million
-  } else if (number < 900) {
-    return number; // if value < 1000, nothing to do
+  } else if (number > 1000000000) {
+    return (number / 1000000).toFixed(0) + "B"; // convert to M for number from > 1 million
+  } else {
+    return number.toString(); // if value < 1000, nothing to do
   }
+};
+
+export const formatDate = (date: number) => {
+  // const isoDate = new Date(date).toISOString();
+  return format(new Date(date), "KK:mm dd/LL/yyy");
 };

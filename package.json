@@ -27,6 +27,7 @@
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
     "cryptocurrency-icons": "^0.18.1",
+    "date-fns": "^2.29.3",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "eslint-plugin-jsx-a11y": "^6.7.1",
@@ -35,6 +36,7 @@
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-ts-tradingview-widgets": "^1.0.14",
     "recharts": "^2.5.0",
     "sass": "^1.59.3",
     "sharp": "^0.32.0",
@@ -73,3 +75,4 @@
     ]
   }
 }
+

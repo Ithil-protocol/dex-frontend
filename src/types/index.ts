@@ -16,6 +16,7 @@ export interface Order {
   value: number;
   volume: number;
   time: number;
+  type: "maker" | "taker";
 }
 export interface OrderObj {
   [index: string]: Order;
