@@ -8,7 +8,6 @@ import TableRow from "@mui/material/TableRow";
 import Trade from "components/MarketTrades/Trade/Trade";
 import * as React from "react";
 import { buyOrders } from "store/web3Store";
-import { formatDate } from "utility";
 
 export default function Trades() {
   return (
@@ -17,7 +16,7 @@ export default function Trades() {
         <Paper {...props} style={{ backgroundColor: "#233347" }} />
       )}
     >
-      <Table sx={{}} size="small" aria-label="a dense table">
+      <Table size="small" aria-label="a dense table">
         <TradeTableHead />
         <TradesTableBody />
       </Table>
@@ -27,7 +26,7 @@ export default function Trades() {
 
 const TradeTableHead = () => {
   return (
-    <TableHead>
+    <TableHead style={{ borderBottom: "2px solid transparent" }}>
       <TableRow>
         {["value", "volume", "time"].map((item, i) => (
           <TableCell
@@ -46,18 +45,9 @@ const TradeTableHead = () => {
 };
 
 const TradesTableBody = () => {
-  const orders = React.useMemo(
-    () =>
-      buyOrders
-        .sort((a, b) => b.time - a.time)
-        .slice(10)
-        .map((item) => ({ ...item, time: formatDate(item.time) })),
-    []
-  );
-
   return (
     <TableBody>
-      {orders.map((item, i) => (
+      {buyOrders.slice(10).map((item, i) => (
         <Trade key={i} data={item} />
       ))}
     </TableBody>
