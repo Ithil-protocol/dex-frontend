@@ -1,8 +1,9 @@
 import { TableCell, TableRow } from "@mui/material";
 import { Order } from "types";
+import { formatDate } from "utility";
 
 interface Props {
-  data: Omit<Order, "time"> & { time: string };
+  data: Order;
 }
 
 const Trade = ({ data }: Props) => {
@@ -10,7 +11,8 @@ const Trade = ({ data }: Props) => {
     <TableRow
       key={data.id}
       sx={{
-        borderBottom: "2px solid #485369",
+        "&:not(:last-child)": { borderBottom: "2px solid #485369" },
+        "&:last-child td, &:last-child th": { border: 0 },
       }}
     >
       <TableCell
@@ -42,7 +44,7 @@ const Trade = ({ data }: Props) => {
         }}
         align="left"
       >
-        {data.time}
+        {formatDate(data.time)}
       </TableCell>
     </TableRow>
   );
