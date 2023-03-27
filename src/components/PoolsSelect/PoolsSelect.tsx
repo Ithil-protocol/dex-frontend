@@ -11,7 +11,6 @@ function PoolsSelect() {
     state.updatePool,
   ]);
 
-
   const handleChange = (_: unknown, newValue: Pool | null) => {
     updatePool(newValue?.value ?? "");
   };

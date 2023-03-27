@@ -25,7 +25,6 @@ export const useCustomContractRead = () => {
     address,
     functionName: "previewOrder",
   });
-
 };
 
 export const buyOrders: Order[] = [
