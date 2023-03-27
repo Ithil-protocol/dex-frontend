@@ -1,11 +1,109 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+// import { Inter } from "next/font/google";
+import { Button } from "@mui/material";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import { contractABI } from "store/abi";
+import { formatDate } from "utility";
+import {
+  erc20ABI,
+  useAccount,
+  useContract,
+  useContractEvent,
+  useContractWrite,
+  useSigner,
+  useWaitForTransaction,
+} from "wagmi";
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [state, setState] = useState(0);
+  const { data: signer } = useSigner();
+  const { address } = useAccount();
+  const contract = useContract({
+    address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+    abi: erc20ABI,
+  });
+  useEffect(() => {
+    if (state === 1) {
+      const getAllowance = async () => {
+        if (!contract) {
+          console.log("fail1");
+          return;
+        }
+        if (!signer) {
+          console.log("fail2");
+          return;
+        }
+        const amount = ethers.utils.parseEther("10000000");
+        const token1Allowance = await contract
+          ?.connect(signer)
+          .approve("0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37", amount);
+        console.log(token1Allowance);
+      };
+      getAllowance();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
+  const data = useContractEvent({
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    abi: contractABI,
+    eventName: "OrderCreated",
+    listener(node, label, owner) {
+      console.log("event", node, label, owner);
+    },
+  });
+  console.log(data);
+
+  // const { config } = usePrepareContractWrite({
+  //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+  //   abi: contractABI,
+  //   functionName: "createOrder",
+  //   args: [
+  //     ethers.utils.parseUnits("0.01", 18),
+  //     ethers.utils.parseUnits("0.1", 6),
+  //     address,
+  //     Date.now() * 1000 + 120,
+  //   ],
+  //   // stateMutability:""
+  // });
+
+  const { data: writeData, write } = useContractWrite({
+    abi: contractABI,
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    args: [
+      ethers.utils.parseUnits("0.01", 18),
+      ethers.utils.parseUnits("0.1", 6),
+      address,
+      Date.now() * 1000 + 120,
+    ],
+    // overrides: {
+    //   accessList,
+    //   ccipReadEnabled,
+    //   customData,
+    //   from,
+    //   gasLimit,
+    //   gasPrice,
+    //   maxFeePerGas,
+    //   maxPriorityFeePerGas,
+    //   nonce,
+    //   type,
+    //   value
+    // },
+    functionName: "createOrder",
+    mode: "recklesslyUnprepared",
+  });
+
+  console.log("writeData:::", writeData);
+
+  const { data: waitedData } = useWaitForTransaction({
+    hash: writeData?.hash,
+  });
+
+  console.log("__wait", waitedData);
   return (
     <>
       <Head>
@@ -14,110 +112,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      <Button variant="contained" onClick={() => setState(1)}>
+        hello
+      </Button>
+      <Button variant="contained" disabled={!write} onClick={() => write?.()}>
+        write...
+      </Button>
+      <ConnectButton />
+      <h1>{formatDate(1679874841742)}</h1>
     </>
-  )
+  );
 }

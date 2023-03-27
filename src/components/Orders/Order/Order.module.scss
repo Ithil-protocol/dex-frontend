@@ -1,0 +1,39 @@
+.order {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $color-white;
+  padding: 8px 12px;
+
+  &:not(:last-child) {
+    margin-bottom: 1px;
+  }
+
+  &[data-type="taker"] {
+    .background {
+      background-color: $color-red-light;
+    }
+
+    .value {
+      color: $color-red;
+    }
+  }
+
+  & > * {
+    z-index: 10;
+  }
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 0;
+  background-color: $color-green-light;
+}
+
+.value {
+  color: $color-green;
+}

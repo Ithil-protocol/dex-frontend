@@ -1,0 +1,32 @@
+{
+  "dictionaries": [],
+  "dictionaryDefinitions": [],
+  "ignorePaths": [],
+  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
+  "ignoreWords": [
+    "Parens",
+    "ccip",
+    "flowtype",
+    "ithil",
+    "ithilc",
+    "ithildex",
+    "linebreak",
+    "maxtimeout",
+    "mintimeout",
+    "npmrc",
+    "pnpm",
+    "rainbowkit",
+    "roboto",
+    "rushstack",
+    "snyk",
+    "sonarjs",
+    "svgr",
+    "tsbuildinfo",
+    "vercel",
+    "wagmi",
+    "zustand"
+  ],
+  "import": [],
+  "version": "0.2",
+  "words": ["BTCUSDT", "tradingview"]
+}

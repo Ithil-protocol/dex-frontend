@@ -1,0 +1,19 @@
+.option {
+  // background-color: $color-background-light;
+}
+
+.underlying_label {
+}
+
+.underlying_icon {
+  z-index: 10;
+}
+
+.accounting_icon {
+  margin-left: -16px;
+  margin-right: 16px;
+}
+
+.accounting_label {
+  color: $color-gray;
+}
