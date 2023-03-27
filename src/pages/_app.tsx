@@ -49,6 +49,7 @@ export default function MyApp(props: MyAppProps) {
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+
             <CssBaseline />
             <Component {...pageProps} />
           </ThemeProvider>
