@@ -1,8 +1,8 @@
-import { Box, Typography, Link } from "@mui/material";
-import dynamic from "next/dynamic";
-import styles from "./CandlestickChart.module.scss";
-import { usePoolStore } from "store";
+import { Box, Link, Typography } from "@mui/material";
 import { pools } from "data/pools";
+import dynamic from "next/dynamic";
+import { usePoolStore } from "store";
+import styles from "./CandlestickChart.module.scss";
 const AdvancedRealTimeChartNoSSR = dynamic(
   () =>
     import("react-ts-tradingview-widgets").then((w) => w.AdvancedRealTimeChart),
@@ -16,8 +16,6 @@ export const CandlestickChart = () => {
   const pool = pools.find((pool) => pool.value === poolValue);
 
   const symbol = pool ? pool.underlyingLabel + pool.accountingLabel : "BTCUSDT";
-
-  console.log("symbol", symbol);
 
   return (
     <Box height={"100%"}>
@@ -35,7 +33,7 @@ export const CandlestickChart = () => {
         <Link
           underline="none"
           color={"#2196f3"}
-          href={`https://www.tradingview.com/symbols/${"BTCUSDT"}`}
+          href={`https://www.tradingview.com/symbols/${symbol}`}
           target={"_blank"}
         >
           {"BTCUSDT"} Chart
