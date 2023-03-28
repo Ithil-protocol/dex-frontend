@@ -13,6 +13,7 @@ import {
   useContractEvent,
   useContractRead,
   useContractWrite,
+  usePrepareContractWrite,
   useSigner,
   useWaitForTransaction,
 } from "wagmi";
@@ -59,44 +60,19 @@ export default function Home() {
   });
   console.log(data);
 
-  // const { config } = usePrepareContractWrite({
-  //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-  //   abi: contractABI,
-  //   functionName: "createOrder",
-  //   args: [
-  //     ethers.utils.parseUnits("0.01", 18),
-  //     ethers.utils.parseUnits("0.1", 6),
-  //     address,
-  //     Date.now() * 1000 + 120,
-  //   ],
-  //   // stateMutability:""
-  // });
-
-  const { data: writeData, write } = useContractWrite({
-    abi: contractABI,
+  const { config } = usePrepareContractWrite({
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    abi: contractABI,
+    functionName: "createOrder",
     args: [
       ethers.utils.parseUnits("0.01", 18),
       ethers.utils.parseUnits("0.1", 6),
       address,
-      Date.now() * 1000 + 120,
+      1680018342 + 6220,
     ],
-    // overrides: {
-    //   accessList,
-    //   ccipReadEnabled,
-    //   customData,
-    //   from,
-    //   gasLimit,
-    //   gasPrice,
-    //   maxFeePerGas,
-    //   maxPriorityFeePerGas,
-    //   nonce,
-    //   type,
-    //   value
-    // },
-    functionName: "createOrder",
-    mode: "recklesslyUnprepared",
   });
+
+  const { data: writeData, write } = useContractWrite(config);
 
   console.log("writeData:::", writeData);
 
