@@ -2,7 +2,7 @@ import Head from "next/head";
 // import { Inter } from "next/font/google";
 import { Button } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ethers } from "ethers";
+import { BigNumberish, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
 import { formatDate } from "utility";
@@ -80,18 +80,27 @@ export default function Home() {
     hash: writeData?.hash,
   });
 
-  console.log("__wait", waitedData);
+  // console.log("__wait", waitedData);
+
+  const { data: priceLevel } = useContractRead({
+    abi: contractABI,
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    functionName: "priceLevels",
+    args: [0],
+  });
+  priceLevel &&
+    console.log(
+      "priceLevel",
+      ethers.utils.formatEther(priceLevel as BigNumberish)
+    );
 
   const { data: readData } = useContractRead({
     abi: contractABI,
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     functionName: "orders",
-    args: [
-      ethers.utils.parseUnits("0.01", 18),
-      ethers.utils.parseUnits("0.1", 6),
-    ],
+    args: [ethers.utils.parseUnits("0.1", 6), 0],
   });
-  readData && console.log(readData);
+  readData && console.log("readData", readData);
 
   return (
     <>
