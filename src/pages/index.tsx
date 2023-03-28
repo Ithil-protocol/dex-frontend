@@ -11,6 +11,7 @@ import {
   useAccount,
   useContract,
   useContractEvent,
+  useContractRead,
   useContractWrite,
   useSigner,
   useWaitForTransaction,
@@ -104,6 +105,18 @@ export default function Home() {
   });
 
   console.log("__wait", waitedData);
+
+  const { data: readData } = useContractRead({
+    abi: contractABI,
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    functionName: "orders",
+    args: [
+      ethers.utils.parseUnits("0.01", 18),
+      ethers.utils.parseUnits("0.1", 6),
+    ],
+  });
+  readData && console.log(readData);
+
   return (
     <>
       <Head>
