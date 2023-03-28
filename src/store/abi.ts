@@ -22,6 +22,11 @@ export const contractABI = [
   },
   {
     inputs: [],
+    name: "AmountOutTooLow",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "AmountTooHigh",
     type: "error",
   },
@@ -47,6 +52,11 @@ export const contractABI = [
   },
   {
     inputs: [],
+    name: "StaleOrder",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "WrongIndex",
     type: "error",
   },
@@ -55,15 +65,15 @@ export const contractABI = [
     inputs: [
       {
         indexed: true,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: true,
         internalType: "address",
         name: "offerer",
         type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "index",
-        type: "uint256",
       },
       {
         indexed: false,
@@ -97,7 +107,7 @@ export const contractABI = [
         type: "uint256",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "index",
         type: "uint256",
@@ -135,6 +145,12 @@ export const contractABI = [
     inputs: [
       {
         indexed: true,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        indexed: true,
         internalType: "address",
         name: "offerer",
         type: "address",
@@ -148,12 +164,6 @@ export const contractABI = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "accountingToTransfer",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
         name: "amount",
         type: "uint256",
       },
@@ -162,6 +172,12 @@ export const contractABI = [
         internalType: "uint256",
         name: "price",
         type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "totalFill",
+        type: "bool",
       },
     ],
     name: "OrderFulfilled",
@@ -172,7 +188,7 @@ export const contractABI = [
     name: "accounting",
     outputs: [
       {
-        internalType: "contract ERC20",
+        internalType: "contract IERC20",
         name: "",
         type: "address",
       },
@@ -263,6 +279,11 @@ export const contractABI = [
         name: "recipient",
         type: "address",
       },
+      {
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
     ],
     name: "createOrder",
     outputs: [],
@@ -294,14 +315,19 @@ export const contractABI = [
         name: "receiver",
         type: "address",
       },
+      {
+        internalType: "uint256",
+        name: "minAmountOut",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
     ],
     name: "fulfillOrder",
     outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
       {
         internalType: "uint256",
         name: "",
@@ -493,11 +519,6 @@ export const contractABI = [
         name: "",
         type: "uint256",
       },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
     ],
     stateMutability: "view",
     type: "function",
@@ -552,7 +573,7 @@ export const contractABI = [
     name: "underlying",
     outputs: [
       {
-        internalType: "contract ERC20",
+        internalType: "contract IERC20",
         name: "",
         type: "address",
       },
