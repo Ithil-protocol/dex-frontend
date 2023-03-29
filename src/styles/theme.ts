@@ -20,6 +20,14 @@ const theme = createTheme({
     error: {
       main: red.A400,
     },
+    background: {
+      default: "#2c374d",
+      paper: "#2c374d",
+    },
+    text: {
+      primary: "#fff",
+      secondary: "gray",
+    },
   },
   typography: { fontFamily: roboto.style.fontFamily },
 });
