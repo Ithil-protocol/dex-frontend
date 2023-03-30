@@ -19,6 +19,7 @@ import {
 } from "wagmi";
 
 // const inter = Inter({ subsets: ["latin"] });
+import { readContract } from "@wagmi/core";
 
 export default function Home() {
   const [state, setState] = useState(0);
@@ -109,6 +110,20 @@ export default function Home() {
     args: [priceLevel, 3],
   });
   // readData && console.log(readData);
+
+  useEffect(() => {
+    const x = async () => {
+      const data = await readContract({
+        address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+        abi: contractABI,
+        functionName: "orders",
+        args: [priceLevel, 3],
+      });
+      console.log(data);
+    };
+    if (!priceLevel) return;
+    x();
+  }, [priceLevel]);
   return (
     <>
       <Head>
