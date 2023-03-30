@@ -1,5 +1,5 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import LightTooltip from "components/Utility/LightTooltip";
+import LightTooltip from "components/common/LightTooltip";
 import Trades from "./Trades";
 
 const MarketTrades = () => {
