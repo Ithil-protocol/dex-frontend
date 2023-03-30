@@ -4,8 +4,11 @@
   "ignorePaths": [],
   "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
   "ignoreWords": [
+    "BigNumberish",
+    "IERC",
     "Parens",
     "ccip",
+    "csstype",
     "flowtype",
     "ithil",
     "ithilc",
@@ -30,3 +33,4 @@
   "version": "0.2",
   "words": ["BTCUSDT", "tradingview"]
 }
+
