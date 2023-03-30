@@ -49,7 +49,7 @@ const TradesTableBody = () => {
     <TableBody>
       {buyOrders
         .slice(-10)
-        .sort((a, b) => b.time - a.time)
+        .reverse()
         .map((item, i) => (
           <Trade key={i} data={item} />
         ))}
