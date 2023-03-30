@@ -7,17 +7,21 @@ interface StyledTabProps {
   selectedColor?: Property.Color;
 }
 
-export const StyledTab = (props: StyledTabProps) => {
+export const StyledTab = ({
+  selectedColor,
+  color,
+  ...rest
+}: StyledTabProps) => {
   return (
     <Tab
       disableRipple
-      {...props}
+      {...rest}
       sx={{
         fontWeight: "bold",
         textTransform: "none",
-        color: props.color || "#e3e3e378",
+        color: color || "#e3e3e378",
         "&.Mui-selected": {
-          color: props.selectedColor || "white",
+          color: selectedColor || "white",
           backgroundColor: "#284F5B",
         },
         "&.Mui-focusVisible": {
