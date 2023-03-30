@@ -4,8 +4,14 @@ import CreateOrder from "components/Form/CreateOrder";
 import MarketTrades from "components/MarketTrades/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
-import Orders from "components/Orders";
+import dynamic from "next/dynamic";
 import styles from "styles/panel.module.scss";
+const Orders = dynamic(
+  () => import("components/Orders").then((c) => c.default),
+  {
+    ssr: false,
+  }
+);
 
 const Panel = () => {
   return (

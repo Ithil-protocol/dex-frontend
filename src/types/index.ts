@@ -21,3 +21,9 @@ export interface Order {
 export interface OrderObj {
   [index: string]: Order;
 }
+
+export interface ContractInputs {
+  address?: `0x${string}` | undefined;
+  functionName?: string | undefined;
+  args?: readonly unknown[] | undefined;
+}

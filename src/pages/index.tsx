@@ -88,19 +88,19 @@ export default function Home() {
     functionName: "priceLevels",
     args: [0],
   });
-  priceLevel &&
-    console.log(
-      "priceLevel",
-      ethers.utils.formatEther(priceLevel as BigNumberish)
-    );
+  // priceLevel &&
+  //   console.log(
+  //     "priceLevel",
+  //     ethers.utils.formatUnits(priceLevel,6)
+  //   );
 
   const { data: idData } = useContractRead({
-    abi: contractABI,
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    abi: contractABI,
     functionName: "id",
-    args: [ethers.utils.parseUnits("0.1", 6)],
+    args: [priceLevel],
   });
-  // idData && console.log("idData",idData);
+  // idData && console.log("idData",ethers.utils.formatUnits(idData,0));
 
   const { data: readData } = useContractRead({
     abi: contractABI,
@@ -108,7 +108,7 @@ export default function Home() {
     functionName: "orders",
     args: [priceLevel, 3],
   });
-  // readData && console.log( ethers.utils.formatEther(readData[4]));
+  // readData && console.log(readData);
   return (
     <>
       <Head>
