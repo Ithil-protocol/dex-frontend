@@ -3,12 +3,19 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AppProps } from "next/app";
 import * as React from "react";
 import createEmotionCache from "styles/createEmotionCache";
 import "styles/global.scss";
 import theme from "styles/theme";
-import { configureChains, createClient, goerli, WagmiConfig } from "wagmi";
+import {
+  configureChains,
+  createClient,
+  goerli,
+  WagmiConfig,
+  useQueryClient,
+} from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
@@ -46,6 +53,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <WagmiConfig client={client}>
       <RainbowKitProvider chains={chains}>
+        {/* <ReactQueryDevtools /> */}
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
