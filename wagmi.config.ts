@@ -1,7 +1,13 @@
 import { defineConfig } from "@wagmi/cli";
+import { contractABI } from "store/abi";
 
 export default defineConfig({
-  out: "src/generated.ts",
-  contracts: [],
+  out: "src/hooks/contracts/pools.ts",
+  contracts: [
+    {
+      abi: contractABI,
+      name: "pools",
+    },
+  ],
   plugins: [],
 });

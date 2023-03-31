@@ -27,6 +27,7 @@
     "@types/node": "18.15.5",
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
+    "abitype": "^0.7.1",
     "cryptocurrency-icons": "^0.18.1",
     "date-fns": "^2.29.3",
     "eslint": "8.36.0",
