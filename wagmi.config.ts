@@ -1,4 +1,5 @@
 import { defineConfig } from "@wagmi/cli";
+import { react } from "@wagmi/cli/plugins";
 import { contractABI } from "store/abi";
 
 export default defineConfig({
@@ -9,5 +10,5 @@ export default defineConfig({
       name: "pools",
     },
   ],
-  plugins: [],
+  plugins: [react()],
 });
