@@ -1,5 +1,5 @@
 import { Abi } from "abitype";
-export const contractABI: Abi = [
+export const contractABI = [
   {
     inputs: [
       {

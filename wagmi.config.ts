@@ -1,8 +1,8 @@
+/** @type {import('@wagmi/cli').Config} */
 import { defineConfig } from "@wagmi/cli";
 import { react } from "@wagmi/cli/plugins";
 import { erc20ABI } from "wagmi";
 import { contractABI } from "./src/store/abi";
-
 export default defineConfig([
   {
     out: "src/hooks/contracts/pool.ts",
@@ -12,7 +12,11 @@ export default defineConfig([
         name: "pool",
       },
     ],
-    plugins: [react()],
+    plugins: [
+      react({
+        useContractRead: true,
+      }),
+    ],
   },
   {
     out: "src/hooks/contracts/token.ts",
