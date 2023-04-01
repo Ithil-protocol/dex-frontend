@@ -1,14 +1,16 @@
 import React from "react";
-import CustomSlider from "./Slider";
+import Slider from "./Slider";
 
 const Boost = () => {
   return (
-    <div>
+    <div style={{ padding: "0px 10px 0px" }}>
       Boost
-      <CustomSlider
+      <Slider
         valueLabelDisplay="auto"
-        aria-label="custom slider"
-        defaultValue={20}
+        defaultValue={0}
+        step={0.01}
+        min={0}
+        max={0.1}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { Slider } from "@mui/material";
+import { Slider as MuiSlider } from "@mui/material";
 
-const CustomSlider = styled(Slider)({
+const Slider = styled(MuiSlider)({
   color: "#52af77",
   height: 5,
   "& .MuiSlider-track": {
@@ -40,4 +40,4 @@ const CustomSlider = styled(Slider)({
   },
 });
 
-export default CustomSlider;
+export default Slider;
