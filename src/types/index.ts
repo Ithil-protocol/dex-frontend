@@ -6,6 +6,7 @@ import {
   AbiFunction,
   Narrow,
 } from "abitype";
+import { poolABI } from "hooks/contracts/pool";
 
 export interface Pool {
   underlyingLabel: string;
@@ -49,7 +50,7 @@ export type ContractInputs =
   | undefined;
 
 export type CustomContractConfig = readonly ({
-  abi: readonly Narrow<AbiFunction | AbiEvent | AbiError | AbiConstructor>[];
+  abi: typeof poolABI;
   address: `0x${string}`;
   functionName: string;
 } & {
