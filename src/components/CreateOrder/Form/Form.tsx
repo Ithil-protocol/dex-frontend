@@ -1,9 +1,9 @@
 import React from "react";
-import AmountField from "./Fields/Amount";
+import Amount from "./Fields/Amount";
 import Boost from "./Fields/Boost";
-import HoldingField from "./Fields/Holding";
-import SubmitButton from "./Fields/Submit";
-import TotalField from "./Fields/Total";
+import Price from "./Fields/Price";
+import Submit from "./Fields/Submit";
+import Total from "./Fields/Total";
 
 const Form = () => {
   return (
@@ -16,12 +16,12 @@ const Form = () => {
         padding: 10,
       }}
     >
-      <HoldingField />
-      <AmountField />
+      <Price />
+      <Amount />
       <div style={{ marginTop: 10 }}></div>
       <Boost />
-      <TotalField />
-      <SubmitButton />
+      <Total />
+      <Submit />
     </div>
   );
 };

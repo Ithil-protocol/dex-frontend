@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-const SubmitButton = () => {
+const Submit = () => {
   return (
     <Button
       fullWidth
@@ -16,4 +16,4 @@ const SubmitButton = () => {
   );
 };
 
-export default SubmitButton;
+export default Submit;

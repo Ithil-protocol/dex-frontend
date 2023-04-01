@@ -2,7 +2,7 @@ import { FormGroup, InputAdornment, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import React from "react";
 
-const AmountField = () => {
+const Amount = () => {
   return (
     <FormGroup>
       <TextField
@@ -48,4 +48,4 @@ const AmountField = () => {
   );
 };
 
-export default AmountField;
+export default Amount;

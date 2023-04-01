@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material";
 import React from "react";
 
-const TotalField = () => {
+const Total = () => {
   return (
     <TextField
       size="small"
@@ -17,4 +17,4 @@ const TotalField = () => {
   );
 };
 
-export default TotalField;
+export default Total;

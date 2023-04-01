@@ -1,11 +1,11 @@
 import { TextField } from "@mui/material";
 import React from "react";
 
-const HoldingField = () => {
+const Price = () => {
   return (
     <TextField
       variant="filled"
-      placeholder="what is ph?"
+      placeholder="Price"
       InputProps={{ disableUnderline: true }}
       size="small"
       fullWidth
@@ -13,4 +13,4 @@ const HoldingField = () => {
   );
 };
 
-export default HoldingField;
+export default Price;
