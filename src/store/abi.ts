@@ -1,5 +1,5 @@
-import { Abi } from "abitype";
-export const contractABI = [
+import type { poolABI } from "hooks/contracts/pool";
+export const contractABI: typeof poolABI = [
   {
     inputs: [
       {

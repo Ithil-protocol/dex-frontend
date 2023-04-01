@@ -1,3 +1,12 @@
+import {
+  Abi,
+  AbiConstructor,
+  AbiError,
+  AbiEvent,
+  AbiFunction,
+  Narrow,
+} from "abitype";
+
 export interface Pool {
   underlyingLabel: string;
   underlyingIcon: JSX.Element;
@@ -21,3 +30,20 @@ export interface Order {
 export interface OrderObj {
   [index: string]: Order;
 }
+
+export type ContractInputs =
+  | (
+      | {
+          abi?:
+            | readonly Narrow<
+                AbiFunction | AbiEvent | AbiError | AbiConstructor
+              >[]
+            | undefined;
+          address?: `0x${string}` | undefined;
+          functionName?: string | undefined;
+          args?: readonly unknown[] | undefined;
+          chainId?: number | undefined;
+        }
+      | undefined
+    )
+  | undefined;
