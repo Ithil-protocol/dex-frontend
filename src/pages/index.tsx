@@ -2,7 +2,7 @@ import Head from "next/head";
 // import { Inter } from "next/font/google";
 import { Button } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { BigNumberish, ethers } from "ethers";
+import { BigNumber, BigNumberish, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
 import { formatDate } from "utility";
@@ -61,25 +61,25 @@ export default function Home() {
   });
   console.log(data);
 
-  const { config } = usePrepareContractWrite({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    functionName: "createOrder",
-    args: [
-      ethers.utils.parseUnits("0.01", 18),
-      ethers.utils.parseUnits("0.1", 6),
-      address,
-      1680018342 + 6220,
-    ],
-  });
+  // const { config } = usePrepareContractWrite({
+  //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+  //   abi: contractABI,
+  //   functionName: "createOrder",
+  //   args: [
+  //     ethers.utils.parseUnits("0.01", 18),
+  //     ethers.utils.parseUnits("0.1", 6),
+  //     address,
+  //     1680018342 + 6220,
+  //   ],
+  // });
 
-  const { data: writeData, write } = useContractWrite(config);
+  // const { data: writeData, write } = useContractWrite(config);
 
-  console.log("writeData:::", writeData);
+  // console.log("writeData:::", writeData);
 
-  const { data: waitedData } = useWaitForTransaction({
-    hash: writeData?.hash,
-  });
+  // const { data: waitedData } = useWaitForTransaction({
+  //   hash: writeData?.hash,
+  // });
 
   // console.log("__wait", waitedData);
 
@@ -87,7 +87,7 @@ export default function Home() {
     abi: contractABI,
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     functionName: "priceLevels",
-    args: [0],
+    args: [ethers.utils.parseUnits("0", 0)],
   });
   // priceLevel &&
   //   console.log(
@@ -99,15 +99,16 @@ export default function Home() {
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     abi: contractABI,
     functionName: "id",
-    args: [priceLevel],
+    args: [priceLevel as BigNumber],
   });
   // idData && console.log("idData",ethers.utils.formatUnits(idData,0));
-
+  const priceLevelValue =
+    priceLevel !== undefined ? priceLevel : ethers.utils.parseUnits("-1", 0);
   const { data: readData } = useContractRead({
     abi: contractABI,
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     functionName: "orders",
-    args: [priceLevel, 3],
+    args: [priceLevelValue, ethers.utils.parseUnits("3", 0)],
   });
   // readData && console.log(readData);
 
@@ -117,7 +118,7 @@ export default function Home() {
         address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
         abi: contractABI,
         functionName: "orders",
-        args: [priceLevel, 3],
+        args: [priceLevelValue, ethers.utils.parseUnits("3", 0)],
       });
       console.log(data);
     };
@@ -135,9 +136,9 @@ export default function Home() {
       <Button variant="contained" onClick={() => setState(1)}>
         hello
       </Button>
-      <Button variant="contained" disabled={!write} onClick={() => write?.()}>
+      {/* <Button variant="contained" disabled={!write} onClick={() => write?.()}>
         write...
-      </Button>
+      </Button> */}
       <ConnectButton />
       <h1>{formatDate(1679874841742)}</h1>
     </>
