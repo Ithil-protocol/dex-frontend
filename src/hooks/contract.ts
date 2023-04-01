@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { contractABI } from "store/abi";
-import { ContractInputs } from "types";
+import { ContractInputs, CustomContractConfig } from "types";
 import { readContracts } from "wagmi";
 
 const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
 
 export const usePriceLevelReads = () => {
-  const contracts = [...Array(8)].map((_, index) => {
+  const contracts: CustomContractConfig = [...Array(8)].map((_, index) => {
     return {
       abi: contractABI,
       address,
       functionName: "priceLevels",
-      args: [index],
+      args: [ethers.utils.parseUnits(`${index}`, 0)],
     };
   });
 

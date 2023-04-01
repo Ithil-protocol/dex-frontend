@@ -47,3 +47,13 @@ export type ContractInputs =
       | undefined
     )
   | undefined;
+
+export type CustomContractConfig = readonly ({
+  abi: readonly Narrow<AbiFunction | AbiEvent | AbiError | AbiConstructor>[];
+  address: `0x${string}`;
+  functionName: string;
+} & {
+  args?: readonly unknown[] | undefined;
+} & {
+  chainId?: number | undefined;
+})[];
