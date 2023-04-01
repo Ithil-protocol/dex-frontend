@@ -24,16 +24,20 @@ export const useIdReads = () => {
 
   console.log("usePriceLevelReads", data);
 
-  const contracts: ContractInputs[] = data?.map((el) => ({
+  const contracts: CustomContractConfig | undefined = data?.map((el) => ({
     abi: contractABI,
     address,
     functionName: "id",
     args: [el],
   }));
 
-  return useQuery(["ids"], () => readContracts({ contracts }), {
-    enabled: !!data,
-  });
+  return useQuery(
+    ["ids"],
+    () => readContracts({ contracts: contracts as CustomContractConfig }),
+    {
+      enabled: !!data,
+    }
+  );
 };
 
 export const useOrderReads = () => {
