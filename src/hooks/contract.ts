@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { contractABI } from "store/abi";
 import { ContractInputs, CustomContractConfig } from "types";
 import { readContracts } from "wagmi";
@@ -46,31 +46,44 @@ export const useOrderReads = () => {
 
   console.log("useIdReads", ids);
 
-  const contracts = [];
+  const contractConfigGenerator = (
+    priceLevels: BigNumber[],
+    ids: BigNumber[]
+  ) => {
+    const contracts: CustomContractConfig = [];
 
-  const levelsLength = priceLevels?.length || 0;
+    const levelsLength = priceLevels.length;
 
-  for (let i = 0; i < levelsLength; i++) {
-    const id = ids && ethers.utils.formatUnits(ids[i], 0);
+    for (let i = 0; i < levelsLength; i++) {
+      const id = Number(ethers.utils.formatUnits(ids[i], 0));
 
-    for (let j = 1; j <= id; j++) {
-      contracts.push({
-        abi: contractABI,
-        address,
-        functionName: "orders",
-        args: [priceLevels[i], j],
-      });
+      for (let j = 1; j <= id; j++) {
+        [
+          ...contracts,
+          {
+            abi: contractABI,
+            address,
+            functionName: "orders",
+            args: [priceLevels[i], j],
+          },
+        ];
+      }
     }
-  }
+
+    return contracts;
+  };
 
   return useQuery(
     ["orders"],
     () =>
       readContracts({
-        contracts,
+        contracts: contractConfigGenerator(
+          priceLevels as BigNumber[],
+          ids as BigNumber[]
+        ),
       }),
     {
-      enabled: contracts?.length > 0,
+      enabled: !!priceLevels && !!ids,
     }
   );
 };
