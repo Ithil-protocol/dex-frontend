@@ -1,9 +1,9 @@
 import React from "react";
-import AmountField from "./AmountField";
-import Boost from "./Boost";
-import HoldingField from "./HoldingField";
-import SubmitButton from "./SubmitButton";
-import TotalField from "./TotalField";
+import AmountField from "./Fields/Amount";
+import Boost from "./Fields/Boost";
+import HoldingField from "./Fields/Holding";
+import SubmitButton from "./Fields/Submit";
+import TotalField from "./Fields/Total";
 
 const Form = () => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import CustomSlider from "./CustomSlider";
+import CustomSlider from "./Slider";
 
 const Boost = () => {
   return (

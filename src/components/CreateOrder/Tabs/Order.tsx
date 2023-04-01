@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
-import * as React from "react";
-import FormTabs from "./FormTabs";
-import { StyledTab } from "./StyledTab";
-import { StyledTabs } from "./StyledTabs";
-import TabPanel from "./TabPanel";
+import React from "react";
+import FormTabs from "./Form";
+import TabPanel from "./Panel";
+import Tab from "./Tab";
+import Tabs from "./Tabs";
 
-const CreateOrder = () => {
+const OrderTabs = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -13,16 +13,12 @@ const CreateOrder = () => {
   };
 
   return (
-    <Box id="tabs-root">
+    <Box>
       <Box sx={{ bgcolor: "#2e1534" }}>
-        <StyledTabs
-          value={value}
-          onChange={handleChange}
-          aria-label="styled tabs example"
-        >
-          <StyledTab label="Limit" />
-          <StyledTab label="Market" />
-        </StyledTabs>
+        <Tabs value={value} onChange={handleChange}>
+          <Tab label="Limit" />
+          <Tab label="Market" />
+        </Tabs>
       </Box>
 
       <Box sx={{ backgroundColor: "#2e1534", padding: "10px 5px 5px 5px" }}>
@@ -37,4 +33,4 @@ const CreateOrder = () => {
   );
 };
 
-export default CreateOrder;
+export default OrderTabs;

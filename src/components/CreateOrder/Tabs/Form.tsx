@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
-import * as React from "react";
-import Form from "./Form";
-import { StyledTab } from "./StyledTab";
-import { StyledTabs } from "./StyledTabs";
-import TabPanel from "./TabPanel";
+import React from "react";
+import Form from "../Form/Form";
+import TabPanel from "./Panel";
+import Tab from "./Tab";
+import Tabs from "./Tabs";
 
 export default function FormTabs() {
   const [value, setValue] = React.useState(0);
@@ -13,12 +13,12 @@ export default function FormTabs() {
   };
 
   return (
-    <Box id="tabs-root">
+    <Box>
       <Box sx={{ bgcolor: "#2e1534" }}>
-        <StyledTabs variant="fullWidth" value={value} onChange={handleChange}>
-          <StyledTab color="#e3e3e378" selectedColor="#e3e3e378" label="Buy" />
-          <StyledTab color="#f49090c7" selectedColor="#f49090c7" label="Sell" />
-        </StyledTabs>
+        <Tabs variant="fullWidth" value={value} onChange={handleChange}>
+          <Tab color="#e3e3e378" selectedColor="#e3e3e378" label="Buy" />
+          <Tab color="#f49090c7" selectedColor="#f49090c7" label="Sell" />
+        </Tabs>
       </Box>
 
       <TabPanel value={value} index={0}>
