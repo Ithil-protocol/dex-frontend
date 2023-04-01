@@ -1,19 +1,25 @@
-import { InputAdornment, TextField } from "@mui/material";
 import React from "react";
 
-const Total = () => {
+interface Props {
+  total: string;
+}
+
+const Total: React.FC<Props> = (props) => {
   return (
-    <TextField
-      size="small"
-      placeholder="what is ph?"
-      variant="filled"
-      fullWidth
-      InputProps={{
-        disableUnderline: true,
-        startAdornment: <InputAdornment position="start">Total</InputAdornment>,
-        endAdornment: <InputAdornment position="start">USDT</InputAdornment>,
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        gap: 5,
+        borderRadius: 5,
+        padding: 15,
+        backgroundColor: "#264A56",
       }}
-    />
+    >
+      <span>Total</span>
+      <span style={{ display: "flex", width: "100%" }}>{props.total}</span>
+      <span>USDT</span>
+    </div>
   );
 };
 

@@ -18,9 +18,11 @@ const Form = () => {
     >
       <Price />
       <Amount />
+
       <div style={{ marginTop: 10 }}></div>
+
       <Boost />
-      <Total />
+      <Total total="1993" />
       <Submit />
     </div>
   );
