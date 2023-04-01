@@ -10,9 +10,6 @@ import styles from "styles/panel.module.scss";
 import { useQueryClient } from "wagmi";
 
 const Panel = () => {
-  const queryClient = useQueryClient();
-  const queryCache = queryClient.getQueryCache();
-  console.log("queryCAche", queryCache);
   const { data } = useOrderReads();
   console.log("data useOrderReads", data);
 
