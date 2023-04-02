@@ -24,18 +24,15 @@ const Slider = styled(MuiSlider)({
     fontSize: 12,
     background: "unset",
     padding: 0,
-    width: 32,
-    height: 32,
-    borderRadius: "50% 50% 50% 0",
+    width: 70,
+    height: 30,
+    borderRadius: 10,
     backgroundColor: "#52af77",
     transformOrigin: "bottom left",
-    transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
+    transform: "translate(50%, -100%)  scale(0)",
     "&:before": { display: "none" },
     "&.MuiSlider-valueLabelOpen": {
-      transform: "translate(50%, -100%) rotate(-45deg) scale(1)",
-    },
-    "& > *": {
-      transform: "rotate(45deg)",
+      transform: "translate(0%, -100%)  scale(1)",
     },
   },
 });
