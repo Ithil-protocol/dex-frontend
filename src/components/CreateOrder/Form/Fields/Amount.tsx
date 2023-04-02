@@ -2,7 +2,11 @@ import { FormGroup, InputAdornment, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import React from "react";
 
-const Amount = () => {
+interface Props {
+  endLabel: string;
+}
+
+const Amount: React.FC<Props> = ({ endLabel }) => {
   return (
     <FormGroup>
       <TextField
@@ -11,7 +15,11 @@ const Amount = () => {
         variant="filled"
         InputProps={{
           disableUnderline: true,
-          endAdornment: <InputAdornment position="start">BTC</InputAdornment>,
+          endAdornment: (
+            <InputAdornment position="start">
+              <span style={{ color: "white" }}>{endLabel}</span>
+            </InputAdornment>
+          ),
         }}
         fullWidth
       />
@@ -20,10 +28,10 @@ const Amount = () => {
           return (
             <Button
               style={{
-                color: "#e3e3e378",
-                width: "100%",
                 border: "1px solid #6a7b7c33",
                 borderRadius: 0,
+                color: "#e3e3e378",
+                width: "100%",
               }}
               size="small"
               key={i}
@@ -41,7 +49,7 @@ const Amount = () => {
           justifyContent: "space-between",
         }}
       >
-        <span>Available USDT</span>
+        <span>Available {endLabel}</span>
         <span>6,233,769.09</span>
       </div>
     </FormGroup>
