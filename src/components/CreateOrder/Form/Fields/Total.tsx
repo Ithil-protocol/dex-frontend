@@ -1,10 +1,11 @@
 import React from "react";
 
 interface Props {
+  label: string;
   total: string;
 }
 
-const Total: React.FC<Props> = (props) => {
+const Total: React.FC<Props> = ({ label, total }) => {
   return (
     <div
       style={{
@@ -16,9 +17,9 @@ const Total: React.FC<Props> = (props) => {
         backgroundColor: "#264A56",
       }}
     >
-      <span>Total</span>
-      <span style={{ display: "flex", width: "100%" }}>{props.total}</span>
-      <span>USDT</span>
+      <span style={{ color: "#e3e3e378 " }}>Total</span>
+      <span style={{ display: "flex", width: "100%" }}>{total}</span>
+      <span>{label}</span>
     </div>
   );
 };
