@@ -125,6 +125,7 @@ export default function Home() {
     if (!priceLevel) return;
     x();
   }, [priceLevel]);
+
   return (
     <>
       <Head>
