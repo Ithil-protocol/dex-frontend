@@ -1,7 +1,11 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-const Submit = () => {
+interface Props {
+  label: string;
+}
+
+const Submit: React.FC<Props> = ({ label }) => {
   return (
     <Button
       fullWidth
@@ -11,7 +15,7 @@ const Submit = () => {
         textTransform: "none",
       }}
     >
-      Buy BTC
+      Buy {label}
     </Button>
   );
 };
