@@ -582,4 +582,4 @@ export const contractABI: typeof poolABI = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
