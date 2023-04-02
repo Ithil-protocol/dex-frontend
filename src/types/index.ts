@@ -49,10 +49,12 @@ export type ContractInputs =
     )
   | undefined;
 
+type FuncName = Extract<(typeof poolABI)[number], { type: "function" }>["name"];
+
 export type CustomContractConfig = readonly ({
   abi: typeof poolABI;
   address: `0x${string}`;
-  functionName: string;
+  functionName: FuncName;
 } & {
   args?: readonly unknown[] | undefined;
 } & {
