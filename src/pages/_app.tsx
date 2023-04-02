@@ -7,12 +7,12 @@ import { AppProps } from "next/app";
 import createEmotionCache from "styles/createEmotionCache";
 import "styles/global.scss";
 
-// Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache();
-
 export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
+
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props: MyAppProps) {
   const { Component, pageProps, emotionCache = clientSideEmotionCache } = props;
