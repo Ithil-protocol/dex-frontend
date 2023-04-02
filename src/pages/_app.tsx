@@ -5,6 +5,7 @@ import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Web3Provider from "Providers/Web3Provider";
 import { AppProps } from "next/app";
 import { useState } from "react";
 import createEmotionCache from "styles/createEmotionCache";
@@ -32,46 +33,23 @@ export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-const { chains, provider, webSocketProvider } = configureChains(
-  [goerli],
-  [
-    alchemyProvider({ apiKey: "ZLR2ae9uziqXiA-4OM8RB13sqjuMRVHy" }),
-    infuraProvider({ apiKey: "40fc95ffa3e24163ab868f6f82e91969" }),
-    publicProvider(),
-  ]
-);
-
-const { connectors } = getDefaultWallets({
-  appName: "ithil dex",
-  chains,
-});
-
-const client = createClient({
-  autoConnect: true,
-  provider,
-  webSocketProvider,
-  connectors,
-});
-
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const [queryClient] = useState(() => new QueryClient(reactQueryConfig));
 
   return (
     <QueryClientProvider client={queryClient}>
-      <WagmiConfig client={client}>
-        <RainbowKitProvider chains={chains}>
-          <ReactQueryDevtools />
-          <CacheProvider value={emotionCache}>
-            <ThemeProvider theme={theme}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+      <Web3Provider>
+        <ReactQueryDevtools />
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 
-              <CssBaseline />
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </CacheProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </CacheProvider>
+      </Web3Provider>
     </QueryClientProvider>
   );
 }
