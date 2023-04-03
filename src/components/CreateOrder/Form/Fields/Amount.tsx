@@ -1,6 +1,6 @@
 import { FormGroup, InputAdornment, TextField } from "@mui/material";
-import Button from "@mui/material/Button";
 import React from "react";
+import Slider from "./Slider";
 
 interface Props {
   endLabel: string;
@@ -23,24 +23,31 @@ const Amount: React.FC<Props> = ({ endLabel }) => {
         }}
         fullWidth
       />
-      <div style={{ display: "flex" }}>
-        {["25%", "50%", "75%", "100%"].map((item, i) => {
-          return (
-            <Button
+
+      <div
+        style={{
+          padding: "0px 10px 0px",
+          marginTop: 5,
+        }}
+      >
+        <Slider
+          marks
+          min={0}
+          max={100}
+          valueLabelFormat={(value) => (
+            <span
               style={{
-                border: "1px solid #6a7b7c33",
-                borderRadius: 0,
-                color: "#e3e3e378",
-                width: "100%",
+                fontSize: 14,
               }}
-              size="small"
-              key={i}
             >
-              {item}
-            </Button>
-          );
-        })}
+              {value} %
+            </span>
+          )}
+          valueLabelDisplay="auto"
+          step={5}
+        />
       </div>
+
       <div
         style={{
           color: "#e3e3e378",
