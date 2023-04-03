@@ -13,9 +13,24 @@ const Boost = () => {
   };
 
   return (
-    <div style={{ padding: "0px 10px 0px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span style={{ color: "#e3e3e378" }}>Boost</span>
+    <div
+      style={{
+        padding: "0px 10px 0px",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <span
+          style={{
+            color: "#e3e3e378",
+          }}
+        >
+          Boost
+        </span>
         <span>{boost}</span>
       </div>
       <Slider
@@ -25,7 +40,24 @@ const Boost = () => {
         min={0}
         max={0.1}
         onChange={handleChangeBoost}
-        valueLabelFormat={(value) => `${value} ETH`}
+        valueLabelFormat={(value) => (
+          <span>
+            <span
+              style={{
+                fontSize: 14,
+              }}
+            >
+              {value}{" "}
+            </span>
+            <span
+              style={{
+                fontSize: 9,
+              }}
+            >
+              ETH
+            </span>
+          </span>
+        )}
       />
     </div>
   );

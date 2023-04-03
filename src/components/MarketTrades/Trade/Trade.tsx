@@ -26,9 +26,10 @@ const Trade = ({ data }: Props) => {
       >
         {data.value}
       </TableCell>
+
       <TableCell
         style={{
-          color: "#969EB2",
+          color: "#e3e3e378",
           fontSize: 12,
           fontWeight: 900,
         }}
@@ -36,9 +37,10 @@ const Trade = ({ data }: Props) => {
       >
         {data.volume}
       </TableCell>
+
       <TableCell
         style={{
-          color: "#596479",
+          color: "#306F76",
           fontSize: 11,
           fontWeight: 900,
         }}

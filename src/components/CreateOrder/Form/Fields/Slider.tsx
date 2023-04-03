@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Slider as MuiSlider } from "@mui/material";
 
 const Slider = styled(MuiSlider)({
-  color: "#52af77",
+  color: "#8A8A8A",
   height: 5,
   "& .MuiSlider-track": {
     border: "none",
@@ -23,11 +23,11 @@ const Slider = styled(MuiSlider)({
     lineHeight: 1.2,
     fontSize: 12,
     background: "unset",
-    padding: 0,
-    width: 70,
+    padding: "0px 5px",
+    width: "auto",
     height: 30,
     borderRadius: 10,
-    backgroundColor: "#52af77",
+    backgroundColor: "#8A8A8A",
     transformOrigin: "bottom left",
     transform: "translate(50%, -100%)  scale(0)",
     "&:before": { display: "none" },
