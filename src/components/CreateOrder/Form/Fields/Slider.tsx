@@ -8,9 +8,9 @@ const Slider = styled(MuiSlider)({
     border: "none",
   },
   "& .MuiSlider-thumb": {
-    height: 24,
-    width: 24,
-    backgroundColor: "#fff",
+    height: 20,
+    width: 20,
+    backgroundColor: "#8A8A8A",
     border: "2px solid currentColor",
     "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
       boxShadow: "inherit",
@@ -23,7 +23,7 @@ const Slider = styled(MuiSlider)({
     lineHeight: 1.2,
     fontSize: 12,
     background: "unset",
-    padding: "0px 5px",
+    padding: "0px 10px",
     width: "auto",
     height: 30,
     borderRadius: 10,
