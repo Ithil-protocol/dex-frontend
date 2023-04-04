@@ -18,7 +18,10 @@ const theme = createTheme({
       main: "#19857b",
     },
     error: {
-      main: red.A400,
+      main: "#f34444",
+    },
+    success: {
+      main: "#30d46f",
     },
     background: {
       default: "#2c374d",

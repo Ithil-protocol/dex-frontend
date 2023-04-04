@@ -23,8 +23,13 @@ const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
     <Box
       className={styles.tooltip}
       sx={(theme) => ({
-        borderColor: mode === "buy" ? "#30d46f" : "#f34444",
+        border: "2px solid transparent",
+        borderColor:
+          mode === "buy"
+            ? theme.palette.success.main
+            : theme.palette.error.main,
         background: theme.palette.background.paper,
+        outline: "none",
       })}
     >
       <p>

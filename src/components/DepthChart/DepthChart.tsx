@@ -31,7 +31,7 @@ const DepthChart = () => {
   //       <pre>{JSON.stringify(computedOrders,null,2)}</pre>
   //   )
   return (
-    <ResponsiveContainer width="100%">
+    <ResponsiveContainer width="105%">
       <AreaChart data={data}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
