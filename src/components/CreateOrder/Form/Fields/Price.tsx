@@ -22,7 +22,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
     fieldState: { error },
   } = useController({
     name: "price",
-    defaultValue: 0,
+    defaultValue: "",
     control: props.control,
     rules: { validate: numberValidation },
   });
@@ -40,6 +40,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
             setValue(event.target.value);
           }
         }}
+        placeholder="0"
         value={value}
         inputRef={ref1}
         size="small"

@@ -16,7 +16,7 @@ const Submit: React.FC<Props> = ({ label, control }) => {
       fullWidth
       disabled={!formValues.price || !formValues.amount}
       sx={{
-        backgroundColor: "#8a8a8a",
+        backgroundColor: "green",
         color: "white",
         textTransform: "none",
         ":disabled": {
