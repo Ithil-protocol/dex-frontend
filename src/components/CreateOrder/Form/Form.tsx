@@ -1,5 +1,6 @@
 import { pools } from "data/pools";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { usePoolStore } from "store";
 import Amount from "./Fields/Amount";
 import Boost from "./Fields/Boost";
@@ -9,27 +10,55 @@ import Total from "./Fields/Total";
 
 const Form = () => {
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
-
+  const { register, handleSubmit, control } = useForm();
   const selectedPool = pools.find((i) => i.value === pool);
 
-  return (
-    <div
-      style={{
-        backgroundColor: "#284f5b",
-        display: "flex",
-        flexDirection: "column",
-        gap: 5,
-        padding: 10,
-      }}
+  function handleKeyDown(
+    event: React.KeyboardEvent<
+      HTMLDivElement | HTMLInputElement | HTMLTextAreaElement
     >
-      <Price endLabel={selectedPool?.accountingLabel || ""} />
-      <Amount endLabel={selectedPool?.underlyingLabel || ""} />
+  ) {
+    const char = event.key;
+    if (char === "e" || char === "E" || char === ".") {
+      event.preventDefault();
+    }
+  }
 
-      <div style={{ marginTop: 10 }}></div>
+  return (
+    <div>
+      <form
+        style={{
+          backgroundColor: "#284f5b",
+          display: "flex",
+          flexDirection: "column",
+          gap: 5,
+          padding: 10,
+        }}
+        onSubmit={handleSubmit((data) => console.log(data))}
+      >
+        <Price
+          endLabel={selectedPool?.accountingLabel || ""}
+          {...register("price", {
+            valueAsNumber: true,
+            min: 0,
+          })}
+          onKeyDown={handleKeyDown}
+        />
 
-      <Boost />
-      <Total total="1993" label={selectedPool?.accountingLabel || ""} />
-      <Submit label={selectedPool?.underlyingLabel || ""} />
+        <Amount
+          endLabel={selectedPool?.underlyingLabel || ""}
+          {...register("amount", { valueAsNumber: true, min: 0 })}
+          onKeyDown={handleKeyDown}
+        />
+
+        <div style={{ marginTop: 5 }}></div>
+
+        <Boost />
+
+        <Total total="1993" label={selectedPool?.accountingLabel || ""} />
+
+        <Submit control={control} label={selectedPool?.underlyingLabel || ""} />
+      </form>
     </div>
   );
 };
