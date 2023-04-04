@@ -1,5 +1,4 @@
 import {
-  Abi,
   AbiConstructor,
   AbiError,
   AbiEvent,
@@ -7,6 +6,14 @@ import {
   Narrow,
 } from "abitype";
 import { poolABI } from "hooks/contracts/pool";
+
+export type CustomInputEvent = React.ChangeEvent<
+  HTMLTextAreaElement | HTMLInputElement
+>;
+
+export interface StringMap {
+  [prop: string]: any;
+}
 
 export interface Pool {
   underlyingLabel: string;

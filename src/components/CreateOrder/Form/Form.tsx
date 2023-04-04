@@ -1,28 +1,48 @@
 import { pools } from "data/pools";
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { usePoolStore } from "store";
-import Amount from "./Fields/Amount";
+import { CustomInputEvent, StringMap } from "types";
+import { formatBigNumber } from "utility";
+import AmountSlider from "./Fields/Amount/Slider";
+import AmountTextField from "./Fields/Amount/TextField";
+import Available from "./Fields/Available";
 import Boost from "./Fields/Boost";
 import Price from "./Fields/Price";
 import Submit from "./Fields/Submit";
 import Total from "./Fields/Total";
 
 const Form = () => {
+  const { control, handleSubmit, register, setValue } = useForm();
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
-  const { register, handleSubmit, control } = useForm();
-  const selectedPool = pools.find((i) => i.value === pool);
+  const available = useRef(1_000_000);
 
-  function handleKeyDown(
+  const handleKeyDown = (
     event: React.KeyboardEvent<
       HTMLDivElement | HTMLInputElement | HTMLTextAreaElement
     >
-  ) {
+  ) => {
     const char = event.key;
-    if (char === "e" || char === "E" || char === ".") {
-      event.preventDefault();
+    if (char === "e" || char === "E" || char === ".") event.preventDefault();
+  };
+
+  const handlePriceTextChange = (event: CustomInputEvent) => {
+    setValue("price", +event.target.value);
+  };
+
+  const handleAmountTextChange = (event: CustomInputEvent) => {
+    setValue("amount", +event.target.value);
+  };
+
+  const handleAmountSliderChange = (value: number | number[]) => {
+    if (typeof value === "number") {
+      setValue("amount", (available.current / 100) * value);
     }
-  }
+  };
+
+  const handleFormSubmit = (data: StringMap) => console.log(data);
+
+  const selectedPool = pools.find((i) => i.value === pool);
 
   return (
     <div>
@@ -34,28 +54,40 @@ const Form = () => {
           gap: 5,
           padding: 10,
         }}
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(handleFormSubmit)}
       >
         <Price
           endLabel={selectedPool?.accountingLabel || ""}
           {...register("price", {
-            valueAsNumber: true,
             min: 0,
+            valueAsNumber: true,
+            onChange: handlePriceTextChange,
           })}
           onKeyDown={handleKeyDown}
         />
 
-        <Amount
+        <AmountTextField
           endLabel={selectedPool?.underlyingLabel || ""}
-          {...register("amount", { valueAsNumber: true, min: 0 })}
+          {...register("amount", {
+            min: 0,
+            valueAsNumber: true,
+            onChange: handleAmountTextChange,
+          })}
           onKeyDown={handleKeyDown}
+        />
+
+        <AmountSlider onSliderChange={handleAmountSliderChange} />
+
+        <Available
+          endLabel={selectedPool?.underlyingLabel || ""}
+          available={formatBigNumber(available.current)}
         />
 
         <div style={{ marginTop: 5 }}></div>
 
         <Boost />
 
-        <Total total="1993" label={selectedPool?.accountingLabel || ""} />
+        <Total control={control} label={selectedPool?.accountingLabel || ""} />
 
         <Submit control={control} label={selectedPool?.underlyingLabel || ""} />
       </form>

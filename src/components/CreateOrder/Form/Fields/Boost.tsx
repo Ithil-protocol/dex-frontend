@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Slider from "./Slider";
+import Slider from "../../../common/Slider";
 
 const Boost = () => {
   const [boost, setBoost] = useState(0);
@@ -15,7 +15,7 @@ const Boost = () => {
   return (
     <div
       style={{
-        padding: "0px 10px 0px",
+        padding: "0px 10px",
       }}
     >
       <div
