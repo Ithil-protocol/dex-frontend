@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses, TooltipProps } from "@mui/material/Tooltip";
 

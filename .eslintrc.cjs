@@ -16,7 +16,7 @@ module.exports = {
   ],
   globals: {
     JSX: true,
-    React: true
+    React: true,
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {

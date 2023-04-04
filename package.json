@@ -11,11 +11,11 @@
     "check:style": "npm run check:format && npm run check:lint && npm run check:types",
     "check:types": "tsc --noEmit",
     "dev": "next dev",
-    "husky-install": "husky install",
+    "husky:install": "husky install",
     "lint": "next lint",
     "start": "next start",
-    "wagmi:init":"wagmi init",
-    "wagmi:generate":"wagmi generate"
+    "wagmi:init": "wagmi init",
+    "wagmi:generate": "wagmi generate"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
@@ -31,8 +31,8 @@
     "@types/node": "18.15.5",
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
-    "abitype": "^0.7.1",
     "@wagmi/core": "^0.10.8",
+    "abitype": "^0.7.1",
     "cryptocurrency-icons": "^0.18.1",
     "date-fns": "^2.29.3",
     "eslint-config-next": "13.2.4",
@@ -43,6 +43,7 @@
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-ts-tradingview-widgets": "^1.0.14",
     "recharts": "^2.5.0",
     "sass": "^1.59.3",

@@ -1,16 +1,16 @@
-import Tabs, { TabsTypeMap } from "@mui/material/Tabs";
+import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
 import React from "react";
 
-interface StyledTabsProps {
+interface Props {
   children?: React.ReactNode;
   value: number;
   onChange: (event: React.SyntheticEvent, newValue: number) => void;
   variant?: TabsTypeMap["props"]["variant"];
 }
 
-export const StyledTabs = (props: StyledTabsProps) => {
+const Tabs: React.FC<Props> = (props) => {
   return (
-    <Tabs
+    <MuiTabs
       {...props}
       TabIndicatorProps={{
         children: <span className="MuiTabs-indicatorSpan" />,
@@ -24,3 +24,5 @@ export const StyledTabs = (props: StyledTabsProps) => {
     />
   );
 };
+
+export default Tabs;

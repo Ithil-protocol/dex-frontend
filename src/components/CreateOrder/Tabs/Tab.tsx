@@ -1,19 +1,15 @@
-import { Tab } from "@mui/material";
+import { Tab as MuiTab } from "@mui/material";
 import { Property } from "csstype";
 
-interface StyledTabProps {
+interface Props {
   label: string;
   color?: Property.Color;
   selectedColor?: Property.Color;
 }
 
-export const StyledTab = ({
-  selectedColor,
-  color,
-  ...rest
-}: StyledTabProps) => {
+const Tab: React.FC<Props> = ({ selectedColor, color, ...rest }) => {
   return (
-    <Tab
+    <MuiTab
       disableRipple
       {...rest}
       sx={{
@@ -31,3 +27,5 @@ export const StyledTab = ({
     />
   );
 };
+
+export default Tab;

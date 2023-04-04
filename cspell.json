@@ -7,6 +7,7 @@
     "BigNumberish",
     "IERC",
     "Parens",
+    "abitype",
     "ccip",
     "csstype",
     "flowtype",
@@ -24,6 +25,7 @@
     "snyk",
     "sonarjs",
     "svgr",
+    "tanstack",
     "tsbuildinfo",
     "vercel",
     "wagmi",
@@ -33,4 +35,3 @@
   "version": "0.2",
   "words": ["BTCUSDT", "tradingview"]
 }
-
