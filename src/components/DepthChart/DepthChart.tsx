@@ -72,7 +72,8 @@ const DepthChart = () => {
           tickLine={false}
           orientation="right"
           type="number"
-          tickFormatter={(value) => briefing(value)}
+          tickFormatter={(value) => (value === 0 ? "" : briefing(value))}
+          tickMargin={-10}
           tick={{ fill: "white" }}
           allowDecimals={false}
         />

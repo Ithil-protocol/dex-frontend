@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { pools } from "data/pools";
 import {
   NameType,
@@ -19,7 +20,13 @@ const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
   const mode = payload[0].name === "yBuy" ? "buy" : "sell";
 
   return (
-    <div className={styles.tooltip} data-mode={mode}>
+    <Box
+      className={styles.tooltip}
+      sx={(theme) => ({
+        borderColor: mode === "buy" ? "#30d46f" : "#f34444",
+        background: theme.palette.background.paper,
+      })}
+    >
       <p>
         value :{" "}
         <b>
@@ -29,7 +36,7 @@ const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
       <p>
         volume :<b>{payload[0].payload.y}</b>
       </p>
-    </div>
+    </Box>
   );
 };
 
