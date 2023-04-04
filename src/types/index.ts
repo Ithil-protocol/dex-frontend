@@ -1,3 +1,20 @@
+import {
+  AbiConstructor,
+  AbiError,
+  AbiEvent,
+  AbiFunction,
+  Narrow,
+} from "abitype";
+import { poolABI } from "hooks/contracts/pool";
+
+export type CustomInputEvent = React.ChangeEvent<
+  HTMLTextAreaElement | HTMLInputElement
+>;
+
+export interface StringMap {
+  [prop: string]: any;
+}
+
 export interface Pool {
   underlyingLabel: string;
   underlyingIcon: JSX.Element;
@@ -22,8 +39,31 @@ export interface OrderObj {
   [index: string]: Order;
 }
 
-export interface ContractInputs {
-  address?: `0x${string}` | undefined;
-  functionName?: string | undefined;
+export type ContractInputs =
+  | (
+      | {
+          abi?:
+            | readonly Narrow<
+                AbiFunction | AbiEvent | AbiError | AbiConstructor
+              >[]
+            | undefined;
+          address?: `0x${string}` | undefined;
+          functionName?: string | undefined;
+          args?: readonly unknown[] | undefined;
+          chainId?: number | undefined;
+        }
+      | undefined
+    )
+  | undefined;
+
+type FuncName = Extract<(typeof poolABI)[number], { type: "function" }>["name"];
+
+export type CustomContractConfig = readonly ({
+  abi: typeof poolABI;
+  address: `0x${string}`;
+  functionName: FuncName;
+} & {
   args?: readonly unknown[] | undefined;
-}
+} & {
+  chainId?: number | undefined;
+})[];

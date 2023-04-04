@@ -1,13 +1,17 @@
 import { CandlestickChart } from "components/CandlestickChart";
+import CreateOrder from "components/CreateOrder/CreateOrder";
 import DepthChart from "components/DepthChart/DepthChart";
-import CreateOrder from "components/Form/CreateOrder";
 import MarketTrades from "components/MarketTrades/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";
+import { useOrderReads } from "hooks/contract";
 import styles from "styles/panel.module.scss";
 
 const Panel = () => {
+  const { data } = useOrderReads();
+  console.log("data useOrderReads", data);
+
   return (
     <div className={styles.layout}>
       <div className={styles.navbar}>

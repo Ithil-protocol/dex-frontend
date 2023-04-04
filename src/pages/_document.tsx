@@ -8,7 +8,6 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
-import * as React from "react";
 import createEmotionCache from "styles/createEmotionCache";
 import theme from "styles/theme";
 import { MyAppProps } from "./_app";
