@@ -1,48 +1,63 @@
 import { InputAdornment, TextField } from "@mui/material";
+import FormGroup from "@mui/material/FormGroup/FormGroup";
+import InputLabel from "@mui/material/InputLabel";
 import { decimalRegex } from "data/regex";
 import React, { ChangeEvent, useState } from "react";
-
+import { useController } from "react-hook-form";
 interface Props {
   endLabel: string;
+  control: any;
 }
 
-export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
+export default React.forwardRef<HTMLDivElement, Props>(function Price(
   props,
   ref
 ) {
+  const numberValidation = (value: any) => {
+    return decimalRegex.test(value);
+  };
+
+  const {
+    field: { ref: ref1, onChange, ...inputProps },
+    fieldState: { error },
+  } = useController({
+    name: "amount",
+    defaultValue: 0,
+    control: props.control,
+    rules: { validate: numberValidation },
+  });
+
+  const [value, setValue] = useState(inputProps.value);
+
   return (
-    <TextField
-      {...props}
-      ref={ref}
-      name="amount"
-      size="small"
-      autoComplete="off"
-      placeholder="Amount"
-      variant="filled"
-      InputProps={{
-        inputMode: "numeric",
-        disableUnderline: true,
-        endAdornment: (
-          <InputAdornment position="end">
-            <span style={{ color: "white" }}>{props.endLabel}</span>
-          </InputAdornment>
-        ),
-        sx: {
-          "& input[type=number]": {
-            "-moz-appearance": "textfield",
-          },
-          "& input[type=number]::-webkit-outer-spin-button": {
-            "-webkit-appearance": "none",
-            margin: 0,
-          },
-          "& input[type=number]::-webkit-inner-spin-button": {
-            "-webkit-appearance": "none",
-            margin: 0,
-          },
-        },
-      }}
-      fullWidth
-      required
-    />
+    <FormGroup>
+      <InputLabel htmlFor="amount"> Amount</InputLabel>
+      <TextField
+        {...inputProps}
+        onChange={(event) => {
+          if (decimalRegex.test(event.target.value)) {
+            onChange(Number(event.target.value));
+            setValue(event.target.value);
+          }
+        }}
+        id="amount"
+        value={value}
+        inputRef={ref1}
+        size="small"
+        variant="outlined"
+        autoComplete="off"
+        error={!!error}
+        helperText={error ? "Please enter a valid number" : ""}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <span style={{ color: "white" }}>{props.endLabel}</span>
+            </InputAdornment>
+          ),
+        }}
+        fullWidth
+        required
+      />
+    </FormGroup>
   );
 });

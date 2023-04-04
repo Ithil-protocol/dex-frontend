@@ -21,6 +21,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
     fieldState: { error },
   } = useController({
     name: "price",
+    defaultValue: 0,
     control: props.control,
     rules: { validate: numberValidation },
   });
@@ -31,8 +32,8 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
     <TextField
       {...inputProps}
       onChange={(event) => {
-        onChange(Number(event.target.value));
         if (decimalRegex.test(event.target.value)) {
+          onChange(Number(event.target.value));
           setValue(event.target.value);
         }
       }}
@@ -51,19 +52,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
             <span style={{ color: "white" }}>{props.endLabel}</span>
           </InputAdornment>
         ),
-        sx: {
-          "& input[type=number]": {
-            "-moz-appearance": "textfield",
-          },
-          "& input[type=number]::-webkit-outer-spin-button": {
-            "-webkit-appearance": "none",
-            margin: 0,
-          },
-          "& input[type=number]::-webkit-inner-spin-button": {
-            "-webkit-appearance": "none",
-            margin: 0,
-          },
-        },
       }}
       fullWidth
       required

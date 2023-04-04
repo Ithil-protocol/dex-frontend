@@ -61,11 +61,7 @@ const Form = () => {
 
         <AmountTextField
           endLabel={selectedPool?.underlyingLabel || ""}
-          {...register("amount", {
-            min: 0,
-            valueAsNumber: true,
-            onChange: handleAmountTextChange,
-          })}
+          control={control}
         />
 
         <AmountSlider onSliderChange={handleAmountSliderChange} />
