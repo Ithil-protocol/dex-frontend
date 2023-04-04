@@ -49,7 +49,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
         error={!!error}
         helperText={error ? "Please enter a valid number" : ""}
         InputProps={{
-          disableUnderline: true,
           endAdornment: (
             <InputAdornment position="end">
               <span style={{ color: "white" }}>{props.endLabel}</span>
