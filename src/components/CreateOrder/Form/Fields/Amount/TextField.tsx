@@ -1,5 +1,6 @@
 import { InputAdornment, TextField } from "@mui/material";
-import React from "react";
+import { decimalRegex } from "data/regex";
+import React, { ChangeEvent, useState } from "react";
 
 interface Props {
   endLabel: string;
@@ -9,13 +10,23 @@ export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
   props,
   ref
 ) {
+  const [value, setValue] = useState("");
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    if (decimalRegex.test(inputValue)) {
+      setValue(inputValue);
+    }
+  };
+
   return (
     <TextField
       {...props}
       ref={ref}
+      value={value}
+      onChange={handleInputChange}
       name="amount"
       size="small"
-      type="number"
       autoComplete="off"
       placeholder="Amount"
       variant="filled"

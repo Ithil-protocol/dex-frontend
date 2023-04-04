@@ -1,4 +1,5 @@
 import { InputAdornment, TextField } from "@mui/material";
+import { decimalRegex } from "data/regex";
 import React, { ChangeEvent, useState } from "react";
 
 interface Props {
@@ -13,8 +14,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    // allow decimal numbers
-    const decimalRegex = /^\d*\.?\d*$/;
     if (decimalRegex.test(inputValue)) {
       setValue(inputValue);
     }
