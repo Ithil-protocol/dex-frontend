@@ -1,4 +1,5 @@
 import { pools } from "data/pools";
+import { decimalRegex } from "data/regex";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { usePoolStore } from "store";
@@ -18,11 +19,17 @@ const Form = () => {
   const available = useRef(1_000_000);
 
   const handlePriceTextChange = (event: CustomInputEvent) => {
-    setValue("price", +event.target.value);
+    const inputValue = event.target.value;
+    if (decimalRegex.test(inputValue)) {
+      setValue("price", inputValue);
+    }
   };
 
   const handleAmountTextChange = (event: CustomInputEvent) => {
-    setValue("amount", +event.target.value);
+    const inputValue = event.target.value;
+    if (decimalRegex.test(inputValue)) {
+      setValue("amount", inputValue);
+    }
   };
 
   const handleAmountSliderChange = (value: number | number[]) => {

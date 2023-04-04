@@ -10,26 +10,17 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
   props,
   ref
 ) {
-  const [value, setValue] = useState("");
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value;
-    if (decimalRegex.test(inputValue)) {
-      setValue(inputValue);
-    }
-  };
-
   return (
     <TextField
       {...props}
-      value={value}
-      onChange={handleInputChange}
       ref={ref}
       name="price"
+      size="small"
       variant="filled"
       placeholder="Price"
       autoComplete="off"
       InputProps={{
+        inputMode: "numeric",
         disableUnderline: true,
         endAdornment: (
           <InputAdornment position="start">
@@ -50,7 +41,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
           },
         },
       }}
-      size="small"
       fullWidth
       required
     />
