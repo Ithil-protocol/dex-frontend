@@ -31,7 +31,7 @@ const DepthChart = () => {
   //       <pre>{JSON.stringify(computedOrders,null,2)}</pre>
   //   )
   return (
-    <ResponsiveContainer width="105%">
+    <ResponsiveContainer width="100%">
       <AreaChart data={data}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -61,9 +61,13 @@ const DepthChart = () => {
         />
         <XAxis
           dataKey="x"
-          tickFormatter={(value) => briefing(value)}
+          tickFormatter={(value, index) =>
+            index % 2 === 0 ? "" : briefing(value)
+          }
           allowDecimals={false}
           tick={{ fill: "white" }}
+          fontSize={12}
+          fontWeight={300}
           // tickCount={10}
         />
         <YAxis
@@ -73,7 +77,9 @@ const DepthChart = () => {
           orientation="right"
           type="number"
           tickFormatter={(value) => (value === 0 ? "" : briefing(value))}
-          tickMargin={-10}
+          // tickMargin={-10}
+          fontSize={12}
+          fontWeight={300}
           tick={{ fill: "white" }}
           allowDecimals={false}
         />

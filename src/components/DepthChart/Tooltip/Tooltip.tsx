@@ -9,8 +9,7 @@ import { usePoolStore } from "store";
 import styles from "./Tooltip.module.scss";
 
 const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
-  const poolValue = usePoolStore((store) => store.pool);
-  const pool = pools.find((pool) => pool.value === poolValue);
+  const pool = usePoolStore((store) => store.pool);
   if (!pool) return null;
 
   const { accountingLabel } = pool;

@@ -1,5 +1,9 @@
 .tooltip {
   padding: 8px;
   border-radius: 8px;
+  box-shadow: none !important;
 
+  &:focus {
+    outline: none !important;
+  }
 }

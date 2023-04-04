@@ -3,12 +3,13 @@ import { useState } from "react";
 import { contractABI } from "store/abi";
 import { useContractRead, useContractReads } from "wagmi";
 import styles from "./Order.module.scss";
+import { Order as OrderType } from "types";
 
 interface Props {
-  priceLevel: BigNumberish;
+  data: OrderType;
 }
 
-const Order: React.FC<Props> = ({ priceLevel }) => {
+const Order: React.FC<Props> = ({ data }) => {
   // const [orderList, setOrderList] = useState<undefined | ContractInputs[]>();
   // const { data } = useContractRead({
   //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
@@ -37,16 +38,16 @@ const Order: React.FC<Props> = ({ priceLevel }) => {
   // if (!data) return null;
   // console.log(orderData);
 
-  // const base = 20;
-  // const width = (Math.min(data.volume, base) / base) * 100 + "%";
+  const base = 20;
+  const width = (Math.min(data.volume, base) / base) * 100 + "%";
 
   return (
     <>
-      {/* <div className={styles.order} data-type={data.type}>
-      <div className={styles.background} style={{ width }}></div>
-      <p className={styles.value}>{data.value}</p>
-      <p>{data.volume}</p>
-    </div> */}
+      <div className={styles.order} data-type={data.type}>
+        <div className={styles.background} style={{ width }}></div>
+        <p className={styles.value}>{data.value}</p>
+        <p>{data.volume}</p>
+      </div>
     </>
   );
 };
