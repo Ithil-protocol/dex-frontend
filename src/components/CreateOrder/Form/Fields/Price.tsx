@@ -23,7 +23,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
         inputMode: "numeric",
         disableUnderline: true,
         endAdornment: (
-          <InputAdornment position="start">
+          <InputAdornment position="end">
             <span style={{ color: "white" }}>{props.endLabel}</span>
           </InputAdornment>
         ),
