@@ -3,9 +3,6 @@ import React from "react";
 
 interface Props {
   endLabel: string;
-  onKeyDown: React.KeyboardEventHandler<
-    HTMLDivElement | HTMLTextAreaElement | HTMLInputElement
-  >;
 }
 
 export default React.forwardRef<HTMLDivElement, Props>(function Price(
@@ -22,7 +19,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
       placeholder="Price"
       autoComplete="off"
       InputProps={{
-        onKeyDown: props.onKeyDown,
         disableUnderline: true,
         endAdornment: (
           <InputAdornment position="start">

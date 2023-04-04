@@ -3,9 +3,6 @@ import React from "react";
 
 interface Props {
   endLabel: string;
-  onKeyDown: React.KeyboardEventHandler<
-    HTMLDivElement | HTMLTextAreaElement | HTMLInputElement
-  >;
 }
 
 export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
@@ -23,7 +20,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
       placeholder="Amount"
       variant="filled"
       InputProps={{
-        onKeyDown: props.onKeyDown,
         inputMode: "numeric",
         disableUnderline: true,
         endAdornment: (

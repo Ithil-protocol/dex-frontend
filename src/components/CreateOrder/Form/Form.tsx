@@ -17,15 +17,6 @@ const Form = () => {
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
   const available = useRef(1_000_000);
 
-  const handleKeyDown = (
-    event: React.KeyboardEvent<
-      HTMLDivElement | HTMLInputElement | HTMLTextAreaElement
-    >
-  ) => {
-    const char = event.key;
-    if (char === "e" || char === "E" || char === ".") event.preventDefault();
-  };
-
   const handlePriceTextChange = (event: CustomInputEvent) => {
     setValue("price", +event.target.value);
   };
@@ -63,7 +54,6 @@ const Form = () => {
             valueAsNumber: true,
             onChange: handlePriceTextChange,
           })}
-          onKeyDown={handleKeyDown}
         />
 
         <AmountTextField
@@ -73,7 +63,6 @@ const Form = () => {
             valueAsNumber: true,
             onChange: handleAmountTextChange,
           })}
-          onKeyDown={handleKeyDown}
         />
 
         <AmountSlider onSliderChange={handleAmountSliderChange} />
