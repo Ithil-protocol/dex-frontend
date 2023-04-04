@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Trade from "components/MarketTrades/Trade/Trade";
-import * as React from "react";
 import { buyOrders } from "store/web3Store";
 
 export default function Trades() {

@@ -40,6 +40,13 @@ export const briefing = (number: number) => {
   }
 };
 
+export const formatBigNumber = (value: number) => {
+  return Intl.NumberFormat("en-US", {
+    notation: "standard",
+    maximumFractionDigits: 3,
+  }).format(value);
+};
+
 export const formatDate = (date: number) => {
   // const isoDate = new Date(date).toISOString();
   return format(new Date(date), "KK:mm:ss");

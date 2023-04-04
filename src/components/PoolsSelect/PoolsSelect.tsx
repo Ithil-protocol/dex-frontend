@@ -11,7 +11,7 @@ function PoolsSelect() {
     state.updatePool,
   ]);
 
-  const handleChange = (_: unknown, newValue: Pool | null) => {
+  const handleChange = (_: React.SyntheticEvent, newValue: Pool | null) => {
     updatePool(newValue?.value ?? "");
   };
 
