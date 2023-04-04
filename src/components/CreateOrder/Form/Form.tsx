@@ -55,12 +55,8 @@ const Form = () => {
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <Price
+          control={control}
           endLabel={selectedPool?.accountingLabel || ""}
-          {...register("price", {
-            min: 0,
-            valueAsNumber: true,
-            onChange: handlePriceTextChange,
-          })}
         />
 
         <AmountTextField
