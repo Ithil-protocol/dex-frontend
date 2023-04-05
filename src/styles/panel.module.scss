@@ -44,14 +44,12 @@
   }
 
   & > * {
-    // background-color: red;
     border-radius: 4px;
   }
 }
 
 .navbar {
   grid-area: navbar;
-  // background-color: #13e262;
 }
 
 .orders {
@@ -61,14 +59,11 @@
 
 .candlestick {
   grid-area: candlestick;
-  // background-color: #e213a4;
   width: 100%;
-  // height: 430px;
 }
 
 .form {
   grid-area: form;
-  background-color: #284f5b;
 }
 
 .depth {
