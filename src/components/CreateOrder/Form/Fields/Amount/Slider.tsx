@@ -3,14 +3,11 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useWatch } from "react-hook-form";
 
 interface Props {
-  control: any;
   setValue: any;
 }
 
-const AmountSlider: React.FC<Props> = ({ control, setValue }) => {
+const AmountSlider: React.FC<Props> = ({ setValue }) => {
   const [amountPercent, setAmountPercent] = useState(0);
-
-  const formValues = useWatch({ control });
 
   useEffect(() => {
     setValue("amount", amountPercent);

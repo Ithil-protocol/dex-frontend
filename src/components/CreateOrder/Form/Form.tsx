@@ -24,7 +24,7 @@ const Form = () => {
 
   const handleFormSubmit = (data: StringMap) => console.log(data);
 
-  const selectedPool = pools.find((i) => i.value === pool);
+  const selectedPool = pools.find((i) => i.value === pool.value);
 
   return (
     <div>
@@ -48,7 +48,7 @@ const Form = () => {
           control={control}
         />
 
-        <AmountSlider control={control} setValue={setValue} />
+        <AmountSlider setValue={setValue} />
 
         <Available
           endLabel={selectedPool?.underlyingLabel || ""}
