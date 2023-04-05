@@ -24,8 +24,6 @@ const Form = () => {
 
   const handleFormSubmit = (data: StringMap) => console.log(data);
 
-  const selectedPool = pools.find((i) => i.value === pool.value);
-
   return (
     <div>
       <form
@@ -38,20 +36,17 @@ const Form = () => {
         }}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <Price
-          control={control}
-          endLabel={selectedPool?.accountingLabel || ""}
-        />
+        <Price control={control} endLabel={pool?.accountingLabel || ""} />
 
         <AmountTextField
-          endLabel={selectedPool?.underlyingLabel || ""}
+          endLabel={pool?.underlyingLabel || ""}
           control={control}
         />
 
         <AmountSlider setValue={setValue} />
 
         <Available
-          endLabel={selectedPool?.underlyingLabel || ""}
+          endLabel={pool?.underlyingLabel || ""}
           available={formatBigNumber(available.current)}
         />
 
@@ -59,9 +54,9 @@ const Form = () => {
 
         <Boost control={control} />
 
-        <Total control={control} label={selectedPool?.accountingLabel || ""} />
+        <Total control={control} label={pool?.accountingLabel || ""} />
 
-        <Submit control={control} label={selectedPool?.underlyingLabel || ""} />
+        <Submit control={control} label={pool?.underlyingLabel || ""} />
       </form>
     </div>
   );
