@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AmountSlider: React.FC<Props> = ({ setValue }) => {
-  const [amountPercent, setAmountPercent] = useState(0);
+  const [amountPercent, setAmountPercent] = useState<undefined | number>();
 
   useEffect(() => {
     setValue("amount", amountPercent);
