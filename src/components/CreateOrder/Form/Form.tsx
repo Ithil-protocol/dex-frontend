@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
 import { StringMap } from "types";
 import { formatBigNumber } from "utility";
@@ -20,16 +20,27 @@ import {
 import { useTokenBalance } from "hooks/account";
 import { contractABI } from "store/abi";
 import { ethers } from "ethers";
+import { useCreateOrder } from "hooks/poolWrite";
 
 const Form = () => {
   const { control, handleSubmit, setValue } = useForm();
+  const formValues = useWatch({ control });
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
 
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
-  const handleFormSubmit = (data: StringMap) => console.log(data);
+  console.log("hiiii", formValues);
+  const { waitedData, write } = useCreateOrder({
+    amount: formValues["amount"],
+    price: formValues["price"],
+  });
+
+  console.log("waiteeed", waitedData);
+  const handleFormSubmit = (data: StringMap) => {
+    write && write();
+  };
 
   return (
     <form

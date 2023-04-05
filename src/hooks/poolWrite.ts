@@ -14,7 +14,7 @@ interface CreateOrderProps {
   price: number | string;
 }
 
-export const useCreateOrder = ({ amount, price }: CreateOrderProps) => {
+export const useCreateOrder = ({ amount = 0, price = 0 }: CreateOrderProps) => {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
@@ -33,11 +33,12 @@ export const useCreateOrder = ({ amount, price }: CreateOrderProps) => {
     abi: contractABI,
     functionName: "createOrder",
     args: [
-      ethers.utils.parseUnits(amount.toString(), 18),
-      ethers.utils.parseUnits(price.toString(), 6),
+      ethers.utils.parseUnits(Number(amount).toString(), 18),
+      ethers.utils.parseUnits(Number(price).toString(), 6),
       address as `0x${string}`,
       ethers.utils.parseUnits(time.toString(), 0),
     ],
+    enabled: Number(amount) > 0 && Number(price) > 0,
   });
 
   const { data: writeData, write } = usePoolCreateOrder(config);
