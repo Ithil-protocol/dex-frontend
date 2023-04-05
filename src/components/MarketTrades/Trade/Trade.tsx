@@ -10,10 +10,12 @@ const Trade = ({ data }: Props) => {
   return (
     <TableRow
       key={data.id}
-      sx={{
-        "&:not(:last-child)": { borderBottom: "2px solid #485369" },
+      sx={(theme) => ({
+        "&:not(:last-child)": {
+          borderBottom: `2px solid ${theme.palette.background.default}`,
+        },
         "&:last-child td, &:last-child th": { border: 0 },
-      }}
+      })}
     >
       <TableCell
         sx={(theme) => ({
@@ -32,7 +34,7 @@ const Trade = ({ data }: Props) => {
 
       <TableCell
         sx={(theme) => ({
-          color: theme.palette.text.secondary,
+          color: theme.palette.text.primary,
           fontSize: 12,
           fontWeight: 900,
         })}
@@ -43,7 +45,7 @@ const Trade = ({ data }: Props) => {
 
       <TableCell
         sx={(theme) => ({
-          color: theme.palette.text.secondary,
+          color: theme.palette.text.primary,
           fontSize: 11,
           fontWeight: 900,
         })}

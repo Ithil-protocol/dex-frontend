@@ -19,15 +19,15 @@ export default function Trades() {
         />
       )}
     >
-      <Table size="small" aria-label="a dense table">
-        <TradeTableHead />
+      <Table size="small">
+        <TradesTableHead />
         <TradesTableBody />
       </Table>
     </TableContainer>
   );
 }
 
-const TradeTableHead = () => {
+const TradesTableHead = () => {
   return (
     <TableHead style={{ borderBottom: "2px solid transparent" }}>
       <TableRow>

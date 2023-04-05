@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import FormTabs from "./Form";
-import TabPanel from "./Panel";
-import Tab from "./Tab";
-import Tabs from "./Tabs";
+import TabPanel from "../../common/Panel";
+import Tab from "../../common/Tab";
+import Tabs from "../../common/Tabs";
 
 const OrderTabs = () => {
   const [value, setValue] = React.useState(0);

@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import Form from "../Form/Form";
-import TabPanel from "./Panel";
-import Tab from "./Tab";
-import Tabs from "./Tabs";
+import TabPanel from "../../common/Panel";
+import Tab from "../../common/Tab";
+import Tabs from "../../common/Tabs";
 import theme from "styles/theme";
 
 export default function FormTabs() {
@@ -17,10 +17,15 @@ export default function FormTabs() {
     <Box>
       <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
         <Tabs variant="fullWidth" value={value} onChange={handleChange}>
-          <Tab selectedColor={theme.palette.text.primary} label="Buy" />
+          <Tab
+            selectedColor={theme.palette.text.primary}
+            label="Buy"
+            selectedBgColor={theme.palette.secondary.main}
+          />
           <Tab
             color={theme.palette.error.main}
-            selectedColor={theme.palette.error.main}
+            selectedColor={theme.palette.text.primary}
+            selectedBgColor={theme.palette.error.main}
             label="Sell"
           />
         </Tabs>

@@ -55,6 +55,18 @@ export function truncateString(str: string, num: number) {
   }
 }
 
+export function shuffleArray<T>(array: T[]) {
+  const copyArray = [...array];
+
+  for (let i = copyArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = copyArray[i];
+    copyArray[i] = copyArray[j];
+    copyArray[j] = temp;
+  }
+  return copyArray;
+}
+
 export const formatDate = (date: number) => {
   // const isoDate = new Date(date).toISOString();
   return format(new Date(date), "KK:mm:ss");
