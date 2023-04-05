@@ -6,7 +6,12 @@ import theme from "styles/theme";
 
 const MarketTrades = () => {
   return (
-    <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
+    <Box
+      sx={(theme) => ({
+        bgcolor: theme.palette.background.paper,
+        borderRadius: "5px",
+      })}
+    >
       <div
         style={{
           display: "flex",
