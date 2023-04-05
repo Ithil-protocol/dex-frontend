@@ -27,7 +27,7 @@ const Slider = styled(MuiSlider)({
     padding: "0px 10px",
     width: "auto",
     height: 30,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: theme.palette.secondary.main,
     transformOrigin: "bottom left",
     transform: "translate(50%, -100%)  scale(0)",

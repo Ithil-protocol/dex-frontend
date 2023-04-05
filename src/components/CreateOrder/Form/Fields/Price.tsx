@@ -57,6 +57,8 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
         InputProps={{
           sx: (theme) => ({
             backgroundColor: theme.palette.background.default,
+            padding: "5px 15px 5px 5px",
+            borderRadius: "5px",
           }),
           endAdornment: (
             <InputAdornment position="end">

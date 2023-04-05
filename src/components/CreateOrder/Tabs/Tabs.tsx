@@ -16,6 +16,7 @@ const Tabs: React.FC<Props> = (props) => {
         children: <span className="MuiTabs-indicatorSpan" />,
       }}
       sx={{
+        padding: "5px",
         "& .MuiTabs-indicator": {
           background: "unset",
         },

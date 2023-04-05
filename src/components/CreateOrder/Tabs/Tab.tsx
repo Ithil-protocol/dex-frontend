@@ -16,6 +16,7 @@ const Tab: React.FC<Props> = ({ selectedColor, color, ...rest }) => {
         fontWeight: "bold",
         textTransform: "none",
         color: color || theme.palette.text.disabled,
+        borderRadius: "5px",
         "&.Mui-selected": {
           color: selectedColor || "white",
           backgroundColor: theme.palette.secondary.main,

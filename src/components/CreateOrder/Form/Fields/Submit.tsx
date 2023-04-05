@@ -16,6 +16,7 @@ const Submit: React.FC<Props> = ({ label, control }) => {
       fullWidth
       disabled={!formValues.price || !formValues.amount}
       sx={(theme) => ({
+        padding: "10px",
         backgroundColor: theme.palette.secondary.main,
         color: theme.palette.text.primary,
         textTransform: "none",

@@ -21,7 +21,7 @@ const Total: React.FC<Props> = ({ label, control }) => {
         display: "flex",
         gap: 1,
         justifyContent: "space-between",
-        padding: "15px",
+        padding: "15px 10px 10px 10px",
       })}
     >
       <span style={{ color: theme.palette.text.primary }}>Total</span>
