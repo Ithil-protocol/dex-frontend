@@ -19,9 +19,6 @@ export const OpenOrders = () => {
         bgcolor: theme.palette.background.paper,
         borderRadius: "5px",
         gap: "5px",
-        height: "100%",
-        overflowY: "clip",
-        maxHeight: "300px",
       })}
     >
       <Box
