@@ -36,7 +36,6 @@ const Order: React.FC<Props> = ({ data }) => {
   //   contracts: orderList,
   // });
   // if (!data) return null;
-  // console.log(orderData);
 
   const base = 20;
   const width = (Math.min(data.volume, base) / base) * 100 + "%";

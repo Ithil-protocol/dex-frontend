@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
 import { StringMap } from "types";
 import { formatBigNumber } from "utility";
@@ -10,22 +10,38 @@ import Boost from "./Fields/Boost";
 import Price from "./Fields/Price";
 import Submit from "./Fields/Submit";
 import Total from "./Fields/Total";
-import { useAccount, useBalance } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+import { useTokenBalance } from "hooks/account";
+import { contractABI } from "store/abi";
+import { ethers } from "ethers";
+import { useCreateOrder } from "hooks/poolWrite";
 
 const Form = () => {
   const { control, handleSubmit, setValue } = useForm();
+  const formValues = useWatch({ control });
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
-  const available = useRef(1_000_000);
 
-  const { address } = useAccount();
-
-  const { data } = useBalance({
-    address,
-    token: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+  const { data: tokenBalance } = useTokenBalance({
+    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
-  console.log(data);
 
-  const handleFormSubmit = (data: StringMap) => console.log(data);
+  console.log("hiiii", formValues);
+  const { waitedData, write } = useCreateOrder({
+    amount: formValues["amount"],
+    price: formValues["price"],
+    boost: formValues["boost"],
+  });
+
+  console.log("waiteeed", waitedData);
+  const handleFormSubmit = (data: StringMap) => {
+    write && write();
+  };
 
   return (
     <form
@@ -44,11 +60,11 @@ const Form = () => {
         control={control}
       />
 
-      <AmountSlider setValue={setValue} />
+      <AmountSlider control={control} setValue={setValue} />
 
       <Available
-        endLabel={pool?.underlyingLabel || ""}
-        available={formatBigNumber(available.current)}
+        endLabel={pool?.accountingLabel || ""}
+        available={tokenBalance?.formatted}
       />
 
       <div style={{ marginTop: 5 }}></div>
@@ -57,7 +73,11 @@ const Form = () => {
 
       <Total control={control} label={pool?.accountingLabel || ""} />
 
-      <Submit control={control} label={pool?.underlyingLabel || ""} />
+      <Submit
+        control={control}
+        label={pool?.underlyingLabel || ""}
+        write={write}
+      />
     </form>
   );
 };

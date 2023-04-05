@@ -5,16 +5,17 @@ import { Control, useWatch } from "react-hook-form";
 interface Props {
   label: string;
   control: Control<any, any>;
+  write: (() => void) | undefined;
 }
 
-const Submit: React.FC<Props> = ({ label, control }) => {
+const Submit: React.FC<Props> = ({ label, control, write }) => {
   const formValues = useWatch({ control });
   console.log(formValues);
 
   return (
     <Button
       fullWidth
-      disabled={!formValues.price || !formValues.amount}
+      disabled={!formValues.price || !formValues.amount || !write}
       sx={(theme) => ({
         padding: "10px",
         backgroundColor: theme.palette.secondary.main,

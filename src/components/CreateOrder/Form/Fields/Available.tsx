@@ -3,10 +3,10 @@ import React from "react";
 
 interface Props {
   endLabel: string;
-  available: string;
+  available: string | undefined;
 }
 
-const Available: React.FC<Props> = (props) => {
+const Available: React.FC<Props> = ({ endLabel, available }) => {
   return (
     <Box
       sx={(theme) => ({
@@ -14,11 +14,11 @@ const Available: React.FC<Props> = (props) => {
         display: "flex",
         fontSize: 12,
         justifyContent: "space-between",
-        // padding: "0px 10px",
+        marginTop: "-12px",
       })}
     >
-      <span>Available {props.endLabel}</span>
-      <span>{props.available}</span>
+      <span>Available {endLabel}</span>
+      <span>{available ? available : "0.0"}</span>
     </Box>
   );
 };

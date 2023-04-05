@@ -34,7 +34,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
         sx={(theme) => ({ color: theme.palette.text.primary })}
         htmlFor="price"
       >
-        {" "}
         Price
       </InputLabel>
       <TextField

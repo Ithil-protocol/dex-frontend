@@ -1,21 +1,33 @@
 import Slider from "components/common/Slider";
+import { useTokenBalance } from "hooks/account";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useWatch } from "react-hook-form";
 
 interface Props {
   setValue: any;
+  control: any;
 }
 
-const AmountSlider: React.FC<Props> = ({ setValue }) => {
-  const [amountPercent, setAmountPercent] = useState<undefined | number>();
+const AmountSlider: React.FC<Props> = ({ setValue, control }) => {
+  const { price } = useWatch({ control });
 
-  useEffect(() => {
+  const { data: tokenBalance } = useTokenBalance({
+    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+  });
+  const balance = tokenBalance ? Number(tokenBalance.formatted) : 0;
+
+  const changeHandler = (event: any) => {
+    const balancePercent = (Number(event.target.value) / 100) * balance;
+    const amountPercent = balancePercent / price;
     setValue("amount", amountPercent);
-  }, [amountPercent, setValue]);
+  };
 
   return (
-    <div style={{ padding: "0px 10px" }}>
+    <div style={{ padding: "0px 6px" }}>
       <Slider
+        marks
+        color="primary"
+        disabled={price == "" || price == 0 || price == undefined}
         min={0}
         max={100}
         valueLabelFormat={(value) => (
@@ -29,8 +41,11 @@ const AmountSlider: React.FC<Props> = ({ setValue }) => {
         )}
         valueLabelDisplay="auto"
         step={5}
-        onChange={(event: any) => {
-          setAmountPercent(Number(event.target.value) as number);
+        onChange={changeHandler}
+        sx={{
+          "& .Mui-disabled.MuiSlider-thumb": {
+            bgcolor: "gray",
+          },
         }}
       />
     </div>

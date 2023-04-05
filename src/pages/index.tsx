@@ -26,25 +26,22 @@ export default function Home() {
   const { data: signer } = useSigner();
   const { address } = useAccount();
   const contract = useContract({
-    address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+    address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     abi: erc20ABI,
   });
   useEffect(() => {
     if (state === 1) {
       const getAllowance = async () => {
         if (!contract) {
-          console.log("fail1");
           return;
         }
         if (!signer) {
-          console.log("fail2");
           return;
         }
         const amount = ethers.utils.parseEther("10000000");
         const token1Allowance = await contract
           ?.connect(signer)
           .approve("0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37", amount);
-        console.log(token1Allowance);
       };
       getAllowance();
     }
@@ -59,7 +56,6 @@ export default function Home() {
       console.log("event", node, label, owner);
     },
   });
-  console.log(data);
 
   // const { config } = usePrepareContractWrite({
   //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
@@ -75,13 +71,9 @@ export default function Home() {
 
   // const { data: writeData, write } = useContractWrite(config);
 
-  // console.log("writeData:::", writeData);
-
   // const { data: waitedData } = useWaitForTransaction({
   //   hash: writeData?.hash,
   // });
-
-  // console.log("__wait", waitedData);
 
   const { data: priceLevel } = useContractRead({
     abi: contractABI,
@@ -89,11 +81,6 @@ export default function Home() {
     functionName: "priceLevels",
     args: [ethers.utils.parseUnits("0", 0)],
   });
-  // priceLevel &&
-  //   console.log(
-  //     "priceLevel",
-  //     ethers.utils.formatUnits(priceLevel,6)
-  //   );
 
   const { data: idData } = useContractRead({
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
@@ -101,7 +88,6 @@ export default function Home() {
     functionName: "id",
     args: [priceLevel as BigNumber],
   });
-  // idData && console.log("idData",ethers.utils.formatUnits(idData,0));
   const priceLevelValue =
     priceLevel !== undefined ? priceLevel : ethers.utils.parseUnits("-1", 0);
   const { data: readData } = useContractRead({
@@ -110,21 +96,6 @@ export default function Home() {
     functionName: "orders",
     args: [priceLevelValue, ethers.utils.parseUnits("3", 0)],
   });
-  // readData && console.log(readData);
-
-  useEffect(() => {
-    const x = async () => {
-      const data = await readContract({
-        address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-        abi: contractABI,
-        functionName: "orders",
-        args: [priceLevelValue, ethers.utils.parseUnits("3", 0)],
-      });
-      console.log(data);
-    };
-    if (!priceLevel) return;
-    x();
-  }, [priceLevel]);
 
   return (
     <>

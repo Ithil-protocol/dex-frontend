@@ -22,8 +22,6 @@ export const usePriceLevelReads = () => {
 export const useIdReads = () => {
   const { data } = usePriceLevelReads();
 
-  console.log("usePriceLevelReads", data);
-
   const contracts: CustomContractConfig | undefined = data?.map((el) => ({
     abi: contractABI,
     address,
@@ -43,8 +41,6 @@ export const useIdReads = () => {
 export const useOrderReads = () => {
   const { data: priceLevels } = usePriceLevelReads();
   const { data: ids } = useIdReads();
-
-  console.log("useIdReads", ids);
 
   const contractConfigGenerator = (
     priceLevels: BigNumber[],
