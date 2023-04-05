@@ -39,7 +39,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
       return;
     }
     setValue(amountValue);
-  }, [amountValue, setValue]);
+  }, [amountValue, setValue, setOnce]);
 
   return (
     <FormGroup>
