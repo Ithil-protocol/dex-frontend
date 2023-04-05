@@ -1,11 +1,21 @@
 import Slider from "components/common/Slider";
-import React from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useWatch } from "react-hook-form";
 
 interface Props {
-  onSliderChange: (value: number | number[]) => void;
+  control: any;
+  setValue: any;
 }
 
-const AmountSlider: React.FC<Props> = ({ onSliderChange }) => {
+const AmountSlider: React.FC<Props> = ({ control, setValue }) => {
+  const [amountPercent, setAmountPercent] = useState(0);
+
+  const formValues = useWatch({ control });
+
+  useEffect(() => {
+    setValue("amount", amountPercent);
+  }, [amountPercent, setValue]);
+
   return (
     <div style={{ padding: "0px 10px" }}>
       <Slider
@@ -22,7 +32,9 @@ const AmountSlider: React.FC<Props> = ({ onSliderChange }) => {
         )}
         valueLabelDisplay="auto"
         step={5}
-        onChange={(_e, value) => onSliderChange(value)}
+        onChange={(event: any) => {
+          setAmountPercent(Number(event.target.value) as number);
+        }}
       />
     </div>
   );

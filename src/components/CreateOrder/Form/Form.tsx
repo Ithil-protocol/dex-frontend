@@ -18,25 +18,9 @@ const Form = () => {
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
   const available = useRef(1_000_000);
 
-  const handlePriceTextChange = (event: CustomInputEvent) => {
-    const inputValue = event.target.value;
-    if (decimalRegex.test(inputValue)) {
-      setValue("price", inputValue);
-    }
-  };
-
-  const handleAmountTextChange = (event: CustomInputEvent) => {
-    const inputValue = event.target.value;
-    if (decimalRegex.test(inputValue)) {
-      setValue("amount", inputValue);
-    }
-  };
-
-  const handleAmountSliderChange = (value: number | number[]) => {
-    if (typeof value === "number") {
-      setValue("amount", (available.current / 100) * value);
-    }
-  };
+  // const handleAmountSliderChange = (value: number | number[]) => {
+  //   setValue("amount", (available.current / 100) * Number(value));
+  // };
 
   const handleFormSubmit = (data: StringMap) => console.log(data);
 
@@ -64,7 +48,7 @@ const Form = () => {
           control={control}
         />
 
-        <AmountSlider onSliderChange={handleAmountSliderChange} />
+        <AmountSlider control={control} setValue={setValue} />
 
         <Available
           endLabel={selectedPool?.underlyingLabel || ""}

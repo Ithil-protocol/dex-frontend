@@ -2,8 +2,8 @@ import { InputAdornment, TextField } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import InputLabel from "@mui/material/InputLabel";
 import { decimalRegex } from "data/regex";
-import React, { ChangeEvent, useState } from "react";
-import { useController } from "react-hook-form";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useController, useWatch } from "react-hook-form";
 interface Props {
   endLabel: string;
   control: any;
@@ -28,6 +28,12 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
   });
 
   const [value, setValue] = useState(inputProps.value);
+
+  const { amount: amountValue } = useWatch({ control: props.control });
+
+  useEffect(() => {
+    setValue(amountValue);
+  }, [amountValue, setValue]);
 
   return (
     <FormGroup>
