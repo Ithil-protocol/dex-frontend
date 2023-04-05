@@ -14,7 +14,7 @@ const Available: React.FC<Props> = ({ endLabel, available }) => {
         display: "flex",
         fontSize: 12,
         justifyContent: "space-between",
-        // padding: "0px 10px",
+        marginTop: "-12px",
       })}
     >
       <span>Available {endLabel}</span>

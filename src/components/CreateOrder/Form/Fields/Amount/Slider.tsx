@@ -17,14 +17,17 @@ const AmountSlider: React.FC<Props> = ({ setValue, control }) => {
   const balance = tokenBalance ? Number(tokenBalance.formatted) : 0;
 
   const changeHandler = (event: any) => {
-    const amountPercent = (Number(event.target.value) / 100) * balance;
+    const balancePercent = (Number(event.target.value) / 100) * balance;
+    const amountPercent = balancePercent / price;
     setValue("amount", amountPercent);
   };
 
   return (
-    <div style={{ padding: "0px 10px" }}>
+    <div style={{ padding: "0px 6px" }}>
       <Slider
-        disabled={price == "" || price == 0 || price == undefined}
+        marks
+        color="primary"
+        // disabled={price == "" || price == 0 || price == undefined}
         min={0}
         max={100}
         valueLabelFormat={(value) => (
