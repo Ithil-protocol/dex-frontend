@@ -20,7 +20,6 @@ const Buy = () => {
   // if (isLoading) return <p>is loading</p>;
   // if (isError) return <p>error</p>;
   // if (!data) return null;
-  // console.log(data);
   // return (
   //   <div>
   //     {(data as BigNumberish[]).map((priceLevel) => (
