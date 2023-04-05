@@ -61,9 +61,13 @@ const DepthChart = () => {
         />
         <XAxis
           dataKey="x"
-          tickFormatter={(value) => briefing(value)}
+          tickFormatter={(value, index) =>
+            index % 2 === 0 ? "" : briefing(value)
+          }
           allowDecimals={false}
           tick={{ fill: "white" }}
+          fontSize={12}
+          fontWeight={300}
           // tickCount={10}
         />
         <YAxis
@@ -72,7 +76,10 @@ const DepthChart = () => {
           tickLine={false}
           orientation="right"
           type="number"
-          tickFormatter={(value) => briefing(value)}
+          tickFormatter={(value) => (value === 0 ? "" : briefing(value))}
+          // tickMargin={-10}
+          fontSize={12}
+          fontWeight={300}
           tick={{ fill: "white" }}
           allowDecimals={false}
         />

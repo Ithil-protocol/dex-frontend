@@ -6,7 +6,8 @@ const RenderOption = (props: object, option: Pool) => (
   <ListItemButton {...props}>
     <span className={styles.underlying_icon}>{option.underlyingIcon}</span>
     <span className={styles.accounting_icon}>{option.accountingIcon}</span>
-    <span className={styles.underlying_label}>{option.underlyingLabel}/</span>
+    <span className={styles.underlying_label}>{option.underlyingLabel}</span>
+    <span className={styles.slash}>/</span>
     <span className={styles.accounting_label}> {option.accountingLabel}</span>
   </ListItemButton>
 );

@@ -24,8 +24,9 @@ export interface Pool {
 }
 
 export interface PoolState {
-  pool: string;
-  updatePool: (newPool: string) => void;
+  pool: Pool;
+  poolValue: string;
+  updatePool: (newPool: Pool) => void;
 }
 
 export interface Order {

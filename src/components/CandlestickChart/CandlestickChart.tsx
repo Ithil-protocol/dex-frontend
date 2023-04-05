@@ -12,14 +12,13 @@ const AdvancedRealTimeChartNoSSR = dynamic(
 );
 
 export const CandlestickChart = () => {
-  const poolValue = usePoolStore((store) => store.pool);
-  const pool = pools.find((pool) => pool.value === poolValue);
-
+  const pool = usePoolStore((store) => store.pool);
   const symbol = pool ? pool.underlyingLabel + pool.accountingLabel : "BTCUSDT";
 
   return (
     <Box height={"100%"}>
       <AdvancedRealTimeChartNoSSR
+        height="100%"
         theme="dark"
         autosize
         symbol={symbol}
