@@ -12,7 +12,6 @@ const Boost: React.FC<Props> = ({ control }) => {
 
   const {
     field: { onChange, ...inputProps },
-    fieldState: { error },
   } = useController({
     name: "boost",
     defaultValue: 0,
@@ -20,11 +19,7 @@ const Boost: React.FC<Props> = ({ control }) => {
   });
 
   return (
-    <div
-      style={{
-        padding: "0px 10px",
-      }}
-    >
+    <div>
       <div
         style={{
           display: "flex",
@@ -36,36 +31,43 @@ const Boost: React.FC<Props> = ({ control }) => {
         </FormLabel>
         <span>{boost}</span>
       </div>
-      <Slider
-        {...inputProps}
-        onChange={(event: any) => {
-          onChange(Number(event.target.value));
-          setBoost(event.target.value);
+
+      <div
+        style={{
+          padding: "0px 10px",
         }}
-        valueLabelDisplay="auto"
-        value={boost}
-        step={0.01}
-        min={0}
-        max={0.1}
-        valueLabelFormat={(value) => (
-          <span>
-            <span
-              style={{
-                fontSize: 14,
-              }}
-            >
-              {value}{" "}
+      >
+        <Slider
+          {...inputProps}
+          onChange={(event: any) => {
+            onChange(Number(event.target.value));
+            setBoost(event.target.value);
+          }}
+          valueLabelDisplay="auto"
+          value={boost}
+          step={0.01}
+          min={0}
+          max={0.1}
+          valueLabelFormat={(value) => (
+            <span>
+              <span
+                style={{
+                  fontSize: 14,
+                }}
+              >
+                {value}{" "}
+              </span>
+              <span
+                style={{
+                  fontSize: 12,
+                }}
+              >
+                ETH
+              </span>
             </span>
-            <span
-              style={{
-                fontSize: 12,
-              }}
-            >
-              ETH
-            </span>
-          </span>
-        )}
-      />
+          )}
+        />
+      </div>
     </div>
   );
 };
