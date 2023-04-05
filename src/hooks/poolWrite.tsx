@@ -72,7 +72,7 @@ export const useCreateOrder = ({
             target="_blank"
             href={`https://goerli.etherscan.io/tx/${waitedData.transactionHash}`}
           >
-            transaction Hash
+            Check on Etherscan!
           </Link>
         </p>
       );
