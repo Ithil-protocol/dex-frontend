@@ -40,7 +40,7 @@ const Form = () => {
         control={control}
       />
 
-      <AmountSlider setValue={setValue} />
+      <AmountSlider control={control} setValue={setValue} />
 
       <Available
         endLabel={pool?.accountingLabel || ""}
