@@ -51,7 +51,12 @@ export const useCreateOrder = ({
     enabled: Number(amount) > 0 && Number(price) > 0,
   });
 
-  const { data: writeData, write } = usePoolCreateOrder(config);
+  const { data: writeData, write } = usePoolCreateOrder({
+    ...config,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const { data: waitedData } = useWaitForTransaction({
     hash: writeData?.hash,
