@@ -6,13 +6,13 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
-    "plugin:@cspell/recommended",
-    "plugin:sonarjs/recommended",
     "next/core-web-vitals",
-    "prettier",
+    "plugin:@cspell/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:sonarjs/recommended",
+    "prettier",
   ],
   globals: {
     JSX: true,
