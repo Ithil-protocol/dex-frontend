@@ -11,17 +11,14 @@ import Price from "./Fields/Price";
 import Submit from "./Fields/Submit";
 import Total from "./Fields/Total";
 import { useAccount, useBalance } from "wagmi";
+import { useTokenBalance } from "hooks/account";
 
 const Form = () => {
   const { control, handleSubmit, setValue } = useForm();
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
-  const available = useRef(1_000_000);
 
-  const { address } = useAccount();
-
-  const { data } = useBalance({
-    address,
-    token: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+  const { data: tokenBalance } = useTokenBalance({
+    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
   const handleFormSubmit = (data: StringMap) => console.log(data);
@@ -46,8 +43,8 @@ const Form = () => {
       <AmountSlider setValue={setValue} />
 
       <Available
-        endLabel={pool?.underlyingLabel || ""}
-        available={formatBigNumber(available.current)}
+        endLabel={pool?.accountingLabel || ""}
+        available={tokenBalance?.formatted}
       />
 
       <div style={{ marginTop: 5 }}></div>

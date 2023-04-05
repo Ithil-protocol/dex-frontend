@@ -1,4 +1,5 @@
 import Slider from "components/common/Slider";
+import { useTokenBalance } from "hooks/account";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useWatch } from "react-hook-form";
 
@@ -7,11 +8,15 @@ interface Props {
 }
 
 const AmountSlider: React.FC<Props> = ({ setValue }) => {
-  const [amountPercent, setAmountPercent] = useState<undefined | number>();
-
-  // useEffect(() => {
-  //   setValue("amount", amountPercent);
-  // }, [amountPercent, setValue]);
+  const { data: tokenBalance } = useTokenBalance({
+    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+  });
+  const balance = tokenBalance ? Number(tokenBalance.formatted) : 0;
+  console.log("object", balance);
+  const changeHandler = (event: any) => {
+    const amountPercent = (Number(event.target.value) / 100) * balance;
+    setValue("amount", amountPercent);
+  };
 
   return (
     <div style={{ padding: "0px 10px" }}>
@@ -29,9 +34,7 @@ const AmountSlider: React.FC<Props> = ({ setValue }) => {
         )}
         valueLabelDisplay="auto"
         step={5}
-        onChange={(event: any) => {
-          setAmountPercent(Number(event.target.value) as number);
-        }}
+        onChange={changeHandler}
       />
     </div>
   );
