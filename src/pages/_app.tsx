@@ -4,7 +4,7 @@ import MUIThemeProvider from "Providers/MUIThemeProvider";
 import ReactQueryProvider from "Providers/ReactQueryProvider";
 import Web3Provider from "Providers/Web3Provider";
 import { AppProps } from "next/app";
-import { SnackbarProvider } from "notistack";
+import { ToastContainer } from "react-toastify";
 import createEmotionCache from "styles/createEmotionCache";
 import "styles/global.scss";
 
@@ -23,9 +23,8 @@ export default function MyApp(props: MyAppProps) {
       <Web3Provider>
         <ReactQueryDevtools />
         <MUIThemeProvider emotionCache={emotionCache}>
-          <SnackbarProvider>
-            <Component {...pageProps} />
-          </SnackbarProvider>
+          <ToastContainer />
+          <Component {...pageProps} />
         </MUIThemeProvider>
       </Web3Provider>
     </ReactQueryProvider>
