@@ -23,6 +23,9 @@ const theme = createTheme({
     success: {
       main: "#30d46f",
     },
+    info: {
+      main: "#ffffff",
+    },
     background: {
       default: "#2c374d",
       paper: "#2c374d",

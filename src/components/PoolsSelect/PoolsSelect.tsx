@@ -19,8 +19,8 @@ function PoolsSelect() {
   return (
     <Autocomplete
       sx={(theme) => ({
-        borderBottom: `1px solid ${theme.palette.secondary.main} `,
-        "& .MuiSvgIcon-root": { fill: theme.palette.secondary.main },
+        borderBottom: `1px solid ${theme.palette.text.primary} `,
+        "& .MuiSvgIcon-root": { fill: theme.palette.text.primary },
       })}
       value={pools.find((option) => option.value === poolValue)}
       onChange={handleChange}
@@ -34,11 +34,10 @@ function PoolsSelect() {
         <TextField
           {...params}
           variant="standard"
-          color="secondary"
+          color="info"
           InputLabelProps={{ style: { color: "white" } }}
           inputProps={{
             ...params.inputProps,
-            border: "red",
             style: { color: "white" },
             autoComplete: "new-password", // disable autocomplete and autofill
           }}

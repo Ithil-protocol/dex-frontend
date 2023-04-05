@@ -14,13 +14,9 @@ import Submit from "./Fields/Submit";
 import Total from "./Fields/Total";
 
 const Form = () => {
-  const { control, handleSubmit, register, setValue } = useForm();
+  const { control, handleSubmit, setValue } = useForm();
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
   const available = useRef(1_000_000);
-
-  // const handleAmountSliderChange = (value: number | number[]) => {
-  //   setValue("amount", (available.current / 100) * Number(value));
-  // };
 
   const handleFormSubmit = (data: StringMap) => console.log(data);
 
