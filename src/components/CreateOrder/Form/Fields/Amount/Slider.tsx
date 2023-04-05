@@ -24,7 +24,7 @@ const AmountSlider: React.FC<Props> = ({ setValue, control }) => {
   return (
     <div style={{ padding: "0px 10px" }}>
       <Slider
-        disabled={price == "" || price == 0}
+        disabled={price == "" || price == 0 || price == undefined}
         min={0}
         max={100}
         valueLabelFormat={(value) => (
