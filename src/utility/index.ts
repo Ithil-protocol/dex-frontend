@@ -47,6 +47,14 @@ export const formatBigNumber = (value: number) => {
   }).format(value);
 };
 
+export function truncateString(str: string, num: number) {
+  if (str.length > num) {
+    return str.slice(0, num) + "...";
+  } else {
+    return str;
+  }
+}
+
 export const formatDate = (date: number) => {
   // const isoDate = new Date(date).toISOString();
   return format(new Date(date), "KK:mm:ss");
