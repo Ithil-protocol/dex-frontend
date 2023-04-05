@@ -9,7 +9,12 @@ import {
 } from "wagmi";
 import { usePoolCreateOrder } from "./contracts/pool";
 
-export const useCreateOrder = () => {
+interface CreateOrderProps {
+  amount: number | string;
+  price: number | string;
+}
+
+export const useCreateOrder = ({ amount, price }: CreateOrderProps) => {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
@@ -28,8 +33,8 @@ export const useCreateOrder = () => {
     abi: contractABI,
     functionName: "createOrder",
     args: [
-      ethers.utils.parseUnits("0.01", 18),
-      ethers.utils.parseUnits("0.1", 6),
+      ethers.utils.parseUnits(amount.toString(), 18),
+      ethers.utils.parseUnits(price.toString(), 6),
       address as `0x${string}`,
       ethers.utils.parseUnits(time.toString(), 0),
     ],
