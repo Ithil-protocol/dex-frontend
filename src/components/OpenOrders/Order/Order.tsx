@@ -18,7 +18,7 @@ const Order = ({ data, hasCancel }: Props) => {
     >
       <TableCell
         sx={(_theme) => ({
-          fontWeight: 900,
+          fontWeight: 400,
           padding: "10px",
         })}
         component="th"
@@ -30,7 +30,7 @@ const Order = ({ data, hasCancel }: Props) => {
       <TableCell
         sx={(theme) => ({
           color: theme.palette.text.primary,
-          fontWeight: 900,
+          fontWeight: 600,
         })}
         align="left"
       >
@@ -41,7 +41,7 @@ const Order = ({ data, hasCancel }: Props) => {
 
       <TableCell
         sx={(theme) => ({
-          fontWeight: 900,
+          fontWeight: 400,
           color:
             data.side === "buy"
               ? theme.palette.secondary.main
@@ -55,7 +55,7 @@ const Order = ({ data, hasCancel }: Props) => {
       <TableCell
         sx={(theme) => ({
           color: theme.palette.text.primary,
-          fontWeight: 900,
+          fontWeight: 400,
         })}
         align="left"
       >
@@ -65,7 +65,7 @@ const Order = ({ data, hasCancel }: Props) => {
       <TableCell
         sx={(theme) => ({
           color: theme.palette.text.primary,
-          fontWeight: 900,
+          fontWeight: 400,
         })}
         align="left"
       >
@@ -75,7 +75,7 @@ const Order = ({ data, hasCancel }: Props) => {
       <TableCell
         sx={(theme) => ({
           color: theme.palette.text.primary,
-          fontWeight: 900,
+          fontWeight: 400,
         })}
         align="left"
       >
@@ -85,7 +85,7 @@ const Order = ({ data, hasCancel }: Props) => {
       <TableCell
         sx={(theme) => ({
           color: theme.palette.text.primary,
-          fontWeight: 900,
+          fontWeight: 400,
         })}
         align="left"
       >
@@ -96,7 +96,7 @@ const Order = ({ data, hasCancel }: Props) => {
         <TableCell
           sx={(theme) => ({
             color: theme.palette.text.primary,
-            fontWeight: 900,
+            fontWeight: 400,
           })}
           align="left"
         >
