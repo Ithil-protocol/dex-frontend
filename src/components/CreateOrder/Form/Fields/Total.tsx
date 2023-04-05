@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import { Control, useWatch } from "react-hook-form";
+import theme from "styles/theme";
 
 interface Props {
   label: string;
@@ -22,7 +23,7 @@ const Total: React.FC<Props> = ({ label, control }) => {
         padding: "15px",
       })}
     >
-      <span style={{ color: "#e3e3e378 " }}>Total</span>
+      <span style={{ color: theme.palette.text.primary }}>Total</span>
       <span style={{ display: "flex", width: "100%" }}>{total}</span>
       <span>{label}</span>
     </Box>

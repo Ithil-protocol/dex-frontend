@@ -1,9 +1,7 @@
-import { pools } from "data/pools";
-import { decimalRegex } from "data/regex";
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { usePoolStore } from "store";
-import { CustomInputEvent, StringMap } from "types";
+import { StringMap } from "types";
 import { formatBigNumber } from "utility";
 import AmountSlider from "./Fields/Amount/Slider";
 import AmountTextField from "./Fields/Amount/TextField";
@@ -13,6 +11,7 @@ import Price from "./Fields/Price";
 import Submit from "./Fields/Submit";
 import Total from "./Fields/Total";
 import { useAccount, useBalance } from "wagmi";
+import { Box } from "@mui/material";
 
 const Form = () => {
   const { control, handleSubmit, setValue } = useForm();
@@ -30,17 +29,15 @@ const Form = () => {
   const handleFormSubmit = (data: StringMap) => console.log(data);
 
   return (
-    <div>
-      <form
-        style={{
-          backgroundColor: "#284f5b",
-          display: "flex",
-          flexDirection: "column",
-          gap: 5,
-          padding: 10,
-        }}
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
+    <Box
+      sx={(_theme) => ({
+        display: "flex",
+        flexDirection: "column",
+        gap: 5,
+        padding: "10px",
+      })}
+    >
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Price control={control} endLabel={pool?.accountingLabel || ""} />
 
         <AmountTextField
@@ -63,7 +60,7 @@ const Form = () => {
 
         <Submit control={control} label={pool?.underlyingLabel || ""} />
       </form>
-    </div>
+    </Box>
   );
 };
 

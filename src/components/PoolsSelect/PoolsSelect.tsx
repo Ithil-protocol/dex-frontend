@@ -5,6 +5,7 @@ import { usePoolStore } from "store";
 import { Pool } from "types/index";
 import RenderOption from "./RenderOption";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import theme from "styles/theme";
 
 function PoolsSelect() {
   const [poolValue, updatePool] = usePoolStore((state) => [
@@ -35,10 +36,10 @@ function PoolsSelect() {
           {...params}
           variant="standard"
           color="info"
-          InputLabelProps={{ style: { color: "white" } }}
+          InputLabelProps={{ style: { color: theme.palette.text.primary } }}
           inputProps={{
             ...params.inputProps,
-            style: { color: "white" },
+            style: { color: theme.palette.text.primary },
             autoComplete: "new-password", // disable autocomplete and autofill
           }}
         />

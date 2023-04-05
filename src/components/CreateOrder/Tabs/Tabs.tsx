@@ -17,9 +17,8 @@ const Tabs: React.FC<Props> = (props) => {
       }}
       sx={{
         "& .MuiTabs-indicator": {
-          backgroundColor: "transparent",
+          background: "unset",
         },
-        // "& .MuiTabs-indicatorSpan": {},
       }}
     />
   );

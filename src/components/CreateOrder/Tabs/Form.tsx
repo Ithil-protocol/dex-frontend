@@ -4,6 +4,7 @@ import Form from "../Form/Form";
 import TabPanel from "./Panel";
 import Tab from "./Tab";
 import Tabs from "./Tabs";
+import theme from "styles/theme";
 
 export default function FormTabs() {
   const [value, setValue] = React.useState(0);
@@ -16,8 +17,12 @@ export default function FormTabs() {
     <Box>
       <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
         <Tabs variant="fullWidth" value={value} onChange={handleChange}>
-          <Tab color="#e3e3e378" selectedColor="#e3e3e378" label="Buy" />
-          <Tab color="#986161" selectedColor="#986161" label="Sell" />
+          <Tab selectedColor={theme.palette.text.primary} label="Buy" />
+          <Tab
+            color={theme.palette.error.main}
+            selectedColor={theme.palette.error.main}
+            label="Sell"
+          />
         </Tabs>
       </Box>
 

@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Trade from "components/MarketTrades/Trade/Trade";
 import { buyOrders } from "store/web3Store";
+import theme from "styles/theme";
 
 export default function Trades() {
   return (
@@ -34,7 +35,7 @@ const TradeTableHead = () => {
           <TableCell
             key={i}
             style={{
-              color: "white",
+              color: theme.palette.text.primary,
             }}
             align="left"
           >

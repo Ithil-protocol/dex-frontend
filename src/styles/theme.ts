@@ -32,6 +32,7 @@ const theme = createTheme({
     text: {
       primary: "#fff",
       secondary: "gray",
+      disabled: "#e3e3e378",
     },
   },
   typography: { fontFamily: roboto.style.fontFamily },

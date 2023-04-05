@@ -15,15 +15,19 @@ const Submit: React.FC<Props> = ({ label, control }) => {
     <Button
       fullWidth
       disabled={!formValues.price || !formValues.amount}
-      sx={{
-        backgroundColor: "green",
-        color: "white",
+      sx={(theme) => ({
+        backgroundColor: theme.palette.secondary.main,
+        color: theme.palette.text.primary,
         textTransform: "none",
         ":disabled": {
-          color: "#ffffff7d",
-          backgroundColor: "#787878",
+          color: theme.palette.text.disabled,
+          backgroundColor: theme.palette.secondary.main,
         },
-      }}
+        ":hover": {
+          backgroundColor: theme.palette.secondary.main,
+          color: theme.palette.text.primary,
+        },
+      })}
       type="submit"
     >
       Buy {label}

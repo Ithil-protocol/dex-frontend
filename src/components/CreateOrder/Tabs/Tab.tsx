@@ -12,18 +12,18 @@ const Tab: React.FC<Props> = ({ selectedColor, color, ...rest }) => {
     <MuiTab
       disableRipple
       {...rest}
-      sx={{
+      sx={(theme) => ({
         fontWeight: "bold",
         textTransform: "none",
-        color: color || "#e3e3e378",
+        color: color || theme.palette.text.disabled,
         "&.Mui-selected": {
           color: selectedColor || "white",
-          backgroundColor: "#284F5B",
+          backgroundColor: theme.palette.secondary.main,
         },
         "&.Mui-focusVisible": {
-          backgroundColor: "rgba(100, 95, 228, 0.32)",
+          backgroundColor: theme.palette.primary.main,
         },
-      }}
+      })}
     />
   );
 };

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Slider from "../../../common/Slider";
-import { useController } from "react-hook-form";
+import { Control, useController } from "react-hook-form";
+import { FormLabel } from "@mui/material";
 
 interface Props {
-  control: any;
+  control: Control<any, any>;
 }
 
 const Boost: React.FC<Props> = ({ control }) => {
@@ -30,13 +31,9 @@ const Boost: React.FC<Props> = ({ control }) => {
           justifyContent: "space-between",
         }}
       >
-        <span
-          style={{
-            color: "#e3e3e378",
-          }}
-        >
+        <FormLabel sx={(theme) => ({ color: theme.palette.text.primary })}>
           Boost
-        </span>
+        </FormLabel>
         <span>{boost}</span>
       </div>
       <Slider

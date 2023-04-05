@@ -4,6 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { decimalRegex } from "data/regex";
 import React, { useState } from "react";
 import { Control, useController } from "react-hook-form";
+import theme from "styles/theme";
 
 interface Props {
   endLabel: string;
@@ -29,7 +30,13 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
 
   return (
     <FormGroup>
-      <InputLabel htmlFor="price"> Price</InputLabel>
+      <InputLabel
+        sx={(theme) => ({ color: theme.palette.text.primary })}
+        htmlFor="price"
+      >
+        {" "}
+        Price
+      </InputLabel>
       <TextField
         {...inputProps}
         onChange={(event) => {
@@ -53,7 +60,9 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
           }),
           endAdornment: (
             <InputAdornment position="end">
-              <span style={{ color: "white" }}>{props.endLabel}</span>
+              <span style={{ color: theme.palette.text.primary }}>
+                {props.endLabel}
+              </span>
             </InputAdornment>
           ),
         }}

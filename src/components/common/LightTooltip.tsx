@@ -6,8 +6,8 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: theme.palette.common.white,
-    color: "rgba(0, 0, 0, 0.87)",
     boxShadow: theme.shadows[1],
+    color: theme.palette.grey[800],
     fontSize: 14,
     padding: 5,
   },

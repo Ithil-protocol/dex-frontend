@@ -16,11 +16,14 @@ const Trade = ({ data }: Props) => {
       }}
     >
       <TableCell
-        style={{
-          color: data.type === "taker" ? "#306F76" : "#986161",
+        sx={(theme) => ({
+          color:
+            data.type === "taker"
+              ? theme.palette.secondary.main
+              : theme.palette.error.main,
           fontSize: 12,
           fontWeight: 900,
-        }}
+        })}
         component="th"
         scope="row"
       >
@@ -28,22 +31,22 @@ const Trade = ({ data }: Props) => {
       </TableCell>
 
       <TableCell
-        style={{
-          color: "#e3e3e378",
+        sx={(theme) => ({
+          color: theme.palette.text.secondary,
           fontSize: 12,
           fontWeight: 900,
-        }}
+        })}
         align="left"
       >
         {data.volume}
       </TableCell>
 
       <TableCell
-        style={{
-          color: "#306F76",
+        sx={(theme) => ({
+          color: theme.palette.text.secondary,
           fontSize: 11,
           fontWeight: 900,
-        }}
+        })}
         align="left"
       >
         {formatDate(data.time)}

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 
 interface Props {
@@ -7,18 +8,18 @@ interface Props {
 
 const Available: React.FC<Props> = (props) => {
   return (
-    <div
-      style={{
-        color: "#e3e3e378",
+    <Box
+      sx={(theme) => ({
+        color: theme.palette.text.primary,
         display: "flex",
         fontSize: 12,
         justifyContent: "space-between",
         padding: "0px 10px",
-      }}
+      })}
     >
       <span>Available {props.endLabel}</span>
       <span>{props.available}</span>
-    </div>
+    </Box>
   );
 };
 
