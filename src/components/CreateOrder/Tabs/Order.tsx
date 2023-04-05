@@ -14,14 +14,19 @@ const OrderTabs = () => {
 
   return (
     <Box>
-      <Box sx={{ bgcolor: "#233347" }}>
+      <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Limit" />
           <Tab label="Market" />
         </Tabs>
       </Box>
 
-      <Box sx={{ backgroundColor: "#233347", padding: "10px 5px 5px 5px" }}>
+      <Box
+        sx={(theme) => ({
+          bgcolor: theme.palette.background.paper,
+          padding: "10px 5px 5px 5px",
+        })}
+      >
         <TabPanel value={value} index={0}>
           <FormTabs />
         </TabPanel>

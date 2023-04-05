@@ -1,10 +1,11 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LightTooltip from "components/common/LightTooltip";
 import Trades from "./Trades";
+import { Box } from "@mui/material";
 
 const MarketTrades = () => {
   return (
-    <div style={{ backgroundColor: "#233347" }}>
+    <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
       <div
         style={{
           display: "flex",
@@ -20,7 +21,7 @@ const MarketTrades = () => {
       </div>
 
       <Trades />
-    </div>
+    </Box>
   );
 };
 

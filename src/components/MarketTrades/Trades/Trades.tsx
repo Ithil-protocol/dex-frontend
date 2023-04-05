@@ -12,7 +12,10 @@ export default function Trades() {
   return (
     <TableContainer
       component={(props) => (
-        <Paper {...props} style={{ backgroundColor: "#233347" }} />
+        <Paper
+          {...props}
+          sx={(theme) => ({ bgcolor: theme.palette.background.paper })}
+        />
       )}
     >
       <Table size="small" aria-label="a dense table">

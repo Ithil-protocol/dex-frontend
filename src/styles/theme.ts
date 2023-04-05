@@ -1,5 +1,4 @@
 // import { Roboto } from "next/font/google";
-import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
 
@@ -28,7 +27,7 @@ const theme = createTheme({
     },
     background: {
       default: "#2c374d",
-      paper: "#2c374d",
+      paper: "#18294b",
     },
     text: {
       primary: "#fff",

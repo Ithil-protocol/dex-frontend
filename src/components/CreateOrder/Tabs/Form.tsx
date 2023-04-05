@@ -14,7 +14,7 @@ export default function FormTabs() {
 
   return (
     <Box>
-      <Box sx={{ bgcolor: "#233347" }}>
+      <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
         <Tabs variant="fullWidth" value={value} onChange={handleChange}>
           <Tab color="#e3e3e378" selectedColor="#e3e3e378" label="Buy" />
           <Tab color="#986161" selectedColor="#986161" label="Sell" />

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 import { Control, useWatch } from "react-hook-form";
 
@@ -11,20 +12,20 @@ const Total: React.FC<Props> = ({ label, control }) => {
   const total = formValues.amount * formValues.price || 0;
 
   return (
-    <div
-      style={{
-        backgroundColor: "#264A56",
-        borderRadius: 5,
+    <Box
+      sx={(theme) => ({
+        backgroundColor: theme.palette.background.default,
+        borderRadius: "5px",
         display: "flex",
         gap: 5,
         justifyContent: "space-between",
-        padding: 15,
-      }}
+        padding: "15px",
+      })}
     >
       <span style={{ color: "#e3e3e378 " }}>Total</span>
       <span style={{ display: "flex", width: "100%" }}>{total}</span>
       <span>{label}</span>
-    </div>
+    </Box>
   );
 };
 
