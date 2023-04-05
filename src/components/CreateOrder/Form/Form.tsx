@@ -73,7 +73,7 @@ const Form = () => {
 
         <div style={{ marginTop: 5 }}></div>
 
-        <Boost />
+        <Boost control={control} />
 
         <Total control={control} label={selectedPool?.accountingLabel || ""} />
 

@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import Slider from "../../../common/Slider";
+import { useController } from "react-hook-form";
 
-const Boost = () => {
+interface Props {
+  control: any;
+}
+
+const Boost: React.FC<Props> = ({ control }) => {
   const [boost, setBoost] = useState(0);
 
-  const handleChangeBoost = (
-    _event: Event,
-    value: number | number[],
-    _activeThumb: number
-  ) => {
-    setBoost(value as number);
-  };
+  const {
+    field: { onChange, ...inputProps },
+    fieldState: { error },
+  } = useController({
+    name: "boost",
+    defaultValue: 0,
+    control,
+  });
 
   return (
     <div
@@ -34,12 +40,16 @@ const Boost = () => {
         <span>{boost}</span>
       </div>
       <Slider
+        {...inputProps}
+        onChange={(event: any) => {
+          onChange(Number(event.target.value));
+          setBoost(event.target.value);
+        }}
         valueLabelDisplay="auto"
         value={boost}
         step={0.01}
         min={0}
         max={0.1}
-        onChange={handleChangeBoost}
         valueLabelFormat={(value) => (
           <span>
             <span
