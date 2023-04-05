@@ -12,11 +12,20 @@ import Boost from "./Fields/Boost";
 import Price from "./Fields/Price";
 import Submit from "./Fields/Submit";
 import Total from "./Fields/Total";
+import { useAccount, useBalance } from "wagmi";
 
 const Form = () => {
   const { control, handleSubmit, setValue } = useForm();
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
   const available = useRef(1_000_000);
+
+  const { address } = useAccount();
+
+  const { data } = useBalance({
+    address,
+    token: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+  });
+  console.log(data);
 
   const handleFormSubmit = (data: StringMap) => console.log(data);
 
