@@ -61,7 +61,7 @@ const Boost: React.FC<Props> = ({ control }) => {
             </span>
             <span
               style={{
-                fontSize: 9,
+                fontSize: 12,
               }}
             >
               ETH
