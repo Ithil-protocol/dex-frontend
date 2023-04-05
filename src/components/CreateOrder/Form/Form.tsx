@@ -35,6 +35,7 @@ const Form = () => {
   const { waitedData, write } = useCreateOrder({
     amount: formValues["amount"],
     price: formValues["price"],
+    boost: formValues["boost"],
   });
 
   console.log("waiteeed", waitedData);

@@ -12,15 +12,20 @@ import { usePoolCreateOrder } from "./contracts/pool";
 interface CreateOrderProps {
   amount: number | string;
   price: number | string;
+  boost: number | string;
 }
 
-export const useCreateOrder = ({ amount = 0, price = 0 }: CreateOrderProps) => {
+export const useCreateOrder = ({
+  amount = 0,
+  price = 0,
+  boost = 0,
+}: CreateOrderProps) => {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime(Date.now() * 1000);
-    }, 5000);
+      setTime(Date.now() * 1000 + 120);
+    }, 10000);
 
     return () => {
       clearInterval(timer);
@@ -38,6 +43,9 @@ export const useCreateOrder = ({ amount = 0, price = 0 }: CreateOrderProps) => {
       address as `0x${string}`,
       ethers.utils.parseUnits(time.toString(), 0),
     ],
+    overrides: {
+      value: ethers.utils.parseUnits(Number(0.01).toString(), 18),
+    },
     enabled: Number(amount) > 0 && Number(price) > 0,
   });
 
