@@ -3,10 +3,9 @@ import { Slider as MuiSlider } from "@mui/material";
 import theme from "styles/theme";
 
 const CustomSlider = styled(MuiSlider)({
-  color: theme.palette.secondary.main,
   height: 5,
   "& .MuiSlider-track": {
-    border: "none",
+    display: "none",
   },
   "& .MuiSlider-thumb": {
     height: 16,

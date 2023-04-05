@@ -43,6 +43,7 @@ const Boost: React.FC<Props> = ({ control }) => {
             onChange(Number(event.target.value));
             setBoost(event.target.value);
           }}
+          color="secondary"
           valueLabelDisplay="auto"
           value={boost}
           step={0.01}
