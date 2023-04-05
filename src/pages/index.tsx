@@ -1,30 +1,22 @@
 import Head from "next/head";
 // import { Inter } from "next/font/google";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { BigNumber, BigNumberish, ethers } from "ethers";
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { contractABI } from "store/abi";
 import { formatDate } from "utility";
-import {
-  erc20ABI,
-  useAccount,
-  useContract,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  usePrepareContractWrite,
-  useSigner,
-  useWaitForTransaction,
-} from "wagmi";
-
-// const inter = Inter({ subsets: ["latin"] });
-import { readContract } from "@wagmi/core";
+import { erc20ABI, useAccount, useContract, useSigner } from "wagmi";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const [state, setState] = useState(0);
   const { data: signer } = useSigner();
-  const { address } = useAccount();
+  const router = useRouter();
+  const { address, isConnected } = useAccount();
+  useEffect(() => {
+    if (!isConnected) return;
+    router.push("/panel");
+  }, [isConnected]);
   const contract = useContract({
     address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     abi: erc20ABI,
@@ -48,55 +40,6 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const data = useContractEvent({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    eventName: "OrderCreated",
-    listener(node, label, owner) {
-      console.log("event", node, label, owner);
-    },
-  });
-
-  // const { config } = usePrepareContractWrite({
-  //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-  //   abi: contractABI,
-  //   functionName: "createOrder",
-  //   args: [
-  //     ethers.utils.parseUnits("0.01", 18),
-  //     ethers.utils.parseUnits("0.1", 6),
-  //     address,
-  //     1680018342 + 6220,
-  //   ],
-  // });
-
-  // const { data: writeData, write } = useContractWrite(config);
-
-  // const { data: waitedData } = useWaitForTransaction({
-  //   hash: writeData?.hash,
-  // });
-
-  const { data: priceLevel } = useContractRead({
-    abi: contractABI,
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    functionName: "priceLevels",
-    args: [ethers.utils.parseUnits("0", 0)],
-  });
-
-  const { data: idData } = useContractRead({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    functionName: "id",
-    args: [priceLevel as BigNumber],
-  });
-  const priceLevelValue =
-    priceLevel !== undefined ? priceLevel : ethers.utils.parseUnits("-1", 0);
-  const { data: readData } = useContractRead({
-    abi: contractABI,
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    functionName: "orders",
-    args: [priceLevelValue, ethers.utils.parseUnits("3", 0)],
-  });
-
   return (
     <>
       <Head>
@@ -105,14 +48,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Button variant="contained" onClick={() => setState(1)}>
+      {/* <Button variant="contained" onClick={() => setState(1)}>
         hello
-      </Button>
-      {/* <Button variant="contained" disabled={!write} onClick={() => write?.()}>
-        write...
       </Button> */}
-      <ConnectButton />
-      <h1>{formatDate(1679874841742)}</h1>
+      <Box
+        width={"100vw"}
+        height={"100vh"}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <ConnectButton />
+      </Box>
     </>
   );
 }
