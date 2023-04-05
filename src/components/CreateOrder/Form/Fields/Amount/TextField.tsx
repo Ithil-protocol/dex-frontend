@@ -14,6 +14,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
   props,
   ref
 ) {
+  const [once, setOnce] = useState(false);
   const numberValidation = (value: any) => {
     return decimalRegex.test(value);
   };
@@ -33,6 +34,10 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
   const { amount: amountValue } = useWatch({ control: props.control });
 
   useEffect(() => {
+    if (!once) {
+      setOnce(true);
+      return;
+    }
     setValue(amountValue);
   }, [amountValue, setValue]);
 
@@ -42,7 +47,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
         htmlFor="amount"
         sx={(theme) => ({ color: theme.palette.text.primary })}
       >
-        {" "}
         Amount
       </InputLabel>
       <TextField

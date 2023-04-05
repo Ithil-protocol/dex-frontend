@@ -9,9 +9,9 @@ interface Props {
 const AmountSlider: React.FC<Props> = ({ setValue }) => {
   const [amountPercent, setAmountPercent] = useState<undefined | number>();
 
-  useEffect(() => {
-    setValue("amount", amountPercent);
-  }, [amountPercent, setValue]);
+  // useEffect(() => {
+  //   setValue("amount", amountPercent);
+  // }, [amountPercent, setValue]);
 
   return (
     <div style={{ padding: "0px 10px" }}>
