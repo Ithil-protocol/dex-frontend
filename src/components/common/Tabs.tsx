@@ -8,7 +8,7 @@ interface Props {
   variant?: TabsTypeMap["props"]["variant"];
 }
 
-const Tabs: React.FC<Props> = (props) => {
+const CustomTabs: React.FC<Props> = (props) => {
   return (
     <MuiTabs
       {...props}
@@ -25,4 +25,4 @@ const Tabs: React.FC<Props> = (props) => {
   );
 };
 
-export default Tabs;
+export default CustomTabs;

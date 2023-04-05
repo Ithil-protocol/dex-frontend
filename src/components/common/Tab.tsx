@@ -3,11 +3,19 @@ import { Property } from "csstype";
 
 interface Props {
   label: string;
+  bgColor?: Property.Color;
   color?: Property.Color;
   selectedColor?: Property.Color;
+  selectedBgColor?: Property.Color;
 }
 
-const Tab: React.FC<Props> = ({ selectedColor, color, ...rest }) => {
+const CustomTab: React.FC<Props> = ({
+  selectedColor,
+  color,
+  bgColor,
+  selectedBgColor,
+  ...rest
+}) => {
   return (
     <MuiTab
       disableRipple
@@ -16,10 +24,11 @@ const Tab: React.FC<Props> = ({ selectedColor, color, ...rest }) => {
         fontWeight: "bold",
         textTransform: "none",
         color: color || theme.palette.text.disabled,
+        backgroundColor: bgColor || theme.palette.background.paper,
         borderRadius: "5px",
         "&.Mui-selected": {
-          color: selectedColor || "white",
-          backgroundColor: theme.palette.secondary.main,
+          color: selectedColor || theme.palette.text.primary,
+          backgroundColor: selectedBgColor || theme.palette.primary.main,
         },
         "&.Mui-focusVisible": {
           backgroundColor: theme.palette.primary.main,
@@ -29,4 +38,4 @@ const Tab: React.FC<Props> = ({ selectedColor, color, ...rest }) => {
   );
 };
 
-export default Tab;
+export default CustomTab;

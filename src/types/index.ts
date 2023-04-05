@@ -15,6 +15,17 @@ export interface StringMap {
   [prop: string]: any;
 }
 
+export interface OpenOrder {
+  time: string;
+  date: string;
+  market: string;
+  side: string;
+  type: string;
+  amount: string;
+  total: string;
+  unitPrice: string;
+}
+
 export interface Pool {
   underlyingLabel: string;
   underlyingIcon: JSX.Element;
