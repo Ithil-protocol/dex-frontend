@@ -7,6 +7,7 @@ import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import createEmotionCache from "styles/createEmotionCache";
 import "styles/global.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
