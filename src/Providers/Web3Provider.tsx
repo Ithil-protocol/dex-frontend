@@ -1,4 +1,8 @@
-import { RainbowKitProvider, getDefaultWallets } from "@rainbow-me/rainbowkit";
+import {
+  RainbowKitProvider,
+  getDefaultWallets,
+  midnightTheme,
+} from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { WagmiConfig, configureChains, createClient, goerli } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -33,7 +37,9 @@ const client = createClient({
 const Web3Provider: React.FC<Props> = ({ children }) => {
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+      <RainbowKitProvider chains={chains} theme={midnightTheme()}>
+        {children}
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 };
