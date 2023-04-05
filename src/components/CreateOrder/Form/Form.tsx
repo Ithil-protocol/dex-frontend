@@ -73,7 +73,11 @@ const Form = () => {
 
       <Total control={control} label={pool?.accountingLabel || ""} />
 
-      <Submit control={control} label={pool?.underlyingLabel || ""} />
+      <Submit
+        control={control}
+        label={pool?.underlyingLabel || ""}
+        write={write}
+      />
     </form>
   );
 };

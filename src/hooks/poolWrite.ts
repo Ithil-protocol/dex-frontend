@@ -44,7 +44,7 @@ export const useCreateOrder = ({
       ethers.utils.parseUnits(time.toString(), 0),
     ],
     overrides: {
-      value: ethers.utils.parseUnits(Number(0.01).toString(), 18),
+      value: ethers.utils.parseUnits(Number(boost).toString(), 18),
     },
     enabled: Number(amount) > 0 && Number(price) > 0,
   });
