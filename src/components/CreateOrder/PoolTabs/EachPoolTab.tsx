@@ -6,7 +6,7 @@ import Tab from "../../common/Tab";
 import Tabs from "../../common/Tabs";
 import theme from "styles/theme";
 
-export default function FormTabs() {
+export default function EachPoolTab() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {

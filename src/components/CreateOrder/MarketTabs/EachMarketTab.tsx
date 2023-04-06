@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import FormTabs from "./Form";
+import EachPoolTab from "../PoolTabs/EachPoolTab";
 import TabPanel from "../../common/Panel";
 import Tab from "../../common/Tab";
 import Tabs from "../../common/Tabs";
 
-const OrderTabs = () => {
+const EachMarketTab = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -32,14 +32,14 @@ const OrderTabs = () => {
         }}
       >
         <TabPanel value={value} index={0}>
-          <FormTabs />
+          <EachPoolTab />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <FormTabs />
+          <EachPoolTab />
         </TabPanel>
       </Box>
     </Box>
   );
 };
 
-export default OrderTabs;
+export default EachMarketTab;

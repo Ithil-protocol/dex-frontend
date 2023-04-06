@@ -2,7 +2,7 @@ import { InputAdornment, TextField } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import InputLabel from "@mui/material/InputLabel";
 import { decimalRegex } from "data/regex";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useController, useWatch } from "react-hook-form";
 import theme from "styles/theme";
 interface Props {

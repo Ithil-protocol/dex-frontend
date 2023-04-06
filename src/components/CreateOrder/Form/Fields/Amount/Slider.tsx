@@ -1,6 +1,6 @@
 import Slider from "components/common/Slider";
 import { useTokenBalance } from "hooks/account";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React from "react";
 import { useWatch } from "react-hook-form";
 
 interface Props {

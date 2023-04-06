@@ -1,7 +1,7 @@
-import OrderTabs from "./Tabs/Order";
+import EachMarketTab from "./MarketTabs/EachMarketTab";
 
 const CreateOrder = () => {
-  return <OrderTabs />;
+  return <EachMarketTab />;
 };
 
 export default CreateOrder;
