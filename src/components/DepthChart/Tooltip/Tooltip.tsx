@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import { pools } from "data/pools";
 import {
   NameType,
   ValueType,

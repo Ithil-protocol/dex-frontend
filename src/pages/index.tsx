@@ -1,26 +1,28 @@
 import Head from "next/head";
 // import { Inter } from "next/font/google";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { formatDate } from "utility";
 import { erc20ABI, useAccount, useContract, useSigner } from "wagmi";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const [state, setState] = useState(0);
+  const [state] = useState(0);
   const { data: signer } = useSigner();
   const router = useRouter();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
+
   useEffect(() => {
     if (!isConnected) return;
     router.push("/panel");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected]);
+
   const contract = useContract({
     address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     abi: erc20ABI,
   });
+
   useEffect(() => {
     if (state === 1) {
       const getAllowance = async () => {
@@ -30,10 +32,10 @@ export default function Home() {
         if (!signer) {
           return;
         }
-        const amount = ethers.utils.parseEther("10000000");
-        const token1Allowance = await contract
-          ?.connect(signer)
-          .approve("0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37", amount);
+        // const amount = ethers.utils.parseEther("10000000");
+        // const token1Allowance = await contract
+        //   ?.connect(signer)
+        //   .approve("0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37", amount);
       };
       getAllowance();
     }

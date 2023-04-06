@@ -1,7 +1,3 @@
-import { BigNumberish, ethers } from "ethers";
-import { useState } from "react";
-import { contractABI } from "store/abi";
-import { useContractRead, useContractReads } from "wagmi";
 import styles from "./Order.module.scss";
 import { Order as OrderType } from "types";
 

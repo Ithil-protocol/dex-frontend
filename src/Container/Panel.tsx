@@ -10,6 +10,7 @@ import styles from "styles/panel.module.scss";
 
 const Panel = () => {
   const { data } = useOrderReads();
+  console.log(data);
 
   return (
     <div className={styles.layout}>

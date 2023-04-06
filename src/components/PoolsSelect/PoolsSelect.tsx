@@ -4,7 +4,6 @@ import React from "react";
 import { usePoolStore } from "store";
 import { Pool } from "types/index";
 import RenderOption from "./RenderOption";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import theme from "styles/theme";
 
 function PoolsSelect() {

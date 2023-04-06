@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers } from "ethers";
 import { contractABI } from "store/abi";
-import { ContractInputs, CustomContractConfig } from "types";
+import { CustomContractConfig } from "types";
 import { readContracts } from "wagmi";
 
 const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";

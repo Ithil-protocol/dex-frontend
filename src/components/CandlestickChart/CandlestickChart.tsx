@@ -1,5 +1,4 @@
 import { Box, Link, Typography } from "@mui/material";
-import { pools } from "data/pools";
 import dynamic from "next/dynamic";
 import { usePoolStore } from "store";
 import styles from "./CandlestickChart.module.scss";

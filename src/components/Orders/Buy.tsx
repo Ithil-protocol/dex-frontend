@@ -1,7 +1,3 @@
-import type { BigNumberish } from "ethers";
-import { contractABI } from "store/abi";
-import { ContractInputs } from "types";
-import { useContractReads } from "wagmi";
 import Order from "./Order";
 import { computedOrders } from "store/web3Store";
 

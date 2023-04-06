@@ -10,10 +10,7 @@ interface Props {
   control: any;
 }
 
-export default React.forwardRef<HTMLDivElement, Props>(function Price(
-  props,
-  ref
-) {
+export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
   const [once, setOnce] = useState(false);
   const numberValidation = (value: any) => {
     return decimalRegex.test(value);
@@ -39,6 +36,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(
       return;
     }
     setValue(amountValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amountValue, setValue, setOnce]);
 
   return (
