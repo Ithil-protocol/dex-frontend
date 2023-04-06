@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Slider from "../../../common/Slider";
+import WrapperSlider from "../../../common/Slider";
 import { Control, useController } from "react-hook-form";
 import { FormLabel } from "@mui/material";
 
@@ -37,7 +37,7 @@ const Boost: React.FC<Props> = ({ control }) => {
           padding: "0px 10px",
         }}
       >
-        <Slider
+        <WrapperSlider
           {...inputProps}
           onChange={(event: any) => {
             onChange(Number(event.target.value));

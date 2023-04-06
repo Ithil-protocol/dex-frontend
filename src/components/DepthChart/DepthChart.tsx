@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { buyOrders } from "store/web3Store";
-import CustomTooltip from "./Tooltip";
+import WrapperTooltip from "./Tooltip";
 import { briefing, computeOrders } from "utility";
 
 const computedOrders = computeOrders(buyOrders);
@@ -85,7 +85,7 @@ const DepthChart = () => {
         />
 
         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
-        <Tooltip content={CustomTooltip} />
+        <Tooltip content={WrapperTooltip} />
       </AreaChart>
     </ResponsiveContainer>
   );

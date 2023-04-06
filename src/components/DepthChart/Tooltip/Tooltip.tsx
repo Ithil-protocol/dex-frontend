@@ -8,7 +8,10 @@ import { TooltipProps } from "recharts/types/component/Tooltip";
 import { usePoolStore } from "store";
 import styles from "./Tooltip.module.scss";
 
-const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
+const WrapperTooltip = ({
+  active,
+  payload,
+}: TooltipProps<ValueType, NameType>) => {
   const pool = usePoolStore((store) => store.pool);
   if (!pool) return null;
 
@@ -44,4 +47,4 @@ const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
   );
 };
 
-export default Tooltip;
+export default WrapperTooltip;

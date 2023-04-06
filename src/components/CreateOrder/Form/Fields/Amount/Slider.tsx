@@ -1,4 +1,4 @@
-import Slider from "components/common/Slider";
+import WrapperSlider from "components/common/Slider";
 import { useTokenBalance } from "hooks/account";
 import React from "react";
 import { useWatch } from "react-hook-form";
@@ -24,7 +24,7 @@ const AmountSlider: React.FC<Props> = ({ setValue, control }) => {
 
   return (
     <div style={{ padding: "0px 6px" }}>
-      <Slider
+      <WrapperSlider
         marks={[
           { value: 0 },
           { value: 25 },

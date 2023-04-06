@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Orders from "./Orders/Orders";
 import WrapperTabs from "components/common/Tabs";
-import TabPanel from "components/common/Panel";
+import TabPanel from "components/common/TabPanel";
 import WrapperTab from "components/common/Tab";
 import React from "react";
 import { openOrdersData } from "data/openOrders";

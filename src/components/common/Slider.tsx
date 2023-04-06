@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Slider as MuiSlider } from "@mui/material";
 import theme from "styles/theme";
 
-const CustomSlider = styled(MuiSlider)({
+const WrapperSlider = styled(MuiSlider)({
   height: 5,
   "& .MuiSlider-track": {
     display: "none",
@@ -37,4 +37,4 @@ const CustomSlider = styled(MuiSlider)({
   },
 });
 
-export default CustomSlider;
+export default WrapperSlider;

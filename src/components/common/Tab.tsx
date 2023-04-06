@@ -9,7 +9,7 @@ interface Props {
   selectedBgColor?: Property.Color;
 }
 
-const CustomTab: React.FC<Props> = ({
+const WrapperTab: React.FC<Props> = ({
   selectedColor,
   color,
   bgColor,
@@ -38,4 +38,4 @@ const CustomTab: React.FC<Props> = ({
   );
 };
 
-export default CustomTab;
+export default WrapperTab;

@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import Form from "../Form/Form";
-import TabPanel from "../../common/Panel";
-import Tab from "../../common/Tab";
-import Tabs from "../../common/Tabs";
+import TabPanel from "../../common/TabPanel";
+import WrapperTab from "../../common/Tab";
+import WrapperTabs from "../../common/Tabs";
 import theme from "styles/theme";
 
 export default function EachPoolTab() {
@@ -16,19 +16,19 @@ export default function EachPoolTab() {
   return (
     <Box>
       <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
-        <Tabs variant="fullWidth" value={value} onChange={handleChange}>
-          <Tab
+        <WrapperTabs variant="fullWidth" value={value} onChange={handleChange}>
+          <WrapperTab
             selectedColor={theme.palette.text.primary}
             label="Buy"
             selectedBgColor={theme.palette.secondary.main}
           />
-          <Tab
+          <WrapperTab
             color={theme.palette.error.main}
             selectedColor={theme.palette.text.primary}
             selectedBgColor={theme.palette.error.main}
             label="Sell"
           />
-        </Tabs>
+        </WrapperTabs>
       </Box>
 
       <TabPanel value={value} index={0}>
