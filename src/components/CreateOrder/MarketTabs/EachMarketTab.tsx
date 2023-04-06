@@ -17,6 +17,7 @@ const EachMarketTab = () => {
       sx={(theme) => ({
         bgcolor: theme.palette.background.paper,
         borderRadius: "5px",
+        padding: "10px 5px 5px 5px",
       })}
     >
       <Box>
@@ -26,18 +27,12 @@ const EachMarketTab = () => {
         </Tabs>
       </Box>
 
-      <Box
-        sx={{
-          padding: "10px 5px 5px 5px",
-        }}
-      >
-        <TabPanel value={value} index={0}>
-          <EachPoolTab />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <EachPoolTab />
-        </TabPanel>
-      </Box>
+      <TabPanel value={value} index={0}>
+        <EachPoolTab />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <EachPoolTab />
+      </TabPanel>
     </Box>
   );
 };

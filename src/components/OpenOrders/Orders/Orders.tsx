@@ -1,16 +1,7 @@
-import Order from "../Order/Order";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import theme from "styles/theme";
-import { shuffleArray } from "utility";
+import { Paper, Table, TableContainer } from "@mui/material";
 import { OpenOrder } from "types";
+import OrdersTableHead from "./TableHead";
+import OrdersTableBody from "./TableBody";
 
 interface Props {
   openOrdersData: OpenOrder[];
@@ -35,38 +26,6 @@ const Orders: React.FC<Props> = ({ openOrdersData, hasCancel }) => {
         />
       </Table>
     </TableContainer>
-  );
-};
-
-const OrdersTableHead = () => {
-  return (
-    <TableHead style={{ borderBottom: "2px solid transparent" }}>
-      <TableRow>
-        {["time", "market", "side", "type", "amount", "unitPrice", "total"].map(
-          (item, i) => (
-            <TableCell
-              key={i}
-              style={{
-                color: theme.palette.text.secondary,
-              }}
-              align="left"
-            >
-              {item}
-            </TableCell>
-          )
-        )}
-      </TableRow>
-    </TableHead>
-  );
-};
-
-const OrdersTableBody: React.FC<Props> = ({ openOrdersData, hasCancel }) => {
-  return (
-    <TableBody>
-      {shuffleArray(openOrdersData).map((item, i) => (
-        <Order data={item} key={i} hasCancel={hasCancel} />
-      ))}
-    </TableBody>
   );
 };
 
