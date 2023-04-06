@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
 import {
   useAccount,
-  useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";

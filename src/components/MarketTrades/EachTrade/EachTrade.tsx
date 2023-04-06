@@ -6,7 +6,7 @@ interface Props {
   data: Order;
 }
 
-const Trade = ({ data }: Props) => {
+const EachTrade = ({ data }: Props) => {
   return (
     <TableRow
       key={data.id}
@@ -57,4 +57,4 @@ const Trade = ({ data }: Props) => {
   );
 };
 
-export default Trade;
+export default EachTrade;
