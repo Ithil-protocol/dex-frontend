@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { buyOrders } from "store/web3Store";
-import CustomTooltip from "./Tooltip";
+import WrapperTooltip from "./Tooltip";
 import { briefing, computeOrders } from "utility";
 
 const computedOrders = computeOrders(buyOrders);
@@ -61,9 +61,13 @@ const DepthChart = () => {
         />
         <XAxis
           dataKey="x"
-          tickFormatter={(value) => briefing(value)}
+          tickFormatter={(value, index) =>
+            index % 2 === 0 ? "" : briefing(value)
+          }
           allowDecimals={false}
           tick={{ fill: "white" }}
+          fontSize={12}
+          fontWeight={300}
           // tickCount={10}
         />
         <YAxis
@@ -72,13 +76,16 @@ const DepthChart = () => {
           tickLine={false}
           orientation="right"
           type="number"
-          tickFormatter={(value) => briefing(value)}
+          tickFormatter={(value) => (value === 0 ? "" : briefing(value))}
+          // tickMargin={-10}
+          fontSize={12}
+          fontWeight={300}
           tick={{ fill: "white" }}
           allowDecimals={false}
         />
 
         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
-        <Tooltip content={CustomTooltip} />
+        <Tooltip content={WrapperTooltip} />
       </AreaChart>
     </ResponsiveContainer>
   );

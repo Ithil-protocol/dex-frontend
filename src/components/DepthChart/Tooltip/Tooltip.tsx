@@ -1,4 +1,4 @@
-import { pools } from "data/pools";
+import { Box } from "@mui/material";
 import {
   NameType,
   ValueType,
@@ -7,20 +7,32 @@ import { TooltipProps } from "recharts/types/component/Tooltip";
 import { usePoolStore } from "store";
 import styles from "./Tooltip.module.scss";
 
-const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
-  const poolValue = usePoolStore((store) => store.pool);
-  const pool = pools.find((pool) => pool.value === poolValue);
+const WrapperTooltip = ({
+  active,
+  payload,
+}: TooltipProps<ValueType, NameType>) => {
+  const pool = usePoolStore((store) => store.pool);
   if (!pool) return null;
 
   const { accountingLabel } = pool;
 
   if (!active || !payload) return null;
-  console.log("payload", payload[0]);
 
   const mode = payload[0].name === "yBuy" ? "buy" : "sell";
 
   return (
-    <div className={styles.tooltip} data-mode={mode}>
+    <Box
+      className={styles.tooltip}
+      sx={(theme) => ({
+        border: "2px solid transparent",
+        borderColor:
+          mode === "buy"
+            ? theme.palette.success.main
+            : theme.palette.error.main,
+        background: theme.palette.background.paper,
+        outline: "none",
+      })}
+    >
       <p>
         value :{" "}
         <b>
@@ -30,8 +42,8 @@ const Tooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
       <p>
         volume :<b>{payload[0].payload.y}</b>
       </p>
-    </div>
+    </Box>
   );
 };
 
-export default Tooltip;
+export default WrapperTooltip;

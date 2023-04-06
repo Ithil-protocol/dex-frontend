@@ -40,6 +40,33 @@ export const briefing = (number: number) => {
   }
 };
 
+export const formatBigNumber = (value: number) => {
+  return Intl.NumberFormat("en-US", {
+    notation: "standard",
+    maximumFractionDigits: 3,
+  }).format(value);
+};
+
+export function truncateString(str: string, num: number) {
+  if (str.length > num) {
+    return str.slice(0, num) + "...";
+  } else {
+    return str;
+  }
+}
+
+export function shuffleArray<T>(array: T[]) {
+  const copyArray = [...array];
+
+  for (let i = copyArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = copyArray[i];
+    copyArray[i] = copyArray[j];
+    copyArray[j] = temp;
+  }
+  return copyArray;
+}
+
 export const formatDate = (date: number) => {
   // const isoDate = new Date(date).toISOString();
   return format(new Date(date), "KK:mm:ss");

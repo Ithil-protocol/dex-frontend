@@ -1,8 +1,4 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.sortImports": true
-  },
   "editor.tabSize": 2,
   "explorerExclude.backup": {
     "**/.git": true,

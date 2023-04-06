@@ -1,109 +1,47 @@
 import Head from "next/head";
 // import { Inter } from "next/font/google";
-import { Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { contractABI } from "store/abi";
-import { formatDate } from "utility";
-import {
-  erc20ABI,
-  useAccount,
-  useContract,
-  useContractEvent,
-  useContractWrite,
-  useSigner,
-  useWaitForTransaction,
-} from "wagmi";
-
-// const inter = Inter({ subsets: ["latin"] });
+import { erc20ABI, useAccount, useContract, useSigner } from "wagmi";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const [state, setState] = useState(0);
+  const [state] = useState(0);
   const { data: signer } = useSigner();
-  const { address } = useAccount();
+  const router = useRouter();
+  const { isConnected } = useAccount();
+
+  useEffect(() => {
+    if (!isConnected) return;
+    router.push("/panel");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
+
   const contract = useContract({
-    address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+    address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     abi: erc20ABI,
   });
+
   useEffect(() => {
     if (state === 1) {
       const getAllowance = async () => {
         if (!contract) {
-          console.log("fail1");
           return;
         }
         if (!signer) {
-          console.log("fail2");
           return;
         }
-        const amount = ethers.utils.parseEther("10000000");
-        const token1Allowance = await contract
-          ?.connect(signer)
-          .approve("0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37", amount);
-        console.log(token1Allowance);
+        // const amount = ethers.utils.parseEther("10000000");
+        // const token1Allowance = await contract
+        //   ?.connect(signer)
+        //   .approve("0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37", amount);
       };
       getAllowance();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const data = useContractEvent({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    eventName: "OrderCreated",
-    listener(node, label, owner) {
-      console.log("event", node, label, owner);
-    },
-  });
-  console.log(data);
-
-  // const { config } = usePrepareContractWrite({
-  //   address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-  //   abi: contractABI,
-  //   functionName: "createOrder",
-  //   args: [
-  //     ethers.utils.parseUnits("0.01", 18),
-  //     ethers.utils.parseUnits("0.1", 6),
-  //     address,
-  //     Date.now() * 1000 + 120,
-  //   ],
-  //   // stateMutability:""
-  // });
-
-  const { data: writeData, write } = useContractWrite({
-    abi: contractABI,
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    args: [
-      ethers.utils.parseUnits("0.01", 18),
-      ethers.utils.parseUnits("0.1", 6),
-      address,
-      Date.now() * 1000 + 120,
-    ],
-    // overrides: {
-    //   accessList,
-    //   ccipReadEnabled,
-    //   customData,
-    //   from,
-    //   gasLimit,
-    //   gasPrice,
-    //   maxFeePerGas,
-    //   maxPriorityFeePerGas,
-    //   nonce,
-    //   type,
-    //   value
-    // },
-    functionName: "createOrder",
-    mode: "recklesslyUnprepared",
-  });
-
-  console.log("writeData:::", writeData);
-
-  const { data: waitedData } = useWaitForTransaction({
-    hash: writeData?.hash,
-  });
-
-  console.log("__wait", waitedData);
   return (
     <>
       <Head>
@@ -112,14 +50,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Button variant="contained" onClick={() => setState(1)}>
+      {/* <Button variant="contained" onClick={() => setState(1)}>
         hello
-      </Button>
-      <Button variant="contained" disabled={!write} onClick={() => write?.()}>
-        write...
-      </Button>
-      <ConnectButton />
-      <h1>{formatDate(1679874841742)}</h1>
+      </Button> */}
+      <Box
+        width={"100vw"}
+        height={"100vh"}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <ConnectButton />
+      </Box>
     </>
   );
 }

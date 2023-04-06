@@ -6,42 +6,49 @@ interface Props {
   data: Order;
 }
 
-const Trade = ({ data }: Props) => {
+const EachTrade = ({ data }: Props) => {
   return (
     <TableRow
       key={data.id}
-      sx={{
-        "&:not(:last-child)": { borderBottom: "2px solid #485369" },
+      sx={(theme) => ({
+        "&:not(:last-child)": {
+          borderBottom: `2px solid ${theme.palette.background.default}`,
+        },
         "&:last-child td, &:last-child th": { border: 0 },
-      }}
+      })}
     >
       <TableCell
-        style={{
-          color: data.type === "taker" ? "#306F76" : "#986161",
+        sx={(theme) => ({
+          color:
+            data.type === "taker"
+              ? theme.palette.secondary.main
+              : theme.palette.error.main,
           fontSize: 12,
           fontWeight: 900,
-        }}
+        })}
         component="th"
         scope="row"
       >
         {data.value}
       </TableCell>
+
       <TableCell
-        style={{
-          color: "#969EB2",
+        sx={(theme) => ({
+          color: theme.palette.text.primary,
           fontSize: 12,
           fontWeight: 900,
-        }}
+        })}
         align="left"
       >
         {data.volume}
       </TableCell>
+
       <TableCell
-        style={{
-          color: "#596479",
+        sx={(theme) => ({
+          color: theme.palette.text.primary,
           fontSize: 11,
           fontWeight: 900,
-        }}
+        })}
         align="left"
       >
         {formatDate(data.time)}
@@ -50,4 +57,4 @@ const Trade = ({ data }: Props) => {
   );
 };
 
-export default Trade;
+export default EachTrade;

@@ -1,10 +1,18 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import LightTooltip from "components/Utility/LightTooltip";
+import LightTooltip from "components/common/LightTooltip";
 import Trades from "./Trades";
+import { Box } from "@mui/material";
+import theme from "styles/theme";
 
 const MarketTrades = () => {
   return (
-    <div style={{ backgroundColor: "#233347" }}>
+    <Box
+      sx={(theme) => ({
+        bgcolor: theme.palette.background.paper,
+        borderRadius: "5px",
+        height: "100%",
+      })}
+    >
       <div
         style={{
           display: "flex",
@@ -13,14 +21,17 @@ const MarketTrades = () => {
           alignItems: "center",
         }}
       >
-        <h4 style={{ color: "#DFE6EC" }}>Market Trades</h4>
+        <h4 style={{ color: theme.palette.text.primary }}>Market Trades</h4>
         <LightTooltip title="All the trades happening">
-          <InfoOutlinedIcon style={{ color: "white" }} fontSize="small" />
+          <InfoOutlinedIcon
+            style={{ color: theme.palette.text.primary }}
+            fontSize="small"
+          />
         </LightTooltip>
       </div>
 
       <Trades />
-    </div>
+    </Box>
   );
 };
 

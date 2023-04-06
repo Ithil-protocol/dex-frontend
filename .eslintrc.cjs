@@ -6,16 +6,17 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
-    "plugin:@cspell/recommended",
-    "plugin:sonarjs/recommended",
     "next/core-web-vitals",
-    "prettier",
+    "plugin:@cspell/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:sonarjs/recommended",
+    "prettier",
   ],
   globals: {
     JSX: true,
+    React: true,
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -24,6 +25,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "@cspell", "sonarjs"],
   rules: {
+    "@typescript-eslint/no-explicit-any": ["off"],
     "@cspell/spellchecker": [
       "warn",
       {

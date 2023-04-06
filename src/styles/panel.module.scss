@@ -3,7 +3,7 @@
   padding: 15px;
   gap: 15px;
   grid-template-columns: 300px 1fr 300px;
-  // grid-template-rows: 60px 270px max-content 200px; //for visualization only
+  grid-template-rows: 60px max-content 300px 200px; //for visualization only
   // grid-auto-rows: minmax(max-content, 300px);
   grid-template-areas:
     "navbar navbar navbar"
@@ -44,14 +44,12 @@
   }
 
   & > * {
-    // background-color: red;
     border-radius: 4px;
   }
 }
 
 .navbar {
   grid-area: navbar;
-  // background-color: #13e262;
 }
 
 .orders {
@@ -61,28 +59,26 @@
 
 .candlestick {
   grid-area: candlestick;
-  // background-color: #e213a4;
   width: 100%;
-  height: 430px;
 }
 
 .form {
   grid-area: form;
-  background-color: #e25f13;
 }
 
 .depth {
   grid-area: depth;
   background-color: $color-background-light;
-  padding: 20px 10px;
+  padding: {
+    top: 20px;
+    left: 20px;
+  }
 }
 
 .market {
   grid-area: market;
-  background-color: #3213e2;
 }
 
 .open {
   grid-area: open;
-  background-color: #cce269;
 }

@@ -1,4 +1,13 @@
 .navbar {
+  justify-content: space-between;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.latest {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -19,10 +28,14 @@
 }
 
 .item {
-  color: $color-gray;
+  // color: $color-gray;
+  color: rgb(190, 190, 190);
 }
 
 .value {
   margin-left: 8px;
   color: $color-white;
+}
+
+.connect_btn {
 }

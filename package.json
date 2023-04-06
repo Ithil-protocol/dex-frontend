@@ -4,16 +4,18 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "check:format": "prettier --write ./",
+    "check:format": "prettier --write --list-different ./",
     "check:lint": "eslint ./",
     "check:lint:default": "eslint 'src/**/*.{ts,tsx}'",
     "check:security": "snyk test & snyk code test",
     "check:style": "npm run check:format && npm run check:lint && npm run check:types",
     "check:types": "tsc --noEmit",
     "dev": "next dev",
-    "husky-install": "husky install",
+    "husky:install": "husky install",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "wagmi:init": "wagmi init",
+    "wagmi:generate": "wagmi generate"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
@@ -24,19 +26,25 @@
     "@mui/material": "^5.11.14",
     "@rainbow-me/rainbowkit": "^0.12.4",
     "@svgr/webpack": "^6.5.1",
+    "@tanstack/react-query": "^4.28.0",
+    "@tanstack/react-query-devtools": "^4.28.0",
     "@types/node": "18.15.5",
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
+    "@wagmi/core": "^0.10.8",
+    "abitype": "^0.7.1",
     "cryptocurrency-icons": "^0.18.1",
     "date-fns": "^2.29.3",
-    "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "ethers": "^5",
     "include-media": "^2.0.0",
+    "lodash": "^4.17.21",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-toastify": "^9.1.2",
     "react-ts-tradingview-widgets": "^1.0.14",
     "recharts": "^2.5.0",
     "sass": "^1.59.3",
@@ -54,6 +62,7 @@
     "@types/jest": "^29.5.0",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "@wagmi/cli": "^0.1.14",
     "confusing-browser-globals": "^1.0.11",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
@@ -70,9 +79,9 @@
     "tslib": "^2.5.0"
   },
   "lint-staged": {
-    "./src/*": [
-      "eslint",
-      "prettier --write"
+    "*.{ts,tsx}": [
+      "prettier --write --list-different",
+      "eslint --fix"
     ]
   }
 }

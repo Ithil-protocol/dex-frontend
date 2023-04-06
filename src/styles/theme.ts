@@ -1,5 +1,4 @@
 // import { Roboto } from "next/font/google";
-import { red } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
 
@@ -18,7 +17,22 @@ const theme = createTheme({
       main: "#19857b",
     },
     error: {
-      main: red.A400,
+      main: "#f34444",
+    },
+    success: {
+      main: "#30d46f",
+    },
+    info: {
+      main: "#ffffff",
+    },
+    background: {
+      default: "#2c374d",
+      paper: "#18294b",
+    },
+    text: {
+      primary: "#fff",
+      secondary: "gray",
+      disabled: "#e3e3e378",
     },
   },
   typography: { fontFamily: roboto.style.fontFamily },
