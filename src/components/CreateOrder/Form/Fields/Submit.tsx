@@ -10,7 +10,6 @@ interface Props {
 
 const Submit: React.FC<Props> = ({ label, control, write }) => {
   const formValues = useWatch({ control });
-  console.log(formValues);
 
   return (
     <Button
