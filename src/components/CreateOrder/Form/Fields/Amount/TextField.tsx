@@ -1,6 +1,4 @@
 import { InputAdornment, TextField } from "@mui/material";
-import FormGroup from "@mui/material/FormGroup/FormGroup";
-import InputLabel from "@mui/material/InputLabel";
 import { decimalRegex } from "data/regex";
 import React, { useEffect, useState } from "react";
 import { useController, useWatch } from "react-hook-form";
@@ -10,7 +8,9 @@ interface Props {
   control: any;
 }
 
-export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
+export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
+  props
+) {
   const [once, setOnce] = useState(false);
   const numberValidation = (value: any) => {
     return decimalRegex.test(value);
@@ -40,47 +40,40 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
   }, [amountValue, setValue, setOnce]);
 
   return (
-    <FormGroup>
-      <InputLabel
-        htmlFor="amount"
-        sx={(theme) => ({ color: theme.palette.text.primary })}
-      >
-        Amount
-      </InputLabel>
-      <TextField
-        {...inputProps}
-        onChange={(event) => {
-          if (decimalRegex.test(event.target.value)) {
-            onChange(Number(event.target.value));
-            setValue(event.target.value);
-          }
-        }}
-        placeholder="0"
-        id="amount"
-        value={value}
-        inputRef={ref1}
-        size="small"
-        variant="outlined"
-        autoComplete="off"
-        error={!!error}
-        helperText={error ? "Please enter a valid number" : ""}
-        InputProps={{
-          sx: (theme) => ({
-            backgroundColor: theme.palette.background.default,
-            padding: "5px 15px 5px 5px",
-            borderRadius: "5px",
-          }),
-          endAdornment: (
-            <InputAdornment position="end">
-              <span style={{ color: theme.palette.text.primary }}>
-                {props.endLabel}
-              </span>
-            </InputAdornment>
-          ),
-        }}
-        fullWidth
-        required
-      />
-    </FormGroup>
+    <TextField
+      {...inputProps}
+      onChange={(event) => {
+        if (decimalRegex.test(event.target.value)) {
+          onChange(Number(event.target.value));
+          setValue(event.target.value);
+        }
+      }}
+      sx={{ "& fieldset": { border: "none" } }}
+      placeholder="0"
+      id="amount"
+      value={value}
+      inputRef={ref1}
+      size="small"
+      variant="outlined"
+      autoComplete="off"
+      error={!!error}
+      helperText={error ? "Please enter a valid number" : ""}
+      InputProps={{
+        sx: (theme) => ({
+          backgroundColor: theme.palette.background.default,
+          padding: "5px 15px 5px 5px",
+          borderRadius: "5px 5px 0px 0px",
+        }),
+        endAdornment: (
+          <InputAdornment position="end">
+            <span style={{ color: theme.palette.text.primary }}>
+              {props.endLabel}
+            </span>
+          </InputAdornment>
+        ),
+      }}
+      fullWidth
+      required
+    />
   );
 });

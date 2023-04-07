@@ -31,11 +31,15 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
   return (
     <FormGroup>
       <InputLabel
-        sx={(theme) => ({ color: theme.palette.text.primary })}
+        sx={(theme) => ({
+          color: theme.palette.text.primary,
+          fontSize: 14,
+        })}
         htmlFor="price"
       >
         Price
       </InputLabel>
+
       <TextField
         {...inputProps}
         onChange={(event) => {
@@ -46,6 +50,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
         }}
         placeholder="0"
         value={value}
+        sx={{ "& fieldset": { border: "none" } }}
         inputRef={ref1}
         size="small"
         variant="outlined"
@@ -55,9 +60,13 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
         helperText={error ? "Please enter a valid number" : ""}
         InputProps={{
           sx: (theme) => ({
+            "&.Mui-focused": {
+              border: `2px solid ${theme.palette.secondary.main}`,
+            },
             backgroundColor: theme.palette.background.default,
-            padding: "5px 15px 5px 5px",
+            border: "2px solid transparent",
             borderRadius: "5px",
+            padding: "5px 15px 5px 5px",
           }),
           endAdornment: (
             <InputAdornment position="end">

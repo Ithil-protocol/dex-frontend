@@ -1,9 +1,6 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import AmountSlider from "./Fields/Amount/Slider";
-import AmountTextField from "./Fields/Amount/TextField";
-import Available from "./Fields/Available";
 import Boost from "./Fields/Boost";
 import Price from "./Fields/Price";
 import Submit from "./Fields/Submit";
@@ -11,9 +8,16 @@ import Total from "./Fields/Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useCreateOrder } from "hooks/poolWrite";
+import Amount from "./Fields/Amount";
+import MarginTop from "components/common/Margin";
 
 const Form = () => {
-  const { control, handleSubmit, setValue } = useForm();
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { isSubmitting },
+  } = useForm();
   const formValues = useWatch({ control });
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
 
@@ -36,32 +40,28 @@ const Form = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: 5,
+        gap: 8,
         padding: "10px",
       }}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       <Price control={control} endLabel={pool?.accountingLabel || ""} />
 
-      <AmountTextField
-        endLabel={pool?.underlyingLabel || ""}
+      <Amount
         control={control}
+        pool={pool}
+        setValue={setValue}
+        available={tokenBalance?.formatted || "0.00"}
       />
 
-      <AmountSlider control={control} setValue={setValue} />
-
-      <Available
-        endLabel={pool?.accountingLabel || ""}
-        available={tokenBalance?.formatted}
-      />
-
-      <div style={{ marginTop: 5 }}></div>
+      <MarginTop />
 
       <Boost control={control} />
 
       <Total control={control} label={pool?.accountingLabel || ""} />
 
       <Submit
+        isSubmitting={isSubmitting}
         control={control}
         label={pool?.underlyingLabel || ""}
         write={write}
