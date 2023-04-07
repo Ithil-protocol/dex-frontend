@@ -2,14 +2,14 @@
   display: grid;
   padding: 15px;
   gap: 15px;
+  // align-items: start;
   grid-template-columns: 300px 1fr 300px;
-  grid-template-rows: 60px max-content 300px 200px; //for visualization only
-  // grid-auto-rows: minmax(max-content, 300px);
+  grid-template-rows: auto auto 1fr;
   grid-template-areas:
     "navbar navbar navbar"
     "order candlestick form"
     "order depth market"
-    "open open market";
+    "open open open";
 
   @include media("<lg") {
     grid-template-columns: repeat(2, 1fr) 300px;
@@ -59,6 +59,7 @@
 
 .candlestick {
   grid-area: candlestick;
+  min-height: 400px;
   width: 100%;
 }
 
@@ -69,6 +70,7 @@
 .depth {
   grid-area: depth;
   background-color: $color-background-light;
+  min-height: 300px;
   padding: {
     top: 20px;
     left: 20px;
@@ -76,6 +78,7 @@
 }
 
 .market {
+  // align-self: start;
   grid-area: market;
 }
 

@@ -10,7 +10,9 @@ const MarketTrades = () => {
       sx={(theme) => ({
         bgcolor: theme.palette.background.paper,
         borderRadius: "5px",
-        height: "100%",
+        // height: "100%",
+        position: "sticky",
+        top: 15,
       })}
     >
       <div
