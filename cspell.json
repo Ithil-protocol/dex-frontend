@@ -2,7 +2,11 @@
   "dictionaries": [],
   "dictionaryDefinitions": [],
   "ignorePaths": [],
-  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
+  "ignoreRegExpList": [
+    "0x(.*)?",
+    "id:(.*)?",
+    "apiKey:(.*)?"
+  ],
   "ignoreWords": [
     "BigNumberish",
     "IERC",
@@ -34,5 +38,9 @@
   ],
   "import": [],
   "version": "0.2",
-  "words": ["BTCUSDT", "tradingview"]
+  "words": [
+    "BTCUSDT",
+    "raleway",
+    "tradingview"
+  ]
 }
