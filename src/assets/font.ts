@@ -1,10 +1,10 @@
-import { Outfit } from "next/font/google";
+import { Cormorant } from "next/font/google";
 
-export const outfit = Outfit({
+export const outfit = Cormorant({
   subsets: ["latin"],
-  // weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  // style: ["normal"],
-  // variable: "--font-outfit",
-  // preload: true,
-  // display: "block",
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  preload: true,
+  display: "block",
 });
