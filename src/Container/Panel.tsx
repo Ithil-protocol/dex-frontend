@@ -6,6 +6,7 @@ import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";
 import { useOrderReads } from "hooks/contract";
+import { toast } from "react-toastify";
 import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
 import { useContractEvent } from "wagmi";
@@ -19,6 +20,7 @@ const Panel = () => {
     eventName: "OrderCreated",
     listener(...rest) {
       console.log(...rest);
+      toast(rest[0]);
     },
   });
   console.log(eventData);
