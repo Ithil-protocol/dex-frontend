@@ -35,7 +35,9 @@ export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
       setOnce(true);
       return;
     }
-    setValue(amountValue);
+    if (amountValue !== 0) {
+      setValue(amountValue);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amountValue, setValue, setOnce]);
 
