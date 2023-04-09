@@ -70,7 +70,7 @@ export type ContractInputs =
 
 type FuncName = Extract<(typeof poolABI)[number], { type: "function" }>["name"];
 
-export type CustomContractConfig = readonly ({
+export type CustomContractConfig = ({
   abi: typeof poolABI;
   address: `0x${string}`;
   functionName: FuncName;
