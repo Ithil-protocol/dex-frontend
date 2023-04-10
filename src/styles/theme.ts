@@ -51,12 +51,12 @@ const theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: {
-          fontFamily: cormorant.style.fontFamily,
-          fontWeight: 700,
-          fontSize: 18,
+          fontWeight: 500,
+          fontSize: 16,
         },
       },
     },
+    MuiButton: { styleOverrides: { root: { fontWeight: 100 } } },
   },
 });
 
