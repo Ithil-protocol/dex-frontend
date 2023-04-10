@@ -25,10 +25,10 @@ const Submit: React.FC<Props> = ({ label, control, write, isSubmitting }) => {
           color: theme.palette.text.primary,
         },
         ":hover": {
-          backgroundColor: theme.palette.secondary.main,
+          backgroundColor: theme.palette.success.dark,
           color: theme.palette.text.primary,
         },
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.success.main,
         color: theme.palette.text.primary,
         padding: "10px",
         textTransform: "none",

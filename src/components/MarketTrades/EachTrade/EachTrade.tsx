@@ -21,7 +21,7 @@ const EachTrade = ({ data }: Props) => {
         sx={(theme) => ({
           color:
             data.type === "taker"
-              ? theme.palette.secondary.main
+              ? theme.palette.success.main
               : theme.palette.error.main,
           fontSize: 12,
           fontWeight: 900,

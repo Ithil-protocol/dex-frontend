@@ -20,7 +20,7 @@ export default function PoolTabs() {
           <WrapperTab
             selectedColor={theme.palette.text.primary}
             label="Buy"
-            selectedBgColor={theme.palette.secondary.main}
+            selectedBgColor={theme.palette.success.main}
           />
           <WrapperTab
             color={theme.palette.error.main}

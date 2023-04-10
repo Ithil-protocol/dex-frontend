@@ -5,17 +5,25 @@ import { cormorant, raleway } from "assets/font";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#0058A5",
+      light: "#077CE0",
     },
     secondary: {
-      main: "#19857b",
-      dark: "#177269",
+      main: "#E5EBED",
+      dark: "#4E5F71",
+      light: "#A4B1BE",
     },
     error: {
-      main: "#f34444",
+      main: "#EB0000",
+      dark: "#B11616",
     },
     success: {
-      main: "#30d46f",
+      main: "#15AC89",
+      dark: "#0C6450",
+    },
+    warning: {
+      main: "#F07000",
+      dark: "#B85600",
     },
     info: {
       main: "#ffffff",
@@ -25,8 +33,8 @@ const theme = createTheme({
       paper: "#18294b",
     },
     text: {
-      primary: "#fff",
-      secondary: "gray",
+      primary: "#ffffff",
+      secondary: "#4E5F71",
       disabled: "#e3e3e378",
     },
   },

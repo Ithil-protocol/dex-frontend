@@ -44,7 +44,7 @@ const Order = ({ data, hasCancel }: Props) => {
           fontWeight: 400,
           color:
             data.side === "buy"
-              ? theme.palette.secondary.main
+              ? theme.palette.success.main
               : theme.palette.error.main,
         })}
         align="left"
