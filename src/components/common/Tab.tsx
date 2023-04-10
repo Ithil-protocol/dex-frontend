@@ -21,7 +21,6 @@ const WrapperTab: React.FC<Props> = ({
       disableRipple
       {...rest}
       sx={(theme) => ({
-        fontWeight: "bold",
         textTransform: "none",
         color: color || theme.palette.text.disabled,
         backgroundColor: bgColor || theme.palette.background.paper,

@@ -47,6 +47,17 @@ const theme = createTheme({
     h5: { fontFamily: cormorant.style.fontFamily },
     h6: { fontFamily: cormorant.style.fontFamily },
   },
+  components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontFamily: cormorant.style.fontFamily,
+          fontWeight: 700,
+          fontSize: 18,
+        },
+      },
+    },
+  },
 });
 
 export default theme;
