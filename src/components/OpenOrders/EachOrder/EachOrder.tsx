@@ -79,7 +79,7 @@ const Order = ({ data, hasCancel }: Props) => {
         })}
         align="left"
       >
-        {data.unitPrice}
+        {data.price}
       </TableCell>
 
       <TableCell
@@ -92,15 +92,30 @@ const Order = ({ data, hasCancel }: Props) => {
         {data.total} {data.market.split("/")[0]}
       </TableCell>
 
+      <TableCell
+        sx={(theme) => ({
+          color: theme.palette.text.primary,
+          fontWeight: 400,
+        })}
+        align="left"
+      >
+        {data.staked} {data.market.split("/")[0]}
+      </TableCell>
+
       {hasCancel && (
         <TableCell
-          sx={(theme) => ({
-            color: theme.palette.text.primary,
+          sx={(_theme) => ({
             fontWeight: 400,
           })}
           align="left"
         >
-          <Button size="small" style={{ padding: "0px" }}>
+          <Button
+            size="small"
+            sx={(theme) => ({
+              padding: "0px",
+              color: theme.palette.text.primary,
+            })}
+          >
             cancel
           </Button>
         </TableCell>
