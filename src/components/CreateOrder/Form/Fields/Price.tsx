@@ -11,7 +11,7 @@ interface Props {
   control: Control<any, any>;
 }
 
-export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
+const PriceTextField: React.FC<Props> = (props) => {
   const numberValidation = (value: any) => {
     return decimalRegex.test(value);
   };
@@ -61,7 +61,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
         InputProps={{
           sx: (theme) => ({
             "&.Mui-focused": {
-              border: `2px solid ${theme.palette.secondary.main}`,
+              border: `2px solid ${theme.palette.success.main}`,
             },
             backgroundColor: theme.palette.background.default,
             border: "2px solid transparent",
@@ -81,4 +81,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
       />
     </FormGroup>
   );
-});
+};
+
+export default PriceTextField;
