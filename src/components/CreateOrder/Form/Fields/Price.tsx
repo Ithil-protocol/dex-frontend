@@ -1,6 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import InputLabel from "@mui/material/InputLabel";
+import InfoTooltip from "components/common/InfoTooltip";
 import { decimalRegex } from "data/regex";
 import React, { useState } from "react";
 import { Control, useController } from "react-hook-form";
@@ -34,10 +35,15 @@ const PriceTextField: React.FC<Props> = (props) => {
         sx={(theme) => ({
           color: theme.palette.text.primary,
           fontSize: 14,
+          display: "flex",
+          gap: "5px",
+          padding: "10px",
+          alignItems: "center",
         })}
         htmlFor="price"
       >
         Price
+        <InfoTooltip title="Price" />
       </InputLabel>
 
       <TextField
