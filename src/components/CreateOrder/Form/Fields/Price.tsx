@@ -36,8 +36,6 @@ const PriceTextField: React.FC<Props> = (props) => {
           color: theme.palette.text.primary,
           fontSize: 14,
           display: "flex",
-          gap: "5px",
-          padding: "10px",
           alignItems: "center",
         })}
         htmlFor="price"

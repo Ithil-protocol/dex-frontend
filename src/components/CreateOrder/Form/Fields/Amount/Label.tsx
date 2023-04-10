@@ -19,8 +19,6 @@ const AmountLabel: React.FC<Props> = (props) => {
       <span
         style={{
           display: "flex",
-          gap: "5px",
-          padding: "10px",
           alignItems: "center",
         }}
       >

@@ -17,13 +17,10 @@ const BoostLabel: React.FC<Props> = ({ boost }) => {
         sx={(theme) => ({
           color: theme.palette.text.primary,
           display: "flex",
-          gap: "5px",
-          padding: "10px",
           alignItems: "center",
         })}
       >
         <span>Boost</span>
-
         <InfoTooltip title="Boost" />
       </InputLabel>
       <span>
