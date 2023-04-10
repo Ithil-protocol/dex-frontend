@@ -54,15 +54,12 @@ export const useOrderReads = () => {
       const id = Number(ethers.utils.formatUnits(ids[i], 0));
 
       for (let j = 1; j <= id; j++) {
-        [
-          ...contracts,
-          {
-            abi: contractABI,
-            address,
-            functionName: "orders",
-            args: [priceLevels[i], j],
-          },
-        ];
+        contracts.push({
+          abi: contractABI,
+          address,
+          functionName: "orders",
+          args: [priceLevels[i], j],
+        });
       }
     }
 
