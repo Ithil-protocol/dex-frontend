@@ -41,3 +41,20 @@ export const useAllOrderCreatedEvents = () => {
     }
   });
 };
+
+export const useUserOrderCancelledEvents = () => {
+  const provider = useProvider();
+  const { address } = useAccount();
+  const contract = useContract({
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    abi: contractABI,
+    signerOrProvider: provider,
+  });
+
+  return useQuery(["UserOrderCancelledEvents"], () => {
+    if (contract && address) {
+      const filter = contract.filters.OrderCancelled(null, address, null, null);
+      return contract.queryFilter(filter);
+    }
+  });
+};
