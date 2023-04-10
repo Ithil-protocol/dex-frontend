@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import Form from "../Form/Form";
+import Form from "../Form";
 import TabPanel from "../../common/TabPanel";
 import WrapperTab from "../../common/Tab";
 import WrapperTabs from "../../common/Tabs";

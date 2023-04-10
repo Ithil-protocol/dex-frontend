@@ -1,14 +1,14 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Boost from "./Fields/Boost";
-import Price from "./Fields/Price";
-import Submit from "./Fields/Submit";
-import Total from "./Fields/Total";
+import Boost from "./Boost";
+import Price from "./Price";
+import Submit from "./Submit";
+import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useCreateOrder } from "hooks/poolWrite";
-import Amount from "./Fields/Amount";
+import Amount from "./Amount";
 import MarginTop from "components/common/Margin";
 
 const Form = () => {
