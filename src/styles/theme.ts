@@ -1,12 +1,6 @@
 // import { Roboto } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
-import { Roboto } from "next/font/google";
-
-export const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-  display: "block",
-});
+import { cormorant, raleway } from "assets/font";
 
 const theme = createTheme({
   palette: {
@@ -36,7 +30,15 @@ const theme = createTheme({
       disabled: "#e3e3e378",
     },
   },
-  typography: { fontFamily: roboto.style.fontFamily },
+  typography: {
+    fontFamily: raleway.style.fontFamily,
+    h1: { fontFamily: cormorant.style.fontFamily },
+    h2: { fontFamily: cormorant.style.fontFamily },
+    h3: { fontFamily: cormorant.style.fontFamily },
+    h4: { fontFamily: cormorant.style.fontFamily },
+    h5: { fontFamily: cormorant.style.fontFamily },
+    h6: { fontFamily: cormorant.style.fontFamily },
+  },
 });
 
 export default theme;
