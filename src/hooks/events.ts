@@ -26,3 +26,18 @@ export const useUserOrderCreatedEvents = () => {
     }
   });
 };
+
+export const useAllOrderCreatedEvents = () => {
+  const provider = useProvider();
+  const contract = useContract({
+    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
+    abi: contractABI,
+    signerOrProvider: provider,
+  });
+
+  return useQuery(["allOrderCreatedEvent"], () => {
+    if (contract) {
+      return contract.queryFilter("OrderCreated");
+    }
+  });
+};
