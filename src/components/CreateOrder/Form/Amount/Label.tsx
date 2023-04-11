@@ -1,5 +1,4 @@
-import { InputLabel } from "@mui/material";
-import InfoTooltip from "components/common/InfoTooltip";
+import WrapperInputLabel from "components/common/InputLabel";
 
 interface Props {
   available: string;
@@ -7,26 +6,12 @@ interface Props {
 
 const AmountLabel: React.FC<Props> = (props) => {
   return (
-    <InputLabel
+    <WrapperInputLabel
+      endLabel={`(${props.available})`}
+      label="Amount"
+      tooltip="Amount"
       htmlFor="amount"
-      sx={(theme) => ({
-        color: theme.palette.text.primary,
-        fontSize: 14,
-        display: "flex",
-        justifyContent: "space-between",
-      })}
-    >
-      <span
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <span>Amount</span>
-        <InfoTooltip title="Amount" />
-      </span>
-      <span>(${props.available})</span>
-    </InputLabel>
+    />
   );
 };
 

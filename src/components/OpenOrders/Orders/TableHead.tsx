@@ -2,7 +2,7 @@ import { TableCell, TableHead, TableRow } from "@mui/material";
 
 export default function OrdersTableHead() {
   return (
-    <TableHead style={{ borderBottom: "2px solid transparent" }}>
+    <TableHead>
       <TableRow>
         {[
           "time",
@@ -19,7 +19,6 @@ export default function OrdersTableHead() {
             sx={(theme) => ({
               color: theme.palette.text.secondary,
             })}
-            align="left"
           >
             {item}
           </TableCell>

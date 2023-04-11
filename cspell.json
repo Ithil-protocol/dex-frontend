@@ -2,12 +2,18 @@
   "dictionaries": [],
   "dictionaryDefinitions": [],
   "ignorePaths": [],
-  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
+  "ignoreRegExpList": [
+    "0x(.*)?",
+    "id:(.*)?",
+    "apiKey:(.*)?"
+  ],
   "ignoreWords": [
+    "BTCUSDT",
     "BigNumberish",
     "IERC",
     "Parens",
     "abitype",
+    "autosize",
     "ccip",
     "csstype",
     "flowtype",
@@ -21,6 +27,7 @@
     "pnpm",
     "popperjs",
     "rainbowkit",
+    "raleway",
     "roboto",
     "rushstack",
     "snyk",
@@ -28,13 +35,11 @@
     "svgr",
     "tanstack",
     "toastify",
+    "tradingview",
     "tsbuildinfo",
     "vercel",
     "wagmi",
-    "zustand",
-    "BTCUSDT",
-    "raleway",
-    "tradingview"
+    "zustand"
   ],
   "import": [],
   "version": "0.2",
