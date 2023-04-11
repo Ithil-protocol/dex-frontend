@@ -7,10 +7,14 @@ import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";
 import { useOrderReads } from "hooks/contract";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
-import { useContractEvent } from "wagmi";
+import { useContract, useContractEvent } from "wagmi";
+import { ethers } from "ethers";
+import { useQuery } from "@tanstack/react-query";
+import { useUserOrderCreatedEvents } from "hooks/events";
 
 const Panel = () => {
   const { data } = useOrderReads();
@@ -28,8 +32,10 @@ const Panel = () => {
       toast(rest[0]);
     },
   });
-  console.log(eventData);
+  // console.log(eventData);
 
+  const { data: xxx } = useUserOrderCreatedEvents();
+  console.log(xxx);
   return (
     <div className={styles.layout}>
       <div className={styles.navbar}>
