@@ -9,8 +9,11 @@ const MarketTrades = () => {
       sx={(theme) => ({
         bgcolor: theme.palette.background.paper,
         borderRadius: "5px",
-        position: "sticky",
-        top: 15,
+        // position: "sticky",
+        // top: 15,
+        // height: "80%",
+        maxHeight: 300,
+        overflow: "auto",
       })}
     >
       <div

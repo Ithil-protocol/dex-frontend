@@ -19,6 +19,6 @@
     "target": "es6",
     "noImplicitAny": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/scripts/pre-build.mjs"],
   "exclude": ["node_modules"]
 }
