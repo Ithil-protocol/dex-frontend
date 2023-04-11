@@ -1,10 +1,10 @@
-import { Box, FormGroup } from "@mui/material";
+import { FormGroup, useTheme } from "@mui/material";
 import { Control, FieldValues } from "react-hook-form";
-import theme from "styles/theme";
 import { Pool } from "types";
 import AmountGroupButton from "./GroupButton";
 import AmountLabel from "./Label";
 import AmountTextField from "./TextField";
+import WrapperBox from "components/common/Box";
 
 interface Props {
   available: string;
@@ -14,17 +14,18 @@ interface Props {
 }
 
 const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
+  const theme = useTheme();
+
   return (
     <FormGroup>
       <AmountLabel available={available} />
 
-      <Box
-        sx={{
+      <WrapperBox
+        overrideStyles={{
           border: "2px solid transparent",
           "&:focus-within": {
-            border: `2px solid ${theme.palette.success.main}`,
+            border: `2px solid ${theme.palette.primary.main}`,
           },
-          borderRadius: "5px",
         }}
       >
         <AmountTextField
@@ -33,7 +34,7 @@ const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
         />
 
         <AmountGroupButton control={control} setValue={setValue} />
-      </Box>
+      </WrapperBox>
     </FormGroup>
   );
 };

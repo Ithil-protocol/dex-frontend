@@ -1,62 +1,173 @@
-// import { Roboto } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
 import { cormorant, raleway } from "assets/font";
 
+const palette = {
+  background: {
+    default: "#2c374d",
+    paper: "#18294b",
+  },
+  error: {
+    dark: "#B11616",
+    main: "#EB0000",
+  },
+  info: {
+    main: "#ffffff",
+  },
+  primary: {
+    light: "#077CE0",
+    main: "#0058A5",
+  },
+  secondary: {
+    dark: "#4E5F71",
+    light: "#A4B1BE",
+    main: "#E5EBED",
+  },
+  success: {
+    dark: "#0C6450",
+    main: "#15AC89",
+  },
+  text: {
+    disabled: "#e3e3e378",
+    primary: "#ffffff",
+    secondary: "#4E5F71",
+  },
+  warning: {
+    dark: "#B85600",
+    main: "#F07000",
+  },
+};
+
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#0058A5",
-      light: "#077CE0",
-    },
-    secondary: {
-      main: "#E5EBED",
-      dark: "#4E5F71",
-      light: "#A4B1BE",
-    },
-    error: {
-      main: "#EB0000",
-      dark: "#B11616",
-    },
-    success: {
-      main: "#15AC89",
-      dark: "#0C6450",
-    },
-    warning: {
-      main: "#F07000",
-      dark: "#B85600",
-    },
-    info: {
-      main: "#ffffff",
-    },
-    background: {
-      default: "#2c374d",
-      paper: "#18294b",
-    },
-    text: {
-      primary: "#ffffff",
-      secondary: "#4E5F71",
-      disabled: "#e3e3e378",
-    },
-  },
-  typography: {
-    fontFamily: raleway.style.fontFamily,
-    h1: { fontFamily: cormorant.style.fontFamily },
-    h2: { fontFamily: cormorant.style.fontFamily },
-    h3: { fontFamily: cormorant.style.fontFamily },
-    h4: { fontFamily: cormorant.style.fontFamily },
-    h5: { fontFamily: cormorant.style.fontFamily },
-    h6: { fontFamily: cormorant.style.fontFamily },
-  },
+  palette,
+
   components: {
-    MuiTab: {
+    MuiInputAdornment: {
       styleOverrides: {
         root: {
-          fontWeight: 500,
-          fontSize: 16,
+          color: palette.text.primary,
         },
       },
     },
-    MuiButton: { styleOverrides: { root: { fontWeight: 100 } } },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          borderBottom: "2px solid transparent",
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: 14,
+          padding: "5px",
+          color: palette.text.primary,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontWeight: 500,
+          backgroundColor: palette.success.main,
+          color: palette.text.primary,
+          padding: "10px",
+          ":disabled": {
+            backgroundColor: palette.secondary.dark,
+            color: palette.text.disabled,
+          },
+          ":hover": {
+            backgroundColor: palette.success.main,
+            color: palette.text.primary,
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: palette.background.default,
+          padding: "5px 15px 5px 5px",
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: "5px",
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          borderRadius: "5px",
+          fontSize: 16,
+          fontWeight: 500,
+        },
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          "& .MuiTabs-indicator": {
+            background: "unset",
+          },
+          padding: "5px",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& input": {
+            "-moz-appearance": "textfield",
+          },
+          "& input::-webkit-inner-spin-button": {
+            "-webkit-appearance": "none",
+            margin: 0,
+          },
+          "& input::-webkit-outer-spin-button": {
+            "-webkit-appearance": "none",
+            margin: 0,
+          },
+          borderRadius: "15px",
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          "&:not(:last-child)": {
+            borderBottom: `2px solid ${palette.background.default}`,
+          },
+          "&:last-child td, &:last-child th": {
+            border: 0,
+          },
+        },
+      },
+    },
+  },
+
+  typography: {
+    fontFamily: raleway.style.fontFamily,
+    h1: {
+      fontFamily: cormorant.style.fontFamily,
+    },
+    h2: {
+      fontFamily: cormorant.style.fontFamily,
+    },
+    h3: {
+      fontFamily: cormorant.style.fontFamily,
+    },
+    h4: {
+      fontFamily: cormorant.style.fontFamily,
+    },
+    h5: {
+      fontFamily: cormorant.style.fontFamily,
+    },
+    h6: {
+      fontFamily: cormorant.style.fontFamily,
+    },
   },
 });
 

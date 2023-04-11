@@ -19,21 +19,10 @@ const Submit: React.FC<Props> = ({ label, control, write, isSubmitting }) => {
       loading={isSubmitting}
       fullWidth
       disabled={!formValues.price || !formValues.amount || !write}
-      sx={(theme) => ({
-        ":disabled": {
-          backgroundColor: theme.palette.secondary.dark,
-          color: theme.palette.text.primary,
-        },
-        ":hover": {
-          backgroundColor: theme.palette.success.dark,
-          color: theme.palette.text.primary,
-        },
-        backgroundColor: theme.palette.success.main,
-        color: theme.palette.text.primary,
-        padding: "10px",
+      sx={{
         textTransform: "none",
         width: "100%",
-      })}
+      }}
       type="submit"
     >
       Buy {label}

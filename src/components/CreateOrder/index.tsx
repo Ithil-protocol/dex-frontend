@@ -3,7 +3,8 @@ import WrapperTabs from "components/common/Tabs";
 import WrapperTab from "components/common/Tab";
 import { Box } from "@mui/material";
 import TabPanel from "components/common/TabPanel";
-import PoolTabs from "./PoolTabs/PoolTabs";
+import PoolTabs from "./PoolTabs";
+import WrapperBox from "components/common/Box";
 
 const CreateOrder = () => {
   const [value, setValue] = useState(0);
@@ -13,10 +14,9 @@ const CreateOrder = () => {
   };
 
   return (
-    <Box
-      sx={(theme) => ({
+    <WrapperBox
+      overrideStyles={(theme) => ({
         bgcolor: theme.palette.background.paper,
-        borderRadius: "5px",
         padding: "10px 5px 5px 5px",
         position: "sticky",
         top: 15,
@@ -34,7 +34,7 @@ const CreateOrder = () => {
       <TabPanel value={value} index={1}>
         <PoolTabs />
       </TabPanel>
-    </Box>
+    </WrapperBox>
   );
 };
 

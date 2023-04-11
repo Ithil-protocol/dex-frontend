@@ -36,14 +36,10 @@ const AmountGroupButton: React.FC<Props> = ({ control, setValue }) => {
             disabled={price == "" || price == 0 || price == undefined}
             key={i}
             sx={(theme) => ({
-              border: `1px solid ${theme.palette.background.default}`,
               borderRadius: 0,
-              color: theme.palette.text.primary,
+              borderRight: `1px solid ${theme.palette.background.default}`,
+              padding: "5px",
               width: "100%",
-              "&:disabled": {
-                color: theme.palette.text.disabled,
-                border: `1px solid ${theme.palette.background.default}`,
-              },
             })}
             size="small"
           >

@@ -36,36 +36,37 @@ const Form = () => {
   };
 
   return (
-    <form
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 8,
-        padding: "10px",
-      }}
-      onSubmit={handleSubmit(handleFormSubmit)}
-    >
-      <Price control={control} endLabel={pool?.accountingLabel || ""} />
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 5,
+          padding: "5px",
+        }}
+      >
+        <Price control={control} endLabel={pool?.accountingLabel || ""} />
 
-      <Amount
-        control={control}
-        pool={pool}
-        setValue={setValue}
-        available={tokenBalance?.formatted || "0.00"}
-      />
+        <Amount
+          control={control}
+          pool={pool}
+          setValue={setValue}
+          available={tokenBalance?.formatted || "0.00"}
+        />
 
-      <MarginTop />
+        <MarginTop />
 
-      <Boost control={control} />
+        <Boost control={control} />
 
-      <Total control={control} label={pool?.accountingLabel || ""} />
+        <Total control={control} label={pool?.accountingLabel || ""} />
 
-      <Submit
-        isSubmitting={isSubmitting}
-        control={control}
-        label={pool?.underlyingLabel || ""}
-        write={write}
-      />
+        <Submit
+          isSubmitting={isSubmitting}
+          control={control}
+          label={pool?.underlyingLabel || ""}
+          write={write}
+        />
+      </div>
     </form>
   );
 };

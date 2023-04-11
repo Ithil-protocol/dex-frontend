@@ -1,14 +1,12 @@
 import Trades from "./Trades";
-import { Box } from "@mui/material";
-import theme from "styles/theme";
 import InfoTooltip from "components/common/InfoTooltip";
+import WrapperBox from "components/common/Box";
 
 const MarketTrades = () => {
   return (
-    <Box
-      sx={(theme) => ({
+    <WrapperBox
+      overrideStyles={(theme) => ({
         bgcolor: theme.palette.background.paper,
-        borderRadius: "5px",
         position: "sticky",
         top: 15,
       })}
@@ -21,12 +19,12 @@ const MarketTrades = () => {
           alignItems: "center",
         }}
       >
-        <h4 style={{ color: theme.palette.text.primary }}>Market Trades</h4>
+        <h4>Market Trades</h4>
         <InfoTooltip title="All the trades happening" />
       </div>
 
       <Trades />
-    </Box>
+    </WrapperBox>
   );
 };
 
