@@ -2,11 +2,7 @@
   "dictionaries": [],
   "dictionaryDefinitions": [],
   "ignorePaths": [],
-  "ignoreRegExpList": [
-    "0x(.*)?",
-    "id:(.*)?",
-    "apiKey:(.*)?"
-  ],
+  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
   "ignoreWords": [
     "BigNumberish",
     "IERC",
@@ -35,13 +31,12 @@
     "tsbuildinfo",
     "vercel",
     "wagmi",
-    "zustand"
-  ],
-  "import": [],
-  "version": "0.2",
-  "words": [
+    "zustand",
     "BTCUSDT",
     "raleway",
     "tradingview"
-  ]
+  ],
+  "import": [],
+  "version": "0.2",
+  "words": []
 }
