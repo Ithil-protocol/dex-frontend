@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Control } from "react-hook-form";
 import BoostLabel from "./Label";
 import BoostTextField from "./TextField";
+import { FormGroup } from "@mui/material";
 
 interface Props {
   control: Control<any, any>;
@@ -11,7 +12,7 @@ const Boost: React.FC<Props> = ({ control }) => {
   const [boost, setBoost] = useState(0);
 
   return (
-    <div>
+    <FormGroup>
       <BoostLabel boost={boost} />
 
       <BoostTextField
@@ -23,7 +24,7 @@ const Boost: React.FC<Props> = ({ control }) => {
           setBoost(event.target.value);
         }}
       />
-    </div>
+    </FormGroup>
   );
 };
 

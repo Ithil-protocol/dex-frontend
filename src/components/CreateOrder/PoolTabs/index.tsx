@@ -4,9 +4,11 @@ import Form from "../Form";
 import TabPanel from "../../common/TabPanel";
 import WrapperTab from "../../common/Tab";
 import WrapperTabs from "../../common/Tabs";
-import theme from "styles/theme";
+import { useTheme } from "@mui/material";
 
 export default function PoolTabs() {
+  const theme = useTheme();
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -15,16 +17,14 @@ export default function PoolTabs() {
 
   return (
     <Box>
-      <Box sx={(theme) => ({ bgcolor: theme.palette.background.paper })}>
+      <Box>
         <WrapperTabs variant="fullWidth" value={value} onChange={handleChange}>
           <WrapperTab
-            selectedColor={theme.palette.text.primary}
             label="Buy"
             selectedBgColor={theme.palette.success.main}
           />
           <WrapperTab
             color={theme.palette.error.main}
-            selectedColor={theme.palette.text.primary}
             selectedBgColor={theme.palette.error.main}
             label="Sell"
           />

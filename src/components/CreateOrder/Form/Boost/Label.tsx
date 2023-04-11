@@ -1,5 +1,4 @@
-import { InputLabel } from "@mui/material";
-import InfoTooltip from "components/common/InfoTooltip";
+import WrapperInputLabel from "components/common/InputLabel";
 
 interface Props {
   boost: number;
@@ -7,26 +6,12 @@ interface Props {
 
 const BoostLabel: React.FC<Props> = ({ boost }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <InputLabel
-        sx={(theme) => ({
-          color: theme.palette.text.primary,
-          display: "flex",
-          alignItems: "center",
-        })}
-      >
-        <span>Boost</span>
-        <InfoTooltip title="Boost" />
-      </InputLabel>
-      <span>
-        <span>{boost}</span> <span style={{ fontSize: 12 }}>ETH</span>
-      </span>
-    </div>
+    <WrapperInputLabel
+      endLabel={`${boost} ETH`}
+      label="Boost"
+      tooltip="Boost"
+      htmlFor="boost"
+    />
   );
 };
 
