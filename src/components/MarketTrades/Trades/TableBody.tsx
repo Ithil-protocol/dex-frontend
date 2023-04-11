@@ -6,7 +6,7 @@ export default function TradesTableBody() {
   return (
     <TableBody>
       {buyOrders
-        .slice(-10)
+        .slice(-15)
         .reverse()
         .map((item, i) => (
           <EachTrade key={i} data={item} />

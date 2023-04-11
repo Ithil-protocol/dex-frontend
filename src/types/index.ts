@@ -23,7 +23,8 @@ export interface OpenOrder {
   type: string;
   amount: string;
   total: string;
-  unitPrice: string;
+  price: string;
+  staked: string;
 }
 
 export interface Pool {

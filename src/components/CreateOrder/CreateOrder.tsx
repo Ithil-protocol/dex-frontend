@@ -18,7 +18,6 @@ const CreateOrder = () => {
         bgcolor: theme.palette.background.paper,
         borderRadius: "5px",
         padding: "10px 5px 5px 5px",
-        // height: "100%",
         position: "sticky",
         top: 15,
       })}

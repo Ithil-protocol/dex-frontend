@@ -14,7 +14,9 @@ const EachTrade = ({ data }: Props) => {
         "&:not(:last-child)": {
           borderBottom: `2px solid ${theme.palette.background.default}`,
         },
-        "&:last-child td, &:last-child th": { border: 0 },
+        "&:last-child td, &:last-child th": {
+          border: 0,
+        },
       })}
     >
       <TableCell
@@ -23,7 +25,8 @@ const EachTrade = ({ data }: Props) => {
             data.type === "taker"
               ? theme.palette.success.main
               : theme.palette.error.main,
-          fontSize: 12,
+          padding: "10px",
+          fontSize: 14,
           fontWeight: 900,
         })}
         component="th"
@@ -35,7 +38,7 @@ const EachTrade = ({ data }: Props) => {
       <TableCell
         sx={(theme) => ({
           color: theme.palette.text.primary,
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: 900,
         })}
         align="left"
@@ -46,7 +49,7 @@ const EachTrade = ({ data }: Props) => {
       <TableCell
         sx={(theme) => ({
           color: theme.palette.text.primary,
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 900,
         })}
         align="left"

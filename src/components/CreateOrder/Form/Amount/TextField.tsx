@@ -8,9 +8,7 @@ interface Props {
   control: any;
 }
 
-export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
-  props
-) {
+const AmountTextField: React.FC<Props> = (props) => {
   const [once, setOnce] = useState(false);
   const numberValidation = (value: any) => {
     return decimalRegex.test(value);
@@ -78,4 +76,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function AmountTextField(
       required
     />
   );
-});
+};
+
+export default AmountTextField;

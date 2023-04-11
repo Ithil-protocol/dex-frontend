@@ -9,8 +9,9 @@ export const openOrdersData = [
     type: fixedPrice,
     amount: "35.12",
     stopAmount: "",
-    unitPrice: "247000",
+    price: "247000",
     total: "8840838",
+    staked: "1847",
   },
   {
     time: "17:30",
@@ -20,8 +21,9 @@ export const openOrdersData = [
     type: fixedPrice,
     amount: "147.42",
     stopAmount: "",
-    unitPrice: "49830",
+    price: "49830",
     total: "0.00",
+    staked: "2958.00",
   },
   {
     time: "17:30",
@@ -31,8 +33,9 @@ export const openOrdersData = [
     type: fixedPrice,
     amount: "31.96",
     stopAmount: "",
-    unitPrice: "5.55",
+    price: "5.55",
     total: "0.00",
+    staked: "31069.00",
   },
   {
     time: "17:30",
@@ -42,8 +45,9 @@ export const openOrdersData = [
     type: fixedPrice,
     amount: "32.02",
     stopAmount: "",
-    unitPrice: "5.54",
+    price: "5.54",
     total: "177.77",
+    staked: "411710.77",
   },
   {
     time: "17:30",
@@ -53,7 +57,8 @@ export const openOrdersData = [
     type: fixedPrice,
     amount: "32.05",
     stopAmount: "",
-    unitPrice: "5.47",
+    price: "5.47",
     total: "0.00",
+    staked: "512811.00",
   },
 ];

@@ -1,4 +1,5 @@
 import { InputLabel } from "@mui/material";
+import InfoTooltip from "components/common/InfoTooltip";
 
 interface Props {
   available: string;
@@ -15,7 +16,15 @@ const AmountLabel: React.FC<Props> = (props) => {
         justifyContent: "space-between",
       })}
     >
-      <span>Amount</span>
+      <span
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <span>Amount</span>
+        <InfoTooltip title="Amount" />
+      </span>
       <span>(${props.available})</span>
     </InputLabel>
   );

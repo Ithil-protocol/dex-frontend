@@ -1,5 +1,4 @@
-import { FormGroup } from "@mui/material";
-import { useState } from "react";
+import { Box, FormGroup } from "@mui/material";
 import { Control, FieldValues } from "react-hook-form";
 import theme from "styles/theme";
 import { Pool } from "types";
@@ -15,19 +14,16 @@ interface Props {
 }
 
 const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
-  const [isAmountFocused, setIsAmountFocused] = useState(false);
-
   return (
     <FormGroup>
       <AmountLabel available={available} />
 
-      <div
-        onFocus={(_event) => setIsAmountFocused(true)}
-        onBlur={(_event) => setIsAmountFocused(false)}
-        style={{
-          border: isAmountFocused
-            ? `2px solid ${theme.palette.secondary.main}`
-            : "2px solid transparent",
+      <Box
+        sx={{
+          border: "2px solid transparent",
+          "&:focus-within": {
+            border: `2px solid ${theme.palette.success.main}`,
+          },
           borderRadius: "5px",
         }}
       >
@@ -37,7 +33,7 @@ const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
         />
 
         <AmountGroupButton control={control} setValue={setValue} />
-      </div>
+      </Box>
     </FormGroup>
   );
 };

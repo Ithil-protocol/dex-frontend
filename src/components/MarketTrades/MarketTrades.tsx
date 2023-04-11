@@ -1,8 +1,7 @@
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import LightTooltip from "components/common/LightTooltip";
 import Trades from "./Trades";
 import { Box } from "@mui/material";
 import theme from "styles/theme";
+import InfoTooltip from "components/common/InfoTooltip";
 
 const MarketTrades = () => {
   return (
@@ -10,7 +9,6 @@ const MarketTrades = () => {
       sx={(theme) => ({
         bgcolor: theme.palette.background.paper,
         borderRadius: "5px",
-        // height: "100%",
         position: "sticky",
         top: 15,
       })}
@@ -24,12 +22,7 @@ const MarketTrades = () => {
         }}
       >
         <h4 style={{ color: theme.palette.text.primary }}>Market Trades</h4>
-        <LightTooltip title="All the trades happening">
-          <InfoOutlinedIcon
-            style={{ color: theme.palette.text.primary }}
-            fontSize="small"
-          />
-        </LightTooltip>
+        <InfoTooltip title="All the trades happening" />
       </div>
 
       <Trades />

@@ -1,6 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import InputLabel from "@mui/material/InputLabel";
+import InfoTooltip from "components/common/InfoTooltip";
 import { decimalRegex } from "data/regex";
 import React, { useState } from "react";
 import { Control, useController } from "react-hook-form";
@@ -11,7 +12,7 @@ interface Props {
   control: Control<any, any>;
 }
 
-export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
+const PriceTextField: React.FC<Props> = (props) => {
   const numberValidation = (value: any) => {
     return decimalRegex.test(value);
   };
@@ -34,10 +35,13 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
         sx={(theme) => ({
           color: theme.palette.text.primary,
           fontSize: 14,
+          display: "flex",
+          alignItems: "center",
         })}
         htmlFor="price"
       >
         Price
+        <InfoTooltip title="Price" />
       </InputLabel>
 
       <TextField
@@ -61,7 +65,7 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
         InputProps={{
           sx: (theme) => ({
             "&.Mui-focused": {
-              border: `2px solid ${theme.palette.secondary.main}`,
+              border: `2px solid ${theme.palette.success.main}`,
             },
             backgroundColor: theme.palette.background.default,
             border: "2px solid transparent",
@@ -81,4 +85,6 @@ export default React.forwardRef<HTMLDivElement, Props>(function Price(props) {
       />
     </FormGroup>
   );
-});
+};
+
+export default PriceTextField;

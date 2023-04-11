@@ -10,7 +10,12 @@ export default function Trades() {
       component={(props) => (
         <Paper
           {...props}
-          sx={(theme) => ({ bgcolor: theme.palette.background.paper })}
+          sx={(theme) => ({
+            backgroundColor: theme.palette.background.paper,
+            overflow: "auto",
+            height: "100%",
+            maxHeight: "size-mobile in px",
+          })}
         />
       )}
     >
