@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
 import {
@@ -9,6 +9,11 @@ import {
 import { usePoolCreateOrder } from "./contracts/pool";
 import { toast } from "react-toastify";
 import Link from "@mui/material/Link";
+import {
+  usePrepareTokenApprove,
+  useTokenAllowance,
+  useTokenApprove,
+} from "./contracts/token";
 
 interface CreateOrderProps {
   amount: number | string;
@@ -39,8 +44,8 @@ export const useCreateOrder = ({
     abi: contractABI,
     functionName: "createOrder",
     args: [
-      ethers.utils.parseUnits(Number(amount).toString(), 18),
-      ethers.utils.parseUnits(Number(price).toString(), 6),
+      ethers.utils.parseUnits(Number(amount).toString(), 6),
+      ethers.utils.parseUnits(Number(price).toString(), 18),
       address as `0x${string}`,
       ethers.utils.parseUnits(time.toString(), 0),
     ],
@@ -79,4 +84,24 @@ export const useCreateOrder = ({
   }, [waitedData]);
 
   return { waitedData, write };
+};
+
+interface AllowanceProps {
+  x: string;
+}
+export const useAllowance = ({ x }: AllowanceProps) => {
+  const { address } = useAccount();
+  const tokenAddress = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6";
+  const contractAddress = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
+  const { data: ttt } = useTokenAllowance({
+    address: tokenAddress,
+    args: [address as `0x${string}`, contractAddress],
+    enabled: !!address,
+  });
+  const { config } = usePrepareTokenApprove({
+    address: tokenAddress,
+    args: [contractAddress, utils.parseUnits("999", 18)],
+  });
+  const { data, write } = useTokenApprove(config);
+  const [isApproved, setIsApproved] = useState();
 };
