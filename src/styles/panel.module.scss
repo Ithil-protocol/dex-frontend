@@ -9,7 +9,7 @@
     "navbar navbar navbar"
     "order candlestick form"
     "order depth market"
-    "open open open";
+    "open open market ";
 
   @include media("<lg") {
     grid-template-columns: repeat(2, 1fr) 300px;

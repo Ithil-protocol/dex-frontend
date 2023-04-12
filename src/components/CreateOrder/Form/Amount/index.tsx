@@ -1,19 +1,19 @@
 import { FormGroup, useTheme } from "@mui/material";
 import { Control, FieldValues } from "react-hook-form";
-import { Pool } from "types";
 import AmountGroupButton from "./GroupButton";
 import AmountLabel from "./Label";
 import AmountTextField from "./TextField";
 import WrapperBox from "components/common/Box";
+import { Side } from "types";
 
 interface Props {
   available: string;
   control: Control<FieldValues, any>;
-  pool: Pool;
+  side: Side;
   setValue: any;
 }
 
-const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
+const Amount: React.FC<Props> = ({ available, control, side, setValue }) => {
   const theme = useTheme();
 
   return (
@@ -29,7 +29,7 @@ const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
         }}
       >
         <AmountTextField
-          endLabel={pool?.underlyingLabel || ""}
+          endLabel={side?.underlying.label || ""}
           control={control}
         />
 

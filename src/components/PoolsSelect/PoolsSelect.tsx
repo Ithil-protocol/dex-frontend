@@ -16,6 +16,8 @@ function PoolsSelect() {
     updatePool(newValue);
   };
 
+  console.log("pools", pools);
+
   return (
     <Autocomplete
       sx={(theme) => ({
@@ -27,7 +29,7 @@ function PoolsSelect() {
       options={pools}
       disableClearable
       getOptionLabel={(option: Pool) =>
-        option.underlyingLabel + "/" + option.accountingLabel
+        option["sell"].underlying.label + "/" + option["sell"].accounting.label
       }
       renderOption={RenderOption}
       renderInput={(params) => (

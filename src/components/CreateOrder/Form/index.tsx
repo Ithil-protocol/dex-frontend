@@ -19,7 +19,7 @@ const Form = () => {
     formState: { isSubmitting },
   } = useForm();
   const formValues = useWatch({ control });
-  const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
+  const side = usePoolStore((state) => state.side);
 
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
@@ -32,7 +32,7 @@ const Form = () => {
   });
 
   const handleFormSubmit = () => {
-    write && write();
+    write?.();
   };
 
   return (
@@ -45,11 +45,11 @@ const Form = () => {
           padding: "5px",
         }}
       >
-        <Price control={control} endLabel={pool?.accountingLabel || ""} />
+        <Price control={control} endLabel={side?.accounting.label || ""} />
 
         <Amount
           control={control}
-          pool={pool}
+          side={side}
           setValue={setValue}
           available={tokenBalance?.formatted || "0.00"}
         />
@@ -58,12 +58,12 @@ const Form = () => {
 
         <Boost control={control} />
 
-        <Total control={control} label={pool?.accountingLabel || ""} />
+        <Total control={control} label={side?.accounting.label || ""} />
 
         <Submit
           isSubmitting={isSubmitting}
           control={control}
-          label={pool?.underlyingLabel || ""}
+          label={side?.underlying.label || ""}
           write={write}
         />
       </div>

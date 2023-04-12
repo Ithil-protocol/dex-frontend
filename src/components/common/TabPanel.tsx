@@ -1,9 +1,10 @@
 import React from "react";
+import { SideKey } from "types";
 
 interface Props {
   children?: React.ReactNode;
-  index: number;
-  value: number;
+  index: SideKey;
+  value: SideKey;
 }
 
 const TabPanel: React.FC<Props> = (props) => {
