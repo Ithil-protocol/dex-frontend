@@ -1,5 +1,5 @@
 import { FormGroup, useTheme } from "@mui/material";
-import { Control, FieldValues } from "react-hook-form";
+import { Control, FieldValues, useWatch } from "react-hook-form";
 import { Pool } from "types";
 import AmountGroupButton from "./GroupButton";
 import AmountLabel from "./Label";
@@ -15,6 +15,9 @@ interface Props {
 
 const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
   const theme = useTheme();
+  const { price } = useWatch({ control });
+
+  const disabled = price == "" || price == 0 || price == undefined;
 
   return (
     <FormGroup>
@@ -30,10 +33,15 @@ const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
       >
         <AmountTextField
           endLabel={pool?.underlyingLabel || ""}
+          disabled={disabled}
           control={control}
         />
 
-        <AmountGroupButton control={control} setValue={setValue} />
+        <AmountGroupButton
+          disabled={disabled}
+          price={price}
+          setValue={setValue}
+        />
       </WrapperBox>
     </FormGroup>
   );

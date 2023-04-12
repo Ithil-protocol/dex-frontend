@@ -41,36 +41,9 @@ const theme = createTheme({
   palette,
 
   components: {
-    MuiInputAdornment: {
-      styleOverrides: {
-        root: {
-          color: palette.text.primary,
-        },
-      },
-    },
-    MuiTableHead: {
-      styleOverrides: {
-        root: {
-          borderBottom: "2px solid transparent",
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          fontSize: 14,
-          padding: "5px",
-          color: palette.text.primary,
-        },
-      },
-    },
     MuiButton: {
       styleOverrides: {
         root: {
-          fontWeight: 500,
-          backgroundColor: palette.success.main,
-          color: palette.text.primary,
-          padding: "10px",
           ":disabled": {
             backgroundColor: palette.secondary.dark,
             color: palette.text.disabled,
@@ -79,6 +52,26 @@ const theme = createTheme({
             backgroundColor: palette.success.main,
             color: palette.text.primary,
           },
+          backgroundColor: palette.success.main,
+          color: palette.text.primary,
+          fontWeight: 500,
+          padding: "10px",
+        },
+      },
+    },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: {
+          color: palette.text.primary,
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: palette.text.primary,
+          fontSize: 14,
+          padding: "5px",
         },
       },
     },
@@ -103,6 +96,25 @@ const theme = createTheme({
           borderRadius: "5px",
           fontSize: 16,
           fontWeight: 500,
+        },
+      },
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          borderBottom: "2px solid transparent",
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          "&:last-child td, &:last-child th": {
+            border: 0,
+          },
+          "&:not(:last-child)": {
+            borderBottom: `2px solid ${palette.background.default}`,
+          },
         },
       },
     },
@@ -131,18 +143,6 @@ const theme = createTheme({
             margin: 0,
           },
           borderRadius: "15px",
-        },
-      },
-    },
-    MuiTableRow: {
-      styleOverrides: {
-        root: {
-          "&:not(:last-child)": {
-            borderBottom: `2px solid ${palette.background.default}`,
-          },
-          "&:last-child td, &:last-child th": {
-            border: 0,
-          },
         },
       },
     },

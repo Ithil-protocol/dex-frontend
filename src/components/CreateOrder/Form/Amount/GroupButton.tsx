@@ -1,16 +1,14 @@
 import { Button } from "@mui/material";
 import { useTokenBalance } from "hooks/account";
 import React from "react";
-import { Control, FieldValues, useWatch } from "react-hook-form";
 
 interface Props {
-  control: Control<FieldValues, any>;
   setValue: any;
+  disabled: boolean;
+  price: number;
 }
 
-const AmountGroupButton: React.FC<Props> = ({ control, setValue }) => {
-  const { price } = useWatch({ control });
-
+const AmountGroupButton: React.FC<Props> = ({ setValue, disabled, price }) => {
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
@@ -33,11 +31,15 @@ const AmountGroupButton: React.FC<Props> = ({ control, setValue }) => {
         return (
           <Button
             onClick={() => clickHandler(item)}
-            disabled={price == "" || price == 0 || price == undefined}
+            disabled={disabled}
             key={i}
             sx={(theme) => ({
               borderRadius: 0,
-              borderRight: `1px solid ${theme.palette.background.default}`,
+              backgroundColor: theme.palette.background.default,
+              borderRight: `1px solid ${theme.palette.background.paper}`,
+              "&:hover": {
+                backgroundColor: theme.palette.background.default,
+              },
               padding: "5px",
               width: "100%",
             })}
