@@ -32,6 +32,7 @@ const AmountGroupButton: React.FC<Props> = ({ setValue, disabled, price }) => {
       {[25, 50, 75, 100].map((item, i) => {
         return (
           <Button
+            variant="contained"
             onClick={() => clickHandler(item)}
             disabled={disabled}
             key={i}

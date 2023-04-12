@@ -48,6 +48,7 @@ const BoostTextField: React.FC<Props> = ({
         endAdornment: (
           <InputAdornment position="end">
             <Button
+              variant="contained"
               onClick={handleMaxClick}
               size="small"
               sx={(theme) => ({

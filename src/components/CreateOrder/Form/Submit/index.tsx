@@ -15,6 +15,7 @@ const Submit: React.FC<Props> = ({ label, control, write, isSubmitting }) => {
 
   return (
     <LoadingButton
+      variant="contained"
       endIcon={isSubmitting && <CircularProgress size={22} color="inherit" />}
       loading={isSubmitting}
       fullWidth
