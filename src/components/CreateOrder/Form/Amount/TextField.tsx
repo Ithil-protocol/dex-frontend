@@ -2,9 +2,11 @@ import { InputAdornment, TextField } from "@mui/material";
 import { decimalRegex } from "data/regex";
 import React, { useEffect, useState } from "react";
 import { useController, useWatch } from "react-hook-form";
+
 interface Props {
   endLabel: string;
   control: any;
+  disabled: boolean;
 }
 
 const AmountTextField: React.FC<Props> = (props) => {
@@ -40,6 +42,7 @@ const AmountTextField: React.FC<Props> = (props) => {
 
   return (
     <TextField
+      disabled={props.disabled}
       {...inputProps}
       onChange={(event) => {
         if (decimalRegex.test(event.target.value)) {

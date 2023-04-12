@@ -29,7 +29,7 @@ const CreateOrder = () => {
         </WrapperTabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <PoolTabs />
+        <PoolTabs isLimit />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <PoolTabs />

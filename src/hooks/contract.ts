@@ -1,22 +1,47 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber, ethers, utils } from "ethers";
 import { contractABI } from "store/abi";
 import { CustomContractConfig } from "types";
 import { readContracts } from "wagmi";
+import { usePoolPriceLevels } from "./contracts/pool";
 
 const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
 
 export const usePriceLevelReads = () => {
-  const contracts: CustomContractConfig = [...Array(8)].map((_, index) => {
-    return {
-      abi: contractABI,
-      address,
-      functionName: "priceLevels",
-      args: [ethers.utils.parseUnits(`${index}`, 0)],
-    };
-  });
+  const getPrices = async () => {
+    console.time();
+    const highestPrice = await readContracts({
+      contracts: [
+        {
+          address,
+          abi: contractABI,
+          functionName: "priceLevels",
+          args: [utils.parseUnits("0", 0)],
+        },
+      ],
+    });
 
-  return useQuery(["priceLevels"], () => readContracts({ contracts }));
+    let next = highestPrice[0];
+    const data: (BigNumber | undefined)[] = [highestPrice[0]];
+    while (Number(utils.formatUnits(next, 6))) {
+      const price = await readContracts({
+        contracts: [
+          {
+            address,
+            abi: contractABI,
+            functionName: "priceLevels",
+            args: [next],
+          },
+        ],
+      });
+      data.push(price[0]);
+      next = price[0];
+    }
+    console.timeEnd();
+    return data;
+  };
+
+  return useQuery(["priceLevels"], getPrices);
 };
 
 export const useIdReads = () => {

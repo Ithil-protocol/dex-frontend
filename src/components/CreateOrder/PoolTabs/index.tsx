@@ -8,19 +8,24 @@ import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { SideKey } from "types";
 
-export default function PoolTabs() {
+interface Props {
+  isLimit?: boolean;
+}
+
+const PoolTabs: React.FC<Props> = ({ isLimit }) => {
   const theme = useTheme();
 
-  // const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0);
 
-  const [sideKey, updateSide] = usePoolStore((store) => [
-    store.sideKey,
-    store.updateSide,
-  ]);
+  // const [sideKey, updateSide] = usePoolStore((store) => [
+  //   store.sideKey,
+  //   store.updateSide,
+  // ]);
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: SideKey) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     console.log("newValue", newValue);
-    updateSide(newValue);
+    // updateSide(newValue);
+    setValue(newValue);
   };
 
   return (
@@ -28,7 +33,7 @@ export default function PoolTabs() {
       <Box>
         <WrapperTabs
           variant="fullWidth"
-          value={sideKey}
+          value={value}
           onChange={handleChange}
         >
           <WrapperTab
@@ -43,12 +48,14 @@ export default function PoolTabs() {
         </WrapperTabs>
       </Box>
 
-      <TabPanel value={sideKey} index="sell">
-        <Form />
+      <TabPanel value={value} index={0}>
+        <Form isLimit={isLimit} />
       </TabPanel>
-      <TabPanel value={sideKey} index="buy">
-        <Form />
+      <TabPanel value={value} index={1}>
+        <Form isLimit={isLimit} />
       </TabPanel>
     </Box>
   );
-}
+};
+
+export default PoolTabs;

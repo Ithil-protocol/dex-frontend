@@ -11,12 +11,16 @@ import { useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
 import MarginTop from "components/common/Margin";
 
-const Form = () => {
+interface Props {
+  isLimit?: boolean;
+}
+
+const Form: React.FC<Props> = ({ isLimit }) => {
   const {
     control,
+    formState: { isSubmitting },
     handleSubmit,
     setValue,
-    formState: { isSubmitting },
   } = useForm();
   const formValues = useWatch({ control });
   const side = usePoolStore((state) => state.side);
@@ -45,7 +49,9 @@ const Form = () => {
           padding: "5px",
         }}
       >
-        <Price control={control} endLabel={side?.accounting.label || ""} />
+        {isLimit && (
+          <Price control={control} endLabel={side?.accounting.label || ""} />
+        )}
 
         <Amount
           control={control}
@@ -56,7 +62,7 @@ const Form = () => {
 
         <MarginTop />
 
-        <Boost control={control} />
+        {isLimit && <Boost control={control} />}
 
         <Total control={control} label={side?.accounting.label || ""} />
 
