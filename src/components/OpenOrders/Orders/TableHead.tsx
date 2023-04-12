@@ -8,7 +8,7 @@ export default function OrdersTableHead() {
           "time",
           "market",
           "side",
-          "type",
+          // "type",
           "amount",
           "price",
           "total",

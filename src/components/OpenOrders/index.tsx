@@ -4,11 +4,37 @@ import WrapperTabs from "components/Common/Tabs";
 import TabPanel from "components/Common/TabPanel";
 import WrapperTab from "components/Common/Tab";
 import React from "react";
-import { openOrdersData } from "data/openOrders";
 import WrapperBox from "components/Common/Box";
+import { useUserOrderCreatedEvents } from "hooks/events";
+import { utils } from "ethers";
+import { usePoolStore } from "store";
 
 export const OpenOrders = () => {
   const [value, setValue] = React.useState(0);
+  const { data } = useUserOrderCreatedEvents();
+  const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
+
+  const makeOrders = () => {
+    if (!data) return [];
+
+    return data.map((order) => {
+      const { underlyingAmount, price, staked } = order.args!;
+      const convertedUnderlyingAmount = utils.formatUnits(underlyingAmount, 18);
+      const convertedPrice = utils.formatUnits(price, 6);
+      const convertedStaked = utils.formatUnits(staked, 18);
+      const total = +convertedPrice * +convertedUnderlyingAmount;
+
+      return {
+        date: "02/08/2019",
+        time: "17:30",
+        amount: convertedUnderlyingAmount,
+        price: convertedPrice,
+        staked: convertedStaked,
+        total: total.toString(),
+        side: "buy",
+      };
+    });
+  };
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -35,10 +61,10 @@ export const OpenOrders = () => {
         </Box>
 
         <TabPanel value={value} index={0}>
-          <Orders openOrdersData={openOrdersData} hasCancel />
+          <Orders pool={pool} openOrdersData={makeOrders()} hasCancel />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Orders openOrdersData={openOrdersData} hasCancel={false} />
+          <Orders pool={pool} openOrdersData={makeOrders()} hasCancel={false} />
         </TabPanel>
       </WrapperBox>
     </WrapperBox>

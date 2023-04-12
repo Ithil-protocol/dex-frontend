@@ -18,9 +18,9 @@ export interface StringMap {
 export interface OpenOrder {
   time: string;
   date: string;
-  market: string;
+  // market: string;
   side: string;
-  type: string;
+  // type: string;
   amount: string;
   total: string;
   price: string;

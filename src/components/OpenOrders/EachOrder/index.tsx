@@ -1,28 +1,35 @@
 /* eslint-disable react/jsx-key */
 import { Button, TableCell, TableRow } from "@mui/material";
 import theme from "styles/theme";
-import { OpenOrder } from "types";
+import { OpenOrder, Pool } from "types";
 
 interface Props {
   data: OpenOrder;
   hasCancel: boolean;
+  pool: Pool;
 }
 
-const Order = ({ data, hasCancel }: Props) => {
+const Order = ({ data, hasCancel, pool }: Props) => {
+  console.log(pool);
+
   return (
     <TableRow>
-      {makeRows(data, hasCancel).map((item, i) => (
+      {makeRows(data, hasCancel, pool).map((item, i) => (
         <TableCell key={i}>{item}</TableCell>
       ))}
     </TableRow>
   );
 };
 
-const makeRows = (data: Props["data"], hasCancel: Props["hasCancel"]) => [
+const makeRows = (
+  data: Props["data"],
+  hasCancel: Props["hasCancel"],
+  pool: Pool
+) => [
   `${data.time} ${data.date}`,
 
   <span style={{ fontWeight: 600 }}>
-    {`${data.market.split("/")[0]} / ${data.market.split("/")[1]}`}
+    {`${pool.underlyingLabel} / ${pool.accountingLabel}`}
   </span>,
 
   <span
@@ -37,19 +44,20 @@ const makeRows = (data: Props["data"], hasCancel: Props["hasCancel"]) => [
     {data.side}
   </span>,
 
-  data.type,
+  // data.type,
 
-  `${data.amount} ${data.market.split("/")[1]}`,
+  `${data.amount} ${pool.accountingLabel}`,
 
   data.price,
 
-  `${data.total} ${data.market.split("/")[0]}`,
+  `${data.total} ${pool.underlyingLabel}`,
 
-  `${data.staked} ${data.market.split("/")[0]}`,
+  `${data.staked} ETH`,
 
   hasCancel && (
     <Button
       size="small"
+      color="error"
       sx={{
         padding: "0px",
       }}
