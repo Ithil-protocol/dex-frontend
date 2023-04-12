@@ -1,7 +1,10 @@
 /* eslint-disable react/jsx-key */
-import { Button, TableCell, TableRow } from "@mui/material";
+import { Button, Link, TableCell, TableRow } from "@mui/material";
+import { useState } from "react";
 import theme from "styles/theme";
 import { OpenOrder, Pool } from "types";
+import { formatDateToFullDate } from "utility";
+import { useProvider } from "wagmi";
 
 interface Props {
   data: OpenOrder;
@@ -10,9 +13,15 @@ interface Props {
 }
 
 const Order = ({ data, hasCancel, pool }: Props) => {
+  const provider = useProvider();
+  const [timeStamp, setTimeStamp] = useState(0);
+  provider.getBlock(data.blockNumber).then((e) => setTimeStamp(e.timestamp));
+
+  const fullDate = formatDateToFullDate(timeStamp * 1000);
+
   return (
     <TableRow>
-      {makeRows(data, hasCancel, pool).map((item, i) => (
+      {makeRows(data, hasCancel, pool, fullDate).map((item, i) => (
         <TableCell key={i}>{item}</TableCell>
       ))}
     </TableRow>
@@ -22,9 +31,10 @@ const Order = ({ data, hasCancel, pool }: Props) => {
 const makeRows = (
   data: Props["data"],
   hasCancel: Props["hasCancel"],
-  pool: Pool
+  pool: Pool,
+  fullDate: string
 ) => [
-  `${data.time} ${data.date}`,
+  `${fullDate}`,
 
   <span style={{ fontWeight: 600 }}>
     {`${pool.underlyingLabel} / ${pool.accountingLabel}`}
@@ -42,11 +52,13 @@ const makeRows = (
     {data.side}
   </span>,
 
-  // data.type,
+  <Link target="_blank" href={`https://etherscan.io/address/${data.address}`}>
+    {data.status}
+  </Link>,
 
-  `${data.amount} ${pool.accountingLabel}`,
+  `${data.amount} ${pool.underlyingLabel}`,
 
-  data.price,
+  `${data.price} ${pool.accountingLabel}`,
 
   `${data.total} ${pool.underlyingLabel}`,
 

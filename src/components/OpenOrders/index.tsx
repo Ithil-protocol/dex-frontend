@@ -18,20 +18,23 @@ export const OpenOrders = () => {
     if (!data) return [];
 
     return data.map((order) => {
+      console.log(order);
+
       const { underlyingAmount, price, staked } = order.args!;
-      const convertedUnderlyingAmount = utils.formatUnits(underlyingAmount, 18);
-      const convertedPrice = utils.formatUnits(price, 6);
+      const convertedUnderlyingAmount = utils.formatUnits(underlyingAmount, 6);
+      const convertedPrice = utils.formatUnits(price, 18);
       const convertedStaked = utils.formatUnits(staked, 18);
       const total = +convertedPrice * +convertedUnderlyingAmount;
 
       return {
-        date: "02/08/2019",
-        time: "17:30",
+        address: order.address,
         amount: convertedUnderlyingAmount,
+        blockNumber: order.blockNumber,
         price: convertedPrice,
-        staked: convertedStaked,
-        total: total.toString(),
         side: "buy",
+        staked: convertedStaked,
+        status: "pending",
+        total: total.toString(),
       };
     });
   };
@@ -39,6 +42,8 @@ export const OpenOrders = () => {
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  console.log(makeOrders());
 
   return (
     <WrapperBox
