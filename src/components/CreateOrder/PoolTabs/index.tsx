@@ -6,7 +6,11 @@ import WrapperTab from "../../common/Tab";
 import WrapperTabs from "../../common/Tabs";
 import { useTheme } from "@mui/material";
 
-export default function PoolTabs() {
+interface Props {
+  isLimit?: boolean;
+}
+
+const PoolTabs: React.FC<Props> = ({ isLimit }) => {
   const theme = useTheme();
 
   const [value, setValue] = React.useState(0);
@@ -32,11 +36,13 @@ export default function PoolTabs() {
       </Box>
 
       <TabPanel value={value} index={0}>
-        <Form />
+        <Form isLimit={isLimit} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Form />
+        <Form isLimit={isLimit} />
       </TabPanel>
     </Box>
   );
-}
+};
+
+export default PoolTabs;
