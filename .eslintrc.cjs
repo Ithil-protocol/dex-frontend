@@ -26,6 +26,7 @@ module.exports = {
   plugins: ["@typescript-eslint", "@cspell", "sonarjs"],
   rules: {
     "@typescript-eslint/no-explicit-any": ["off"],
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@cspell/spellchecker": [
       "warn",
       {
