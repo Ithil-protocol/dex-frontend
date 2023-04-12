@@ -10,8 +10,6 @@ interface Props {
 }
 
 const Order = ({ data, hasCancel, pool }: Props) => {
-  console.log(pool);
-
   return (
     <TableRow>
       {makeRows(data, hasCancel, pool).map((item, i) => (
