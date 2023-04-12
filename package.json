@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "ts-node ./src/scripts/pre-build.mjs",
     "build": "next build",
     "check:format": "prettier --write --list-different ./",
     "check:lint": "eslint ./",
@@ -14,9 +13,10 @@
     "dev": "next dev",
     "husky:install": "husky install",
     "lint": "next lint",
+    "prebuild": "ts-node ./src/scripts/pre-build.mjs",
     "start": "next start",
-    "wagmi:init": "wagmi init",
-    "wagmi:generate": "wagmi generate"
+    "wagmi:generate": "wagmi generate",
+    "wagmi:init": "wagmi init"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
