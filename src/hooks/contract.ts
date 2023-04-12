@@ -20,7 +20,6 @@ export const usePriceLevelReads = () => {
         },
       ],
     });
-    console.log(highestPrice[0]);
 
     let next = highestPrice[0];
     const data: (BigNumber | undefined)[] = [highestPrice[0]];
