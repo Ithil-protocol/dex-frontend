@@ -2,18 +2,10 @@ import { TableCell, TableHead, TableRow } from "@mui/material";
 
 export function TradesTableHead() {
   return (
-    <TableHead style={{ borderBottom: "2px solid transparent" }}>
+    <TableHead>
       <TableRow>
         {["value", "volume", "time"].map((item, i) => (
-          <TableCell
-            key={i}
-            sx={(theme) => ({
-              color: theme.palette.text.primary,
-            })}
-            align="left"
-          >
-            {item}
-          </TableCell>
+          <TableCell key={i}>{item}</TableCell>
         ))}
       </TableRow>
     </TableHead>

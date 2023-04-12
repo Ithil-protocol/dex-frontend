@@ -1,6 +1,6 @@
 import { TableBody } from "@mui/material";
 import { shuffleArray } from "utility";
-import EachOrder from "../EachOrder/EachOrder";
+import EachOrder from "../EachOrder";
 import { OpenOrder } from "types";
 
 interface Props {

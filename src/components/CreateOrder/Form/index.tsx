@@ -11,12 +11,16 @@ import { useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
 import MarginTop from "components/common/Margin";
 
-const Form = () => {
+interface Props {
+  isLimit?: boolean;
+}
+
+const Form: React.FC<Props> = ({ isLimit }) => {
   const {
     control,
+    formState: { isSubmitting },
     handleSubmit,
     setValue,
-    formState: { isSubmitting },
   } = useForm();
   const formValues = useWatch({ control });
   const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
@@ -36,36 +40,39 @@ const Form = () => {
   };
 
   return (
-    <form
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 8,
-        padding: "10px",
-      }}
-      onSubmit={handleSubmit(handleFormSubmit)}
-    >
-      <Price control={control} endLabel={pool?.accountingLabel || ""} />
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 5,
+          padding: "5px",
+        }}
+      >
+        {isLimit && (
+          <Price control={control} endLabel={pool?.accountingLabel || ""} />
+        )}
 
-      <Amount
-        control={control}
-        pool={pool}
-        setValue={setValue}
-        available={tokenBalance?.formatted || "0.00"}
-      />
+        <Amount
+          control={control}
+          pool={pool}
+          setValue={setValue}
+          available={tokenBalance?.formatted || "0.00"}
+        />
 
-      <MarginTop />
+        <MarginTop />
 
-      <Boost control={control} />
+        {isLimit && <Boost control={control} />}
 
-      <Total control={control} label={pool?.accountingLabel || ""} />
+        <Total control={control} label={pool?.accountingLabel || ""} />
 
-      <Submit
-        isSubmitting={isSubmitting}
-        control={control}
-        label={pool?.underlyingLabel || ""}
-        write={write}
-      />
+        <Submit
+          isSubmitting={isSubmitting}
+          control={control}
+          label={pool?.underlyingLabel || ""}
+          write={write}
+        />
+      </div>
     </form>
   );
 };

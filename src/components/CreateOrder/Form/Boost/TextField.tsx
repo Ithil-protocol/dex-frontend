@@ -33,7 +33,6 @@ const BoostTextField: React.FC<Props> = ({
         onChange(Number(event.target.value));
         onBoostChange(event);
       }}
-      sx={{ "& fieldset": { border: "none" } }}
       autoComplete="off"
       id="boost"
       placeholder="0"
@@ -46,26 +45,6 @@ const BoostTextField: React.FC<Props> = ({
         step: 0.01,
       }}
       InputProps={{
-        sx: (theme) => ({
-          backgroundColor: theme.palette.background.default,
-          border: "2px solid transparent",
-          borderRadius: "5px",
-          padding: "5px 15px 5px 5px",
-          "&.Mui-focused": {
-            border: `2px solid ${theme.palette.success.main}`,
-          },
-          "& input": {
-            "-moz-appearance": "textfield",
-          },
-          "& input::-webkit-inner-spin-button": {
-            margin: 0,
-            "-webkit-appearance": "none",
-          },
-          "& input::-webkit-outer-spin-button": {
-            "-webkit-appearance": "none",
-            margin: 0,
-          },
-        }),
         endAdornment: (
           <InputAdornment position="end">
             <Button
@@ -73,11 +52,12 @@ const BoostTextField: React.FC<Props> = ({
               size="small"
               sx={(theme) => ({
                 border: `1px solid  ${theme.palette.secondary.dark}`,
-                borderRadius: "5px",
-                color: theme.palette.text.primary,
                 minWidth: 0,
                 padding: "5px",
-                width: "auto",
+                backgroundColor: "transparent",
+                "&: hover": {
+                  backgroundColor: "transparent",
+                },
               })}
             >
               MAX

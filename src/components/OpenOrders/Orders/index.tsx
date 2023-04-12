@@ -10,14 +10,7 @@ interface Props {
 
 const Orders: React.FC<Props> = ({ openOrdersData, hasCancel }) => {
   return (
-    <TableContainer
-      component={(props) => (
-        <Paper
-          {...props}
-          sx={(theme) => ({ bgcolor: theme.palette.background.paper })}
-        />
-      )}
-    >
+    <TableContainer component={Paper}>
       <Table size="small">
         <OrdersTableHead />
         <OrdersTableBody

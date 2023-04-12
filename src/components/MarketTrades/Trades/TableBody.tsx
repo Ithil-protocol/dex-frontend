@@ -1,6 +1,6 @@
 import { TableBody } from "@mui/material";
 import { buyOrders } from "store/web3Store";
-import EachTrade from "../EachTrade/EachTrade";
+import EachTrade from "../EachTrade";
 
 export default function TradesTableBody() {
   return (

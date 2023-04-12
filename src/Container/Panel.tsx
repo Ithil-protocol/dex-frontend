@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { CandlestickChart } from "components/CandlestickChart";
-import CreateOrder from "components/CreateOrder/CreateOrder";
-import DepthChart from "components/DepthChart/DepthChart";
-import MarketTrades from "components/MarketTrades/MarketTrades";
+import CreateOrder from "components/CreateOrder";
+import DepthChart from "components/DepthChart";
+import MarketTrades from "components/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";

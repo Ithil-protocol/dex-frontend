@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
-import Orders from "./Orders/Orders";
+import Orders from "./Orders";
 import WrapperTabs from "components/common/Tabs";
 import TabPanel from "components/common/TabPanel";
 import WrapperTab from "components/common/Tab";
 import React from "react";
 import { openOrdersData } from "data/openOrders";
+import WrapperBox from "components/common/Box";
 
 export const OpenOrders = () => {
   const [value, setValue] = React.useState(0);
@@ -14,18 +15,16 @@ export const OpenOrders = () => {
   };
 
   return (
-    <Box
-      sx={(theme) => ({
+    <WrapperBox
+      overrideStyles={(theme) => ({
         bgcolor: theme.palette.background.paper,
-        borderRadius: "5px",
         gap: "5px",
         padding: "10px 5px 5px 5px",
       })}
     >
-      <Box
-        sx={(theme) => ({
+      <WrapperBox
+        overrideStyles={(theme) => ({
           bgcolor: theme.palette.background.paper,
-          borderRadius: "5px",
         })}
       >
         <Box>
@@ -41,7 +40,7 @@ export const OpenOrders = () => {
         <TabPanel value={value} index={1}>
           <Orders openOrdersData={openOrdersData} hasCancel={false} />
         </TabPanel>
-      </Box>
-    </Box>
+      </WrapperBox>
+    </WrapperBox>
   );
 };

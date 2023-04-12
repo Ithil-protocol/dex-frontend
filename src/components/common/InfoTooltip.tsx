@@ -9,10 +9,7 @@ interface Props {
 const InfoTooltip: React.FC<Props> = ({ title }) => {
   return (
     <LightTooltip title={title}>
-      <InfoOutlinedIcon
-        sx={(theme) => ({ color: theme.palette.text.primary })}
-        fontSize="small"
-      />
+      <InfoOutlinedIcon fontSize="small" />
     </LightTooltip>
   );
 };

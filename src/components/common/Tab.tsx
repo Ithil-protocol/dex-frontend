@@ -18,19 +18,17 @@ const WrapperTab: React.FC<Props> = ({
 }) => {
   return (
     <MuiTab
-      disableRipple
       {...rest}
       sx={(theme) => ({
         textTransform: "none",
         color: color || theme.palette.text.disabled,
         backgroundColor: bgColor || theme.palette.background.paper,
-        borderRadius: "5px",
         "&.Mui-selected": {
           color: selectedColor || theme.palette.text.primary,
           backgroundColor: selectedBgColor || theme.palette.primary.main,
         },
         "&.Mui-focusVisible": {
-          backgroundColor: theme.palette.primary.main,
+          backgroundColor: "none",
         },
       })}
     />
