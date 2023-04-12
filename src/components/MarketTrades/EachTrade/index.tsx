@@ -1,5 +1,5 @@
 import { TableCell, TableRow, useTheme } from "@mui/material";
-import BoldSpan from "components/common/BoldSpan";
+import BoldSpan from "components/Common/BoldSpan";
 import { Order } from "types";
 import { formatDate } from "utility";
 

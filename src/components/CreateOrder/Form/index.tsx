@@ -9,7 +9,7 @@ import Total from "./Total";
 import { useTokenBalance } from "hooks/account";
 import { useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
-import MarginTop from "components/common/Margin";
+import MarginTop from "components/Common/Margin";
 
 interface Props {
   isLimit?: boolean;

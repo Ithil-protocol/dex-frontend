@@ -1,6 +1,6 @@
 import Trades from "./Trades";
-import InfoTooltip from "components/common/InfoTooltip";
-import WrapperBox from "components/common/Box";
+import InfoTooltip from "components/Common/InfoTooltip";
+import WrapperBox from "components/Common/Box";
 
 const MarketTrades = () => {
   return (

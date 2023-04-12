@@ -4,7 +4,7 @@ import { Pool } from "types";
 import AmountGroupButton from "./GroupButton";
 import AmountLabel from "./Label";
 import AmountTextField from "./TextField";
-import WrapperBox from "components/common/Box";
+import WrapperBox from "components/Common/Box";
 
 interface Props {
   available: string;

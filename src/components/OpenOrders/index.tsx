@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
 import Orders from "./Orders";
-import WrapperTabs from "components/common/Tabs";
-import TabPanel from "components/common/TabPanel";
-import WrapperTab from "components/common/Tab";
+import WrapperTabs from "components/Common/Tabs";
+import TabPanel from "components/Common/TabPanel";
+import WrapperTab from "components/Common/Tab";
 import React from "react";
 import { openOrdersData } from "data/openOrders";
-import WrapperBox from "components/common/Box";
+import WrapperBox from "components/Common/Box";
 
 export const OpenOrders = () => {
   const [value, setValue] = React.useState(0);

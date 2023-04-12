@@ -1,4 +1,4 @@
-import WrapperBox from "components/common/Box";
+import WrapperBox from "components/Common/Box";
 import React from "react";
 import { Control, useWatch } from "react-hook-form";
 import { truncateString } from "utility";

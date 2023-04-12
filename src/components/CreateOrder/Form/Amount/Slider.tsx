@@ -1,4 +1,4 @@
-import WrapperSlider from "components/common/Slider";
+import WrapperSlider from "components/Common/Slider";
 import { useTokenBalance } from "hooks/account";
 import React from "react";
 import { useWatch } from "react-hook-form";

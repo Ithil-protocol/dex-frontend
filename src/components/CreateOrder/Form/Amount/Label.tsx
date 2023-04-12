@@ -1,4 +1,4 @@
-import WrapperInputLabel from "components/common/InputLabel";
+import WrapperInputLabel from "components/Common/InputLabel";
 
 interface Props {
   available: string;
