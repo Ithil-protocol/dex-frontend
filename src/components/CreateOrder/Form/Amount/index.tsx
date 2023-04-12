@@ -33,7 +33,6 @@ const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
       >
         <AmountTextField
           endLabel={pool?.underlyingLabel || ""}
-          disabled={disabled}
           control={control}
         />
 
