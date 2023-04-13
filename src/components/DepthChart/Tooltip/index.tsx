@@ -14,7 +14,7 @@ const WrapperTooltip = ({
   const pool = usePoolStore((store) => store.pool);
   if (!pool) return null;
 
-  const { accountingLabel } = pool;
+  const { label } = pool.accounting;
 
   if (!active || !payload) return null;
 
@@ -36,7 +36,7 @@ const WrapperTooltip = ({
       <p>
         value :{" "}
         <b>
-          {payload[0].payload.x} {accountingLabel}
+          {payload[0].payload.x} {label}
         </b>
       </p>
       <p>

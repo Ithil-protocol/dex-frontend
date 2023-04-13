@@ -11,9 +11,9 @@ const AdvancedRealTimeChartNoSSR = dynamic(
 );
 
 export const CandlestickChart = () => {
-  const side = usePoolStore((store) => store.side);
-  const symbol = side
-    ? side.underlying.label + side.accounting.label
+  const pool = usePoolStore((store) => store.pool);
+  const symbol = pool
+    ? pool.underlying.label + pool.accounting.label
     : "BTCUSDT";
 
   return (

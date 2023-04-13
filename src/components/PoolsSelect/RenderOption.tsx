@@ -1,8 +1,8 @@
 import { ListItemButton } from "@mui/material";
-import { Pool } from "types";
+import { Pair } from "types";
 import styles from "./PoolsSelect.module.scss";
 
-const RenderOption = (props: object, option: Pool) => (
+const RenderOption = (props: object, option: Pair) => (
   <ListItemButton {...props}>
     <span className={styles.underlying_icon}>
       {option["sell"].underlying.icon}

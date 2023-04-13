@@ -23,7 +23,7 @@ const Form: React.FC<Props> = ({ isLimit }) => {
     setValue,
   } = useForm();
   const formValues = useWatch({ control });
-  const side = usePoolStore((state) => state.side);
+  const pool = usePoolStore((state) => state.pool);
 
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
@@ -50,12 +50,12 @@ const Form: React.FC<Props> = ({ isLimit }) => {
         }}
       >
         {isLimit && (
-          <Price control={control} endLabel={side?.accounting.label || ""} />
+          <Price control={control} endLabel={pool?.accounting.label || ""} />
         )}
 
         <Amount
           control={control}
-          side={side}
+          pool={pool}
           setValue={setValue}
           available={tokenBalance?.formatted || "0.00"}
         />
@@ -64,12 +64,12 @@ const Form: React.FC<Props> = ({ isLimit }) => {
 
         {isLimit && <Boost control={control} />}
 
-        <Total control={control} label={side?.accounting.label || ""} />
+        <Total control={control} label={pool?.accounting.label || ""} />
 
         <Submit
           isSubmitting={isSubmitting}
           control={control}
-          label={side?.underlying.label || ""}
+          label={pool?.underlying.label || ""}
           write={write}
         />
       </div>

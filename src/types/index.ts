@@ -34,27 +34,27 @@ export interface Token {
   decimals: number;
 }
 
-export interface Side {
+export interface Pool {
   underlying: Token;
   accounting: Token;
 }
 
-export type SideKey = "sell" | "buy";
+export type Side = "sell" | "buy";
 
-export interface Pool {
-  sell: Side;
-  buy: Side;
+export interface Pair {
+  sell: Pool;
+  buy: Pool;
   value: string;
   address: string;
 }
 
 export interface PoolState {
-  pool: Pool;
-  poolValue: string;
-  sideKey: SideKey;
+  pair: Pair;
+  pairValue: string;
   side: Side;
-  updateSide: (side: SideKey) => void;
-  updatePool: (newPool: Pool) => void;
+  pool: Pool;
+  updateSide: (side: Side) => void;
+  updatePair: (pair: Pair) => void;
 }
 
 export interface Order {

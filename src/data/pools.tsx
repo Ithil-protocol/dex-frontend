@@ -2,7 +2,7 @@ import DAI from "cryptocurrency-icons/svg/icon/dai.svg";
 import ETH from "cryptocurrency-icons/svg/icon/eth.svg";
 import USDC from "cryptocurrency-icons/svg/icon/usdc.svg";
 import WBTC from "cryptocurrency-icons/svg/icon/wbtc.svg";
-import { Pool } from "types";
+import { Pair, Pool } from "types";
 import rawPools from "./pools.json";
 
 const poolsIcons = [
@@ -44,7 +44,7 @@ const poolsIcons = [
   },
 ];
 
-export const pools: Pool[] = rawPools.map((item, index) => ({
+export const pairs: Pair[] = rawPools.map((item, index) => ({
   ...item,
   sell: {
     ...item.sell,

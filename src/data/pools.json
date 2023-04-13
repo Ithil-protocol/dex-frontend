@@ -10,8 +10,7 @@
       "label": "USDC",
       "address": "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
       "decimals": 6
-    },
-    "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
+    }
   },
   "buy": {
     "underlying": {
@@ -23,7 +22,7 @@
       "label": "WETH",
       "address": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
       "decimals": 18
-    },
-    "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
-  }
+    }
+  },
+  "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
 }]

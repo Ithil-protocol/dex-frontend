@@ -10,7 +10,7 @@ import { Side } from "types";
 interface Props {
   available: string;
   control: Control<FieldValues, any>;
-  side: Side;
+  pool: Pool;
   setValue: any;
 }
 

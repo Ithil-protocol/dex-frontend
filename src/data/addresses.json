@@ -6,8 +6,7 @@
     },
     "accounting": {
       "label": "USDC"
-    },
-    "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
+    }
   },
   "buy": {
     "underlying": {
@@ -15,7 +14,7 @@
     },
     "accounting": {
       "label": "WETH"
-    },
-    "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
-  }
+    }
+  },
+  "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
 }]

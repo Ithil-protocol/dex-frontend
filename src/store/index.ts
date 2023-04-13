@@ -1,4 +1,4 @@
-import { pools } from "data/pools";
+import { pairs } from "data/pools";
 import { PoolState } from "types";
 import { useContractRead } from "wagmi";
 import { create } from "zustand";
@@ -6,20 +6,20 @@ import { contractABI } from "./abi";
 import { readContracts } from "wagmi";
 
 export const usePoolStore = create<PoolState>((set) => ({
-  pool: pools[0],
-  poolValue: "1",
-  sideKey: "sell",
-  side: pools[0]["sell"],
-  updateSide: (sideKey) => {
+  pair: pairs[0],
+  pairValue: "1",
+  side: "sell",
+  pool: pairs[0]["sell"],
+  updateSide: (side) => {
     set((state) => ({
-      // sideKey,
-      side: pools[state.sideKey],
+      side,
+      pool: pairs[state.side],
     }));
   },
-  updatePool: (newPool) => {
+  updatePair: (pair) => {
     set({
-      pool: newPool,
-      poolValue: newPool.value,
+      pair,
+      pairValue: pair.value,
     });
   },
 }));
