@@ -34,15 +34,7 @@ module.exports = {
         checkComments: false,
       },
     ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        args: "after-used",
-        argsIgnorePattern: "^_",
-        ignoreRestSiblings: true,
-        vars: "all",
-      },
-    ],
+    "@typescript-eslint/no-unused-vars": "off",
     "arrow-parens": "warn",
     indent: ["warn", 2],
     "linebreak-style": ["warn", "windows"],
