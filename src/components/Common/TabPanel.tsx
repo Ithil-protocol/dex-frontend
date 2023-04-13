@@ -1,10 +1,10 @@
 import React from "react";
-import { SideKey } from "types";
+import { Side } from "types";
 
 interface Props {
   children?: React.ReactNode;
-  index: SideKey;
-  value: SideKey;
+  index: Side;
+  value: Side;
 }
 
 const TabPanel: React.FC<Props> = (props) => {

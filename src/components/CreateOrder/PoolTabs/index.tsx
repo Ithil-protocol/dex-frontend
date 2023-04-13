@@ -6,6 +6,7 @@ import WrapperTab from "../../Common/Tab";
 import WrapperTabs from "../../Common/Tabs";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
+import { Side } from "types";
 
 interface Props {
   isLimit?: boolean;
@@ -14,21 +15,24 @@ interface Props {
 const PoolTabs: React.FC<Props> = ({ isLimit }) => {
   const theme = useTheme();
 
-  const [value, setValue] = React.useState(0);
+  // const [value, setValue] = React.useState(0);
+
+  const [side, updateSide] = usePoolStore((store) => [
+    store.side,
+    store.updateSide,
+  ]);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     console.log("newValue", newValue);
-    setValue(newValue);
+    updateSide(newValue === 0 ? "sell" : "buy");
   };
+
+  const value = side === "buy" ? 1 : 0;
 
   return (
     <Box>
       <Box>
-        <WrapperTabs
-          variant="fullWidth"
-          value={value}
-          onChange={handleChange}
-        >
+        <WrapperTabs variant="fullWidth" value={value} onChange={handleChange}>
           <WrapperTab
             label="Buy"
             selectedBgColor={theme.palette.success.main}

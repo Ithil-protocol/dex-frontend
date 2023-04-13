@@ -4,7 +4,7 @@ import AmountGroupButton from "./GroupButton";
 import AmountLabel from "./Label";
 import AmountTextField from "./TextField";
 import WrapperBox from "components/Common/Box";
-import { Side } from "types";
+import { Pool, Side } from "types";
 
 interface Props {
   available: string;
@@ -13,7 +13,7 @@ interface Props {
   setValue: any;
 }
 
-const Amount: React.FC<Props> = ({ available, control, side, setValue }) => {
+const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
   const theme = useTheme();
   const { price } = useWatch({ control });
 
@@ -32,7 +32,7 @@ const Amount: React.FC<Props> = ({ available, control, side, setValue }) => {
         }}
       >
         <AmountTextField
-          endLabel={side?.underlying.label || ""}
+          endLabel={pool?.underlying.label || ""}
           control={control}
         />
 

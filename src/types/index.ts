@@ -50,7 +50,7 @@ export interface Pair {
 
 export interface PoolState {
   pair: Pair;
-  pairValue: string;
+  pairValue: number;
   side: Side;
   pool: Pool;
   updateSide: (side: Side) => void;

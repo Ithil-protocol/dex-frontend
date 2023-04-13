@@ -1,11 +1,11 @@
 import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
 import React from "react";
-import { SideKey } from "types";
+import { Side } from "types";
 
 interface Props {
   children?: React.ReactNode;
-  value: SideKey;
-  onChange: (event: React.SyntheticEvent, newValue: SideKey) => void;
+  value: Side;
+  onChange: (event: React.SyntheticEvent, newValue: Side) => void;
   variant?: TabsTypeMap["props"]["variant"];
 }
 
