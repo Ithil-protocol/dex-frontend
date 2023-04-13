@@ -1,11 +1,15 @@
 import { TableBody } from "@mui/material";
-import { buyOrders } from "store/web3Store";
 import EachTrade from "../EachTrade";
+import { Trade } from "types";
 
-export default function TradesTableBody() {
+interface Props {
+  trades: Trade[];
+}
+
+const TradesTableBody: React.FC<Props> = ({ trades }) => {
   return (
     <TableBody>
-      {buyOrders
+      {trades
         .slice(-15)
         .reverse()
         .map((item, i) => (
@@ -13,4 +17,6 @@ export default function TradesTableBody() {
         ))}
     </TableBody>
   );
-}
+};
+
+export default TradesTableBody;

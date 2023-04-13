@@ -1,17 +1,17 @@
 import { TableCell, TableRow, useTheme } from "@mui/material";
 import BoldSpan from "components/Common/BoldSpan";
-import { Order } from "types";
-import { formatDateToTime } from "utility";
+import { Trade } from "types";
+import { truncateString } from "utility";
 
 interface Props {
-  data: Order;
+  data: Trade;
 }
 
 const EachTrade = ({ data }: Props) => {
   const theme = useTheme();
 
   return (
-    <TableRow key={data.id}>
+    <TableRow>
       <TableCell>
         <BoldSpan
           style={{
@@ -22,7 +22,7 @@ const EachTrade = ({ data }: Props) => {
             fontSize: 14,
           }}
         >
-          {data.value}
+          {truncateString(data.price, 6)}
         </BoldSpan>
       </TableCell>
 
@@ -32,7 +32,7 @@ const EachTrade = ({ data }: Props) => {
             fontSize: 14,
           }}
         >
-          {data.volume}
+          {truncateString(data.amount, 6)}
         </BoldSpan>
       </TableCell>
 
@@ -42,7 +42,7 @@ const EachTrade = ({ data }: Props) => {
             fontSize: 12,
           }}
         >
-          {formatDateToTime(data.time)}
+          {data.fullDate}
         </BoldSpan>
       </TableCell>
     </TableRow>

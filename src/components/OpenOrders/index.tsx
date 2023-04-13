@@ -6,22 +6,22 @@ import WrapperTab from "components/Common/Tab";
 import React, { useEffect, useState } from "react";
 import WrapperBox from "components/Common/Box";
 import { useUserOrderCreatedEvents } from "hooks/events";
-import { utils } from "ethers";
 import { usePoolStore } from "store";
 import { OpenOrder } from "types";
 import { formatDateToFullDate } from "utility";
+import { utils } from "ethers";
 
 export const OpenOrders = () => {
   const [value, setValue] = React.useState(0);
   const [orders, setOrders] = useState<OpenOrder[]>([]);
 
   const { data } = useUserOrderCreatedEvents();
-  const [pool] = usePoolStore((state) => [state.pool, state.updatePool]);
+  const [pool] = usePoolStore((state) => [state.pool, state.updatePair]);
 
   useEffect(() => {
     const fn = async () => {
       if (!data) return [];
-      const orders = await makeOrders(data);
+      const orders = await convertOrders(data);
       setOrders(orders);
     };
 
@@ -63,12 +63,10 @@ export const OpenOrders = () => {
   );
 };
 
-const makeOrders = async (data: any[]) => {
+export const convertOrders = async (data: any[]) => {
   const orders: OpenOrder[] = [];
 
   for await (const order of data) {
-    console.log(order);
-
     const block = await order.getBlock();
     const fullDate = formatDateToFullDate(block.timestamp * 1000);
 
@@ -81,7 +79,6 @@ const makeOrders = async (data: any[]) => {
     orders.push({
       address: order.address,
       amount: convertedUnderlyingAmount,
-      blockNumber: order.blockNumber,
       fullDate,
       price: convertedPrice,
       side: "buy",

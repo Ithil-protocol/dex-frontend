@@ -4,7 +4,7 @@ export function TradesTableHead() {
   return (
     <TableHead>
       <TableRow>
-        {["value", "volume", "time"].map((item, i) => (
+        {["price", "amount", "time"].map((item, i) => (
           <TableCell key={i}>{item}</TableCell>
         ))}
       </TableRow>

@@ -23,7 +23,6 @@ export interface OpenOrder {
   staked: string;
   status: string;
   total: string;
-  blockNumber: number;
   fullDate: string;
 }
 
@@ -55,6 +54,13 @@ export interface PoolState {
   pool: Pool;
   updateSide: (side: Side) => void;
   updatePair: (pair: Pair) => void;
+}
+
+export interface Trade {
+  amount: string;
+  fullDate: string;
+  price: string;
+  type: "maker" | "taker";
 }
 
 export interface Order {
