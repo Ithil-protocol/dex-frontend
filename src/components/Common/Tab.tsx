@@ -21,6 +21,7 @@ const WrapperTab: React.FC<Props> = ({
       {...rest}
       sx={(theme) => ({
         textTransform: "none",
+        margin: "2px",
         color: color || theme.palette.text.disabled,
         backgroundColor: bgColor || theme.palette.background.paper,
         "&.Mui-selected": {
