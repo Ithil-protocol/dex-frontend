@@ -1,20 +1,22 @@
-[{
-  "value": "1",
-  "sell": {
-    "underlying": {
-      "label": "WETH"
+[
+  {
+    "value": "1",
+    "sell": {
+      "underlying": {
+        "label": "WETH"
+      },
+      "accounting": {
+        "label": "USDC"
+      }
     },
-    "accounting": {
-      "label": "USDC"
-    }
-  },
-  "buy": {
-    "underlying": {
-      "label": "USDC"
+    "buy": {
+      "underlying": {
+        "label": "USDC"
+      },
+      "accounting": {
+        "label": "WETH"
+      }
     },
-    "accounting": {
-      "label": "WETH"
-    }
-  },
-  "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
-}]
+    "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
+  }
+]

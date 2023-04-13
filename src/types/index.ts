@@ -16,15 +16,15 @@ export interface StringMap {
 }
 
 export interface OpenOrder {
-  time: string;
-  date: string;
-  market: string;
-  side: string;
-  type: string;
+  address: string;
   amount: string;
-  total: string;
   price: string;
+  side: string;
   staked: string;
+  status: string;
+  total: string;
+  blockNumber: number;
+  fullDate: string;
 }
 
 export interface Token {

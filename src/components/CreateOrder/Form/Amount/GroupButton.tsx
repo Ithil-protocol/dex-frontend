@@ -17,7 +17,8 @@ const AmountGroupButton: React.FC<Props> = ({ setValue, disabled, price }) => {
   const clickHandler = (item: number) => {
     const balancePercent = (item / 100) * balance;
     const amountPercent = balancePercent / price;
-    setValue("amount", amountPercent);
+
+    setValue("amount", amountPercent.toFixed(6));
   };
 
   return (
@@ -30,6 +31,7 @@ const AmountGroupButton: React.FC<Props> = ({ setValue, disabled, price }) => {
       {[25, 50, 75, 100].map((item, i) => {
         return (
           <Button
+            variant="contained"
             onClick={() => clickHandler(item)}
             disabled={disabled}
             key={i}

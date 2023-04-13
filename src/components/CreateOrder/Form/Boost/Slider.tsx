@@ -1,4 +1,4 @@
-import WrapperSlider from "components/common/Slider";
+import WrapperSlider from "components/Common/Slider";
 
 interface Props {
   inputProps: any;

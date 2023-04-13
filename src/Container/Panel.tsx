@@ -28,14 +28,11 @@ const Panel = () => {
       // queryClient.setQueryData(["orders"], (prev) => {
       //   return [...prev, rest];
       // });
-      console.log(...rest);
       toast(rest[0]);
     },
   });
-  // console.log(eventData);
 
   const { data: xxx } = useUserOrderCreatedEvents();
-  console.log(xxx);
   return (
     <div className={styles.layout}>
       <div className={styles.navbar}>

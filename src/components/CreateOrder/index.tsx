@@ -1,10 +1,10 @@
 import { useState } from "react";
-import WrapperTabs from "components/common/Tabs";
-import WrapperTab from "components/common/Tab";
+import WrapperTabs from "components/Common/Tabs";
+import WrapperTab from "components/Common/Tab";
 import { Box } from "@mui/material";
-import TabPanel from "components/common/TabPanel";
+import TabPanel from "components/Common/TabPanel";
 import PoolTabs from "./PoolTabs";
-import WrapperBox from "components/common/Box";
+import WrapperBox from "components/Common/Box";
 
 const CreateOrder = () => {
   const [value, setValue] = useState(0);

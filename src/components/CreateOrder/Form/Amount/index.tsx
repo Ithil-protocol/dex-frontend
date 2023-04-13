@@ -1,10 +1,9 @@
 import { FormGroup, useTheme } from "@mui/material";
 import { Control, FieldValues, useWatch } from "react-hook-form";
-import { Pool } from "types";
 import AmountGroupButton from "./GroupButton";
 import AmountLabel from "./Label";
 import AmountTextField from "./TextField";
-import WrapperBox from "components/common/Box";
+import WrapperBox from "components/Common/Box";
 import { Side } from "types";
 
 interface Props {
@@ -34,7 +33,6 @@ const Amount: React.FC<Props> = ({ available, control, side, setValue }) => {
       >
         <AmountTextField
           endLabel={side?.underlying.label || ""}
-          disabled={disabled}
           control={control}
         />
 

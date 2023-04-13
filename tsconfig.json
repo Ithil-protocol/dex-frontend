@@ -19,6 +19,12 @@
     "target": "es6",
     "noImplicitAny": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/scripts/pre-build.mjs", "src/data/pools.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/scripts/pre-build.mjs",
+    "src/data/pools.tsx"
+  ],
   "exclude": ["node_modules"]
 }
