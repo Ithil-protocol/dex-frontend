@@ -43,7 +43,7 @@ const theme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
+        containedPrimary: {
           ":disabled": {
             backgroundColor: palette.secondary.dark,
             color: palette.text.disabled,

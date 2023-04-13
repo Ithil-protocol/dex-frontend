@@ -67,7 +67,10 @@ export function shuffleArray<T>(array: T[]) {
   return copyArray;
 }
 
-export const formatDate = (date: number) => {
-  // const isoDate = new Date(date).toISOString();
+export const formatDateToTime = (date: number) => {
   return format(new Date(date), "KK:mm:ss");
+};
+
+export const formatDateToFullDate = (date: number) => {
+  return format(new Date(date), "KK:mm:ss dd/MM/yy");
 };

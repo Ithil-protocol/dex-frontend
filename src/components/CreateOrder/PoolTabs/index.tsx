@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import Form from "../Form";
-import TabPanel from "../../common/TabPanel";
-import WrapperTab from "../../common/Tab";
-import WrapperTabs from "../../common/Tabs";
+import TabPanel from "../../Common/TabPanel";
+import WrapperTab from "../../Common/Tab";
+import WrapperTabs from "../../Common/Tabs";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { SideKey } from "types";
