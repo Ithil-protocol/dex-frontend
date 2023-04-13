@@ -23,7 +23,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/scripts/pre-build.mjs"
+    "src/scripts/pre-build.mjs",
+    "src/data/pools.tsx"
   ],
   "exclude": ["node_modules"]
 }

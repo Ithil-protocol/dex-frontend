@@ -27,17 +27,33 @@ export interface OpenOrder {
   fullDate: string;
 }
 
+export interface Token {
+  label: string;
+  icon: JSX.Element;
+  address: string;
+  decimals: number;
+}
+
+export interface Side {
+  underlying: Token;
+  accounting: Token;
+}
+
+export type SideKey = "sell" | "buy";
+
 export interface Pool {
-  underlyingLabel: string;
-  underlyingIcon: JSX.Element;
-  accountingLabel: string;
-  accountingIcon: JSX.Element;
+  sell: Side;
+  buy: Side;
   value: string;
+  address: string;
 }
 
 export interface PoolState {
   pool: Pool;
   poolValue: string;
+  sideKey: SideKey;
+  side: Side;
+  updateSide: (side: SideKey) => void;
   updatePool: (newPool: Pool) => void;
 }
 

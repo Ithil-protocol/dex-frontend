@@ -5,6 +5,8 @@ import TabPanel from "../../Common/TabPanel";
 import WrapperTab from "../../Common/Tab";
 import WrapperTabs from "../../Common/Tabs";
 import { useTheme } from "@mui/material";
+import { usePoolStore } from "store";
+import { SideKey } from "types";
 
 interface Props {
   isLimit?: boolean;
@@ -15,14 +17,25 @@ const PoolTabs: React.FC<Props> = ({ isLimit }) => {
 
   const [value, setValue] = React.useState(0);
 
+  // const [sideKey, updateSide] = usePoolStore((store) => [
+  //   store.sideKey,
+  //   store.updateSide,
+  // ]);
+
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    console.log("newValue", newValue);
+    // updateSide(newValue);
     setValue(newValue);
   };
 
   return (
     <Box>
       <Box>
-        <WrapperTabs variant="fullWidth" value={value} onChange={handleChange}>
+        <WrapperTabs
+          variant="fullWidth"
+          value={value}
+          onChange={handleChange}
+        >
           <WrapperTab
             label="Buy"
             selectedBgColor={theme.palette.success.main}
