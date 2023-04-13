@@ -24,6 +24,7 @@ export interface OpenOrder {
   status: string;
   total: string;
   blockNumber: number;
+  fullDate: string;
 }
 
 export interface Pool {
