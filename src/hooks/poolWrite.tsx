@@ -8,7 +8,9 @@ import {
 } from "wagmi";
 import {
   usePoolCreateOrder,
+  usePoolFulfillOrder,
   usePreparePoolCreateOrder,
+  usePreparePoolFulfillOrder,
 } from "./contracts/pool";
 import { toast } from "react-toastify";
 import Link from "@mui/material/Link";
@@ -47,21 +49,15 @@ export const useCreateOrder = ({
   const { config } = usePreparePoolCreateOrder({
     address: pool.address as `0x${string}`,
     args: [
-      ethers.utils.parseUnits(
-        Number(amount).toString(),
-        pool.underlying.decimals
-      ),
-      ethers.utils.parseUnits(
-        Number(price).toString(),
-        pool.accounting.decimals
-      ),
+      utils.parseUnits(Number(amount).toString(), pool.underlying.decimals),
+      utils.parseUnits(Number(price).toString(), pool.accounting.decimals),
       address as `0x${string}`,
-      ethers.utils.parseUnits(time.toString(), 0),
+      utils.parseUnits(time.toString(), 0),
     ],
     overrides: {
-      value: ethers.utils.parseUnits(Number(boost).toString(), 18),
+      value: utils.parseUnits(Number(boost).toString(), 18),
     },
-    enabled: Number(amount) > 0 && Number(price) > 0,
+    enabled: Number(amount) > 0 && Number(price) > 0 && !!address,
   });
 
   const { data: writeData, write } = usePoolCreateOrder({
@@ -90,6 +86,68 @@ export const useCreateOrder = ({
   });
 
   return { waitedData, write };
+};
+
+interface FulfillOrderProps {
+  amount: number | string;
+}
+
+export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(Date.now() * 1000 + 120);
+    }, 10000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const { address } = useAccount();
+  const [pool] = usePoolStore((state) => [state.pool]);
+
+  const { config } = usePreparePoolFulfillOrder({
+    address: pool.address as `0x${string}`,
+    args: [
+      utils.parseUnits(Number(amount).toString(), pool.underlying.decimals),
+      address as `0x${string}`,
+      utils.parseUnits(
+        (Number(amount) / 2.5).toString(),
+        pool.underlying.decimals
+      ),
+      utils.parseUnits(time.toString(), 0),
+    ],
+    enabled: !!address && Number(amount) > 0,
+  });
+
+  const { data: writeData, write } = usePoolFulfillOrder({
+    ...config,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { data: waitedData } = useWaitForTransaction({
+    hash: writeData?.hash,
+    onSuccess: (data) => {
+      toast.success(
+        <p>
+          Order fulfilled successfully.
+          <br />
+          <Link
+            target="_blank"
+            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
+          >
+            Check on Etherscan!
+          </Link>
+        </p>
+      );
+    },
+  });
+
+  return { write };
 };
 
 interface AllowanceProps {
