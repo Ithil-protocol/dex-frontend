@@ -1,22 +1,16 @@
 import { TableBody } from "@mui/material";
 import EachOrder from "../EachOrder";
-import { OpenOrder, Pool } from "types";
+import { Event } from "ethers";
 
 interface Props {
-  openOrdersData: OpenOrder[];
-  hasCancel: boolean;
-  pool: Pool;
+  orders: Event[];
 }
 
-const OrdersTableBody: React.FC<Props> = ({
-  openOrdersData,
-  hasCancel,
-  pool,
-}) => {
+const OrdersTableBody: React.FC<Props> = ({ orders }) => {
   return (
     <TableBody>
-      {openOrdersData.map((item, i) => (
-        <EachOrder pool={pool} data={item} key={i} hasCancel={hasCancel} />
+      {orders.map((item, i) => (
+        <EachOrder data={item} key={i} />
       ))}
     </TableBody>
   );
