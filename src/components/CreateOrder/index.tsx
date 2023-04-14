@@ -1,9 +1,12 @@
 import { useState } from "react";
 import WrapperTab from "components/Common/Tab";
 import { Box } from "@mui/material";
-import PoolTabs from "./PoolTabs";
+import PoolTabs from "./PoolTabs/LimitPoolTabs";
 import WrapperBox from "components/Common/Box";
 import { LimitMarket, Side } from "types";
+import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
+import LimitPoolTabs from "./PoolTabs/LimitPoolTabs";
+import MarketPoolTabs from "./PoolTabs/MarketPoolTabs";
 
 const CreateOrder = () => {
   const [value, setValue] = useState<LimitMarket>("limit");
@@ -31,18 +34,16 @@ const CreateOrder = () => {
         </WrapperTabs>
       </Box>
       <TabPanel value={value} index={"limit"}>
-        <PoolTabs isLimit />
+        <LimitPoolTabs />
       </TabPanel>
       <TabPanel value={value} index={"market"}>
-        <PoolTabs />
+        <MarketPoolTabs />
       </TabPanel>
     </WrapperBox>
   );
 };
 
 export default CreateOrder;
-
-import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
 
 interface WrapperTabsProps {
   children?: React.ReactNode;
