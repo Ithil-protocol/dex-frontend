@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import WrapperTab from "../../Common/Tab";
+import WrapperTab from "../../Common/WrapperTabTab";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { Side } from "types";

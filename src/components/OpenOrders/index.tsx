@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Orders from "./Orders";
-import WrapperTab from "components/Common/Tab";
+import WrapperTab from "components/Common/WrapperTabTab";
 import React, { useEffect, useState } from "react";
 import { useUserOrderCreatedEvents } from "hooks/events";
 import { usePoolStore } from "store";

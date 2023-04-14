@@ -1,5 +1,5 @@
 import { useState } from "react";
-import WrapperTab from "components/Common/Tab";
+import WrapperTab from "components/Common/WrapperTabTab";
 import { Box } from "@mui/material";
 import { LimitMarket } from "types";
 import MuiTabs from "@mui/material/Tabs";
