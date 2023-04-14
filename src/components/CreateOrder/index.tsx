@@ -1,10 +1,8 @@
 import { useState } from "react";
-import WrapperTab from "components/Common/Tab";
+import WrapperTab from "components/Common/WrapperTab";
 import { Box } from "@mui/material";
-import PoolTabs from "./PoolTabs/LimitPoolTabs";
-import WrapperBox from "components/Common/Box";
-import { LimitMarket, Side } from "types";
-import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
+import { LimitMarket } from "types";
+import Tabs from "@mui/material/Tabs";
 import LimitPoolTabs from "./PoolTabs/LimitPoolTabs";
 import MarketPoolTabs from "./PoolTabs/MarketPoolTabs";
 
@@ -15,67 +13,41 @@ const CreateOrder = () => {
     _event: React.SyntheticEvent<Element, Event>,
     newValue: LimitMarket
   ) => {
-    setValue(["limit", "market"][newValue]);
+    setValue(newValue);
   };
 
   return (
-    <WrapperBox
-      overrideStyles={(theme) => ({
-        bgcolor: theme.palette.background.paper,
+    <Box
+      sx={(theme) => ({
+        borderRadius: "5px",
+        backgroundColor: theme.palette.background.paper,
         padding: "10px 5px 5px 5px",
         position: "sticky",
         top: 15,
       })}
     >
       <Box>
-        <WrapperTabs onChange={handleChange}>
-          <WrapperTab label="Limit" />
-          <WrapperTab label="Market" />
-        </WrapperTabs>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          TabIndicatorProps={{
+            children: <span className="Tabs-indicatorSpan" />,
+          }}
+        >
+          <WrapperTab value="limit" label="Limit" />
+          <WrapperTab value="market" label="Market" />
+        </Tabs>
       </Box>
-      <TabPanel value={value} index={"limit"}>
+
+      <div role="tabpanel" hidden={value !== "limit"}>
         <LimitPoolTabs />
-      </TabPanel>
-      <TabPanel value={value} index={"market"}>
+      </div>
+
+      <div role="tabpanel" hidden={value !== "market"}>
         <MarketPoolTabs />
-      </TabPanel>
-    </WrapperBox>
+      </div>
+    </Box>
   );
 };
 
 export default CreateOrder;
-
-interface WrapperTabsProps {
-  children?: React.ReactNode;
-  onChange: (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: LimitMarket
-  ) => void;
-  variant?: TabsTypeMap["props"]["variant"];
-}
-
-export function WrapperTabs(props: WrapperTabsProps) {
-  return (
-    <MuiTabs
-      {...props}
-      TabIndicatorProps={{
-        children: <span className="MuiTabs-indicatorSpan" />,
-      }}
-    />
-  );
-}
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: LimitMarket;
-  value: LimitMarket;
-}
-
-export function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div role="tabpanel" hidden={value !== index} {...other}>
-      {value === index && children}
-    </div>
-  );
-}

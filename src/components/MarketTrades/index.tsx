@@ -1,11 +1,11 @@
 import Trades from "./Trades";
 import InfoTooltip from "components/Common/InfoTooltip";
-import WrapperBox from "components/Common/Box";
 import { useAllOrderFulfilledEvents } from "hooks/events";
 import { useEffect, useState } from "react";
 import { Trade } from "types";
 import { formatDateToTime } from "utility";
 import { utils } from "ethers";
+import { Box } from "@mui/material";
 
 const MarketTrades = () => {
   const { data } = useAllOrderFulfilledEvents();
@@ -22,9 +22,10 @@ const MarketTrades = () => {
   }, [data]);
 
   return (
-    <WrapperBox
-      overrideStyles={(theme) => ({
-        bgcolor: theme.palette.background.paper,
+    <Box
+      sx={(theme) => ({
+        backgroundColor: theme.palette.background.paper,
+        borderRadius: "5px",
         position: "sticky",
         top: 15,
       })}
@@ -42,7 +43,7 @@ const MarketTrades = () => {
       </div>
 
       <Trades trades={trades} />
-    </WrapperBox>
+    </Box>
   );
 };
 

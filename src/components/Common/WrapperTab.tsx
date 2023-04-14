@@ -7,17 +7,20 @@ interface Props {
   color?: Property.Color;
   selectedColor?: Property.Color;
   selectedBgColor?: Property.Color;
+  value?: string;
 }
 
 const WrapperTab: React.FC<Props> = ({
   selectedColor,
   color,
   bgColor,
+  value,
   selectedBgColor,
   ...rest
 }) => {
   return (
     <MuiTab
+      value={value}
       {...rest}
       sx={(theme) => ({
         textTransform: "none",
