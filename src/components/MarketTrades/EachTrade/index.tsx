@@ -1,5 +1,4 @@
 import { TableCell, TableRow, useTheme } from "@mui/material";
-import BoldSpan from "components/Common/BoldSpan";
 import { Trade } from "types";
 import { truncateString } from "utility";
 
@@ -13,8 +12,9 @@ const EachTrade = ({ data }: Props) => {
   return (
     <TableRow>
       <TableCell>
-        <BoldSpan
+        <span
           style={{
+            fontWeight: 900,
             color:
               data.type === "taker"
                 ? theme.palette.success.main
@@ -23,27 +23,29 @@ const EachTrade = ({ data }: Props) => {
           }}
         >
           {truncateString(data.price, 6)}
-        </BoldSpan>
+        </span>
       </TableCell>
 
       <TableCell>
-        <BoldSpan
+        <span
           style={{
             fontSize: 14,
+            fontWeight: 900,
           }}
         >
           {truncateString(data.amount, 6)}
-        </BoldSpan>
+        </span>
       </TableCell>
 
       <TableCell>
-        <BoldSpan
+        <span
           style={{
             fontSize: 12,
+            fontWeight: 900,
           }}
         >
           {data.fullDate}
-        </BoldSpan>
+        </span>
       </TableCell>
     </TableRow>
   );
