@@ -13,7 +13,7 @@ const CreateOrder = () => {
     _event: React.SyntheticEvent<Element, Event>,
     newValue: LimitMarket
   ) => {
-    setValue(["limit", "market"][newValue]);
+    setValue(newValue);
   };
 
   return (
@@ -28,22 +28,23 @@ const CreateOrder = () => {
     >
       <Box>
         <Tabs
+          value={value}
           onChange={handleChange}
           TabIndicatorProps={{
             children: <span className="Tabs-indicatorSpan" />,
           }}
         >
-          <WrapperTab label="Limit" />
-          <WrapperTab label="Market" />
+          <WrapperTab value="limit" label="Limit" />
+          <WrapperTab value="market" label="Market" />
         </Tabs>
       </Box>
 
       <div role="tabpanel" hidden={value !== "limit"}>
-        {value === "limit" && <LimitPoolTabs />}
+        <LimitPoolTabs />
       </div>
 
       <div role="tabpanel" hidden={value !== "market"}>
-        {value === "market" && <MarketPoolTabs />}
+        <MarketPoolTabs />
       </div>
     </Box>
   );
