@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import { pairs } from "data/pools";
 import React from "react";
 import { usePoolStore } from "store";
-import { Pair, Pool } from "types/index";
+import { Pair } from "types/index";
 import RenderOption from "./RenderOption";
 import theme from "styles/theme";
 
