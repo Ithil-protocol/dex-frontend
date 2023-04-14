@@ -91,6 +91,7 @@ interface AllowanceProps {
   amount: number;
 }
 export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
+  const [test, setTest] = useState(1.01);
   const { address } = useAccount();
   const [pool] = usePoolStore((state) => [state.pool]);
   const { data: allowanceValue } = useTokenAllowance({
@@ -113,45 +114,47 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
     }
     return false;
   };
-  const { config } = usePrepareTokenApprove({
+  const { config, refetch } = usePrepareTokenApprove({
     address: pool.underlying.address as `0x${string}`,
     args: [
       pool.address as `0x${string}`,
       utils.parseUnits(
-        (amount * 1.5 || 0).toString(),
+        (amount * test || 0).toString(),
         pool.underlying.decimals
       ),
     ],
     enabled: needAllowance(),
+    cacheTime: 0,
   });
   const { write, data: writeData } = useTokenApprove({
     ...config,
     onError: (error) => {
       toast.error(error.message);
     },
+    onSettled: () => {
+      refetch();
+    },
   });
 
   const { data: waitedData } = useWaitForTransaction({
     hash: writeData?.hash,
-  });
-  console.log(write);
-
-  useEffect(() => {
-    if (waitedData) {
+    onSuccess: (data) => {
+      setTest((prevState) => (prevState === 1.01 ? 1.01 : 1.001));
       toast.success(
         <p>
           Contract approved successfully.
           <br />
           <Link
             target="_blank"
-            href={`https://goerli.etherscan.io/tx/${waitedData.transactionHash}`}
+            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
           >
             Check on Etherscan!
           </Link>
         </p>
       );
-    }
-  }, [waitedData]);
+    },
+  });
+  console.log(write);
 
   return { write };
 
