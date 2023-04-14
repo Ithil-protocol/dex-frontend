@@ -44,8 +44,8 @@ export const useCreateOrder = ({
     abi: contractABI,
     functionName: "createOrder",
     args: [
-      ethers.utils.parseUnits(Number(price).toString(), 18),
-      ethers.utils.parseUnits(Number(amount).toString(), 6),
+      ethers.utils.parseUnits(Number(amount).toString(), 18),
+      ethers.utils.parseUnits(Number(price).toString(), 6),
       address as `0x${string}`,
       ethers.utils.parseUnits(time.toString(), 0),
     ],
