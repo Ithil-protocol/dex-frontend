@@ -6,7 +6,10 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { usePoolCreateOrder } from "./contracts/pool";
+import {
+  usePoolCreateOrder,
+  usePreparePoolCreateOrder,
+} from "./contracts/pool";
 import { toast } from "react-toastify";
 import Link from "@mui/material/Link";
 import {
@@ -40,13 +43,18 @@ export const useCreateOrder = ({
   }, []);
 
   const { address } = useAccount();
-  const { config } = usePrepareContractWrite({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    functionName: "createOrder",
+  const [pool] = usePoolStore((state) => [state.pool]);
+  const { config } = usePreparePoolCreateOrder({
+    address: pool.address as `0x${string}`,
     args: [
-      ethers.utils.parseUnits(Number(amount).toString(), 18),
-      ethers.utils.parseUnits(Number(price).toString(), 6),
+      ethers.utils.parseUnits(
+        Number(amount).toString(),
+        pool.underlying.decimals
+      ),
+      ethers.utils.parseUnits(
+        Number(price).toString(),
+        pool.accounting.decimals
+      ),
       address as `0x${string}`,
       ethers.utils.parseUnits(time.toString(), 0),
     ],
@@ -65,24 +73,21 @@ export const useCreateOrder = ({
 
   const { data: waitedData } = useWaitForTransaction({
     hash: writeData?.hash,
-  });
-
-  useEffect(() => {
-    if (waitedData) {
+    onSuccess: (data) => {
       toast.success(
         <p>
           Order created successfully.
           <br />
           <Link
             target="_blank"
-            href={`https://goerli.etherscan.io/tx/${waitedData.transactionHash}`}
+            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
           >
             Check on Etherscan!
           </Link>
         </p>
       );
-    }
-  }, [waitedData]);
+    },
+  });
 
   return { waitedData, write };
 };
