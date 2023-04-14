@@ -13,7 +13,6 @@
     "dev": "next dev",
     "husky:install": "husky install",
     "lint": "next lint",
-    "prebuild": "ts-node ./src/scripts/pre-build.mjs",
     "start": "next start",
     "wagmi:generate": "wagmi generate",
     "wagmi:init": "wagmi init"

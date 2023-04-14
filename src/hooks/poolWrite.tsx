@@ -1,4 +1,4 @@
-import { ethers, utils, BigNumberish } from "ethers";
+import { ethers, utils, BigNumberish, BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
 import {
@@ -7,8 +7,10 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import {
+  usePoolCancelOrder,
   usePoolCreateOrder,
   usePoolFulfillOrder,
+  usePreparePoolCancelOrder,
   usePreparePoolCreateOrder,
   usePreparePoolFulfillOrder,
 } from "./contracts/pool";
@@ -226,4 +228,42 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
 
   // const { data, write } = useTokenApprove(config);
   // const [isApproved, setIsApproved] = useState();
+};
+
+interface CancelOrderProps {
+  index: BigNumber;
+  price: BigNumber;
+}
+
+export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
+  const [pool] = usePoolStore((state) => [state.pool]);
+  const { config } = usePreparePoolCancelOrder({
+    address: pool.address as `0x${string}`,
+    args: [index, price],
+  });
+  const { write: cancel, data: writeData } = usePoolCancelOrder({
+    ...config,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { data: waitedData } = useWaitForTransaction({
+    hash: writeData?.hash,
+    onSuccess: (data) => {
+      toast.success(
+        <p>
+          Order canceled successfully.
+          <br />
+          <Link
+            target="_blank"
+            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
+          >
+            Check on Etherscan!
+          </Link>
+        </p>
+      );
+    },
+  });
+  return { cancel };
 };

@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-key */
 import { Button, Link, TableCell, TableRow } from "@mui/material";
-import { BigNumberish, utils } from "ethers";
+import { BigNumber, BigNumberish, utils } from "ethers";
 import { usePoolOrders } from "hooks/contracts/pool";
+import { useCancelOrder } from "hooks/poolWrite";
 import theme from "styles/theme";
 import { OpenOrder, Pool } from "types";
 
@@ -16,11 +17,20 @@ const Order = ({ data, hasCancel, pool }: Props) => {
     address: data.address as `0x${string}`,
     args: [data.rawPrice, data.index],
   });
-
+  let status = "";
   console.log("order34", order);
-  const amount = utils.formatUnits(order?.underlyingAmount as BigNumberish, 18);
+  if (order) {
+    const amount = utils.formatUnits(
+      order.underlyingAmount as BigNumberish,
+      18
+    );
+    status = +amount === 0 ? "fulfilled" : "open";
+  }
 
-  const status = +amount === 0 ? "fulfilled" : "open";
+  const { cancel } = useCancelOrder({
+    index: data.index as BigNumber,
+    price: data.rawPrice,
+  });
 
   return (
     <TableRow>
@@ -30,7 +40,8 @@ const Order = ({ data, hasCancel, pool }: Props) => {
           status,
         },
         hasCancel,
-        pool
+        pool,
+        cancel
       ).map((item, i) => (
         <TableCell key={i}>{item}</TableCell>
       ))}
@@ -41,7 +52,8 @@ const Order = ({ data, hasCancel, pool }: Props) => {
 const makeRows = (
   data: Props["data"],
   hasCancel: Props["hasCancel"],
-  pool: Pool
+  pool: Pool,
+  cancel: (() => void) | undefined
 ) => [
   `${data.fullDate}`,
 
@@ -83,6 +95,8 @@ const makeRows = (
       sx={{
         padding: "0px",
       }}
+      onClick={() => cancel?.()}
+      disabled={!cancel}
     >
       cancel
     </Button>
