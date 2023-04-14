@@ -36,14 +36,14 @@ export const OpenOrders = () => {
   return (
     <WrapperBox
       overrideStyles={(theme) => ({
-        bgcolor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.paper,
         gap: "5px",
         padding: "10px 5px 5px 5px",
       })}
     >
       <WrapperBox
         overrideStyles={(theme) => ({
-          bgcolor: theme.palette.background.paper,
+          backgroundColor: theme.palette.background.paper,
         })}
       >
         <Box>

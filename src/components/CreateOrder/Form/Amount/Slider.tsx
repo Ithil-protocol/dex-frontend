@@ -50,7 +50,7 @@ const AmountSlider: React.FC<Props> = ({ setValue, control }) => {
         onChange={changeHandler}
         sx={{
           "& .Mui-disabled.MuiSlider-thumb": {
-            bgcolor: "gray",
+            backgroundColor: "gray",
           },
         }}
       />

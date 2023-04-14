@@ -24,7 +24,7 @@ const MarketTrades = () => {
   return (
     <WrapperBox
       overrideStyles={(theme) => ({
-        bgcolor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.paper,
         position: "sticky",
         top: 15,
       })}

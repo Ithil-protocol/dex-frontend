@@ -21,7 +21,7 @@ const CreateOrder = () => {
   return (
     <WrapperBox
       overrideStyles={(theme) => ({
-        bgcolor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.paper,
         padding: "10px 5px 5px 5px",
         position: "sticky",
         top: 15,
