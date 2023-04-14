@@ -3,10 +3,10 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TradesTableBody from "./TableBody";
 import { TradesTableHead } from "./TableHead";
-import { Trade } from "types";
+import { Event } from "ethers";
 
 interface Props {
-  trades: Trade[];
+  trades?: Event[];
 }
 
 const Trades: React.FC<Props> = ({ trades }) => {

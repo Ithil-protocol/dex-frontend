@@ -47,13 +47,6 @@ export interface PoolState {
   updatePair: (_: Pair) => void;
 }
 
-export interface Trade {
-  amount: string;
-  fullDate: string;
-  price: string;
-  type: "maker" | "taker";
-}
-
 export interface Order {
   id: string;
   value: number;
