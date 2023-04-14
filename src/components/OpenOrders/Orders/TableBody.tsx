@@ -3,10 +3,10 @@ import EachOrder from "../EachOrder";
 import { Event } from "ethers";
 
 interface Props {
-  orders: Event[];
+  orders?: Event[];
 }
 
-const OrdersTableBody: React.FC<Props> = ({ orders }) => {
+const OrdersTableBody: React.FC<Props> = ({ orders = [] }) => {
   return (
     <TableBody>
       {orders.map((item, i) => (

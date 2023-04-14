@@ -4,10 +4,10 @@ import OrdersTableBody from "./TableBody";
 import { Event } from "ethers";
 
 interface Props {
-  orders: Event[] | undefined;
+  orders?: Event[];
 }
 
-const Orders: React.FC<Props> = ({ orders = [] }) => {
+const Orders: React.FC<Props> = ({ orders }) => {
   return (
     <Table size="small">
       <OrdersTableHead />
