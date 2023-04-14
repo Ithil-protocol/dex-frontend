@@ -1,12 +1,13 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, useTheme } from "@mui/material";
 import { pairs } from "data/pools";
 import React from "react";
 import { usePoolStore } from "store";
 import { Pair } from "types/index";
 import RenderOption from "./RenderOption";
-import theme from "styles/theme";
 
 function PoolsSelect() {
+  const theme = useTheme();
+
   const [pairValue, updatePair] = usePoolStore((state) => [
     state.pairValue,
     state.updatePair,

@@ -1,7 +1,6 @@
-import { Button, Link, TableCell, TableRow } from "@mui/material";
+import { Button, Link, TableCell, TableRow, useTheme } from "@mui/material";
 import { Event, utils } from "ethers";
 import { useCancelOrder } from "hooks/poolWrite";
-import theme from "styles/theme";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { useGetBlock, useGetOrderStatus } from "hooks/account";
@@ -13,6 +12,7 @@ interface Props {
 const Order: React.FC<Props> = ({ data }) => {
   const args = data.args!;
 
+  const theme = useTheme();
   const defaultPool = usePoolStore((state) => state.default);
   const block = useGetBlock(data);
   const status = useGetOrderStatus(
