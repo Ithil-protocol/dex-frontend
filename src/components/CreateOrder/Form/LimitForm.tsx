@@ -7,7 +7,7 @@ import Submit from "./Submit";
 import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
-import { useCreateOrder } from "hooks/poolWrite";
+import { useAllowance, useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
 
 interface Props {}
@@ -32,7 +32,15 @@ const LimitForm: React.FC<Props> = () => {
     boost: formValues["boost"],
   });
 
+  const { write: approve } = useAllowance({
+    amount: formValues.amount,
+  });
+
   const handleFormSubmit = () => {
+    if (approve) {
+      approve();
+      return;
+    }
     write?.();
   };
 
@@ -64,6 +72,7 @@ const LimitForm: React.FC<Props> = () => {
           control={control}
           label={pool?.underlying.label || ""}
           write={write}
+          approve={approve}
         />
       </div>
     </form>

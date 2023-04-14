@@ -1,4 +1,4 @@
-import { ethers, utils } from "ethers";
+import { ethers, utils, BigNumberish } from "ethers";
 import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
 import {
@@ -6,7 +6,10 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { usePoolCreateOrder } from "./contracts/pool";
+import {
+  usePoolCreateOrder,
+  usePreparePoolCreateOrder,
+} from "./contracts/pool";
 import { toast } from "react-toastify";
 import Link from "@mui/material/Link";
 import {
@@ -14,6 +17,7 @@ import {
   useTokenAllowance,
   useTokenApprove,
 } from "./contracts/token";
+import { usePoolStore } from "store";
 
 interface CreateOrderProps {
   amount: number | string;
@@ -39,13 +43,18 @@ export const useCreateOrder = ({
   }, []);
 
   const { address } = useAccount();
-  const { config } = usePrepareContractWrite({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    functionName: "createOrder",
+  const [pool] = usePoolStore((state) => [state.pool]);
+  const { config } = usePreparePoolCreateOrder({
+    address: pool.address as `0x${string}`,
     args: [
-      ethers.utils.parseUnits(Number(amount).toString(), 18),
-      ethers.utils.parseUnits(Number(price).toString(), 6),
+      ethers.utils.parseUnits(
+        Number(amount).toString(),
+        pool.underlying.decimals
+      ),
+      ethers.utils.parseUnits(
+        Number(price).toString(),
+        pool.accounting.decimals
+      ),
       address as `0x${string}`,
       ethers.utils.parseUnits(time.toString(), 0),
     ],
@@ -64,44 +73,96 @@ export const useCreateOrder = ({
 
   const { data: waitedData } = useWaitForTransaction({
     hash: writeData?.hash,
-  });
-
-  useEffect(() => {
-    if (waitedData) {
+    onSuccess: (data) => {
       toast.success(
         <p>
           Order created successfully.
           <br />
           <Link
             target="_blank"
-            href={`https://goerli.etherscan.io/tx/${waitedData.transactionHash}`}
+            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
           >
             Check on Etherscan!
           </Link>
         </p>
       );
-    }
-  }, [waitedData]);
+    },
+  });
 
   return { waitedData, write };
 };
 
 interface AllowanceProps {
-  x: string;
+  amount: number;
 }
-export const useAllowance = ({ x }: AllowanceProps) => {
+export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
+  const [test, setTest] = useState(1.01);
   const { address } = useAccount();
-  const tokenAddress = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6";
-  const contractAddress = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
-  const { data: ttt } = useTokenAllowance({
-    address: tokenAddress,
-    args: [address as `0x${string}`, contractAddress],
+  const [pool] = usePoolStore((state) => [state.pool]);
+  const { data: allowanceValue } = useTokenAllowance({
+    address: pool.underlying.address as `0x${string}`,
+    args: [address as `0x${string}`, pool.address as `0x${string}`],
     enabled: !!address,
+    watch: true,
   });
-  const { config } = usePrepareTokenApprove({
-    address: tokenAddress,
-    args: [contractAddress, utils.parseUnits("999", 18)],
+  console.log(allowanceValue);
+  allowanceValue &&
+    console.log(
+      Number(utils.formatUnits(allowanceValue, pool.underlying.decimals))
+    );
+  const needAllowance = () => {
+    if (allowanceValue) {
+      return (
+        Number(utils.formatUnits(allowanceValue, pool.underlying.decimals)) <
+        amount
+      );
+    }
+    return false;
+  };
+  const { config, refetch } = usePrepareTokenApprove({
+    address: pool.underlying.address as `0x${string}`,
+    args: [
+      pool.address as `0x${string}`,
+      utils.parseUnits(
+        (amount * test || 0).toString(),
+        pool.underlying.decimals
+      ),
+    ],
+    enabled: needAllowance(),
+    cacheTime: 0,
   });
-  const { data, write } = useTokenApprove(config);
-  const [isApproved, setIsApproved] = useState();
+  const { write, data: writeData } = useTokenApprove({
+    ...config,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSettled: () => {
+      refetch();
+    },
+  });
+
+  const { data: waitedData } = useWaitForTransaction({
+    hash: writeData?.hash,
+    onSuccess: (data) => {
+      setTest((prevState) => (prevState === 1.01 ? 1.01 : 1.001));
+      toast.success(
+        <p>
+          Contract approved successfully.
+          <br />
+          <Link
+            target="_blank"
+            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
+          >
+            Check on Etherscan!
+          </Link>
+        </p>
+      );
+    },
+  });
+  console.log(write);
+
+  return { write };
+
+  // const { data, write } = useTokenApprove(config);
+  // const [isApproved, setIsApproved] = useState();
 };
