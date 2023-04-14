@@ -13,7 +13,7 @@ interface Props {
 const Order: React.FC<Props> = ({ data }) => {
   const args = data.args!;
 
-  const pool = usePoolStore((state) => state.pool);
+  const defaultPool = usePoolStore((state) => state.default);
   const block = useGetBlock(data);
   const status = useGetOrderStatus(
     data.address as `0x${string}`,
@@ -29,16 +29,16 @@ const Order: React.FC<Props> = ({ data }) => {
 
   const convertedUnderlyingAmount = utils.formatUnits(
     args.underlyingAmount,
-    pool.underlying.decimals
+    defaultPool.underlying.decimals
   );
   const convertedPrice = utils.formatUnits(
     args.price,
-    pool.accounting.decimals
+    defaultPool.accounting.decimals
   );
 
   const convertedStaked = utils.formatUnits(
     args.staked,
-    pool.underlying.decimals
+    defaultPool.underlying.decimals
   );
 
   const total = +convertedPrice * +convertedUnderlyingAmount;
@@ -48,7 +48,7 @@ const Order: React.FC<Props> = ({ data }) => {
       <TableCell>{fullDate}</TableCell>
 
       <TableCell style={{ fontWeight: 600 }}>
-        {`${pool.underlying.label} / ${pool.accounting.label}`}
+        {`${defaultPool.underlying.label} / ${defaultPool.accounting.label}`}
       </TableCell>
 
       <TableCell
@@ -76,12 +76,12 @@ const Order: React.FC<Props> = ({ data }) => {
         </Link>
       </TableCell>
 
-      <TableCell>{`${convertedUnderlyingAmount} ${pool.underlying.label}`}</TableCell>
+      <TableCell>{`${convertedUnderlyingAmount} ${defaultPool.underlying.label}`}</TableCell>
 
-      <TableCell>{`${convertedPrice} ${pool.accounting.label}`}</TableCell>
+      <TableCell>{`${convertedPrice} ${defaultPool.accounting.label}`}</TableCell>
 
       <TableCell>{`${(+total).toFixed(10)} ${
-        pool.underlying.label
+        defaultPool.underlying.label
       }`}</TableCell>
 
       <TableCell>{`${convertedStaked} ETH`}</TableCell>
