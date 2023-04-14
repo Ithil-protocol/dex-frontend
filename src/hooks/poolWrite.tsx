@@ -111,10 +111,13 @@ export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
   const { config } = usePreparePoolFulfillOrder({
     address: pool.address as `0x${string}`,
     args: [
-      utils.parseUnits(Number(amount).toString(), pool.underlying.decimals),
+      utils.parseUnits(
+        Number(amount).toFixed(pool.underlying.decimals),
+        pool.underlying.decimals
+      ),
       address as `0x${string}`,
       utils.parseUnits(
-        (Number(amount) / 2.5).toString(),
+        (Number(amount) / 2.5).toFixed(pool.underlying.decimals),
         pool.underlying.decimals
       ),
       utils.parseUnits(time.toString(), 0),
@@ -182,7 +185,7 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
     args: [
       pool.address as `0x${string}`,
       utils.parseUnits(
-        (amount * test || 0).toString(),
+        (amount * test || 0).toFixed(pool.underlying.decimals),
         pool.underlying.decimals
       ),
     ],

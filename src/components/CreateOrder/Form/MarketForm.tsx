@@ -5,7 +5,7 @@ import Submit from "./Submit";
 import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
-import { useAllowance, useCreateOrder } from "hooks/poolWrite";
+import { useAllowance, useCreateOrder, useFulfillOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
 
 interface Props {}
@@ -24,10 +24,8 @@ const MarketForm: React.FC<Props> = () => {
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
-  const { write } = useCreateOrder({
+  const { write } = useFulfillOrder({
     amount: formValues["amount"],
-    price: formValues["price"],
-    boost: formValues["boost"],
   });
   const { write: approve } = useAllowance({
     amount: formValues.amount,

@@ -34,7 +34,7 @@ const Submit: React.FC<Props> = ({
       endIcon={isSubmitting && <CircularProgress size={22} color="inherit" />}
       loading={isSubmitting}
       fullWidth
-      disabled={!formValues.price || !formValues.amount || approved()}
+      disabled={!formValues?.price || !formValues?.amount || approved()}
       sx={{
         textTransform: "none",
         width: "100%",
