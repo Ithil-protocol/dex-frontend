@@ -20,7 +20,7 @@ const LimitPoolTabs: React.FC<Props> = () => {
     _event: React.SyntheticEvent<Element, Event>,
     newValue: Side
   ) => {
-    updateSide(["buy", "sell"][newValue]);
+    updateSide(newValue);
   };
 
   return (
@@ -35,10 +35,12 @@ const LimitPoolTabs: React.FC<Props> = () => {
           }}
         >
           <WrapperTab
+            value="buy"
             label="Buy"
             selectedBgColor={theme.palette.success.main}
           />
           <WrapperTab
+            value="sell"
             color={theme.palette.error.main}
             selectedBgColor={theme.palette.error.main}
             label="Sell"
