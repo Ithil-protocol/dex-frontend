@@ -7,7 +7,7 @@ import { usePoolStore } from "store";
 import { OpenOrder } from "types";
 import { formatDateToFullDate } from "utility";
 import { utils } from "ethers";
-import MuiTabs from "@mui/material/Tabs";
+import Tabs from "@mui/material/Tabs";
 
 type OpenHistory = "history" | "open";
 export const OpenOrders = () => {
@@ -49,15 +49,15 @@ export const OpenOrders = () => {
         })}
       >
         <Box>
-          <MuiTabs
+          <Tabs
             onChange={handleChange}
             TabIndicatorProps={{
-              children: <span className="MuiTabs-indicatorSpan" />,
+              children: <span className="Tabs-indicatorSpan" />,
             }}
           >
             <WrapperTab label="Open Orders" />
             <WrapperTab label="Orders History" />
-          </MuiTabs>
+          </Tabs>
         </Box>
 
         <div role="tabpanel" hidden={value !== "open"}>

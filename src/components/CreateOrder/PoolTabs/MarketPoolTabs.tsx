@@ -4,7 +4,7 @@ import WrapperTab from "../../Common/WrapperTab";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { Side } from "types";
-import MuiTabs from "@mui/material/Tabs";
+import Tabs from "@mui/material/Tabs";
 import MarketForm from "../Form/MarketForm";
 interface Props {}
 
@@ -26,12 +26,12 @@ const MarketPoolTabs: React.FC<Props> = () => {
   return (
     <Box>
       <Box>
-        <MuiTabs
+        <Tabs
           variant="fullWidth"
           value={side}
           onChange={handleChange}
           TabIndicatorProps={{
-            children: <span className="MuiTabs-indicatorSpan" />,
+            children: <span className="Tabs-indicatorSpan" />,
           }}
         >
           <WrapperTab
@@ -43,7 +43,7 @@ const MarketPoolTabs: React.FC<Props> = () => {
             selectedBgColor={theme.palette.error.main}
             label="Sell"
           />
-        </MuiTabs>
+        </Tabs>
       </Box>
 
       <div role="tabpanel" hidden={side !== "buy"}>
