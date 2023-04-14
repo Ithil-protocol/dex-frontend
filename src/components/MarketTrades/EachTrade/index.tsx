@@ -33,7 +33,7 @@ const EachTrade = ({ data }: Props) => {
             fontWeight: 900,
           }}
         >
-          {truncateString(data.amount, 6)}
+          {truncateString(data.amount, 9)}
         </span>
       </TableCell>
 
