@@ -1,15 +1,16 @@
 import { Box } from "@mui/material";
 import Orders from "./Orders";
-import WrapperTab from "components/Common/Tab";
+import WrapperTab from "components/Common/WrapperTab";
 import React, { useEffect, useState } from "react";
-import WrapperBox from "components/Common/Box";
 import { useUserOrderCreatedEvents } from "hooks/events";
 import { usePoolStore } from "store";
 import { OpenOrder } from "types";
 import { formatDateToFullDate } from "utility";
 import { utils } from "ethers";
+import Tabs from "@mui/material/Tabs";
 
 type OpenHistory = "history" | "open";
+
 export const OpenOrders = () => {
   const [value, setValue] = React.useState<OpenHistory>("open");
   const [orders, setOrders] = useState<OpenOrder[]>([]);
@@ -30,37 +31,46 @@ export const OpenOrders = () => {
     _event: React.SyntheticEvent<Element, Event>,
     newValue: OpenHistory
   ) => {
-    setValue(["open", "history"][newValue]);
+    setValue(newValue);
   };
 
   return (
-    <WrapperBox
-      overrideStyles={(theme) => ({
-        bgcolor: theme.palette.background.paper,
+    <Box
+      sx={(theme) => ({
+        backgroundColor: theme.palette.background.paper,
+        borderRadius: "5px",
         gap: "5px",
         padding: "10px 5px 5px 5px",
       })}
     >
-      <WrapperBox
-        overrideStyles={(theme) => ({
-          bgcolor: theme.palette.background.paper,
+      <Box
+        sx={(theme) => ({
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: "5px",
         })}
       >
         <Box>
-          <WrapperTabs onChange={handleChange}>
-            <WrapperTab label="Open Orders" />
-            <WrapperTab label="Orders History" />
-          </WrapperTabs>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            TabIndicatorProps={{
+              children: <span className="Tabs-indicatorSpan" />,
+            }}
+          >
+            <WrapperTab value="open" label="Open Orders" />
+            <WrapperTab value="history" label="Orders History" />
+          </Tabs>
         </Box>
 
-        <TabPanel value={value} index={"open"}>
+        <div role="tabpanel" hidden={value !== "open"}>
           <Orders pool={pool} openOrdersData={orders} hasCancel />
-        </TabPanel>
-        <TabPanel value={value} index={"history"}>
+        </div>
+
+        <div role="tabpanel" hidden={value !== "history"}>
           <Orders pool={pool} openOrdersData={orders} hasCancel={false} />
-        </TabPanel>
-      </WrapperBox>
-    </WrapperBox>
+        </div>
+      </Box>
+    </Box>
   );
 };
 
@@ -91,40 +101,3 @@ export const convertOrders = async (data: any[]) => {
 
   return orders;
 };
-
-import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
-
-interface WrapperTabsProps {
-  children?: React.ReactNode;
-  onChange: (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: OpenHistory
-  ) => void;
-  variant?: TabsTypeMap["props"]["variant"];
-}
-
-export function WrapperTabs(props: WrapperTabsProps) {
-  return (
-    <MuiTabs
-      {...props}
-      TabIndicatorProps={{
-        children: <span className="MuiTabs-indicatorSpan" />,
-      }}
-    />
-  );
-}
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: OpenHistory;
-  value: OpenHistory;
-}
-
-export function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div role="tabpanel" hidden={value !== index} {...other}>
-      {value === index && children}
-    </div>
-  );
-}

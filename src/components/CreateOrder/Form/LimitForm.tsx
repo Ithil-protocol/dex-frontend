@@ -9,7 +9,6 @@ import Total from "./Total";
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
-import MarginTop from "components/Common/Margin";
 
 interface Props {}
 
@@ -63,8 +62,6 @@ const LimitForm: React.FC<Props> = () => {
           setValue={setValue}
           available={tokenBalance?.formatted || "0.00"}
         />
-
-        <MarginTop />
 
         <Boost control={control} />
 
