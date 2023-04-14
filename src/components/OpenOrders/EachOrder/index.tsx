@@ -16,11 +16,15 @@ const Order = ({ data, hasCancel, pool }: Props) => {
     address: data.address as `0x${string}`,
     args: [data.rawPrice, data.index],
   });
-
+  let status = "";
   console.log("order34", order);
-  const amount = utils.formatUnits(order?.underlyingAmount as BigNumberish, 18);
-
-  const status = +amount === 0 ? "fulfilled" : "open";
+  if (order) {
+    const amount = utils.formatUnits(
+      order.underlyingAmount as BigNumberish,
+      18
+    );
+    status = +amount === 0 ? "fulfilled" : "open";
+  }
 
   return (
     <TableRow>

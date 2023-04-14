@@ -17,9 +17,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useUserOrderCreatedEvents } from "hooks/events";
 
 const Panel = () => {
-  const { data } = useOrderReads();
-  const queryClient = useQueryClient();
-
   const eventData = useContractEvent({
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     abi: contractABI,
@@ -32,7 +29,6 @@ const Panel = () => {
     },
   });
 
-  const { data: xxx } = useUserOrderCreatedEvents();
   return (
     <div className={styles.layout}>
       <div className={styles.navbar}>
