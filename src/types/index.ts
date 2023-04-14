@@ -36,15 +36,16 @@ export interface Token {
 export interface Pool {
   underlying: Token;
   accounting: Token;
+  address: string;
 }
 
 export type Side = "sell" | "buy";
+export type LimitMarket = "limit" | "market";
 
 export interface Pair {
   sell: Pool;
   buy: Pool;
-  value: string;
-  address: string;
+  value: number;
 }
 
 export interface PoolState {

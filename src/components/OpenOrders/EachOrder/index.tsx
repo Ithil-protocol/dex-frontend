@@ -27,7 +27,7 @@ const makeRows = (
   `${data.fullDate}`,
 
   <span style={{ fontWeight: 600 }}>
-    {`${pool.underlyingLabel} / ${pool.accountingLabel}`}
+    {`${pool.underlying.label} / ${pool.accounting.label}`}
   </span>,
 
   <span
@@ -46,11 +46,11 @@ const makeRows = (
     {data.status}
   </Link>,
 
-  `${data.amount} ${pool.underlyingLabel}`,
+  `${data.amount} ${pool.underlying.label}`,
 
-  `${data.price} ${pool.accountingLabel}`,
+  `${data.price} ${pool.accounting.label}`,
 
-  `${data.total} ${pool.underlyingLabel}`,
+  `${data.total} ${pool.underlying.label}`,
 
   `${data.staked} ETH`,
 

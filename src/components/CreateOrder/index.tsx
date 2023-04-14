@@ -1,16 +1,18 @@
 import { useState } from "react";
-import WrapperTabs from "components/Common/Tabs";
 import WrapperTab from "components/Common/Tab";
 import { Box } from "@mui/material";
-import TabPanel from "components/Common/TabPanel";
 import PoolTabs from "./PoolTabs";
 import WrapperBox from "components/Common/Box";
+import { LimitMarket, Side } from "types";
 
 const CreateOrder = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState<LimitMarket>("limit");
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (
+    _event: React.SyntheticEvent<Element, Event>,
+    newValue: LimitMarket
+  ) => {
+    setValue(["limit", "market"][newValue]);
   };
 
   return (
@@ -23,15 +25,15 @@ const CreateOrder = () => {
       })}
     >
       <Box>
-        <WrapperTabs value={value} onChange={handleChange}>
+        <WrapperTabs onChange={handleChange}>
           <WrapperTab label="Limit" />
           <WrapperTab label="Market" />
         </WrapperTabs>
       </Box>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={"limit"}>
         <PoolTabs isLimit />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={"market"}>
         <PoolTabs />
       </TabPanel>
     </WrapperBox>
@@ -39,3 +41,40 @@ const CreateOrder = () => {
 };
 
 export default CreateOrder;
+
+import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
+
+interface WrapperTabsProps {
+  children?: React.ReactNode;
+  onChange: (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: LimitMarket
+  ) => void;
+  variant?: TabsTypeMap["props"]["variant"];
+}
+
+export function WrapperTabs(props: WrapperTabsProps) {
+  return (
+    <MuiTabs
+      {...props}
+      TabIndicatorProps={{
+        children: <span className="MuiTabs-indicatorSpan" />,
+      }}
+    />
+  );
+}
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: LimitMarket;
+  value: LimitMarket;
+}
+
+export function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div role="tabpanel" hidden={value !== index} {...other}>
+      {value === index && children}
+    </div>
+  );
+}
