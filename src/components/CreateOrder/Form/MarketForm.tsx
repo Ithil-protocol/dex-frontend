@@ -32,6 +32,10 @@ const MarketForm: React.FC<Props> = () => {
   });
 
   const handleFormSubmit = () => {
+    if (approve) {
+      approve();
+      return;
+    }
     write?.();
   };
 
