@@ -13,6 +13,7 @@
 
   @include media("<lg") {
     grid-template-columns: repeat(2, 1fr) 400px;
+    grid-template-rows: auto;
     grid-template-areas:
       "navbar navbar navbar"
       "candlestick candlestick form"
