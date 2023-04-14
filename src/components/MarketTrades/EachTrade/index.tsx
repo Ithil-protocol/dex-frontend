@@ -22,7 +22,7 @@ const EachTrade = ({ data }: Props) => {
             fontSize: 14,
           }}
         >
-          {truncateString(data.price, 6)}
+          {truncateString(data.price, 9)}
         </span>
       </TableCell>
 
