@@ -60,12 +60,17 @@ export const OpenOrders = () => {
           </MuiTabs>
         </Box>
 
-        <TabPanel value={value} index={"open"}>
-          <Orders pool={pool} openOrdersData={orders} hasCancel />
-        </TabPanel>
-        <TabPanel value={value} index={"history"}>
-          <Orders pool={pool} openOrdersData={orders} hasCancel={false} />
-        </TabPanel>
+        <div role="tabpanel" hidden={value !== "open"}>
+          {value === "open" && (
+            <Orders pool={pool} openOrdersData={orders} hasCancel />
+          )}
+        </div>
+
+        <div role="tabpanel" hidden={value !== "history"}>
+          {value === "history" && (
+            <Orders pool={pool} openOrdersData={orders} hasCancel={false} />
+          )}
+        </div>
       </Box>
     </Box>
   );
@@ -98,18 +103,3 @@ export const convertOrders = async (data: any[]) => {
 
   return orders;
 };
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: OpenHistory;
-  value: OpenHistory;
-}
-
-export function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div role="tabpanel" hidden={value !== index} {...other}>
-      {value === index && children}
-    </div>
-  );
-}

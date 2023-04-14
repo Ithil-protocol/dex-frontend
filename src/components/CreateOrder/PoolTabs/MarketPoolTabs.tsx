@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import TabPanel from "../../Common/TabPanel";
 import WrapperTab from "../../Common/Tab";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
@@ -47,12 +46,13 @@ const MarketPoolTabs: React.FC<Props> = () => {
         </MuiTabs>
       </Box>
 
-      <TabPanel value={side} index="buy">
-        <MarketForm />
-      </TabPanel>
-      <TabPanel value={side} index="sell">
-        <MarketForm />
-      </TabPanel>
+      <div role="tabpanel" hidden={side !== "buy"}>
+        {side === "buy" && <MarketForm />}
+      </div>
+
+      <div role="tabpanel" hidden={side !== "sell"}>
+        {side === "sell" && <MarketForm />}
+      </div>
     </Box>
   );
 };

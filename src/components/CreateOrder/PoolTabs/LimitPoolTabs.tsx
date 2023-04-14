@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import TabPanel from "../../Common/TabPanel";
 import WrapperTab from "../../Common/Tab";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
@@ -47,12 +46,13 @@ const LimitPoolTabs: React.FC<Props> = () => {
         </MuiTabs>
       </Box>
 
-      <TabPanel value={side} index="buy">
-        <LimitForm />
-      </TabPanel>
-      <TabPanel value={side} index="sell">
-        <LimitForm />
-      </TabPanel>
+      <div role="tabpanel" hidden={side !== "buy"}>
+        {side === "buy" && <LimitForm />}
+      </div>
+
+      <div role="tabpanel" hidden={side !== "sell"}>
+        {side === "sell" && <LimitForm />}
+      </div>
     </Box>
   );
 };

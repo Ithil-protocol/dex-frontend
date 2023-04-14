@@ -37,29 +37,16 @@ const CreateOrder = () => {
           <WrapperTab label="Market" />
         </MuiTabs>
       </Box>
-      <TabPanel value={value} index={"limit"}>
-        <LimitPoolTabs />
-      </TabPanel>
-      <TabPanel value={value} index={"market"}>
-        <MarketPoolTabs />
-      </TabPanel>
+
+      <div role="tabpanel" hidden={value !== "limit"}>
+        {value === "limit" && <LimitPoolTabs />}
+      </div>
+
+      <div role="tabpanel" hidden={value !== "market"}>
+        {value === "market" && <MarketPoolTabs />}
+      </div>
     </Box>
   );
 };
 
 export default CreateOrder;
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: LimitMarket;
-  value: LimitMarket;
-}
-
-export function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div role="tabpanel" hidden={value !== index} {...other}>
-      {value === index && children}
-    </div>
-  );
-}
