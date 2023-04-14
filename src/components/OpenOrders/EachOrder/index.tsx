@@ -27,7 +27,10 @@ const Order = ({ data, hasCancel, pool }: Props) => {
     status = +amount === 0 ? "fulfilled" : "open";
   }
 
-  // const {cancel} = useCancelOrder({index:INDEX as BigNumber, price:PRICE});
+  const { cancel } = useCancelOrder({
+    index: data.index as BigNumber,
+    price: data.rawPrice,
+  });
 
   return (
     <TableRow>
@@ -37,7 +40,8 @@ const Order = ({ data, hasCancel, pool }: Props) => {
           status,
         },
         hasCancel,
-        pool
+        pool,
+        cancel
       ).map((item, i) => (
         <TableCell key={i}>{item}</TableCell>
       ))}
@@ -48,7 +52,8 @@ const Order = ({ data, hasCancel, pool }: Props) => {
 const makeRows = (
   data: Props["data"],
   hasCancel: Props["hasCancel"],
-  pool: Pool
+  pool: Pool,
+  cancel: (() => void) | undefined
 ) => [
   `${data.fullDate}`,
 
@@ -90,6 +95,8 @@ const makeRows = (
       sx={{
         padding: "0px",
       }}
+      onClick={() => cancel?.()}
+      disabled={!cancel}
     >
       cancel
     </Button>
