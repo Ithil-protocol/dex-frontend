@@ -7,7 +7,7 @@ import Submit from "./Submit";
 import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
-import { useCreateOrder } from "hooks/poolWrite";
+import { useAllowance, useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
 import MarginTop from "components/Common/Margin";
 
@@ -31,6 +31,9 @@ const MarketForm: React.FC<Props> = () => {
     amount: formValues["amount"],
     price: formValues["price"],
     boost: formValues["boost"],
+  });
+  const { write: approve } = useAllowance({
+    amount: formValues.amount,
   });
 
   const handleFormSubmit = () => {
@@ -63,6 +66,7 @@ const MarketForm: React.FC<Props> = () => {
           control={control}
           label={pool?.underlying.label || ""}
           write={write}
+          approve={approve}
         />
       </div>
     </form>

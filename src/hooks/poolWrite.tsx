@@ -1,4 +1,4 @@
-import { ethers, utils } from "ethers";
+import { ethers, utils, BigNumberish } from "ethers";
 import { useEffect, useState } from "react";
 import { contractABI } from "store/abi";
 import {
@@ -14,6 +14,7 @@ import {
   useTokenAllowance,
   useTokenApprove,
 } from "./contracts/token";
+import { usePoolStore } from "store";
 
 interface CreateOrderProps {
   amount: number | string;
@@ -87,21 +88,73 @@ export const useCreateOrder = ({
 };
 
 interface AllowanceProps {
-  x: string;
+  amount: number;
 }
-export const useAllowance = ({ x }: AllowanceProps) => {
+export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
   const { address } = useAccount();
-  const tokenAddress = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6";
-  const contractAddress = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
-  const { data: ttt } = useTokenAllowance({
-    address: tokenAddress,
-    args: [address as `0x${string}`, contractAddress],
+  const [pool] = usePoolStore((state) => [state.pool]);
+  const { data: allowanceValue } = useTokenAllowance({
+    address: pool.underlying.address as `0x${string}`,
+    args: [address as `0x${string}`, pool.address as `0x${string}`],
     enabled: !!address,
+    watch: true,
   });
+  console.log(allowanceValue);
+  allowanceValue &&
+    console.log(
+      Number(utils.formatUnits(allowanceValue, pool.underlying.decimals))
+    );
+  const needAllowance = () => {
+    if (allowanceValue) {
+      return (
+        Number(utils.formatUnits(allowanceValue, pool.underlying.decimals)) <
+        amount
+      );
+    }
+    return false;
+  };
   const { config } = usePrepareTokenApprove({
-    address: tokenAddress,
-    args: [contractAddress, utils.parseUnits("999", 18)],
+    address: pool.underlying.address as `0x${string}`,
+    args: [
+      pool.address as `0x${string}`,
+      utils.parseUnits(
+        (amount * 1.5 || 0).toString(),
+        pool.underlying.decimals
+      ),
+    ],
+    enabled: needAllowance(),
   });
-  const { data, write } = useTokenApprove(config);
-  const [isApproved, setIsApproved] = useState();
+  const { write, data: writeData } = useTokenApprove({
+    ...config,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { data: waitedData } = useWaitForTransaction({
+    hash: writeData?.hash,
+  });
+  console.log(write);
+
+  useEffect(() => {
+    if (waitedData) {
+      toast.success(
+        <p>
+          Contract approved successfully.
+          <br />
+          <Link
+            target="_blank"
+            href={`https://goerli.etherscan.io/tx/${waitedData.transactionHash}`}
+          >
+            Check on Etherscan!
+          </Link>
+        </p>
+      );
+    }
+  }, [waitedData]);
+
+  return { write };
+
+  // const { data, write } = useTokenApprove(config);
+  // const [isApproved, setIsApproved] = useState();
 };
