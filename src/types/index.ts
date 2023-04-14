@@ -53,8 +53,9 @@ export interface PoolState {
   pairValue: number;
   side: Side;
   pool: Pool;
-  updateSide: (side: Side) => void;
-  updatePair: (pair: Pair) => void;
+  default: Pool;
+  updateSide: (_: Side) => void;
+  updatePair: (_: Pair) => void;
 }
 
 export interface Trade {
