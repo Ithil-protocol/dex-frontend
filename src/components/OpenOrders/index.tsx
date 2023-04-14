@@ -7,6 +7,7 @@ import { usePoolStore } from "store";
 import { OpenOrder } from "types";
 import { formatDateToFullDate } from "utility";
 import { utils } from "ethers";
+import MuiTabs from "@mui/material/Tabs";
 
 type OpenHistory = "history" | "open";
 export const OpenOrders = () => {
@@ -48,10 +49,15 @@ export const OpenOrders = () => {
         })}
       >
         <Box>
-          <WrapperTabs onChange={handleChange}>
+          <MuiTabs
+            onChange={handleChange}
+            TabIndicatorProps={{
+              children: <span className="MuiTabs-indicatorSpan" />,
+            }}
+          >
             <WrapperTab label="Open Orders" />
             <WrapperTab label="Orders History" />
-          </WrapperTabs>
+          </MuiTabs>
         </Box>
 
         <TabPanel value={value} index={"open"}>
@@ -92,28 +98,6 @@ export const convertOrders = async (data: any[]) => {
 
   return orders;
 };
-
-import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
-
-interface WrapperTabsProps {
-  children?: React.ReactNode;
-  onChange: (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: OpenHistory
-  ) => void;
-  variant?: TabsTypeMap["props"]["variant"];
-}
-
-export function WrapperTabs(props: WrapperTabsProps) {
-  return (
-    <MuiTabs
-      {...props}
-      TabIndicatorProps={{
-        children: <span className="MuiTabs-indicatorSpan" />,
-      }}
-    />
-  );
-}
 
 interface TabPanelProps {
   children?: React.ReactNode;

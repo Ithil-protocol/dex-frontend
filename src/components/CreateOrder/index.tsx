@@ -2,7 +2,7 @@ import { useState } from "react";
 import WrapperTab from "components/Common/Tab";
 import { Box } from "@mui/material";
 import { LimitMarket } from "types";
-import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
+import MuiTabs from "@mui/material/Tabs";
 import LimitPoolTabs from "./PoolTabs/LimitPoolTabs";
 import MarketPoolTabs from "./PoolTabs/MarketPoolTabs";
 
@@ -27,10 +27,15 @@ const CreateOrder = () => {
       })}
     >
       <Box>
-        <WrapperTabs onChange={handleChange}>
+        <MuiTabs
+          onChange={handleChange}
+          TabIndicatorProps={{
+            children: <span className="MuiTabs-indicatorSpan" />,
+          }}
+        >
           <WrapperTab label="Limit" />
           <WrapperTab label="Market" />
-        </WrapperTabs>
+        </MuiTabs>
       </Box>
       <TabPanel value={value} index={"limit"}>
         <LimitPoolTabs />
@@ -43,26 +48,6 @@ const CreateOrder = () => {
 };
 
 export default CreateOrder;
-
-interface WrapperTabsProps {
-  children?: React.ReactNode;
-  onChange: (
-    event: React.SyntheticEvent<Element, Event>,
-    newValue: LimitMarket
-  ) => void;
-  variant?: TabsTypeMap["props"]["variant"];
-}
-
-export function WrapperTabs(props: WrapperTabsProps) {
-  return (
-    <MuiTabs
-      {...props}
-      TabIndicatorProps={{
-        children: <span className="MuiTabs-indicatorSpan" />,
-      }}
-    />
-  );
-}
 
 interface TabPanelProps {
   children?: React.ReactNode;
