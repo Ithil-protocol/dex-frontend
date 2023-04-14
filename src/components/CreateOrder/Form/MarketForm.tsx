@@ -1,15 +1,12 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Boost from "./Boost";
-import Price from "./Price";
 import Submit from "./Submit";
 import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
-import MarginTop from "components/Common/Margin";
 
 interface Props {}
 
@@ -53,8 +50,6 @@ const MarketForm: React.FC<Props> = () => {
           setValue={setValue}
           available={tokenBalance?.formatted || "0.00"}
         />
-
-        <MarginTop />
 
         <Total control={control} label={pool?.accounting.label || ""} />
 
