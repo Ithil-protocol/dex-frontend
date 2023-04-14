@@ -9,7 +9,6 @@ export const usePoolStore = create<PoolState>((set) => ({
   pool: pairs[0]["sell"],
   updateSide: (side) => {
     set((state) => {
-      console.log("state", state.side);
       return {
         side,
         pool: pairs[state.pairValue][side],

@@ -23,8 +23,7 @@ const PoolTabs: React.FC<Props> = ({ isLimit }) => {
     _event: React.SyntheticEvent<Element, Event>,
     newValue: Side
   ) => {
-    console.log("newValue", ["buy", "sell"][newValue]);
-    updateSide(newValue);
+    updateSide(["buy", "sell"][newValue]);
   };
 
   return (

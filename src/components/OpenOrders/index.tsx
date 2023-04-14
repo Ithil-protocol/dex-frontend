@@ -15,8 +15,7 @@ export const OpenOrders = () => {
   const [orders, setOrders] = useState<OpenOrder[]>([]);
 
   const { data } = useUserOrderCreatedEvents();
-  const [pool] = usePoolStore((state) => [state.pool, state.updatePair]);
-
+  const [pool] = usePoolStore((state) => [state.pool]);
   useEffect(() => {
     const fn = async () => {
       if (!data) return [];
