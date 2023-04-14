@@ -1,19 +1,19 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { pools } from "data/pools";
+import { pairs } from "data/pools";
 import React from "react";
 import { usePoolStore } from "store";
-import { Pool } from "types/index";
+import { Pair, Pool } from "types/index";
 import RenderOption from "./RenderOption";
 import theme from "styles/theme";
 
 function PoolsSelect() {
-  const [poolValue, updatePool] = usePoolStore((state) => [
-    state.poolValue,
-    state.updatePool,
+  const [pairValue, updatePair] = usePoolStore((state) => [
+    state.pairValue,
+    state.updatePair,
   ]);
 
-  const handleChange = (_: React.SyntheticEvent, newValue: Pool) => {
-    updatePool(newValue);
+  const handleChange = (_: React.SyntheticEvent, newValue: Pair) => {
+    updatePair(newValue);
   };
 
   return (
@@ -22,12 +22,12 @@ function PoolsSelect() {
         borderBottom: `1px solid ${theme.palette.text.primary} `,
         "& .MuiSvgIcon-root": { fill: theme.palette.text.primary },
       })}
-      value={pools.find((option) => option.value === poolValue)}
+      value={pairs.find((option) => +option.value === pairValue)}
       onChange={handleChange}
-      options={pools}
+      options={pairs}
       disableClearable
-      getOptionLabel={(option: Pool) =>
-        option.underlyingLabel + "/" + option.accountingLabel
+      getOptionLabel={(option: Pair) =>
+        option["sell"].underlying.label + "/" + option["sell"].accounting.label
       }
       renderOption={RenderOption}
       renderInput={(params) => (

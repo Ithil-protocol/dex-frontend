@@ -5,6 +5,7 @@ import {
   AbiFunction,
   Narrow,
 } from "abitype";
+import { BigNumber, BigNumberish } from "ethers";
 import { poolABI } from "hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
@@ -16,28 +17,56 @@ export interface StringMap {
 }
 
 export interface OpenOrder {
-  time: string;
-  date: string;
-  market: string;
-  side: string;
-  type: string;
+  index: BigNumber;
+  rawPrice: BigNumber;
+  transactionHash: string;
+  address: string;
   amount: string;
+  price: string;
+  side: string;
+  staked: string;
+  status?: string;
   total: string;
-  unitPrice: string;
+  fullDate: string;
+}
+
+export interface Token {
+  label: string;
+  icon: JSX.Element;
+  address: string;
+  decimals: number;
 }
 
 export interface Pool {
-  underlyingLabel: string;
-  underlyingIcon: JSX.Element;
-  accountingLabel: string;
-  accountingIcon: JSX.Element;
-  value: string;
+  underlying: Token;
+  accounting: Token;
+  address: string;
+}
+
+export type Side = "sell" | "buy";
+export type LimitMarket = "limit" | "market";
+
+export interface Pair {
+  sell: Pool;
+  buy: Pool;
+  value: number;
 }
 
 export interface PoolState {
+  pair: Pair;
+  pairValue: number;
+  side: Side;
   pool: Pool;
-  poolValue: string;
-  updatePool: (newPool: Pool) => void;
+  default: Pool;
+  updateSide: (_: Side) => void;
+  updatePair: (_: Pair) => void;
+}
+
+export interface Trade {
+  amount: string;
+  fullDate: string;
+  price: string;
+  type: "maker" | "taker";
 }
 
 export interface Order {
@@ -70,7 +99,7 @@ export type ContractInputs =
 
 type FuncName = Extract<(typeof poolABI)[number], { type: "function" }>["name"];
 
-export type CustomContractConfig = readonly ({
+export type CustomContractConfig = ({
   abi: typeof poolABI;
   address: `0x${string}`;
   functionName: FuncName;

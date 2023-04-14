@@ -2,35 +2,70 @@ import DAI from "cryptocurrency-icons/svg/icon/dai.svg";
 import ETH from "cryptocurrency-icons/svg/icon/eth.svg";
 import USDC from "cryptocurrency-icons/svg/icon/usdc.svg";
 import WBTC from "cryptocurrency-icons/svg/icon/wbtc.svg";
-import { Pool } from "types";
+import { Pair, Pool } from "types";
+import rawPools from "./pools.json";
 
-export const pools: Pool[] = [
+const poolsIcons = [
   {
-    underlyingLabel: "WETH",
-    underlyingIcon: <ETH />,
-    accountingLabel: "USDC",
-    accountingIcon: <USDC />,
-    value: "1",
+    sell: {
+      underlying: {
+        icon: <ETH />,
+      },
+      accounting: {
+        icon: <USDC />,
+      },
+    },
+    buy: {
+      underlying: {
+        icon: <USDC />,
+      },
+      accounting: {
+        icon: <ETH />,
+      },
+    },
   },
   {
-    underlyingLabel: "USDC",
-    underlyingIcon: <USDC />,
-    accountingLabel: "WETH",
-    accountingIcon: <ETH />,
-    value: "2",
-  },
-  {
-    underlyingLabel: "DAI",
-    underlyingIcon: <DAI />,
-    accountingLabel: "WBTC",
-    accountingIcon: <WBTC />,
-    value: "3",
-  },
-  {
-    underlyingLabel: "WBTC",
-    underlyingIcon: <WBTC />,
-    accountingLabel: "DAI",
-    accountingIcon: <DAI />,
-    value: "4",
+    sell: {
+      underlying: {
+        icon: <DAI />,
+      },
+      accounting: {
+        icon: <WBTC />,
+      },
+    },
+    buy: {
+      underlying: {
+        icon: <WBTC />,
+      },
+      accounting: {
+        icon: <DAI />,
+      },
+    },
   },
 ];
+
+export const pairs: Pair[] = rawPools.map((item, index) => ({
+  ...item,
+  sell: {
+    ...item.sell,
+    underlying: {
+      ...item.sell.underlying,
+      ...poolsIcons[index].sell.underlying,
+    },
+    accounting: {
+      ...item.sell.accounting,
+      ...poolsIcons[index].sell.accounting,
+    },
+  },
+  buy: {
+    ...item.buy,
+    underlying: {
+      ...item.buy.underlying,
+      ...poolsIcons[index].buy.underlying,
+    },
+    accounting: {
+      ...item.buy.accounting,
+      ...poolsIcons[index].buy.accounting,
+    },
+  },
+}));

@@ -1,14 +1,26 @@
-import { pools } from "data/pools";
+import { pairs } from "data/pools";
 import { PoolState } from "types";
 import { create } from "zustand";
 
 export const usePoolStore = create<PoolState>((set) => ({
-  pool: pools[0],
-  poolValue: "1",
-  updatePool: (newPool) => {
+  pair: pairs[0],
+  pairValue: 0,
+  side: "sell",
+  pool: pairs[0]["sell"],
+  default: pairs[0]["sell"],
+  updateSide: (side) => {
+    set((state) => {
+      return {
+        side,
+        pool: pairs[state.pairValue][side],
+      };
+    });
+  },
+  updatePair: (pair) => {
     set({
-      pool: newPool,
-      poolValue: newPool.value,
+      pair,
+      pairValue: pair.value,
+      default: pairs[pair.value]["sell"],
     });
   },
 }));

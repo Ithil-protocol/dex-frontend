@@ -25,7 +25,9 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "@cspell", "sonarjs"],
   rules: {
+    "@typescript-eslint/no-empty-interface": ["off"],
     "@typescript-eslint/no-explicit-any": ["off"],
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@cspell/spellchecker": [
       "warn",
       {
@@ -33,15 +35,7 @@ module.exports = {
         checkComments: false,
       },
     ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        args: "after-used",
-        argsIgnorePattern: "^_",
-        ignoreRestSiblings: true,
-        vars: "all",
-      },
-    ],
+    "@typescript-eslint/no-unused-vars": "off",
     "arrow-parens": "warn",
     indent: ["warn", 2],
     "linebreak-style": ["warn", "windows"],
