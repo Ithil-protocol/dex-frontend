@@ -10,6 +10,7 @@ import { utils } from "ethers";
 import Tabs from "@mui/material/Tabs";
 
 type OpenHistory = "history" | "open";
+
 export const OpenOrders = () => {
   const [value, setValue] = React.useState<OpenHistory>("open");
   const [orders, setOrders] = useState<OpenOrder[]>([]);
@@ -30,7 +31,7 @@ export const OpenOrders = () => {
     _event: React.SyntheticEvent<Element, Event>,
     newValue: OpenHistory
   ) => {
-    setValue(["open", "history"][newValue]);
+    setValue(newValue);
   };
 
   return (
@@ -50,26 +51,23 @@ export const OpenOrders = () => {
       >
         <Box>
           <Tabs
+            value={value}
             onChange={handleChange}
             TabIndicatorProps={{
               children: <span className="Tabs-indicatorSpan" />,
             }}
           >
-            <WrapperTab label="Open Orders" />
-            <WrapperTab label="Orders History" />
+            <WrapperTab value="open" label="Open Orders" />
+            <WrapperTab value="history" label="Orders History" />
           </Tabs>
         </Box>
 
         <div role="tabpanel" hidden={value !== "open"}>
-          {value === "open" && (
-            <Orders pool={pool} openOrdersData={orders} hasCancel />
-          )}
+          <Orders pool={pool} openOrdersData={orders} hasCancel />
         </div>
 
         <div role="tabpanel" hidden={value !== "history"}>
-          {value === "history" && (
-            <Orders pool={pool} openOrdersData={orders} hasCancel={false} />
-          )}
+          <Orders pool={pool} openOrdersData={orders} hasCancel={false} />
         </div>
       </Box>
     </Box>
