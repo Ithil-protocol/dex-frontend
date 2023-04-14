@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-key */
 import { Button, Link, TableCell, TableRow } from "@mui/material";
-import { BigNumberish, utils } from "ethers";
+import { BigNumber, BigNumberish, utils } from "ethers";
 import { usePoolOrders } from "hooks/contracts/pool";
+import { useCancelOrder } from "hooks/poolWrite";
 import theme from "styles/theme";
 import { OpenOrder, Pool } from "types";
 
@@ -25,6 +26,8 @@ const Order = ({ data, hasCancel, pool }: Props) => {
     );
     status = +amount === 0 ? "fulfilled" : "open";
   }
+
+  // const {cancel} = useCancelOrder({index:INDEX as BigNumber, price:PRICE});
 
   return (
     <TableRow>
