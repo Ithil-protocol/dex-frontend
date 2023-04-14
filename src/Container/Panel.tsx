@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { CandlestickChart } from "components/CandlestickChart";
 import CreateOrder from "components/CreateOrder";
 import DepthChart from "components/DepthChart";
@@ -6,18 +5,14 @@ import MarketTrades from "components/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";
-import { useOrderReads } from "hooks/contract";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
-import { useContract, useContractEvent } from "wagmi";
-import { ethers } from "ethers";
-import { useQuery } from "@tanstack/react-query";
-import { useUserOrderCreatedEvents } from "hooks/events";
+import { useContractEvent } from "wagmi";
 
 const Panel = () => {
-  const eventData = useContractEvent({
+  // const eventData =
+  useContractEvent({
     address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
     abi: contractABI,
     eventName: "OrderCreated",

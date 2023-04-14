@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import React from "react";
 import WrapperTab from "../../Common/WrapperTab";
 import { useTheme } from "@mui/material";
@@ -6,6 +5,7 @@ import { usePoolStore } from "store";
 import { Side } from "types";
 import Tabs from "@mui/material/Tabs";
 import LimitForm from "../Form/LimitForm";
+
 interface Props {}
 
 const LimitPoolTabs: React.FC<Props> = () => {
@@ -24,29 +24,20 @@ const LimitPoolTabs: React.FC<Props> = () => {
   };
 
   return (
-    <Box>
-      <Box>
-        <Tabs
-          variant="fullWidth"
-          value={side}
-          onChange={handleChange}
-          TabIndicatorProps={{
-            children: <span className="Tabs-indicatorSpan" />,
-          }}
-        >
-          <WrapperTab
-            value="buy"
-            label="Buy"
-            selectedBgColor={theme.palette.success.main}
-          />
-          <WrapperTab
-            value="sell"
-            color={theme.palette.error.main}
-            selectedBgColor={theme.palette.error.main}
-            label="Sell"
-          />
-        </Tabs>
-      </Box>
+    <div>
+      <Tabs variant="fullWidth" value={side} onChange={handleChange}>
+        <WrapperTab
+          value="buy"
+          label="Buy"
+          selectedBgColor={theme.palette.success.main}
+        />
+        <WrapperTab
+          value="sell"
+          color={theme.palette.error.main}
+          selectedBgColor={theme.palette.error.main}
+          label="Sell"
+        />
+      </Tabs>
 
       <div role="tabpanel" hidden={side !== "buy"}>
         {side === "buy" && <LimitForm />}
@@ -55,7 +46,7 @@ const LimitPoolTabs: React.FC<Props> = () => {
       <div role="tabpanel" hidden={side !== "sell"}>
         {side === "sell" && <LimitForm />}
       </div>
-    </Box>
+    </div>
   );
 };
 

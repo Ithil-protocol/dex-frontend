@@ -5,7 +5,6 @@ import {
   AbiFunction,
   Narrow,
 } from "abitype";
-import { BigNumber, BigNumberish } from "ethers";
 import { poolABI } from "hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
@@ -14,20 +13,6 @@ export type CustomInputEvent = React.ChangeEvent<
 
 export interface StringMap {
   [prop: string]: any;
-}
-
-export interface OpenOrder {
-  index: BigNumber;
-  rawPrice: BigNumber;
-  transactionHash: string;
-  address: string;
-  amount: string;
-  price: string;
-  side: string;
-  staked: string;
-  status?: string;
-  total: string;
-  fullDate: string;
 }
 
 export interface Token {
@@ -60,13 +45,6 @@ export interface PoolState {
   default: Pool;
   updateSide: (_: Side) => void;
   updatePair: (_: Pair) => void;
-}
-
-export interface Trade {
-  amount: string;
-  fullDate: string;
-  price: string;
-  type: "maker" | "taker";
 }
 
 export interface Order {

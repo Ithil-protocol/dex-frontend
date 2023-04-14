@@ -26,18 +26,10 @@ const CreateOrder = () => {
         top: 15,
       })}
     >
-      <Box>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          TabIndicatorProps={{
-            children: <span className="Tabs-indicatorSpan" />,
-          }}
-        >
-          <WrapperTab value="limit" label="Limit" />
-          <WrapperTab value="market" label="Market" />
-        </Tabs>
-      </Box>
+      <Tabs value={value} onChange={handleChange}>
+        <WrapperTab value="limit" label="Limit" />
+        <WrapperTab value="market" label="Market" />
+      </Tabs>
 
       <div role="tabpanel" hidden={value !== "limit"}>
         <LimitPoolTabs />

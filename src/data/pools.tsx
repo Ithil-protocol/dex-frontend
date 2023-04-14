@@ -2,7 +2,7 @@ import DAI from "cryptocurrency-icons/svg/icon/dai.svg";
 import ETH from "cryptocurrency-icons/svg/icon/eth.svg";
 import USDC from "cryptocurrency-icons/svg/icon/usdc.svg";
 import WBTC from "cryptocurrency-icons/svg/icon/wbtc.svg";
-import { Pair, Pool } from "types";
+import { Pair } from "types";
 import rawPools from "./pools.json";
 
 const poolsIcons = [

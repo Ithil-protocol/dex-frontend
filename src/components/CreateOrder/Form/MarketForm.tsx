@@ -5,7 +5,7 @@ import Submit from "./Submit";
 import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
-import { useAllowance, useCreateOrder, useFulfillOrder } from "hooks/poolWrite";
+import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
 
 interface Props {}
