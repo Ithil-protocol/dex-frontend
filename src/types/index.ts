@@ -5,6 +5,7 @@ import {
   AbiFunction,
   Narrow,
 } from "abitype";
+import { BigNumber, BigNumberish } from "ethers";
 import { poolABI } from "hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
@@ -16,12 +17,15 @@ export interface StringMap {
 }
 
 export interface OpenOrder {
+  index: BigNumber;
+  rawPrice: BigNumber;
+  transactionHash: string;
   address: string;
   amount: string;
   price: string;
   side: string;
   staked: string;
-  status: string;
+  status?: string;
   total: string;
   fullDate: string;
 }

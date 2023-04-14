@@ -1,5 +1,4 @@
 import { TableBody } from "@mui/material";
-import { shuffleArray } from "utility";
 import EachOrder from "../EachOrder";
 import { OpenOrder, Pool } from "types";
 
@@ -16,7 +15,7 @@ const OrdersTableBody: React.FC<Props> = ({
 }) => {
   return (
     <TableBody>
-      {shuffleArray(openOrdersData).map((item, i) => (
+      {openOrdersData.map((item, i) => (
         <EachOrder pool={pool} data={item} key={i} hasCancel={hasCancel} />
       ))}
     </TableBody>

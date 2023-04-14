@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { Button, Link, TableCell, TableRow } from "@mui/material";
+import { BigNumberish, utils } from "ethers";
+import { usePoolOrders } from "hooks/contracts/pool";
 import theme from "styles/theme";
 import { OpenOrder, Pool } from "types";
 
@@ -10,9 +12,26 @@ interface Props {
 }
 
 const Order = ({ data, hasCancel, pool }: Props) => {
+  const { data: order } = usePoolOrders({
+    address: data.address as `0x${string}`,
+    args: [data.rawPrice, data.index],
+  });
+
+  console.log("order34", order);
+  const amount = utils.formatUnits(order?.underlyingAmount as BigNumberish, 18);
+
+  const status = +amount === 0 ? "fulfilled" : "open";
+
   return (
     <TableRow>
-      {makeRows(data, hasCancel, pool).map((item, i) => (
+      {makeRows(
+        {
+          ...data,
+          status,
+        },
+        hasCancel,
+        pool
+      ).map((item, i) => (
         <TableCell key={i}>{item}</TableCell>
       ))}
     </TableRow>
@@ -42,7 +61,10 @@ const makeRows = (
     {data.side}
   </span>,
 
-  <Link target="_blank" href={`https://etherscan.io/address/${data.address}`}>
+  <Link
+    target="_blank"
+    href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
+  >
     {data.status}
   </Link>,
 
@@ -50,11 +72,11 @@ const makeRows = (
 
   `${data.price} ${pool.accounting.label}`,
 
-  `${data.total} ${pool.underlying.label}`,
+  `${(+data.total).toFixed(10)} ${pool.underlying.label}`,
 
   `${data.staked} ETH`,
 
-  hasCancel && (
+  data.status === "open" && (
     <Button
       size="small"
       color="error"

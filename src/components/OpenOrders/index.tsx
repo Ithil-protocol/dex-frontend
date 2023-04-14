@@ -4,7 +4,7 @@ import WrapperTab from "components/Common/WrapperTab";
 import React, { useEffect, useState } from "react";
 import { useUserOrderCreatedEvents } from "hooks/events";
 import { usePoolStore } from "store";
-import { OpenOrder } from "types";
+import { OpenOrder, Pool } from "types";
 import { formatDateToFullDate } from "utility";
 import { utils } from "ethers";
 import Tabs from "@mui/material/Tabs";
@@ -16,11 +16,15 @@ export const OpenOrders = () => {
   const [orders, setOrders] = useState<OpenOrder[]>([]);
 
   const { data } = useUserOrderCreatedEvents();
-  const [pool] = usePoolStore((state) => [state.pool]);
+  const [pool, defaultPool] = usePoolStore((state) => [
+    state.pool,
+    state.default,
+  ]);
+
   useEffect(() => {
     const fn = async () => {
       if (!data) return [];
-      const orders = await convertOrders(data);
+      const orders = await convertOrders(data, defaultPool);
       setOrders(orders);
     };
 
@@ -74,27 +78,41 @@ export const OpenOrders = () => {
   );
 };
 
-export const convertOrders = async (data: any[]) => {
+export const convertOrders = async (data: any[], pool: Pool) => {
   const orders: OpenOrder[] = [];
 
-  for await (const order of data) {
-    const block = await order.getBlock();
+  const blocks: any[] = [];
+
+  for (const order of data) {
+    const block = order.getBlock();
+    blocks.push(block);
+  }
+
+  const resolvedBlocks = await Promise.all(blocks);
+
+  for (const [i, order] of data.entries()) {
+    const block = resolvedBlocks[i];
     const fullDate = formatDateToFullDate(block.timestamp * 1000);
 
-    const { underlyingAmount, price, staked } = order.args!;
-    const convertedUnderlyingAmount = utils.formatUnits(underlyingAmount, 6);
-    const convertedPrice = utils.formatUnits(price, 18);
-    const convertedStaked = utils.formatUnits(staked, 18);
+    const { underlyingAmount, price, staked, index } = order.args!;
+    const convertedUnderlyingAmount = utils.formatUnits(
+      underlyingAmount,
+      pool.underlying.decimals
+    );
+    const convertedPrice = utils.formatUnits(price, pool.accounting.decimals);
+    const convertedStaked = utils.formatUnits(staked, pool.underlying.decimals);
     const total = +convertedPrice * +convertedUnderlyingAmount;
 
     orders.push({
+      index,
+      rawPrice: price,
+      transactionHash: order.transactionHash,
       address: order.address,
       amount: convertedUnderlyingAmount,
       fullDate,
       price: convertedPrice,
       side: "buy",
       staked: convertedStaked,
-      status: "pending",
       total: total.toString(),
     });
   }
