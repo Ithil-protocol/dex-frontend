@@ -1,4 +1,4 @@
-import WrapperBox from "components/Common/Box";
+import { Box } from "@mui/material";
 import React from "react";
 import { Control, useWatch } from "react-hook-form";
 import { truncateString } from "utility";
@@ -13,8 +13,9 @@ const Total: React.FC<Props> = ({ label, control }) => {
   const total = formValues.amount * formValues.price || 0;
 
   return (
-    <WrapperBox
-      overrideStyles={(theme) => ({
+    <Box
+      sx={(theme) => ({
+        borderRadius: "5px",
         backgroundColor: theme.palette.background.default,
         display: "flex",
         gap: 1,
@@ -27,7 +28,7 @@ const Total: React.FC<Props> = ({ label, control }) => {
         {truncateString(total.toString(), 15)}
       </span>
       <span>{label}</span>
-    </WrapperBox>
+    </Box>
   );
 };
 

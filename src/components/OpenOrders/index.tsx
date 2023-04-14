@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import Orders from "./Orders";
 import WrapperTab from "components/Common/Tab";
 import React, { useEffect, useState } from "react";
-import WrapperBox from "components/Common/Box";
 import { useUserOrderCreatedEvents } from "hooks/events";
 import { usePoolStore } from "store";
 import { OpenOrder } from "types";
@@ -34,16 +33,18 @@ export const OpenOrders = () => {
   };
 
   return (
-    <WrapperBox
-      overrideStyles={(theme) => ({
+    <Box
+      sx={(theme) => ({
         backgroundColor: theme.palette.background.paper,
+        borderRadius: "5px",
         gap: "5px",
         padding: "10px 5px 5px 5px",
       })}
     >
-      <WrapperBox
-        overrideStyles={(theme) => ({
+      <Box
+        sx={(theme) => ({
           backgroundColor: theme.palette.background.paper,
+          borderRadius: "5px",
         })}
       >
         <Box>
@@ -59,8 +60,8 @@ export const OpenOrders = () => {
         <TabPanel value={value} index={"history"}>
           <Orders pool={pool} openOrdersData={orders} hasCancel={false} />
         </TabPanel>
-      </WrapperBox>
-    </WrapperBox>
+      </Box>
+    </Box>
   );
 };
 

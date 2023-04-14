@@ -1,9 +1,7 @@
 import { useState } from "react";
 import WrapperTab from "components/Common/Tab";
 import { Box } from "@mui/material";
-import PoolTabs from "./PoolTabs/LimitPoolTabs";
-import WrapperBox from "components/Common/Box";
-import { LimitMarket, Side } from "types";
+import { LimitMarket } from "types";
 import MuiTabs, { TabsTypeMap } from "@mui/material/Tabs";
 import LimitPoolTabs from "./PoolTabs/LimitPoolTabs";
 import MarketPoolTabs from "./PoolTabs/MarketPoolTabs";
@@ -19,8 +17,9 @@ const CreateOrder = () => {
   };
 
   return (
-    <WrapperBox
-      overrideStyles={(theme) => ({
+    <Box
+      sx={(theme) => ({
+        borderRadius: "5px",
         backgroundColor: theme.palette.background.paper,
         padding: "10px 5px 5px 5px",
         position: "sticky",
@@ -39,7 +38,7 @@ const CreateOrder = () => {
       <TabPanel value={value} index={"market"}>
         <MarketPoolTabs />
       </TabPanel>
-    </WrapperBox>
+    </Box>
   );
 };
 
