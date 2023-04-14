@@ -9,6 +9,7 @@ interface Props {
   write: (() => void) | undefined;
   isSubmitting: boolean;
   approve: (() => void) | undefined;
+  isMarket?: boolean;
 }
 
 const Submit: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const Submit: React.FC<Props> = ({
   write,
   isSubmitting,
   approve,
+  isMarket = false,
 }) => {
   const formValues = useWatch({ control });
   const approved = () => {
@@ -28,13 +30,19 @@ const Submit: React.FC<Props> = ({
       return true;
     }
   };
+  const isDisabled = () => {
+    if (isMarket) {
+      return !formValues.amount;
+    }
+    return !formValues.price || !formValues.amount;
+  };
   return (
     <LoadingButton
       variant="contained"
       endIcon={isSubmitting && <CircularProgress size={22} color="inherit" />}
       loading={isSubmitting}
       fullWidth
-      disabled={!formValues?.price || !formValues?.amount || approved()}
+      disabled={isDisabled() || approved()}
       sx={{
         textTransform: "none",
         width: "100%",

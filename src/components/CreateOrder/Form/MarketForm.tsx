@@ -60,6 +60,7 @@ const MarketForm: React.FC<Props> = () => {
           label={pool?.underlying.label || ""}
           write={write}
           approve={approve}
+          isMarket={true}
         />
       </div>
     </form>
