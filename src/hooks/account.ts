@@ -32,3 +32,23 @@ export const useGetBlock = (event: Event) => {
 
   return block;
 };
+
+type Status = "open" | "fulfilled" | "";
+export const useGetOrderStatus = (
+  address: `0x${string}`,
+  price: BigNumber,
+  index: BigNumber
+) => {
+  const { data } = usePoolOrders({
+    address,
+    args: [price, index],
+  });
+
+  let status: Status = "";
+  if (data) {
+    const amount = utils.formatUnits(data.underlyingAmount as BigNumberish, 18);
+    status = +amount === 0 ? "fulfilled" : "open";
+  }
+
+  return status;
+};
