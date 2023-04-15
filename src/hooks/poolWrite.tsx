@@ -1,11 +1,6 @@
-import { ethers, utils, BigNumberish, BigNumber } from "ethers";
+import { utils, BigNumber } from "ethers";
 import { useEffect, useState } from "react";
-import { contractABI } from "store/abi";
-import {
-  useAccount,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCancelOrder,
   usePoolCreateOrder,
@@ -134,7 +129,8 @@ export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
     },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
+  // const { data: waitedData } =
+  useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -204,7 +200,8 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
     },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
+  // const { data: waitedData } =
+  useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       setTest((prevState) => (prevState === 1.01 ? 1.01 : 1.001));
@@ -248,7 +245,8 @@ export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
     },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
+  // const { data: waitedData } =
+  useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(

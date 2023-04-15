@@ -1,26 +1,18 @@
-import { Paper, Table, TableContainer } from "@mui/material";
-import { OpenOrder, Pool } from "types";
+import { Table } from "@mui/material";
 import OrdersTableHead from "./TableHead";
 import OrdersTableBody from "./TableBody";
+import { Event } from "ethers";
 
 interface Props {
-  openOrdersData: OpenOrder[];
-  hasCancel: boolean;
-  pool: Pool;
+  orders?: Event[];
 }
 
-const Orders: React.FC<Props> = ({ openOrdersData, hasCancel, pool }) => {
+const Orders: React.FC<Props> = ({ orders }) => {
   return (
-    <TableContainer component={Paper}>
-      <Table size="small">
-        <OrdersTableHead />
-        <OrdersTableBody
-          pool={pool}
-          hasCancel={hasCancel}
-          openOrdersData={openOrdersData}
-        />
-      </Table>
-    </TableContainer>
+    <Table size="small">
+      <OrdersTableHead />
+      <OrdersTableBody orders={orders} />
+    </Table>
   );
 };
 

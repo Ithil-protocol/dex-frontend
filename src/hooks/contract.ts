@@ -3,7 +3,6 @@ import { BigNumber, ethers, utils } from "ethers";
 import { contractABI } from "store/abi";
 import { CustomContractConfig } from "types";
 import { readContracts } from "wagmi";
-import { usePoolPriceLevels } from "./contracts/pool";
 
 const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
 

@@ -1,109 +1,109 @@
-/* eslint-disable react/jsx-key */
-import { Button, Link, TableCell, TableRow } from "@mui/material";
-import { BigNumber, BigNumberish, utils } from "ethers";
-import { usePoolOrders } from "hooks/contracts/pool";
+import { Button, Link, TableCell, TableRow, useTheme } from "@mui/material";
+import { Event, utils } from "ethers";
 import { useCancelOrder } from "hooks/poolWrite";
+import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
-import theme from "styles/theme";
-import { OpenOrder, Pair, Pool } from "types";
+import { useGetBlock, useGetOrderStatus } from "hooks/account";
 
 interface Props {
-  data: OpenOrder;
-  hasCancel: boolean;
-  pool: Pool;
+  data: Event;
 }
 
-const Order = ({ data, hasCancel, pool }: Props) => {
-  const pair = usePoolStore((state) => state.pair);
+const Order: React.FC<Props> = ({ data }) => {
+  const args = data.args!;
 
-  const { data: order } = usePoolOrders({
-    address: data.address as `0x${string}`,
-    args: [data.rawPrice, data.index],
-  });
-  let status = "";
-  console.log("order34", order);
-  if (order) {
-    const amount = utils.formatUnits(
-      order.underlyingAmount as BigNumberish,
-      18
-    );
-    status = +amount === 0 ? "fulfilled" : "open";
-  }
-
+  const theme = useTheme();
+  const [defaultPool, pair] = usePoolStore((state) => [
+    state.default,
+    state.pair,
+  ]);
+  const block = useGetBlock(data);
+  const status = useGetOrderStatus(
+    data.address as `0x${string}`,
+    args.price,
+    args.index
+  );
   const { cancel } = useCancelOrder({
-    index: data.index as BigNumber,
-    price: data.rawPrice,
+    index: args.index,
+    price: args.price,
   });
+
+  const fullDate = formatDateToFullDate(block.timestamp * 1000);
+
+  const convertedUnderlyingAmount = utils.formatUnits(
+    args.underlyingAmount,
+    defaultPool.underlying.decimals
+  );
+  const convertedPrice = utils.formatUnits(
+    args.price,
+    defaultPool.accounting.decimals
+  );
+
+  const convertedStaked = utils.formatUnits(
+    args.staked,
+    defaultPool.underlying.decimals
+  );
+
+  const total = +convertedPrice * +convertedUnderlyingAmount;
 
   return (
     <TableRow>
-      {makeRows(
+      <TableCell>{fullDate}</TableCell>
+
+      <TableCell style={{ fontWeight: 600 }}>
+        {`${pair.underlyingLabel} / ${pair.accountingLabel}`}
+      </TableCell>
+
+      <TableCell
+        style={{
+          fontWeight: 400,
+          color:
+            // data.side === "buy"
+            // ?
+            theme.palette.success.main,
+          // : theme.palette.error.main,
+        }}
+      >
         {
-          ...data,
-          status,
-        },
-        hasCancel,
-        pair,
-        cancel
-      ).map((item, i) => (
-        <TableCell key={i}>{item}</TableCell>
-      ))}
+          // data.side
+          "buy"
+        }
+      </TableCell>
+
+      <TableCell>
+        <Link
+          target="_blank"
+          href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
+        >
+          {status}
+        </Link>
+      </TableCell>
+
+      <TableCell>{`${convertedUnderlyingAmount} ${pair.underlyingLabel}`}</TableCell>
+
+      <TableCell>{`${convertedPrice} ${pair.accountingLabel}`}</TableCell>
+
+      <TableCell>{`${(+total).toFixed(10)} ${pair.underlyingLabel}`}</TableCell>
+
+      <TableCell>{`${convertedStaked} ETH`}</TableCell>
+
+      {status === "open" && (
+        <TableCell>
+          <Button
+            size="small"
+            color="error"
+            sx={{
+              padding: "0px",
+            }}
+            onClick={() => cancel?.()}
+            disabled={!cancel}
+          >
+            cancel
+          </Button>
+        </TableCell>
+      )}
     </TableRow>
   );
 };
-
-const makeRows = (
-  data: Props["data"],
-  hasCancel: Props["hasCancel"],
-  pair: Pair,
-  cancel: (() => void) | undefined
-) => [
-  `${data.fullDate}`,
-
-  <span style={{ fontWeight: 600 }}>
-    {`${pair.underlyingLabel} / ${pair.accountingLabel}`}
-  </span>,
-
-  <span
-    style={{
-      fontWeight: 400,
-      color:
-        data.side === "buy"
-          ? theme.palette.success.main
-          : theme.palette.error.main,
-    }}
-  >
-    {data.side}
-  </span>,
-
-  <Link
-    target="_blank"
-    href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-  >
-    {data.status}
-  </Link>,
-
-  `${data.amount} ${pair.underlyingLabel}`,
-
-  `${data.price} ${pair.accountingLabel}`,
-
-  `${(+data.total).toFixed(10)} ${pair.underlyingLabel}`,
-
-  `${data.staked} ETH`,
-
-  data.status === "open" && (
-    <Button
-      size="small"
-      color="error"
-      sx={{
-        padding: "0px",
-      }}
-      onClick={() => cancel?.()}
-      disabled={!cancel}
-    >
-      cancel
-    </Button>
-  ),
-];
 
 export default Order;
