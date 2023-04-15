@@ -3,8 +3,9 @@ import { Button, Link, TableCell, TableRow } from "@mui/material";
 import { BigNumber, BigNumberish, utils } from "ethers";
 import { usePoolOrders } from "hooks/contracts/pool";
 import { useCancelOrder } from "hooks/poolWrite";
+import { usePoolStore } from "store";
 import theme from "styles/theme";
-import { OpenOrder, Pool } from "types";
+import { OpenOrder, Pair, Pool } from "types";
 
 interface Props {
   data: OpenOrder;
@@ -13,6 +14,8 @@ interface Props {
 }
 
 const Order = ({ data, hasCancel, pool }: Props) => {
+  const pair = usePoolStore((state) => state.pair);
+
   const { data: order } = usePoolOrders({
     address: data.address as `0x${string}`,
     args: [data.rawPrice, data.index],
@@ -40,7 +43,7 @@ const Order = ({ data, hasCancel, pool }: Props) => {
           status,
         },
         hasCancel,
-        pool,
+        pair,
         cancel
       ).map((item, i) => (
         <TableCell key={i}>{item}</TableCell>
@@ -52,13 +55,13 @@ const Order = ({ data, hasCancel, pool }: Props) => {
 const makeRows = (
   data: Props["data"],
   hasCancel: Props["hasCancel"],
-  pool: Pool,
+  pair: Pair,
   cancel: (() => void) | undefined
 ) => [
   `${data.fullDate}`,
 
   <span style={{ fontWeight: 600 }}>
-    {`${pool.underlying.label} / ${pool.accounting.label}`}
+    {`${pair.underlyingLabel} / ${pair.accountingLabel}`}
   </span>,
 
   <span
@@ -80,11 +83,11 @@ const makeRows = (
     {data.status}
   </Link>,
 
-  `${data.amount} ${pool.underlying.label}`,
+  `${data.amount} ${pair.underlyingLabel}`,
 
-  `${data.price} ${pool.accounting.label}`,
+  `${data.price} ${pair.accountingLabel}`,
 
-  `${(+data.total).toFixed(10)} ${pool.underlying.label}`,
+  `${(+data.total).toFixed(10)} ${pair.underlyingLabel}`,
 
   `${data.staked} ETH`,
 

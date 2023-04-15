@@ -31,7 +31,6 @@ export interface OpenOrder {
 }
 
 export interface Token {
-  label: string;
   icon: JSX.Element;
   address: string;
   decimals: number;
@@ -47,6 +46,8 @@ export type Side = "sell" | "buy";
 export type LimitMarket = "limit" | "market";
 
 export interface Pair {
+  underlyingLabel: string;
+  accountingLabel: string;
   sell: Pool;
   buy: Pool;
   value: number;

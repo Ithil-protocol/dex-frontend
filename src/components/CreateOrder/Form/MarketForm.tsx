@@ -18,7 +18,7 @@ const MarketForm: React.FC<Props> = () => {
     setValue,
   } = useForm();
   const formValues = useWatch({ control });
-  const pool = usePoolStore((state) => state.pool);
+  const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
 
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
@@ -56,12 +56,12 @@ const MarketForm: React.FC<Props> = () => {
           available={tokenBalance?.formatted || "0.00"}
         />
 
-        <Total control={control} label={pool?.accounting.label || ""} />
+        <Total control={control} label={pair?.accountingLabel || ""} />
 
         <Submit
           isSubmitting={isSubmitting}
           control={control}
-          label={pool?.underlying.label || ""}
+          label={pair?.underlyingLabel || ""}
           write={write}
           approve={approve}
           isMarket={true}

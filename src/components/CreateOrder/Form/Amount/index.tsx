@@ -4,6 +4,7 @@ import AmountGroupButton from "./GroupButton";
 import AmountLabel from "./Label";
 import AmountTextField from "./TextField";
 import { Pool } from "types";
+import { usePoolStore } from "store";
 
 interface Props {
   available: string;
@@ -15,6 +16,8 @@ interface Props {
 const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
   const theme = useTheme();
   const { price } = useWatch({ control });
+
+  const pair = usePoolStore((state) => state.pair);
 
   const disabled = price == "" || price == 0 || price == undefined;
 
@@ -32,7 +35,7 @@ const Amount: React.FC<Props> = ({ available, control, pool, setValue }) => {
         }}
       >
         <AmountTextField
-          endLabel={pool?.underlying.label || ""}
+          endLabel={pair?.underlyingLabel || ""}
           control={control}
         />
 

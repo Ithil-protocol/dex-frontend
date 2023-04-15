@@ -10,14 +10,9 @@ const RenderOption = (props: object, option: Pair) => (
     <span className={styles.accounting_icon}>
       {option["sell"].accounting.icon}
     </span>
-    <span className={styles.underlying_label}>
-      {option["sell"].underlying.label}
-    </span>
+    <span className={styles.underlying_label}>{option.underlyingLabel}</span>
     <span className={styles.slash}>/</span>
-    <span className={styles.accounting_label}>
-      {" "}
-      {option["sell"].accounting.label}
-    </span>
+    <span className={styles.accounting_label}> {option.accountingLabel}</span>
   </ListItemButton>
 );
 
