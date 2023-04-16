@@ -19,9 +19,9 @@ import {
 import { usePoolStore } from "store";
 
 interface CreateOrderProps {
-  amount: number | string;
-  price: number | string;
-  boost: number | string;
+  amount: number | string | undefined;
+  price: number | string | undefined;
+  boost: number | string | undefined;
 }
 
 export const useCreateOrder = ({
@@ -152,7 +152,7 @@ export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
 };
 
 interface AllowanceProps {
-  amount: number;
+  amount: number | string | undefined;
 }
 export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
   const [test, setTest] = useState(1.01);
@@ -173,7 +173,7 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
     if (allowanceValue) {
       return (
         Number(utils.formatUnits(allowanceValue, pool.underlying.decimals)) <
-        amount
+        Number(amount)
       );
     }
     return false;
@@ -183,7 +183,7 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
     args: [
       pool.address as `0x${string}`,
       utils.parseUnits(
-        (amount * test || 0).toFixed(pool.underlying.decimals),
+        (Number(amount) * test || 0).toFixed(pool.underlying.decimals),
         pool.underlying.decimals
       ),
     ],

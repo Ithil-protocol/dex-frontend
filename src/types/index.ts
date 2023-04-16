@@ -91,11 +91,11 @@ export type CustomContractConfig = ({
 // Form Type
 
 export interface LimitInputs {
-  Price: string;
-  Amount: string;
-  Boost: string;
+  price: string;
+  amount: string;
+  boost: string;
 }
 
 export interface MarketInputs {
-  Amount: string;
+  amount: string;
 }

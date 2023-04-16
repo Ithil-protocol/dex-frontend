@@ -5,10 +5,13 @@ import Boost from "./Boost";
 import Price from "./Price";
 import Submit from "./Submit";
 import Total from "./Total";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useCreateOrder } from "hooks/poolWrite";
 import Amount from "./Amount";
+import { LimitInputs } from "types";
+import { limitSchema } from "data/forms";
 
 interface Props {}
 
@@ -18,7 +21,9 @@ const LimitForm: React.FC<Props> = () => {
     formState: { isSubmitting },
     handleSubmit,
     setValue,
-  } = useForm();
+  } = useForm<LimitInputs>({
+    resolver: yupResolver(limitSchema),
+  });
   const formValues = useWatch({ control });
   const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
 
@@ -56,12 +61,12 @@ const LimitForm: React.FC<Props> = () => {
       >
         <Price control={control} endLabel={pair?.accountingLabel || ""} />
 
-        <Amount
+        {/* <Amount
           control={control}
           pool={pool}
           setValue={setValue}
           available={tokenBalance?.formatted || "0.00"}
-        />
+        /> */}
 
         <Boost control={control} />
 
