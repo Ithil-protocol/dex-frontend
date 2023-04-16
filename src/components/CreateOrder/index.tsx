@@ -24,6 +24,7 @@ const CreateOrder = () => {
         padding: "10px 5px 5px 5px",
         position: "sticky",
         top: 15,
+        height: 600,
       })}
     >
       <Tabs value={value} onChange={handleChange}>
@@ -31,12 +32,18 @@ const CreateOrder = () => {
         <WrapperTab value="market" label="Market" />
       </Tabs>
 
-      <div role="tabpanel" hidden={value !== "limit"}>
-        <LimitPoolTabs />
-      </div>
+      <div
+        style={{
+          padding: "0px 15px",
+        }}
+      >
+        <div role="tabpanel" hidden={value !== "limit"}>
+          <LimitPoolTabs />
+        </div>
 
-      <div role="tabpanel" hidden={value !== "market"}>
-        <MarketPoolTabs />
+        <div role="tabpanel" hidden={value !== "market"}>
+          <MarketPoolTabs />
+        </div>
       </div>
     </Box>
   );
