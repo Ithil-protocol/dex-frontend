@@ -87,3 +87,15 @@ export type CustomContractConfig = ({
 } & {
   chainId?: number | undefined;
 })[];
+
+// Form Type
+
+export interface LimitInputs {
+  Price: string;
+  Amount: string;
+  Boost: string;
+}
+
+export interface MarketInputs {
+  Amount: string;
+}
