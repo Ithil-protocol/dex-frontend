@@ -346,6 +346,81 @@ export const rawContractABI = [
     inputs: [
       {
         internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+    ],
+    name: "getNextPriceLevel",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "index",
+        type: "uint256",
+      },
+    ],
+    name: "getOrder",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "offerer",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "recipient",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "underlyingAmount",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "staked",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "previous",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "next",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IPool.Order",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "",
         type: "uint256",
       },
@@ -381,55 +456,6 @@ export const rawContractABI = [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "orders",
-    outputs: [
-      {
-        internalType: "address",
-        name: "offerer",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "recipient",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "underlyingAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "staked",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "previous",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "next",
         type: "uint256",
       },
     ],
@@ -524,25 +550,6 @@ export const rawContractABI = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "priceLevels",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "priceResolution",
     outputs: [
@@ -576,6 +583,47 @@ export const rawContractABI = [
         internalType: "contract IERC20",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "startPrice",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "minPrice",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxLength",
+        type: "uint256",
+      },
+    ],
+    name: "volumes",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "volume",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IPool.Volume[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
