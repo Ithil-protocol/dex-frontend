@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { Side } from "types";
 import Tabs from "@mui/material/Tabs";
-import MarketForm from "../Form/MarketForm";
+import MarketForm from "../Form/Market";
 interface Props {}
 
 const MarketPoolTabs: React.FC<Props> = () => {

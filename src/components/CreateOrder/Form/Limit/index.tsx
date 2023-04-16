@@ -1,27 +1,30 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Submit from "./Submit";
-import Total from "./Total";
+import Boost from "./Boost";
+import Price from "./Price";
+import Submit from "../Common/Submit";
+import Total from "../Common/Total";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "hooks/account";
-import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import Amount from "./MarketAmount";
-import { MarketInputs } from "types";
-import { marketSchema } from "data/forms";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useAllowance, useCreateOrder } from "hooks/poolWrite";
+import LimitAmount from "./Amount";
+import { LimitInputs } from "types";
+import { limitSchema } from "data/forms";
 
 interface Props {}
 
-const MarketForm: React.FC<Props> = () => {
+const LimitForm: React.FC<Props> = () => {
   const {
     control,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
     handleSubmit,
     setValue,
-  } = useForm<MarketInputs>({
-    resolver: yupResolver(marketSchema),
+  } = useForm<LimitInputs>({
+    resolver: yupResolver(limitSchema),
   });
+  console.log(errors["price"]?.message?.toString());
   const formValues = useWatch({ control });
   const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
 
@@ -29,9 +32,12 @@ const MarketForm: React.FC<Props> = () => {
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
-  const { write } = useFulfillOrder({
+  const { write } = useCreateOrder({
     amount: formValues["amount"],
+    price: formValues["price"],
+    boost: formValues["boost"],
   });
+
   const { write: approve } = useAllowance({
     amount: formValues.amount,
   });
@@ -54,12 +60,16 @@ const MarketForm: React.FC<Props> = () => {
           padding: "5px",
         }}
       >
-        <Amount
+        <Price control={control} endLabel={pair?.accountingLabel || ""} />
+
+        <LimitAmount
           control={control}
           pool={pool}
           setValue={setValue}
           available={tokenBalance?.formatted || "0.00"}
         />
+
+        <Boost control={control} />
 
         <Total control={control} label={pair?.accountingLabel || ""} />
 
@@ -69,11 +79,10 @@ const MarketForm: React.FC<Props> = () => {
           label={pair?.underlyingLabel || ""}
           write={write}
           approve={approve}
-          isMarket={true}
         />
       </div>
     </form>
   );
 };
 
-export default MarketForm;
+export default LimitForm;

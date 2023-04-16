@@ -29,28 +29,31 @@ createClient({
   let newPools = [...addresses];
   const addressesLength = addresses.length;
 
-  const underlyingContracts = addresses.flatMap((item) => [{
-    abi: rawContractABI,
-    functionName: "underlying",
-    address: item.sell.address,
-  },
-  {
-    abi: rawContractABI,
-    functionName: "underlying",
-    address: item.buy.address,
-  }]);
+  const underlyingContracts = addresses.flatMap((item) => [
+    {
+      abi: rawContractABI,
+      functionName: "underlying",
+      address: item.sell.address,
+    },
+    {
+      abi: rawContractABI,
+      functionName: "underlying",
+      address: item.buy.address,
+    },
+  ]);
 
-  const accountingContracts = addresses.flatMap((item) => [{
-    abi: rawContractABI,
-    functionName: "accounting",
-    address: item.sell.address,
-  },
-  {
-    abi: rawContractABI,
-    functionName: "accounting",
-    address: item.buy.address,
-  }]);
-
+  const accountingContracts = addresses.flatMap((item) => [
+    {
+      abi: rawContractABI,
+      functionName: "accounting",
+      address: item.sell.address,
+    },
+    {
+      abi: rawContractABI,
+      functionName: "accounting",
+      address: item.buy.address,
+    },
+  ]);
 
   const underlyingPromise = await readContracts({
     contracts: underlyingContracts,
@@ -81,7 +84,6 @@ createClient({
   });
 
   for (let i = 0; i < addressesLength; i++) {
-
     const sellIndex = i * 2;
     const buyIndex = i * 2 + 1;
 

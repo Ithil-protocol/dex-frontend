@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { Side } from "types";
 import Tabs from "@mui/material/Tabs";
-import LimitForm from "../Form/LimitForm";
+import LimitForm from "../Form/Limit";
 
 interface Props {}
 
