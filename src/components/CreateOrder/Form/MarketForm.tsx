@@ -6,7 +6,10 @@ import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import Amount from "./Amount";
+import Amount from "./MarketAmount";
+import { MarketInputs } from "types";
+import { marketSchema } from "data/forms";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface Props {}
 
@@ -16,7 +19,9 @@ const MarketForm: React.FC<Props> = () => {
     formState: { isSubmitting },
     handleSubmit,
     setValue,
-  } = useForm();
+  } = useForm<MarketInputs>({
+    resolver: yupResolver(marketSchema),
+  });
   const formValues = useWatch({ control });
   const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
 

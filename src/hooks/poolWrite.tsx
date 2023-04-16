@@ -86,7 +86,7 @@ export const useCreateOrder = ({
 };
 
 interface FulfillOrderProps {
-  amount: number | string;
+  amount: number | string | undefined;
 }
 
 export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {

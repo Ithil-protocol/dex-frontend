@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useCreateOrder } from "hooks/poolWrite";
-import Amount from "./Amount";
+import Amount from "./LimitAmount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 
@@ -61,12 +61,12 @@ const LimitForm: React.FC<Props> = () => {
       >
         <Price control={control} endLabel={pair?.accountingLabel || ""} />
 
-        {/* <Amount
+        <Amount
           control={control}
           pool={pool}
           setValue={setValue}
           available={tokenBalance?.formatted || "0.00"}
-        /> */}
+        />
 
         <Boost control={control} />
 
