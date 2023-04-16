@@ -18,12 +18,13 @@ interface Props {}
 const LimitForm: React.FC<Props> = () => {
   const {
     control,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
     handleSubmit,
     setValue,
   } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),
   });
+  console.log(errors["price"]?.message?.toString());
   const formValues = useWatch({ control });
   const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
 
