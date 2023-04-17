@@ -7,7 +7,7 @@ import { readContracts } from "wagmi";
 import fs from "fs";
 import { rawContractABI } from "../store/abi-raw.mjs";
 
-import addresses from "../data/addresses.json" assert { type: "json" };
+import addresses from "../../pairs.json" assert { type: "json" };
 
 console.log("creating pairs...");
 
@@ -87,6 +87,10 @@ createClient({
     const sellIndex = i * 2;
     const buyIndex = i * 2 + 1;
 
+    newPools[i].sell.underlying = {};
+    newPools[i].sell.accounting = {};
+    newPools[i].buy.underlying = {};
+    newPools[i].buy.accounting = {};
     newPools[i].sell.underlying.address = underlyingPromise[sellIndex];
     newPools[i].buy.underlying.address = underlyingPromise[buyIndex];
     newPools[i].sell.accounting.address = accountingPromise[sellIndex];

@@ -46,6 +46,7 @@ const poolsIcons = [
 
 export const pairs: Pair[] = rawPools.map((item, index) => ({
   ...item,
+  value: index,
   sell: {
     ...item.sell,
     underlying: {

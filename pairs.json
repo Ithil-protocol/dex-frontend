@@ -1,0 +1,12 @@
+[
+  {
+    "underlyingLabel": "WETH",
+    "accountingLabel": "USDC",
+    "sell": {
+      "address": "0x284e0a5b12c4b77d12f543220573156f0cCFF119"
+    },
+    "buy": {
+      "address": "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37"
+    }
+  }
+]
