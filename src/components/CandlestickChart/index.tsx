@@ -20,7 +20,7 @@ export const CandlestickChart = () => {
         height="100%"
         theme="dark"
         autosize
-        symbol={symbol}
+        symbol={"UNISWAP3ARBITRUM:" + symbol}
         copyrightStyles={{ parent: { display: "none" } }}
       />
       <Typography
@@ -31,10 +31,10 @@ export const CandlestickChart = () => {
         <Link
           underline="none"
           color={"#2196f3"}
-          href={`https://www.tradingview.com/symbols/${symbol}`}
+          href={`https://www.tradingview.com/symbols/UNISWAP3ARBITRUM:${symbol}`}
           target={"_blank"}
         >
-          {"BTCUSDT"} Chart
+          {symbol} Chart
         </Link>
         <p>by TradingView</p>
       </Typography>
