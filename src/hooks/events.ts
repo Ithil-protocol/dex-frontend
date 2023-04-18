@@ -101,3 +101,66 @@ export const useAllOrderFulfilledEvents = () => {
 
   return useQuery(["allOrderFulfilledEvents"], getEvents);
 };
+
+export const useUserOrderFulfilledEvents = () => {
+  const { address } = useAccount();
+  const buyContract = useBuyContract();
+  const sellContract = useSellContract();
+  const getEvents = async () => {
+    let results: Event[] = [];
+    if (buyContract && sellContract && address) {
+      const sellFilterOfferer = sellContract.filters.OrderFulfilled(
+        null,
+        address,
+        null,
+        null,
+        null,
+        null
+      );
+      const sellFilterFulfiller = sellContract.filters.OrderFulfilled(
+        null,
+        address,
+        null,
+        null,
+        null,
+        null
+      );
+      const buyFilterOfferer = buyContract.filters.OrderFulfilled(
+        null,
+        address,
+        null,
+        null,
+        null,
+        null
+      );
+      const buyFilterFulfiller = buyContract.filters.OrderFulfilled(
+        null,
+        null,
+        address,
+        null,
+        null,
+        null
+      );
+      const sellEventsOfferer = await sellContract.queryFilter(
+        sellFilterOfferer
+      );
+      const sellEventsFulfiller = await sellContract.queryFilter(
+        sellFilterFulfiller
+      );
+      const buyEventsOfferer = await buyContract.queryFilter(buyFilterOfferer);
+      const buyEventsFulfiller = await buyContract.queryFilter(
+        buyFilterFulfiller
+      );
+
+      results = [
+        ...sellEventsOfferer,
+        ...sellEventsFulfiller,
+        ...buyEventsOfferer,
+        ...buyEventsFulfiller,
+      ];
+    }
+    return results;
+  };
+
+  return useQuery(["userOrderFulfilledEvents"], getEvents);
+};
