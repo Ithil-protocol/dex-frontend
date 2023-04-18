@@ -153,11 +153,11 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
     enabled: !!address,
     watch: true,
   });
-  console.log(allowanceValue);
-  allowanceValue &&
-    console.log(
-      Number(utils.formatUnits(allowanceValue, pool.underlying.decimals))
-    );
+  // console.log(allowanceValue);
+  // allowanceValue &&
+  //   console.log(
+  //     Number(utils.formatUnits(allowanceValue, pool.underlying.decimals))
+  //   );
   const needAllowance = () => {
     if (allowanceValue) {
       return (
@@ -202,7 +202,6 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
       );
     },
   });
-  console.log(write);
 
   return { write };
 
