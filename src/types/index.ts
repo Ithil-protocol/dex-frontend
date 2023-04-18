@@ -44,6 +44,8 @@ export interface PoolState {
   side: Side;
   pool: Pool;
   default: Pool;
+  sellPool: Pool;
+  buyPool: Pool;
   updateSide: (_: Side) => void;
   updatePair: (_: Pair) => void;
 }
