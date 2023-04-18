@@ -25,21 +25,6 @@ export const CandlestickChart = () => {
         symbol={symbol}
         copyrightStyles={{ parent: { display: "none" } }}
       />
-      <Typography
-        variant="caption"
-        className={styles.copyright}
-        fontSize="10px"
-      >
-        <Link
-          underline="none"
-          color={"#2196f3"}
-          href={`https://www.tradingview.com/symbols/${symbol}`}
-          target={"_blank"}
-        >
-          {"BTCUSDT"} Chart
-        </Link>
-        <p>by TradingView</p>
-      </Typography>
     </Box>
   );
 };

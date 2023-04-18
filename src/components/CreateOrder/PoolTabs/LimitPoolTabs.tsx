@@ -37,13 +37,14 @@ const LimitPoolTabs: React.FC<Props> = () => {
           <WrapperTab
             value="buy"
             label="Buy"
+            color={theme.palette.success.main}
             selectedBgColor={theme.palette.success.main}
           />
           <WrapperTab
             value="sell"
+            label="Sell"
             color={theme.palette.error.main}
             selectedBgColor={theme.palette.error.main}
-            label="Sell"
           />
         </Tabs>
       </Box>

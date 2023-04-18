@@ -1,7 +1,8 @@
 {
-  "name": "ithildex",
-  "version": "0.1.0",
-  "private": true,
+  "name": "wizardex",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": false,
   "scripts": {
     "build": "next build",
     "check:format": "prettier --write --list-different ./",
