@@ -35,6 +35,7 @@ module.exports = {
         checkComments: false,
       },
     ],
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
@@ -59,7 +60,7 @@ module.exports = {
       },
     ],
     "no-var": "warn",
-    "object-shorthand": ["error", "always"],
+    "object-shorthand": ["warn", "always"],
     quotes: ["warn", "double"],
     semi: ["warn", "always"],
   },
