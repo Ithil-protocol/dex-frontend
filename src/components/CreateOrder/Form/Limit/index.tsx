@@ -33,9 +33,9 @@ const LimitForm: React.FC<Props> = () => {
   });
 
   const { write } = useCreateOrder({
-    amount: 1 || formValues["amount"],
-    price: 1 || formValues["price"],
-    boost: 1 || formValues["boost"],
+    amount: formValues["amount"],
+    price: formValues["price"],
+    boost: formValues["boost"],
   });
 
   const { write: approve } = useAllowance({
