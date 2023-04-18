@@ -52,21 +52,27 @@ export const pairs: Pair[] = rawPools.map((item, index) => ({
     underlying: {
       ...item.sell.underlying,
       ...poolsIcons[index].sell.underlying,
+      address: item.sell.underlying.address as `0x${string}`,
     },
     accounting: {
       ...item.sell.accounting,
       ...poolsIcons[index].sell.accounting,
+      address: item.sell.accounting.address as `0x${string}`,
     },
+    address: item.sell.address as `0x${string}`,
   },
   buy: {
     ...item.buy,
     underlying: {
       ...item.buy.underlying,
       ...poolsIcons[index].buy.underlying,
+      address: item.buy.underlying.address as `0x${string}`,
     },
     accounting: {
       ...item.buy.accounting,
       ...poolsIcons[index].buy.accounting,
+      address: item.buy.accounting.address as `0x${string}`,
     },
+    address: item.buy.address as `0x${string}`,
   },
 }));

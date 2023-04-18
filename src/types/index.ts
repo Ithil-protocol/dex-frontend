@@ -17,14 +17,14 @@ export interface StringMap {
 
 export interface Token {
   icon: JSX.Element;
-  address: string;
+  address: `0x${string}`;
   decimals: number;
 }
 
 export interface Pool {
   underlying: Token;
   accounting: Token;
-  address: string;
+  address: `0x${string}`;
 }
 
 export type Side = "sell" | "buy";

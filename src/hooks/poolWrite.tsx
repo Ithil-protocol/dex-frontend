@@ -45,7 +45,7 @@ export const useCreateOrder = ({
   const { address } = useAccount();
   const [pool] = usePoolStore((state) => [state.pool]);
   const { config } = usePreparePoolCreateOrder({
-    address: pool.address as `0x${string}`,
+    address: pool.address,
     args: [
       utils.parseUnits(Number(amount).toString(), pool.underlying.decimals),
       utils.parseUnits(Number(price).toString(), pool.accounting.decimals),
@@ -101,7 +101,7 @@ export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
   const [pool] = usePoolStore((state) => [state.pool]);
 
   const { config } = usePreparePoolFulfillOrder({
-    address: pool.address as `0x${string}`,
+    address: pool.address,
     args: [
       utils.parseUnits(
         Number(amount).toFixed(pool.underlying.decimals),
@@ -148,8 +148,8 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
   const { address } = useAccount();
   const [pool] = usePoolStore((state) => [state.pool]);
   const { data: allowanceValue } = useTokenAllowance({
-    address: pool.underlying.address as `0x${string}`,
-    args: [address as `0x${string}`, pool.address as `0x${string}`],
+    address: pool.underlying.address,
+    args: [address as `0x${string}`, pool.address],
     enabled: !!address,
     watch: true,
   });
