@@ -2,23 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { useAccount, useContract, useProvider } from "wagmi";
+import { useBuyContract, useSellContract } from "./contract";
 
 export const useUserOrderCreatedEvents = () => {
-  const provider = useProvider();
   const { address } = useAccount();
-  const [sellPool, buyPool] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-  ]);
-  const contract = useContract({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    signerOrProvider: provider,
-  });
-
-  return useQuery(["userOrderCreatedEvent"], () => {
-    if (contract && address) {
-      const filter = contract.filters.OrderCreated(
+  const sellContract = useSellContract();
+  const buyContract = useBuyContract();
+  const getEvents = async () => {
+    let results: any[] = [];
+    if (sellContract && buyContract && address) {
+      const sellFilter = sellContract.filters.OrderCreated(
         address,
         null,
         null,
@@ -27,9 +20,24 @@ export const useUserOrderCreatedEvents = () => {
         null,
         null
       );
-      return contract.queryFilter(filter);
+      const buyFilter = buyContract.filters.OrderCreated(
+        address,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      );
+      const sellEvents = await sellContract.queryFilter(sellFilter);
+      const buyEvents = await buyContract.queryFilter(buyFilter);
+
+      results = [...sellEvents, ...buyEvents];
     }
-  });
+    return results;
+  };
+
+  return useQuery(["userOrderCreatedEvent"], getEvents);
 };
 
 export const useAllOrderCreatedEvents = () => {
