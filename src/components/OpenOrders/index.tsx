@@ -11,7 +11,9 @@ type OpenHistory = "history" | "open";
 export const OpenOrders = () => {
   const [value, setValue] = React.useState<OpenHistory>("open");
 
-  const { data: orders } = useUserOrderCreatedEvents();
+  const { data } = useUserOrderCreatedEvents();
+
+  const orders = (data || []).reverse();
 
   const handleChange = (
     _event: React.SyntheticEvent<Element, Event>,
