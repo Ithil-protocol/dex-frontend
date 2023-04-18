@@ -1,6 +1,6 @@
 import { Autocomplete, TextField, useTheme } from "@mui/material";
 import { pairs } from "data/pools";
-import React from "react";
+
 import { usePoolStore } from "store";
 import { Pair } from "types/index";
 import RenderOption from "./RenderOption";

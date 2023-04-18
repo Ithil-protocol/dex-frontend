@@ -1,4 +1,3 @@
-import React from "react";
 import WrapperTab from "../../Common/WrapperTab";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";

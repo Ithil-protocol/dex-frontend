@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
 import Submit from "../Common/Submit";

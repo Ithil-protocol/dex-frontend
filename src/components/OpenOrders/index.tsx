@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Orders from "./Orders";
 import WrapperTab from "components/Common/WrapperTab";
-import React from "react";
+import { useState } from "react";
 import { useUserOrderCreatedEvents } from "hooks/events";
 
 import Tabs from "@mui/material/Tabs";
@@ -9,7 +9,7 @@ import Tabs from "@mui/material/Tabs";
 type OpenHistory = "history" | "open";
 
 export const OpenOrders = () => {
-  const [value, setValue] = React.useState<OpenHistory>("open");
+  const [value, setValue] = useState<OpenHistory>("open");
 
   const { data } = useUserOrderCreatedEvents();
 

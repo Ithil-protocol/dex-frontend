@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React from "react";
+
 import { Control, useWatch } from "react-hook-form";
 import { truncateString } from "utility";
 

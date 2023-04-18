@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Control } from "react-hook-form";
 import BoostLabel from "./Label";
 import BoostTextField from "./TextField";
