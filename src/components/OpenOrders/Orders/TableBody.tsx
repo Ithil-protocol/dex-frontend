@@ -3,7 +3,7 @@ import EachOrder from "../EachOrder";
 import { Event } from "ethers";
 
 interface Props {
-  orders?: Event[];
+  orders: Event[];
 }
 
 const OrdersTableBody: React.FC<Props> = ({ orders = [] }) => {
