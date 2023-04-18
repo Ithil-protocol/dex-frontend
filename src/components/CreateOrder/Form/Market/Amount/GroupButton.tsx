@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { useTokenBalance } from "hooks/account";
-import React from "react";
 
 interface Props {
   setValue: any;

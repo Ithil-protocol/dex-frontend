@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { useTokenBalance } from "hooks/account";
-import React from "react";
 
 interface Props {
   setValue: any;
@@ -39,6 +38,7 @@ const LimitAmountGroupButton: React.FC<Props> = ({
             onClick={() => clickHandler(item)}
             disabled={disabled}
             key={i}
+            disableElevation
             sx={(theme) => ({
               borderRadius: 0,
               backgroundColor: theme.palette.background.default,

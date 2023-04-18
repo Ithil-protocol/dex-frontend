@@ -3,7 +3,7 @@ import { object, string, ObjectSchema } from "yup";
 
 export const limitSchema: ObjectSchema<LimitInputs> = object()
   .shape({
-    price: string().max(3, "error").required(),
+    price: string().required(),
     amount: string().required(),
     boost: string().required(),
   })

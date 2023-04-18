@@ -1,5 +1,6 @@
 import { Button, InputAdornment, TextField } from "@mui/material";
-import React from "react";
+import { decimalRegex } from "data/regex";
+
 import { useController } from "react-hook-form";
 
 interface Props {
@@ -17,7 +18,7 @@ const BoostTextField: React.FC<Props> = ({
     field: { onChange, ...inputProps },
   } = useController({
     name: "boost",
-    defaultValue: 0,
+    defaultValue: "",
     control,
   });
 
@@ -30,20 +31,17 @@ const BoostTextField: React.FC<Props> = ({
     <TextField
       {...inputProps}
       onChange={(event: any) => {
-        onChange(Number(event.target.value));
-        onBoostChange(event);
+        const { value } = event.target;
+        if (decimalRegex.test(value) || value === "") {
+          onChange(value);
+          onBoostChange(event);
+        }
       }}
       autoComplete="off"
       id="boost"
       placeholder="0"
       size="small"
       variant="outlined"
-      type="number"
-      inputProps={{
-        min: 0,
-        max: 0.1,
-        step: 0.01,
-      }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

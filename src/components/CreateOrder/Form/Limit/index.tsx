@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
 import Boost from "./Boost";
@@ -18,12 +17,12 @@ interface Props {}
 const LimitForm: React.FC<Props> = () => {
   const {
     control,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
     handleSubmit,
     setValue,
   } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),
-    // mode: "onChange",
+    mode: "onChange",
   });
 
   const formValues = useWatch({ control });
@@ -34,9 +33,9 @@ const LimitForm: React.FC<Props> = () => {
   });
 
   const { write } = useCreateOrder({
-    amount: formValues["amount"],
-    price: formValues["price"],
-    boost: formValues["boost"],
+    amount: 1 || formValues["amount"],
+    price: 1 || formValues["price"],
+    boost: 1 || formValues["boost"],
   });
 
   const { write: approve } = useAllowance({
