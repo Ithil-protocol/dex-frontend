@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers, utils } from "ethers";
+import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { CustomContractConfig } from "types";
-import { readContracts } from "wagmi";
+import { readContracts, useContract, useProvider } from "wagmi";
 
 const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
 
@@ -14,7 +15,7 @@ export const usePriceLevelReads = () => {
         {
           address,
           abi: contractABI,
-          functionName: "priceLevels",
+          functionName: "getNextPriceLevel",
           args: [utils.parseUnits("0", 0)],
         },
       ],
@@ -28,7 +29,7 @@ export const usePriceLevelReads = () => {
           {
             address,
             abi: contractABI,
-            functionName: "priceLevels",
+            functionName: "getNextPriceLevel",
             args: [next],
           },
         ],
@@ -81,7 +82,7 @@ export const useOrderReads = () => {
         contracts.push({
           abi: contractABI,
           address,
-          functionName: "orders",
+          functionName: "getOrder",
           args: [priceLevels[i], j],
         });
       }
@@ -103,4 +104,23 @@ export const useOrderReads = () => {
       enabled: !!priceLevels && !!ids,
     }
   );
+};
+
+export const useSellContract = () => {
+  const provider = useProvider();
+  const [sellPool] = usePoolStore((state) => [state.sellPool]);
+  return useContract({
+    address: sellPool.address,
+    abi: contractABI,
+    signerOrProvider: provider,
+  });
+};
+export const useBuyContract = () => {
+  const provider = useProvider();
+  const [buyPool] = usePoolStore((state) => [state.buyPool]);
+  return useContract({
+    address: buyPool.address,
+    abi: contractABI,
+    signerOrProvider: provider,
+  });
 };

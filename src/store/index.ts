@@ -8,6 +8,8 @@ export const usePoolStore = create<PoolState>((set) => ({
   side: "sell",
   pool: pairs[0]["sell"],
   default: pairs[0]["sell"],
+  sellPool: pairs[0]["sell"],
+  buyPool: pairs[0]["buy"],
   updateSide: (side) => {
     set((state) => {
       return {

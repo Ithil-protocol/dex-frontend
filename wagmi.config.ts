@@ -12,11 +12,7 @@ export default defineConfig([
         name: "pool",
       },
     ],
-    plugins: [
-      react({
-        useContractRead: true,
-      }),
-    ],
+    plugins: [react()],
   },
   {
     out: "src/hooks/contracts/token.ts",
