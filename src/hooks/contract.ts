@@ -14,7 +14,7 @@ export const usePriceLevelReads = () => {
         {
           address,
           abi: contractABI,
-          functionName: "priceLevels",
+          functionName: "getNextPriceLevel",
           args: [utils.parseUnits("0", 0)],
         },
       ],
@@ -28,7 +28,7 @@ export const usePriceLevelReads = () => {
           {
             address,
             abi: contractABI,
-            functionName: "priceLevels",
+            functionName: "getNextPriceLevel",
             args: [next],
           },
         ],
@@ -81,7 +81,7 @@ export const useOrderReads = () => {
         contracts.push({
           abi: contractABI,
           address,
-          functionName: "orders",
+          functionName: "getOrder",
           args: [priceLevels[i], j],
         });
       }

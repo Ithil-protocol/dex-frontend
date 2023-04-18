@@ -1,7 +1,7 @@
 import { BigNumber, BigNumberish, Event, utils } from "ethers";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
-import { usePoolOrders } from "./contracts/pool";
+import { usePoolGetOrder } from "./contracts/pool";
 
 interface TokenBalanceProps {
   tokenAddress: `0x${string}` | undefined;
@@ -39,7 +39,7 @@ export const useGetOrderStatus = (
   price: BigNumber,
   index: BigNumber
 ) => {
-  const { data } = usePoolOrders({
+  const { data } = usePoolGetOrder({
     address,
     args: [price, index],
   });
