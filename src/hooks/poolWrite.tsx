@@ -17,6 +17,7 @@ import {
   useTokenApprove,
 } from "./contracts/token";
 import { usePoolStore } from "store";
+import TransactionToast from "components/Common/Toast/TransactionToast";
 
 interface CreateOrderProps {
   amount: number | string | undefined;
@@ -68,16 +69,10 @@ export const useCreateOrder = ({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
-        <p>
-          Order created successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
+        <TransactionToast
+          text="Order created successfully."
+          hash={data.transactionHash}
+        />
       );
     },
   });
@@ -134,16 +129,10 @@ export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
-        <p>
-          Order fulfilled successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
+        <TransactionToast
+          text="Order fulfilled successfully."
+          hash={data.transactionHash}
+        />
       );
     },
   });
@@ -206,16 +195,10 @@ export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
     onSuccess: (data) => {
       setTest((prevState) => (prevState === 1.01 ? 1.01 : 1.001));
       toast.success(
-        <p>
-          Contract approved successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
+        <TransactionToast
+          text="Contract approved successfully."
+          hash={data.transactionHash}
+        />
       );
     },
   });
@@ -250,16 +233,10 @@ export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
-        <p>
-          Order canceled successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
+        <TransactionToast
+          text="Order canceled successfully."
+          hash={data.transactionHash}
+        />
       );
     },
   });
