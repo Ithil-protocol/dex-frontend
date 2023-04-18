@@ -23,8 +23,9 @@ const LimitForm: React.FC<Props> = () => {
     setValue,
   } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),
+    // mode: "onChange",
   });
-  console.log(errors["price"]?.message?.toString());
+
   const formValues = useWatch({ control });
   const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
 

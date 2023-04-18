@@ -19,12 +19,12 @@ const CreateOrder = () => {
   return (
     <Box
       sx={(theme) => ({
-        borderRadius: "5px",
         backgroundColor: theme.palette.background.paper,
+        borderRadius: "5px",
+        height: 600,
         padding: "10px 5px 5px 5px",
         position: "sticky",
         top: 15,
-        height: 600,
       })}
     >
       <Tabs value={value} onChange={handleChange}>
