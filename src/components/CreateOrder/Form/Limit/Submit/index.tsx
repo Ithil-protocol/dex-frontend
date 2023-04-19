@@ -1,7 +1,9 @@
+/* eslint-disable indent */
 import { LoadingButton } from "@mui/lab";
 import { CircularProgress } from "@mui/material";
 
 import { Control, useWatch } from "react-hook-form";
+import { Side } from "types";
 
 interface Props {
   label: string;
@@ -10,6 +12,7 @@ interface Props {
   isSubmitting: boolean;
   approve: (() => void) | undefined;
   isMarket?: boolean;
+  side: Side;
 }
 
 const Submit: React.FC<Props> = ({
@@ -19,6 +22,7 @@ const Submit: React.FC<Props> = ({
   isSubmitting,
   approve,
   isMarket = false,
+  side,
 }) => {
   const formValues = useWatch({ control });
   const approved = () => {
@@ -36,6 +40,17 @@ const Submit: React.FC<Props> = ({
     }
     return !formValues.price || !formValues.amount;
   };
+
+  const styles =
+    side === "buy"
+      ? () => ({})
+      : (theme) => ({
+          backgroundColor: theme.palette.error.main,
+          "&:hover": {
+            backgroundColor: theme.palette.error.main,
+          },
+        });
+
   return (
     <LoadingButton
       variant="contained"
@@ -43,10 +58,11 @@ const Submit: React.FC<Props> = ({
       loading={isSubmitting}
       fullWidth
       disabled={isDisabled() || approved()}
-      sx={{
+      sx={(theme) => ({
         textTransform: "none",
         width: "100%",
-      }}
+        ...styles(theme),
+      })}
       type="submit"
     >
       {approve ? "Approve first" : `Buy ${label}`}
