@@ -95,7 +95,7 @@ export type CustomContractConfig = ({
 export interface LimitInputs {
   price: string;
   amount: string;
-  boost: string;
+  boost: string | undefined;
 }
 export interface FactoryInputs {
   underlyingAddress: string;

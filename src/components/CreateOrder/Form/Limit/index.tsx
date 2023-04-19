@@ -17,7 +17,7 @@ interface Props {}
 const LimitForm: React.FC<Props> = () => {
   const {
     control,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
     handleSubmit,
     setValue,
   } = useForm<LimitInputs>({
@@ -42,6 +42,7 @@ const LimitForm: React.FC<Props> = () => {
     amount: formValues.amount,
   });
 
+  console.log(errors);
   const handleFormSubmit = () => {
     if (approve) {
       approve();

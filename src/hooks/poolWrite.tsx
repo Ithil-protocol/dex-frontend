@@ -20,15 +20,15 @@ import { usePoolStore } from "store";
 import TransactionToast from "components/Common/Toast/TransactionToast";
 
 interface CreateOrderProps {
-  amount: number | string | undefined;
-  price: number | string | undefined;
-  boost: number | string | undefined;
+  amount: string | undefined;
+  price: string | undefined;
+  boost: string | undefined;
 }
 
 export const useCreateOrder = ({
-  amount = 0,
-  price = 0,
-  boost = 0,
+  amount = "0",
+  price = "0",
+  boost = "0",
 }: CreateOrderProps) => {
   const [time, setTime] = useState(0);
 
@@ -74,6 +74,9 @@ export const useCreateOrder = ({
           hash={data.transactionHash}
         />
       );
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 

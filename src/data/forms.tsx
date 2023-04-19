@@ -5,7 +5,7 @@ export const limitSchema: ObjectSchema<LimitInputs> = object()
   .shape({
     price: string().required(),
     amount: string().required(),
-    boost: string().required(),
+    boost: string(),
   })
   .required();
 
