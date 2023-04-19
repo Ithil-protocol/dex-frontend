@@ -97,6 +97,10 @@ export interface LimitInputs {
   amount: string;
   boost: string;
 }
+export interface FactoryInputs {
+  underlyingAddress: string;
+  accountingAddress: string;
+}
 
 export interface MarketInputs {
   amount: string;
