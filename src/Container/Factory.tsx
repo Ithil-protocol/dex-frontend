@@ -55,7 +55,7 @@ const Factory: React.FC<Props> = () => {
       );
     },
   });
-  console.log(waitedData);
+  console.log("create", waitedData);
 
   const handleFormSubmit = (e) => {
     console.log(e);
@@ -105,7 +105,7 @@ const Factory: React.FC<Props> = () => {
           >
             Get
           </LoadingButton>
-          {/* <LoadingButton
+          <LoadingButton
             variant="contained"
             endIcon={
               isSubmitting && <CircularProgress size={22} color="inherit" />
@@ -117,21 +117,18 @@ const Factory: React.FC<Props> = () => {
               width: "100%",
             }}
             type="submit"
-            onClick={()=>{write?.()}}
+            onClick={() => {
+              write?.();
+            }}
+            disabled={!write}
           >
             Generate
-          </LoadingButton> */}
+          </LoadingButton>
           <TextField
             sx={{ width: 520 }}
             color="secondary"
-            value={data ?? "Get an exist pool address"}
+            value={data ?? "Get pool address"}
             disabled={true}
-          />
-          <TextField
-            sx={{ width: 520 }}
-            color="secondary"
-            disabled={true}
-            value={waitedData ?? "Generate new pool address"}
           />
         </div>
       </form>
