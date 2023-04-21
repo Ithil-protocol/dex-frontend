@@ -28,7 +28,7 @@ function PoolsSelect() {
       options={pairs}
       disableClearable
       getOptionLabel={(option: Pair) =>
-        option.underlyingLabel + "/" + option.underlyingLabel
+        option.underlyingLabel + "/" + option.accountingLabel
       }
       renderOption={RenderOption}
       renderInput={(params) => (
