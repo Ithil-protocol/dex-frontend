@@ -39,11 +39,11 @@ const LimitPoolTabs: React.FC<Props> = () => {
       </Tabs>
 
       <div role="tabpanel" hidden={side !== "buy"}>
-        {side === "buy" && <LimitForm />}
+        {side === "buy" && <LimitForm side={side} />}
       </div>
 
       <div role="tabpanel" hidden={side !== "sell"}>
-        {side === "sell" && <LimitForm />}
+        {side === "sell" && <LimitForm side={side} />}
       </div>
     </div>
   );

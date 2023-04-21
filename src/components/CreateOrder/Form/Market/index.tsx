@@ -1,18 +1,20 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Submit from "../Common/Submit";
-import Total from "../Common/Total";
+import Submit from "./Submit";
+import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
 import MarketAmount from "./Amount";
-import { MarketInputs } from "types";
+import { MarketInputs, Side } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-interface Props {}
+interface Props {
+  side: Side;
+}
 
-const MarketForm: React.FC<Props> = () => {
+const MarketForm: React.FC<Props> = ({ side }) => {
   const {
     control,
     formState: { isSubmitting },
@@ -64,6 +66,7 @@ const MarketForm: React.FC<Props> = () => {
         <Total control={control} label={pair?.accountingLabel || ""} />
 
         <Submit
+          side={side}
           isSubmitting={isSubmitting}
           control={control}
           label={pair?.underlyingLabel || ""}

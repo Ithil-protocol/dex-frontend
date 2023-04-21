@@ -2,19 +2,21 @@ import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
 import Boost from "./Boost";
 import Price from "./Price";
-import Submit from "../Common/Submit";
-import Total from "../Common/Total";
+import Submit from "./Submit";
+import Total from "./Total";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useCreateOrder } from "hooks/poolWrite";
 import LimitAmount from "./Amount";
-import { LimitInputs } from "types";
+import { LimitInputs, Side } from "types";
 import { limitSchema } from "data/forms";
 
-interface Props {}
+interface Props {
+  side: Side;
+}
 
-const LimitForm: React.FC<Props> = () => {
+const LimitForm: React.FC<Props> = ({ side }) => {
   const {
     control,
     formState: { isSubmitting },
@@ -74,6 +76,7 @@ const LimitForm: React.FC<Props> = () => {
         <Total control={control} label={pair?.accountingLabel || ""} />
 
         <Submit
+          side={side}
           isSubmitting={isSubmitting}
           control={control}
           label={pair?.underlyingLabel || ""}

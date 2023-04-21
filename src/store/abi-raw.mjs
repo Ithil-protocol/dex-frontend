@@ -22,17 +22,7 @@ export const rawContractABI = [
   },
   {
     inputs: [],
-    name: "AmountOutTooLow",
-    type: "error",
-  },
-  {
-    inputs: [],
     name: "AmountTooHigh",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "IncorrectTickSpacing",
     type: "error",
   },
   {
@@ -42,7 +32,17 @@ export const rawContractABI = [
   },
   {
     inputs: [],
+    name: "PaidTooHigh",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "PriceTooHigh",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ReceivedTooLow",
     type: "error",
   },
   {
@@ -317,7 +317,12 @@ export const rawContractABI = [
       },
       {
         internalType: "uint256",
-        name: "minAmountOut",
+        name: "minReceived",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxPaid",
         type: "uint256",
       },
       {
@@ -497,6 +502,11 @@ export const rawContractABI = [
         name: "cumulativeUndAmount",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "actualPrice",
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -628,5 +638,221 @@ export const rawContractABI = [
     ],
     stateMutability: "view",
     type: "function",
+  },
+];
+
+export const rawFactoryABI = [
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "TokenMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UnsupportedTick",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "underlying",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "accounting",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tickSpacing",
+        type: "uint256",
+      },
+    ],
+    name: "NewPool",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "tick",
+        type: "uint16",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+    ],
+    name: "TickToggled",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "underlying",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "accounting",
+        type: "address",
+      },
+      {
+        internalType: "uint16",
+        name: "tickSpacing",
+        type: "uint16",
+      },
+    ],
+    name: "createPool",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "pools",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+    ],
+    name: "sweep",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
+      },
+    ],
+    name: "tickSupported",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint16",
+        name: "tick",
+        type: "uint16",
+      },
+    ],
+    name: "toggleSupportedTick",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
   },
 ];

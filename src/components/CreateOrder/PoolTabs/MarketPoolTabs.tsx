@@ -4,6 +4,7 @@ import { usePoolStore } from "store";
 import { Side } from "types";
 import Tabs from "@mui/material/Tabs";
 import MarketForm from "../Form/Market";
+
 interface Props {}
 
 const MarketPoolTabs: React.FC<Props> = () => {
@@ -38,11 +39,11 @@ const MarketPoolTabs: React.FC<Props> = () => {
       </Tabs>
 
       <div role="tabpanel" hidden={side !== "buy"}>
-        <MarketForm />
+        <MarketForm side={side} />
       </div>
 
       <div role="tabpanel" hidden={side !== "sell"}>
-        <MarketForm />
+        <MarketForm side={side} />
       </div>
     </div>
   );
