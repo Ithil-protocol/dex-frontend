@@ -39,11 +39,11 @@ const MarketPoolTabs: React.FC<Props> = () => {
       </Tabs>
 
       <div role="tabpanel" hidden={side !== "buy"}>
-        <MarketForm side={side} />
+        <MarketForm />
       </div>
 
       <div role="tabpanel" hidden={side !== "sell"}>
-        <MarketForm side={side} />
+        <MarketForm />
       </div>
     </div>
   );
