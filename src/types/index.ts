@@ -41,6 +41,7 @@ export interface Pair {
 export interface PoolState {
   pair: Pair;
   pairValue: number;
+  type: LimitMarket;
   side: Side;
   pool: Pool;
   default: Pool;
@@ -48,6 +49,7 @@ export interface PoolState {
   buyPool: Pool;
   updateSide: (_: Side) => void;
   updatePair: (_: Pair) => void;
+  updateType: (_: LimitMarket) => void;
 }
 
 export interface Order {

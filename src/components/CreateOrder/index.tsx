@@ -5,15 +5,19 @@ import { LimitMarket } from "types";
 import Tabs from "@mui/material/Tabs";
 import LimitPoolTabs from "./PoolTabs/LimitPoolTabs";
 import MarketPoolTabs from "./PoolTabs/MarketPoolTabs";
+import { usePoolStore } from "store";
 
 const CreateOrder = () => {
-  const [value, setValue] = useState<LimitMarket>("limit");
+  const [type, updateType] = usePoolStore((store) => [
+    store.type,
+    store.updateType,
+  ]);
 
   const handleChange = (
     _event: React.SyntheticEvent<Element, Event>,
     newValue: LimitMarket
   ) => {
-    setValue(newValue);
+    updateType(newValue);
   };
 
   return (
@@ -27,7 +31,7 @@ const CreateOrder = () => {
         top: 15,
       })}
     >
-      <Tabs value={value} onChange={handleChange}>
+      <Tabs value={type} onChange={handleChange}>
         <WrapperTab value="limit" label="Limit" />
         <WrapperTab value="market" label="Market" />
       </Tabs>
@@ -37,11 +41,11 @@ const CreateOrder = () => {
           padding: "0px 15px",
         }}
       >
-        <div role="tabpanel" hidden={value !== "limit"}>
+        <div role="tabpanel" hidden={type !== "limit"}>
           <LimitPoolTabs />
         </div>
 
-        <div role="tabpanel" hidden={value !== "market"}>
+        <div role="tabpanel" hidden={type !== "market"}>
           <MarketPoolTabs />
         </div>
       </div>
