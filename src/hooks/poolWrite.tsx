@@ -116,6 +116,7 @@ export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
         pool.underlying.decimals
       ),
       utils.parseUnits(time.toString(), 0),
+      utils.parseUnits("10", 0),
     ],
     enabled: !!address && Number(amount) > 0,
   });

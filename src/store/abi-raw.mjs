@@ -22,17 +22,7 @@ export const rawContractABI = [
   },
   {
     inputs: [],
-    name: "AmountOutTooLow",
-    type: "error",
-  },
-  {
-    inputs: [],
     name: "AmountTooHigh",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "IncorrectTickSpacing",
     type: "error",
   },
   {
@@ -42,7 +32,17 @@ export const rawContractABI = [
   },
   {
     inputs: [],
+    name: "PaidTooHigh",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "PriceTooHigh",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ReceivedTooLow",
     type: "error",
   },
   {
@@ -317,7 +317,12 @@ export const rawContractABI = [
       },
       {
         internalType: "uint256",
-        name: "minAmountOut",
+        name: "minReceived",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxPaid",
         type: "uint256",
       },
       {
@@ -495,6 +500,11 @@ export const rawContractABI = [
       {
         internalType: "uint256",
         name: "cumulativeUndAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "actualPrice",
         type: "uint256",
       },
     ],
