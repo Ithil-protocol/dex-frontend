@@ -1,7 +1,7 @@
 import { Pool } from "types";
 import { BigNumber, utils } from "ethers";
 
-interface ConvertBuyLimitArgsProps {
+interface ConvertLimitArgsProps {
   amount: string | undefined;
   price: string | undefined;
   boost: string | undefined;
@@ -12,7 +12,7 @@ export const convertBuyLimitArgs = ({
   price = "0",
   boost = "0",
   pool,
-}: ConvertBuyLimitArgsProps) => {
+}: ConvertLimitArgsProps) => {
   const { decimals } = pool.underlying;
   const convertedAmount = Number(amount) * Number(price);
   const finalAmount: BigNumber = utils.parseUnits(
@@ -21,6 +21,26 @@ export const convertBuyLimitArgs = ({
   );
   const finalPrice: BigNumber = utils.parseUnits(
     Number(price).toFixed(decimals),
+    decimals
+  );
+  const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
+  return { amount: finalAmount, price: finalPrice, boost: finalBoost, pool };
+};
+
+export const convertSellLimitArgs = ({
+  amount = "0",
+  price = "0",
+  boost = "0",
+  pool,
+}: ConvertLimitArgsProps) => {
+  const { decimals } = pool.underlying;
+  const convertedPrice = 1 / Number(price);
+  const finalPrice: BigNumber = utils.parseUnits(
+    convertedPrice.toFixed(decimals),
+    decimals
+  );
+  const finalAmount: BigNumber = utils.parseUnits(
+    Number(amount).toFixed(decimals),
     decimals
   );
   const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
