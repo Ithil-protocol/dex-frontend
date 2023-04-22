@@ -1,5 +1,5 @@
 import { utils, BigNumber } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCancelOrder,
@@ -19,6 +19,7 @@ import {
 import { usePoolStore } from "store";
 import TransactionToast from "components/Common/Toast/TransactionToast";
 import { Pool, Token } from "types";
+import { zeroBigNumber } from "utility";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -58,7 +59,7 @@ export const useCreateOrder = ({
     },
     enabled: !amount.isZero() && !price.isZero() && !!address,
     onError: (error) => {
-      toast.error(error.message.substring(0, 200));
+      // toast.error(error.message.substring(0, 200));
     },
   });
 
@@ -93,6 +94,7 @@ interface AllowanceProps {
   token: Token;
 }
 export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
+  const [isApproved, setIsApproved] = useState(false);
   const { address } = useAccount();
   const { data: allowanceValue } = useTokenAllowance({
     address: token.address,
@@ -107,15 +109,9 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
       token.address,
       Number(utils.formatUnits(allowanceValue, token.decimals))
     );
-  const needAllowance = () => {
-    if (allowanceValue) {
-      return (
-        Number(utils.formatUnits(allowanceValue, token.decimals)) <
-        Number(amount)
-      );
-    }
-    return false;
-  };
+  const needAllowance =
+    Number(utils.formatUnits(allowanceValue ?? zeroBigNumber, token.decimals)) <
+    Number(amount);
 
   const { config, refetch } = usePrepareTokenApprove({
     address: token.address,
@@ -123,7 +119,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
       pool.address,
       utils.parseUnits(Number(amount).toFixed(token.decimals), token.decimals),
     ],
-    enabled: needAllowance(),
+    enabled: needAllowance,
     cacheTime: 0,
   });
   const { write, data: writeData } = useTokenApprove({
@@ -131,12 +127,9 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSettled: () => {
-      refetch();
-    },
   });
+  console.log("app", isApproved);
 
-  // const { data: waitedData } =
   useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
@@ -148,8 +141,15 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
       );
     },
   });
+  useLayoutEffect(() => {
+    if (needAllowance) {
+      setIsApproved(false);
+    } else {
+      setIsApproved(true);
+    }
+  }, [needAllowance]);
 
-  return { write };
+  return { write, isApproved };
 };
 
 interface CancelOrderProps {

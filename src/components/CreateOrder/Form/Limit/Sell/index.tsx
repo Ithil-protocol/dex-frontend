@@ -46,7 +46,7 @@ const LimitSell: React.FC<Props> = () => {
 
   const { write } = useCreateOrder(finalValues);
 
-  const { write: approve } = useAllowance({
+  const { write: approve, isApproved } = useAllowance({
     amount: formValues.amount,
     pool: sellPool,
     token: sellPool.underlying,
@@ -90,6 +90,7 @@ const LimitSell: React.FC<Props> = () => {
           label={pair?.underlyingLabel || ""}
           write={write}
           approve={approve}
+          isApproved={isApproved}
         />
       </div>
     </form>
