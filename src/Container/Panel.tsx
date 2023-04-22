@@ -5,10 +5,12 @@ import MarketTrades from "components/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";
+import { usePoolVolumes } from "hooks/contracts/pool";
 import { toast } from "react-toastify";
 import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
 import { useContractEvent } from "wagmi";
+import { utils } from "ethers";
 
 const Panel = () => {
   // const eventData =
@@ -23,6 +25,26 @@ const Panel = () => {
       toast(rest[0]);
     },
   });
+
+  const { data: orders, error } = usePoolVolumes({
+    address: "0xE8175181FAfCc9582DB66B7046cA7384D64fA2f6",
+    args: [
+      utils.parseUnits("0", 0),
+      utils.parseUnits("0", 0),
+      utils.parseUnits("10", 0),
+    ],
+  });
+  orders &&
+    orders.forEach((e, i) => {
+      console.log(
+        i,
+        "price: ",
+        Number(utils.formatUnits(e.price, 6)),
+        "volume: ",
+        Number(utils.formatUnits(e.volume, 6))
+      );
+    });
+  error && console.log("price", error);
 
   return (
     <div className={styles.layout}>
