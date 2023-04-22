@@ -1,11 +1,6 @@
-import { ethers, utils, BigNumberish, BigNumber } from "ethers";
-import { useEffect, useState } from "react";
-import { contractABI } from "store/abi";
-import {
-  useAccount,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { utils, BigNumber } from "ethers";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCancelOrder,
   usePoolCreateOrder,
@@ -22,17 +17,21 @@ import {
   useTokenApprove,
 } from "./contracts/token";
 import { usePoolStore } from "store";
+import TransactionToast from "components/Common/Toast/TransactionToast";
+import { Pool, Token } from "types";
+import { zeroBigNumber } from "utility";
 
 interface CreateOrderProps {
-  amount: number | string;
-  price: number | string;
-  boost: number | string;
+  amount: BigNumber;
+  price: BigNumber;
+  boost: BigNumber;
+  pool: Pool;
 }
-
 export const useCreateOrder = ({
-  amount = 0,
-  price = 0,
-  boost = 0,
+  amount,
+  price,
+  boost,
+  pool,
 }: CreateOrderProps) => {
   const [time, setTime] = useState(0);
 
@@ -47,187 +46,118 @@ export const useCreateOrder = ({
   }, []);
 
   const { address } = useAccount();
-  const [pool] = usePoolStore((state) => [state.pool]);
   const { config } = usePreparePoolCreateOrder({
-    address: pool.address as `0x${string}`,
+    address: pool.address,
     args: [
-      utils.parseUnits(Number(amount).toString(), pool.underlying.decimals),
-      utils.parseUnits(Number(price).toString(), pool.accounting.decimals),
+      amount,
+      price,
       address as `0x${string}`,
       utils.parseUnits(time.toString(), 0),
     ],
     overrides: {
-      value: utils.parseUnits(Number(boost).toString(), 18),
+      value: boost,
     },
-    enabled: Number(amount) > 0 && Number(price) > 0 && !!address,
+    enabled: !amount.isZero() && !price.isZero() && !!address,
+    onError: (error) => {
+      // toast.error(error.message.substring(0, 200));
+    },
   });
 
-  const { data: writeData, write } = usePoolCreateOrder({
+  const {
+    data: writeData,
+    write,
+    isLoading: writeLoading,
+  } = usePoolCreateOrder({
     ...config,
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
+  const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
-        <p>
-          Order created successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
+        <TransactionToast
+          text="Order created successfully."
+          hash={data.transactionHash}
+        />
       );
     },
-  });
-
-  return { waitedData, write };
-};
-
-interface FulfillOrderProps {
-  amount: number | string;
-}
-
-export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(Date.now() * 1000 + 120);
-    }, 10000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  const { address } = useAccount();
-  const [pool] = usePoolStore((state) => [state.pool]);
-
-  const { config } = usePreparePoolFulfillOrder({
-    address: pool.address as `0x${string}`,
-    args: [
-      utils.parseUnits(
-        Number(amount).toFixed(pool.underlying.decimals),
-        pool.underlying.decimals
-      ),
-      address as `0x${string}`,
-      utils.parseUnits(
-        (Number(amount) / 2.5).toFixed(pool.underlying.decimals),
-        pool.underlying.decimals
-      ),
-      utils.parseUnits(time.toString(), 0),
-    ],
-    enabled: !!address && Number(amount) > 0,
-  });
-
-  const { data: writeData, write } = usePoolFulfillOrder({
-    ...config,
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
-    hash: writeData?.hash,
-    onSuccess: (data) => {
-      toast.success(
-        <p>
-          Order fulfilled successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
-      );
-    },
-  });
-
-  return { write };
+  return { waitedData, write, isLoading: writeLoading || waitLoading };
 };
 
 interface AllowanceProps {
-  amount: number;
+  amount: string | undefined;
+  pool: Pool;
+  token: Token;
 }
-export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
-  const [test, setTest] = useState(1.01);
+export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
+  const [isApproved, setIsApproved] = useState(false);
   const { address } = useAccount();
-  const [pool] = usePoolStore((state) => [state.pool]);
   const { data: allowanceValue } = useTokenAllowance({
-    address: pool.underlying.address as `0x${string}`,
-    args: [address as `0x${string}`, pool.address as `0x${string}`],
+    address: token.address,
+    args: [address as `0x${string}`, pool.address],
     enabled: !!address,
     watch: true,
   });
-  console.log(allowanceValue);
-  allowanceValue &&
-    console.log(
-      Number(utils.formatUnits(allowanceValue, pool.underlying.decimals))
-    );
-  const needAllowance = () => {
-    if (allowanceValue) {
-      return (
-        Number(utils.formatUnits(allowanceValue, pool.underlying.decimals)) <
-        amount
-      );
-    }
-    return false;
-  };
-  const { config, refetch } = usePrepareTokenApprove({
-    address: pool.underlying.address as `0x${string}`,
+  // console.log(allowanceValue);
+  // allowanceValue &&
+  //   console.log(
+  //     "all",
+  //     token.address,
+  //     Number(utils.formatUnits(allowanceValue, token.decimals))
+  //   );
+  const needAllowance =
+    Number(utils.formatUnits(allowanceValue ?? zeroBigNumber, token.decimals)) <
+    Number(amount);
+
+  const { config } = usePrepareTokenApprove({
+    address: token.address,
     args: [
-      pool.address as `0x${string}`,
-      utils.parseUnits(
-        (amount * test || 0).toFixed(pool.underlying.decimals),
-        pool.underlying.decimals
-      ),
+      pool.address,
+      utils.parseUnits(Number(amount).toFixed(token.decimals), token.decimals),
     ],
-    enabled: needAllowance(),
+    enabled: needAllowance,
     cacheTime: 0,
   });
-  const { write, data: writeData } = useTokenApprove({
+
+  const {
+    write,
+    data: writeData,
+    isLoading: writeLoading,
+  } = useTokenApprove({
     ...config,
     onError: (error) => {
       toast.error(error.message);
     },
-    onSettled: () => {
-      refetch();
-    },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
+  const { isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
-      setTest((prevState) => (prevState === 1.01 ? 1.01 : 1.001));
       toast.success(
-        <p>
-          Contract approved successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
+        <TransactionToast
+          text="Contract approved successfully."
+          hash={data.transactionHash}
+        />
       );
     },
   });
-  console.log(write);
+  useLayoutEffect(() => {
+    if (needAllowance) {
+      setIsApproved(false);
+    } else {
+      setIsApproved(true);
+    }
+  }, [needAllowance]);
 
-  return { write };
-
-  // const { data, write } = useTokenApprove(config);
-  // const [isApproved, setIsApproved] = useState();
+  return { write, isApproved, isLoading: writeLoading || waitLoading };
 };
 
 interface CancelOrderProps {
@@ -248,22 +178,83 @@ export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
     },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
+  // const { data: waitedData } =
+  useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
-        <p>
-          Order canceled successfully.
-          <br />
-          <Link
-            target="_blank"
-            href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-          >
-            Check on Etherscan!
-          </Link>
-        </p>
+        <TransactionToast
+          text="Order canceled successfully."
+          hash={data.transactionHash}
+        />
       );
     },
   });
   return { cancel };
+};
+
+interface FulfillOrderProps {
+  amount: BigNumber;
+  minReceived: BigNumber;
+  maxPaid: BigNumber;
+  pool: Pool;
+}
+
+export const useFulfillOrder = ({
+  amount,
+  minReceived,
+  maxPaid,
+  pool,
+}: FulfillOrderProps) => {
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(Date.now() * 1000 + 120);
+    }, 10000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const { address } = useAccount();
+
+  const { config } = usePreparePoolFulfillOrder({
+    address: pool.address,
+    args: [
+      amount,
+      address as `0x${string}`,
+      minReceived,
+      maxPaid,
+      utils.parseUnits(time.toString(), 0),
+    ],
+    enabled: !!address && !amount.isZero(),
+  });
+
+  const {
+    data: writeData,
+    write,
+    isLoading: writeLoading,
+  } = usePoolFulfillOrder({
+    ...config,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  // const { data: waitedData } =
+  const { isLoading: waitLoading } = useWaitForTransaction({
+    hash: writeData?.hash,
+    onSuccess: (data) => {
+      toast.success(
+        <TransactionToast
+          text="Order fulfilled successfully."
+          hash={data.transactionHash}
+        />
+      );
+    },
+  });
+
+  return { write, isLoading: writeLoading || waitLoading };
 };

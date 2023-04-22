@@ -9,14 +9,16 @@ import Document, {
   NextScript,
 } from "next/document";
 import createEmotionCache from "styles/createEmotionCache";
-import theme from "styles/theme";
 import { MyAppProps } from "./_app";
+import { useTheme } from "@mui/material";
 
 interface MyDocumentProps extends DocumentProps {
   emotionStyleTags: JSX.Element[];
 }
 
 export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
+  const theme = useTheme();
+
   return (
     <Html lang="en">
       <Head>

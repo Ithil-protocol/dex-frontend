@@ -5,7 +5,6 @@ import {
   AbiFunction,
   Narrow,
 } from "abitype";
-import { BigNumber, BigNumberish } from "ethers";
 import { poolABI } from "hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
@@ -16,37 +15,24 @@ export interface StringMap {
   [prop: string]: any;
 }
 
-export interface OpenOrder {
-  index: BigNumber;
-  rawPrice: BigNumber;
-  transactionHash: string;
-  address: string;
-  amount: string;
-  price: string;
-  side: string;
-  staked: string;
-  status?: string;
-  total: string;
-  fullDate: string;
-}
-
 export interface Token {
-  label: string;
   icon: JSX.Element;
-  address: string;
+  address: `0x${string}`;
   decimals: number;
 }
 
 export interface Pool {
   underlying: Token;
   accounting: Token;
-  address: string;
+  address: `0x${string}`;
 }
 
 export type Side = "sell" | "buy";
 export type LimitMarket = "limit" | "market";
 
 export interface Pair {
+  underlyingLabel: string;
+  accountingLabel: string;
   sell: Pool;
   buy: Pool;
   value: number;
@@ -55,18 +41,15 @@ export interface Pair {
 export interface PoolState {
   pair: Pair;
   pairValue: number;
+  type: LimitMarket;
   side: Side;
   pool: Pool;
   default: Pool;
+  sellPool: Pool;
+  buyPool: Pool;
   updateSide: (_: Side) => void;
   updatePair: (_: Pair) => void;
-}
-
-export interface Trade {
-  amount: string;
-  fullDate: string;
-  price: string;
-  type: "maker" | "taker";
+  updateType: (_: LimitMarket) => void;
 }
 
 export interface Order {
@@ -108,3 +91,19 @@ export type CustomContractConfig = ({
 } & {
   chainId?: number | undefined;
 })[];
+
+// Form Type
+
+export interface LimitInputs {
+  price: string;
+  amount: string;
+  boost: string | undefined;
+}
+export interface FactoryInputs {
+  underlyingAddress: string;
+  accountingAddress: string;
+}
+
+export interface MarketInputs {
+  amount: string;
+}

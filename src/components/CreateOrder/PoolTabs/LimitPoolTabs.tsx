@@ -1,19 +1,20 @@
-import Box from "@mui/material/Box";
-import React from "react";
 import WrapperTab from "../../Common/WrapperTab";
 import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { Side } from "types";
 import Tabs from "@mui/material/Tabs";
-import LimitForm from "../Form/LimitForm";
+import LimitBuy from "../Form/Limit/Buy";
+import LimitSell from "../Form/Limit/Sell";
+
 interface Props {}
 
 const LimitPoolTabs: React.FC<Props> = () => {
   const theme = useTheme();
 
-  const [side, updateSide] = usePoolStore((store) => [
+  const [side, updateSide, type] = usePoolStore((store) => [
     store.side,
     store.updateSide,
+    store.type,
   ]);
 
   const handleChange = (
@@ -24,39 +25,25 @@ const LimitPoolTabs: React.FC<Props> = () => {
   };
 
   return (
-    <Box>
-      <Box>
-        <Tabs
-          variant="fullWidth"
-          value={side}
-          onChange={handleChange}
-          TabIndicatorProps={{
-            children: <span className="Tabs-indicatorSpan" />,
-          }}
-        >
-          <WrapperTab
-            value="buy"
-            label="Buy"
-            color={theme.palette.success.main}
-            selectedBgColor={theme.palette.success.main}
-          />
-          <WrapperTab
-            value="sell"
-            label="Sell"
-            color={theme.palette.error.main}
-            selectedBgColor={theme.palette.error.main}
-          />
-        </Tabs>
-      </Box>
+    <div>
+      <Tabs variant="fullWidth" value={side} onChange={handleChange}>
+        <WrapperTab
+          value="buy"
+          label="Buy"
+          selectedBgColor={theme.palette.success.main}
+        />
+        <WrapperTab
+          value="sell"
+          color={theme.palette.error.main}
+          selectedBgColor={theme.palette.error.main}
+          label="Sell"
+        />
+      </Tabs>
 
-      <div role="tabpanel" hidden={side !== "buy"}>
-        {side === "buy" && <LimitForm />}
-      </div>
+      {side === "buy" && type === "limit" && <LimitBuy />}
 
-      <div role="tabpanel" hidden={side !== "sell"}>
-        {side === "sell" && <LimitForm />}
-      </div>
-    </Box>
+      {side === "sell" && type === "limit" && <LimitSell />}
+    </div>
   );
 };
 

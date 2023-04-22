@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "prebuild": "node ./src/scripts/pre-build.mjs",
     "build": "next build",
     "check:format": "prettier --write --list-different ./",
     "check:lint": "eslint ./",
@@ -23,6 +24,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.6",
+    "@hookform/resolvers": "^3.1.0",
     "@mui/icons-material": "^5.11.11",
     "@mui/lab": "^5.0.0-alpha.125",
     "@mui/material": "^5.11.14",
@@ -55,6 +57,7 @@
     "sharp": "^0.32.0",
     "typescript": "^5.0.2",
     "wagmi": "^0.12.6",
+    "yup": "^1.1.1",
     "zustand": "^4.3.6"
   },
   "devDependencies": {
@@ -78,7 +81,6 @@
     "jest": "^29.5.0",
     "lint-staged": "^13.2.0",
     "prettier": "2.8.6",
-    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
     "tslib": "^2.5.0"
   },
