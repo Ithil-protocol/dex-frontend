@@ -26,6 +26,7 @@ const LimitBuy: React.FC<Props> = () => {
   });
 
   const formValues = useWatch({ control });
+
   const [pool, pair, side] = usePoolStore((state) => [
     state.pool,
     state.pair,
