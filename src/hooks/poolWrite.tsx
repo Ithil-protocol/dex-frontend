@@ -113,7 +113,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     Number(utils.formatUnits(allowanceValue ?? zeroBigNumber, token.decimals)) <
     Number(amount);
 
-  const { config, refetch } = usePrepareTokenApprove({
+  const { config } = usePrepareTokenApprove({
     address: token.address,
     args: [
       pool.address,
@@ -122,15 +122,19 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     enabled: needAllowance,
     cacheTime: 0,
   });
-  const { write, data: writeData } = useTokenApprove({
+
+  const {
+    write,
+    data: writeData,
+    isLoading: writeLoading,
+  } = useTokenApprove({
     ...config,
     onError: (error) => {
       toast.error(error.message);
     },
   });
-  console.log("app", isApproved);
 
-  useWaitForTransaction({
+  const { isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -149,7 +153,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     }
   }, [needAllowance]);
 
-  return { write, isApproved };
+  return { write, isApproved, isLoading: writeLoading || waitLoading };
 };
 
 interface CancelOrderProps {

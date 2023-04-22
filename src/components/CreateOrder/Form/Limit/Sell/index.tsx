@@ -46,7 +46,11 @@ const LimitSell: React.FC<Props> = () => {
 
   const { write } = useCreateOrder(finalValues);
 
-  const { write: approve, isApproved } = useAllowance({
+  const {
+    write: approve,
+    isApproved,
+    isLoading: approveLoading,
+  } = useAllowance({
     amount: formValues.amount,
     pool: sellPool,
     token: sellPool.underlying,
