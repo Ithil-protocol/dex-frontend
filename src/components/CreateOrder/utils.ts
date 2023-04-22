@@ -106,3 +106,40 @@ export const useConvertSellMarketArgs = ({
 
   return { amount: finalAmount, minReceived, maxPaid: finalMaxPaid, pool };
 };
+
+export const useConvertBuyMarketArgs = ({
+  amount = "0",
+  pool,
+}: ConvertMarketArgsProps) => {
+  const underlyingDecimals = pool.underlying.decimals;
+  const accountingDecimals = pool.accounting.decimals;
+
+  //here final amount is equal to inputAmount with respected decimals (underlying decimals)
+
+  const finalAmount = utils.parseUnits(
+    Number(amount).toFixed(underlyingDecimals),
+    underlyingDecimals
+  );
+
+  const { data: previewTake } = usePoolPreviewTake({
+    address: pool.address,
+    args: [finalAmount],
+  });
+
+  const accountingToPay = previewTake ? previewTake[0] : zeroBigNumber;
+
+  const minReceived = utils.parseUnits(
+    (Number(amount) * 0.99).toFixed(underlyingDecimals),
+    underlyingDecimals
+  );
+
+  const maxPaid =
+    Number(utils.formatUnits(accountingToPay, accountingDecimals)) * 1.001;
+
+  const finalMaxPaid = utils.parseUnits(
+    maxPaid.toFixed(accountingDecimals),
+    accountingDecimals
+  );
+
+  return { amount: finalAmount, minReceived, maxPaid: finalMaxPaid, pool };
+};

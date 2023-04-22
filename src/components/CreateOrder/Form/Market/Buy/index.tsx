@@ -4,11 +4,16 @@ import Submit from "./Submit";
 import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
-import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
+import {
+  useAllowance,
+  useFulfillOrder,
+  useNewFulfillOrder,
+} from "hooks/poolWrite";
 import MarketAmount from "./Amount";
 import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useConvertBuyMarketArgs } from "components/CreateOrder/utils";
 
 interface Props {}
 
@@ -22,19 +27,23 @@ const MarketBuy: React.FC<Props> = () => {
     resolver: yupResolver(marketSchema),
   });
   const formValues = useWatch({ control });
-  const [pool, pair, side] = usePoolStore((state) => [
+  const [pool, pair, side, sellPool] = usePoolStore((state) => [
     state.pool,
     state.pair,
     state.side,
+    state.sellPool,
   ]);
 
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
-  const { write } = useFulfillOrder({
-    amount: formValues["amount"],
+  const finalValues = useConvertBuyMarketArgs({
+    amount: formValues.amount,
+    pool: sellPool,
   });
+
+  const { write } = useNewFulfillOrder(finalValues);
   const { write: approve } = useAllowance({
     amount: formValues.amount,
   });
