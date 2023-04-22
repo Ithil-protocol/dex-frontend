@@ -39,7 +39,7 @@ const MarketSell: React.FC<Props> = () => {
     pool: buyPool,
   });
 
-  const { write } = useFulfillOrder(finalValues);
+  const { write, isLoading: fulfillLoading } = useFulfillOrder(finalValues);
   const { write: approve } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
