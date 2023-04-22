@@ -19,7 +19,10 @@ export const convertBuyLimitArgs = ({
     convertedAmount.toFixed(decimals),
     decimals
   );
-  const finalPrice: BigNumber = utils.parseUnits(price, decimals);
-  const finalBoost: BigNumber = utils.parseUnits(boost, 18);
+  const finalPrice: BigNumber = utils.parseUnits(
+    Number(price).toFixed(decimals),
+    decimals
+  );
+  const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
   return { amount: finalAmount, price: finalPrice, boost: finalBoost, pool };
 };
