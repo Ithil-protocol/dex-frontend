@@ -21,15 +21,16 @@ import TransactionToast from "components/Common/Toast/TransactionToast";
 import { Pool } from "types";
 
 interface CreateOrderProps {
-  amount: string | undefined;
-  price: string | undefined;
-  boost: string | undefined;
+  amount: BigNumber;
+  price: BigNumber;
+  boost: BigNumber;
+  pool: Pool;
 }
-
 export const useCreateOrder = ({
-  amount = "0",
-  price = "0",
-  boost = "0",
+  amount,
+  price,
+  boost,
+  pool,
 }: CreateOrderProps) => {
   const [time, setTime] = useState(0);
 
@@ -44,19 +45,21 @@ export const useCreateOrder = ({
   }, []);
 
   const { address } = useAccount();
-  const [pool] = usePoolStore((state) => [state.pool]);
   const { config } = usePreparePoolCreateOrder({
     address: pool.address,
     args: [
-      utils.parseUnits(Number(amount).toString(), pool.underlying.decimals),
-      utils.parseUnits(Number(price).toString(), pool.accounting.decimals),
+      amount,
+      price,
       address as `0x${string}`,
       utils.parseUnits(time.toString(), 0),
     ],
     overrides: {
-      value: utils.parseUnits(Number(boost).toString(), 18),
+      value: boost,
     },
-    enabled: Number(amount) > 0 && Number(price) > 0 && !!address,
+    enabled: amount.toNumber() > 0 && price.toNumber() > 0 && !!address,
+    onError: (error) => {
+      toast.error(error.message.substring(0, 200));
+    },
   });
 
   const { data: writeData, write } = usePoolCreateOrder({
@@ -245,71 +248,4 @@ export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
     },
   });
   return { cancel };
-};
-
-interface NewCreateOrderProps {
-  amount: BigNumber;
-  price: BigNumber;
-  boost: BigNumber;
-  pool: Pool;
-}
-export const useNewCreateOrder = ({
-  amount,
-  price,
-  boost,
-  pool,
-}: NewCreateOrderProps) => {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(Date.now() * 1000 + 120);
-    }, 10000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  const { address } = useAccount();
-  const { config } = usePreparePoolCreateOrder({
-    address: pool.address,
-    args: [
-      amount,
-      price,
-      address as `0x${string}`,
-      utils.parseUnits(time.toString(), 0),
-    ],
-    overrides: {
-      value: boost,
-    },
-    enabled: amount.toNumber() > 0 && price.toNumber() > 0 && !!address,
-    onError: (error) => {
-      toast.error(error.message.substring(0, 200));
-    },
-  });
-
-  const { data: writeData, write } = usePoolCreateOrder({
-    ...config,
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const { data: waitedData } = useWaitForTransaction({
-    hash: writeData?.hash,
-    onSuccess: (data) => {
-      toast.success(
-        <TransactionToast
-          text="Order created successfully."
-          hash={data.transactionHash}
-        />
-      );
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  return { waitedData, write };
 };
