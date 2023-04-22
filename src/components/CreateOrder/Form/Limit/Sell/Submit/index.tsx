@@ -10,7 +10,6 @@ interface Props {
   control: Control<any, any>;
   write: (() => void) | undefined;
   isSubmitting: boolean;
-  approve: (() => void) | undefined;
   isMarket?: boolean;
   side: Side;
   isApproved: boolean;
@@ -21,7 +20,6 @@ const Submit: React.FC<Props> = ({
   control,
   write,
   isSubmitting,
-  approve,
   isMarket = false,
   side,
   isApproved,

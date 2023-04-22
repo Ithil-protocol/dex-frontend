@@ -89,7 +89,6 @@ const LimitSell: React.FC<Props> = () => {
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}
-          approve={approve}
           isApproved={isApproved}
         />
       </div>
