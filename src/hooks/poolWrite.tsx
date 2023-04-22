@@ -93,10 +93,9 @@ interface AllowanceProps {
   token: Token;
 }
 export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
-  const [test, setTest] = useState(1.01);
   const { address } = useAccount();
   const { data: allowanceValue } = useTokenAllowance({
-    address: pool.underlying.address,
+    address: token.address,
     args: [address as `0x${string}`, pool.address],
     enabled: !!address,
     watch: true,
@@ -109,20 +108,18 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   const needAllowance = () => {
     if (allowanceValue) {
       return (
-        Number(utils.formatUnits(allowanceValue, pool.underlying.decimals)) <
+        Number(utils.formatUnits(allowanceValue, token.decimals)) <
         Number(amount)
       );
     }
     return false;
   };
+
   const { config, refetch } = usePrepareTokenApprove({
-    address: pool.underlying.address as `0x${string}`,
+    address: token.address,
     args: [
-      pool.address as `0x${string}`,
-      utils.parseUnits(
-        (Number(amount) * test || 0).toFixed(pool.underlying.decimals),
-        pool.underlying.decimals
-      ),
+      pool.address,
+      utils.parseUnits(Number(amount).toFixed(token.decimals), token.decimals),
     ],
     enabled: needAllowance(),
     cacheTime: 0,
@@ -141,7 +138,6 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
-      setTest((prevState) => (prevState === 1.01 ? 1.01 : 1.001));
       toast.success(
         <TransactionToast
           text="Contract approved successfully."
@@ -152,9 +148,6 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   });
 
   return { write };
-
-  // const { data, write } = useTokenApprove(config);
-  // const [isApproved, setIsApproved] = useState();
 };
 
 interface CancelOrderProps {
