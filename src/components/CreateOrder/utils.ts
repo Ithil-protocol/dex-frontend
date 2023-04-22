@@ -2,15 +2,15 @@ import { Pool } from "types";
 import { BigNumber, utils } from "ethers";
 
 interface ConvertBuyLimitArgsProps {
-  amount: string;
-  price: string;
-  boost: string;
+  amount: string | undefined;
+  price: string | undefined;
+  boost: string | undefined;
   pool: Pool;
 }
 export const convertBuyLimitArgs = ({
-  amount,
-  price,
-  boost,
+  amount = "0",
+  price = "0",
+  boost = "0",
   pool,
 }: ConvertBuyLimitArgsProps) => {
   const { decimals } = pool.underlying;

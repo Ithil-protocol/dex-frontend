@@ -11,6 +11,7 @@ import { useAllowance, useCreateOrder } from "hooks/poolWrite";
 import LimitAmount from "./Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
+import { convertBuyLimitArgs } from "components/CreateOrder/utils";
 
 interface Props {}
 
@@ -26,12 +27,19 @@ const LimitBuy: React.FC<Props> = () => {
   });
 
   const formValues = useWatch({ control });
-
-  const [pool, pair, side] = usePoolStore((state) => [
+  const [pool, pair, side, buyPool] = usePoolStore((state) => [
     state.pool,
     state.pair,
     state.side,
+    state.buyPool,
   ]);
+
+  const finalValues = convertBuyLimitArgs({
+    amount: formValues.amount,
+    price: formValues.price,
+    boost: formValues.boost,
+    pool: buyPool,
+  });
 
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
