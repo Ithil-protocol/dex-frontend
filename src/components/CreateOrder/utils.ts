@@ -1,5 +1,10 @@
 import { Pool } from "types";
 import { BigNumber, utils } from "ethers";
+import {
+  usePoolGetNextPriceLevel,
+  usePoolPreviewTake,
+} from "hooks/contracts/pool";
+import { zeroBigNumber } from "utility";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -45,4 +50,59 @@ export const convertSellLimitArgs = ({
   );
   const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
   return { amount: finalAmount, price: finalPrice, boost: finalBoost, pool };
+};
+
+interface ConvertMarketArgsProps {
+  amount: string | undefined;
+  pool: Pool;
+}
+
+export const useConvertSellMarketArgs = ({
+  amount = "0",
+  pool,
+}: ConvertMarketArgsProps) => {
+  const underlyingDecimals = pool.underlying.decimals;
+  const accountingDecimals = pool.accounting.decimals;
+
+  const { data: highestPrice } = usePoolGetNextPriceLevel({
+    address: pool.address,
+    args: [zeroBigNumber],
+    watch: true,
+  });
+
+  // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
+  const convertedAmount = highestPrice
+    ? Number(utils.formatUnits(highestPrice, underlyingDecimals)) *
+      Number(amount)
+    : 0;
+
+  const finalAmount = utils.parseUnits(
+    convertedAmount.toFixed(underlyingDecimals),
+    underlyingDecimals
+  );
+
+  const { data: previewTake } = usePoolPreviewTake({
+    address: pool.address,
+    args: [
+      utils.parseUnits(
+        convertedAmount.toFixed(underlyingDecimals),
+        underlyingDecimals
+      ),
+    ],
+  });
+  const accountingToPay = previewTake ? previewTake[0] : zeroBigNumber;
+
+  const minReceived = utils.parseUnits(
+    (convertedAmount * 0.99).toFixed(underlyingDecimals),
+    underlyingDecimals
+  );
+
+  const maxPaid =
+    Number(utils.formatUnits(accountingToPay, accountingDecimals)) * 1.001;
+  const finalMaxPaid = utils.parseUnits(
+    maxPaid.toFixed(accountingDecimals),
+    accountingDecimals
+  );
+
+  return { amount: finalAmount, minReceived, maxPaid: finalMaxPaid, pool };
 };

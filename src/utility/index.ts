@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { Order, OrderObj } from "types";
-
+import { utils } from "ethers";
 // export const addOrderToOrderObj = (order: Order, orderObj: OrderObj) => {
 //   if(orderObj[])
 // };
@@ -74,3 +74,5 @@ export const formatDateToTime = (date: number) => {
 export const formatDateToFullDate = (date: number) => {
   return format(new Date(date), "KK:mm:ss dd/MM/yy");
 };
+
+export const zeroBigNumber = utils.parseUnits("0", 0);

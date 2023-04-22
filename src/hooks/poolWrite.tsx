@@ -249,3 +249,65 @@ export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
   });
   return { cancel };
 };
+
+interface NewFulfillOrderProps {
+  amount: BigNumber;
+  minReceived: BigNumber;
+  maxPaid: BigNumber;
+  pool: Pool;
+}
+
+export const useNewFulfillOrder = ({
+  amount,
+  minReceived,
+  maxPaid,
+  pool,
+}: NewFulfillOrderProps) => {
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(Date.now() * 1000 + 120);
+    }, 10000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const { address } = useAccount();
+
+  const { config } = usePreparePoolFulfillOrder({
+    address: pool.address,
+    args: [
+      amount,
+      address as `0x${string}`,
+      minReceived,
+      maxPaid,
+      utils.parseUnits(time.toString(), 0),
+    ],
+    enabled: !!address && amount.toNumber() > 0,
+  });
+
+  const { data: writeData, write } = usePoolFulfillOrder({
+    ...config,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  // const { data: waitedData } =
+  useWaitForTransaction({
+    hash: writeData?.hash,
+    onSuccess: (data) => {
+      toast.success(
+        <TransactionToast
+          text="Order fulfilled successfully."
+          hash={data.transactionHash}
+        />
+      );
+    },
+  });
+
+  return { write };
+};
