@@ -9,12 +9,6 @@ import MarketAmount from "./Amount";
 import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  usePoolGetNextPriceLevel,
-  usePoolPreviewTake,
-} from "hooks/contracts/pool";
-import { utils } from "ethers";
-import { zeroBigNumber } from "utility";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 
 interface Props {}
