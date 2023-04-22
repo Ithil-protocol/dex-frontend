@@ -7,10 +7,15 @@ import Total from "./Total";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "hooks/account";
-import { useAllowance, useCreateOrder } from "hooks/poolWrite";
+import {
+  useAllowance,
+  useCreateOrder,
+  useNewCreateOrder,
+} from "hooks/poolWrite";
 import LimitAmount from "./Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
+import { convertSellLimitArgs } from "components/CreateOrder/utils";
 
 interface Props {}
 
@@ -26,21 +31,25 @@ const LimitSell: React.FC<Props> = () => {
   });
 
   const formValues = useWatch({ control });
-  const [pool, pair, side] = usePoolStore((state) => [
+  const [pool, pair, side, sellPool] = usePoolStore((state) => [
     state.pool,
     state.pair,
     state.side,
+    state.sellPool,
   ]);
+
+  const finalValues = convertSellLimitArgs({
+    amount: formValues.amount,
+    price: formValues.price,
+    boost: formValues.boost,
+    pool: sellPool,
+  });
 
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
-  const { write } = useCreateOrder({
-    amount: formValues["amount"],
-    price: formValues["price"],
-    boost: formValues["boost"],
-  });
+  const { write } = useNewCreateOrder(finalValues);
 
   const { write: approve } = useAllowance({
     amount: formValues.amount,

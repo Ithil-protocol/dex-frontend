@@ -11,6 +11,7 @@ import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
 import { useContractEvent } from "wagmi";
 import { utils } from "ethers";
+import { usePoolStore } from "store";
 
 const Panel = () => {
   // const eventData =
@@ -26,25 +27,46 @@ const Panel = () => {
     },
   });
 
-  const { data: orders, error } = usePoolVolumes({
-    address: "0xE8175181FAfCc9582DB66B7046cA7384D64fA2f6",
+  const [sellPool, buyPool] = usePoolStore((state) => [
+    state.sellPool,
+    state.buyPool,
+  ]);
+  const { data: buyOrders } = usePoolVolumes({
+    address: buyPool.address,
     args: [
       utils.parseUnits("0", 0),
       utils.parseUnits("0", 0),
       utils.parseUnits("10", 0),
     ],
   });
-  orders &&
-    orders.forEach((e, i) => {
+  buyOrders &&
+    buyOrders.forEach((e, i) => {
       console.log(
         i,
-        "price: ",
+        "buy price: ",
         Number(utils.formatUnits(e.price, 6)),
         "volume: ",
         Number(utils.formatUnits(e.volume, 6))
       );
     });
-  error && console.log("price", error);
+  const { data: sellOrders } = usePoolVolumes({
+    address: sellPool.address,
+    args: [
+      utils.parseUnits("0", 0),
+      utils.parseUnits("0", 0),
+      utils.parseUnits("10", 0),
+    ],
+  });
+  sellOrders &&
+    sellOrders.forEach((e, i) => {
+      console.log(
+        i,
+        "sell price: ",
+        1 / Number(utils.formatUnits(e.price, 18)),
+        "volume: ",
+        Number(utils.formatUnits(e.volume, 18))
+      );
+    });
 
   return (
     <div className={styles.layout}>
