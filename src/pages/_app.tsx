@@ -24,7 +24,7 @@ export default function MyApp(props: MyAppProps) {
       <Web3Provider>
         <ReactQueryDevtools />
         <MUIThemeProvider emotionCache={emotionCache}>
-          <ToastContainer />
+          <ToastContainer position="bottom-left" autoClose={false} />
           <Component {...pageProps} />
         </MUIThemeProvider>
       </Web3Provider>

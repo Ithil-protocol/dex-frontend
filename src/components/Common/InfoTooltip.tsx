@@ -1,4 +1,3 @@
-import React from "react";
 import LightTooltip from "./LightTooltip";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 

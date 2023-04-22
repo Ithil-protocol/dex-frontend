@@ -35,12 +35,8 @@ module.exports = {
         checkComments: false,
       },
     ],
-    "@typescript-eslint/no-unused-vars": "off",
-    "arrow-parens": "warn",
-    indent: ["warn", 2],
-    "linebreak-style": ["warn", "windows"],
-    "no-delete-var": "warn",
-    "no-unused-vars": [
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-unused-vars": [
       "warn",
       {
         args: "after-used",
@@ -49,6 +45,11 @@ module.exports = {
         vars: "all",
       },
     ],
+    "arrow-parens": "warn",
+    indent: ["warn", 2],
+    "linebreak-style": ["warn", "windows"],
+    "no-delete-var": "warn",
+    "no-unused-vars": "off",
     "no-use-before-define": [
       "error",
       {
@@ -59,7 +60,7 @@ module.exports = {
       },
     ],
     "no-var": "warn",
-    "object-shorthand": ["error", "always"],
+    "object-shorthand": ["warn", "always"],
     quotes: ["warn", "double"],
     semi: ["warn", "always"],
   },
