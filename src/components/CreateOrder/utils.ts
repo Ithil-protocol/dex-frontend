@@ -34,7 +34,7 @@ export const convertSellLimitArgs = ({
   pool,
 }: ConvertLimitArgsProps) => {
   const { decimals } = pool.underlying;
-  const convertedPrice = 1 / Number(price);
+  const convertedPrice = Number(price) === 0 ? 0 : 1 / Number(price);
   const finalPrice: BigNumber = utils.parseUnits(
     convertedPrice.toFixed(decimals),
     decimals
