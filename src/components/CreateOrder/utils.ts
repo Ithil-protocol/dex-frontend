@@ -21,5 +21,5 @@ export const convertBuyLimitArgs = ({
   );
   const finalPrice: BigNumber = utils.parseUnits(price, decimals);
   const finalBoost: BigNumber = utils.parseUnits(boost, 18);
-  return { amount: finalAmount, price: finalPrice, boost: finalBoost };
+  return { amount: finalAmount, price: finalPrice, boost: finalBoost, pool };
 };
