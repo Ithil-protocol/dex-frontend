@@ -18,7 +18,7 @@ import {
 } from "./contracts/token";
 import { usePoolStore } from "store";
 import TransactionToast from "components/Common/Toast/TransactionToast";
-import { Pool } from "types";
+import { Pool, Token } from "types";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -88,12 +88,13 @@ export const useCreateOrder = ({
 };
 
 interface AllowanceProps {
-  amount: number | string | undefined;
+  amount: string | undefined;
+  pool: Pool;
+  token: Token;
 }
-export const useAllowance = ({ amount = 0 }: AllowanceProps) => {
+export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   const [test, setTest] = useState(1.01);
   const { address } = useAccount();
-  const [pool] = usePoolStore((state) => [state.pool]);
   const { data: allowanceValue } = useTokenAllowance({
     address: pool.underlying.address,
     args: [address as `0x${string}`, pool.address],

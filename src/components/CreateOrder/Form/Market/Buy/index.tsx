@@ -42,6 +42,8 @@ const MarketBuy: React.FC<Props> = () => {
   const { write } = useFulfillOrder(finalValues);
   const { write: approve } = useAllowance({
     amount: formValues.amount,
+    pool: sellPool,
+    token: sellPool.accounting,
   });
 
   const handleFormSubmit = () => {

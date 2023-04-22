@@ -49,6 +49,8 @@ const LimitSell: React.FC<Props> = () => {
 
   const { write: approve } = useAllowance({
     amount: formValues.amount,
+    pool: sellPool,
+    token: sellPool.underlying,
   });
 
   const handleFormSubmit = () => {
