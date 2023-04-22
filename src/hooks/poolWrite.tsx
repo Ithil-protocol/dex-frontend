@@ -63,14 +63,18 @@ export const useCreateOrder = ({
     },
   });
 
-  const { data: writeData, write } = usePoolCreateOrder({
+  const {
+    data: writeData,
+    write,
+    isLoading: writeLoading,
+  } = usePoolCreateOrder({
     ...config,
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
-  const { data: waitedData } = useWaitForTransaction({
+  const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -85,7 +89,7 @@ export const useCreateOrder = ({
     },
   });
 
-  return { waitedData, write };
+  return { waitedData, write, isLoading: writeLoading || waitLoading };
 };
 
 interface AllowanceProps {
@@ -103,12 +107,12 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     watch: true,
   });
   // console.log(allowanceValue);
-  allowanceValue &&
-    console.log(
-      "all",
-      token.address,
-      Number(utils.formatUnits(allowanceValue, token.decimals))
-    );
+  // allowanceValue &&
+  //   console.log(
+  //     "all",
+  //     token.address,
+  //     Number(utils.formatUnits(allowanceValue, token.decimals))
+  //   );
   const needAllowance =
     Number(utils.formatUnits(allowanceValue ?? zeroBigNumber, token.decimals)) <
     Number(amount);
@@ -228,7 +232,11 @@ export const useFulfillOrder = ({
     enabled: !!address && !amount.isZero(),
   });
 
-  const { data: writeData, write } = usePoolFulfillOrder({
+  const {
+    data: writeData,
+    write,
+    isLoading: writeLoading,
+  } = usePoolFulfillOrder({
     ...config,
     onError: (error) => {
       toast.error(error.message);
@@ -236,7 +244,7 @@ export const useFulfillOrder = ({
   });
 
   // const { data: waitedData } =
-  useWaitForTransaction({
+  const { isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -248,5 +256,5 @@ export const useFulfillOrder = ({
     },
   });
 
-  return { write };
+  return { write, isLoading: writeLoading || waitLoading };
 };
