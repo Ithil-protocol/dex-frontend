@@ -40,7 +40,7 @@ const MarketSell: React.FC<Props> = () => {
   });
 
   const { write, isLoading: fulfillLoading } = useFulfillOrder(finalValues);
-  const { write: approve } = useAllowance({
+  const { write: approve, isLoading: approveLoading } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
     token: buyPool.accounting,
@@ -53,6 +53,9 @@ const MarketSell: React.FC<Props> = () => {
     }
     write?.();
   };
+
+  console.log("market.sell.fulfillLoading:", fulfillLoading);
+  console.log("market.sell.approveLoading:", approveLoading);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -76,7 +79,7 @@ const MarketSell: React.FC<Props> = () => {
 
         <Submit
           side={side}
-          isSubmitting={isSubmitting}
+          isLoading={isSubmitting || approveLoading || fulfillLoading}
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}

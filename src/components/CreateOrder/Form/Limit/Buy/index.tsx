@@ -45,13 +45,16 @@ const LimitBuy: React.FC<Props> = () => {
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
-  const { write } = useCreateOrder(finalValues);
+  const { write, isLoading: createLoading } = useCreateOrder(finalValues);
 
-  const { write: approve } = useAllowance({
+  const { write: approve, isLoading: approveLoading } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
     token: buyPool.underlying,
   });
+
+  console.log("limit.buy.createLoading:", createLoading);
+  console.log("limit.buy.approveLoading:", approveLoading);
 
   const handleFormSubmit = () => {
     if (approve) {
@@ -86,7 +89,7 @@ const LimitBuy: React.FC<Props> = () => {
 
         <Submit
           side={side}
-          isSubmitting={isSubmitting}
+          isLoading={isSubmitting || createLoading || approveLoading}
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}

@@ -64,6 +64,9 @@ const LimitSell: React.FC<Props> = () => {
     write?.();
   };
 
+  console.log("limit.sell.createLoading:", createLoading);
+  console.log("limit.sell.approveLoading:", approveLoading);
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div
@@ -89,7 +92,7 @@ const LimitSell: React.FC<Props> = () => {
 
         <Submit
           side={side}
-          isSubmitting={isSubmitting}
+          isLoading={isSubmitting || createLoading || approveLoading}
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}

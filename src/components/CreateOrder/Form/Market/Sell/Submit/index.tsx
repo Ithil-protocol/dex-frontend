@@ -9,7 +9,7 @@ interface Props {
   label: string;
   control: Control<any, any>;
   write: (() => void) | undefined;
-  isSubmitting: boolean;
+  isLoading: boolean;
   approve: (() => void) | undefined;
   isMarket?: boolean;
   side: Side;
@@ -19,7 +19,7 @@ const Submit: React.FC<Props> = ({
   label,
   control,
   write,
-  isSubmitting,
+  isLoading,
   approve,
   isMarket = false,
   side,
@@ -54,8 +54,8 @@ const Submit: React.FC<Props> = ({
   return (
     <LoadingButton
       variant="contained"
-      endIcon={isSubmitting && <CircularProgress size={22} color="inherit" />}
-      loading={isSubmitting}
+      endIcon={isLoading && <CircularProgress size={22} color="inherit" />}
+      loading={isLoading}
       fullWidth
       disabled={isDisabled() || approved()}
       sx={(theme) => ({
