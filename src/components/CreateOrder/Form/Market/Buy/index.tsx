@@ -4,11 +4,7 @@ import Submit from "./Submit";
 import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
-import {
-  useAllowance,
-  useFulfillOrder,
-  useNewFulfillOrder,
-} from "hooks/poolWrite";
+import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
 import MarketAmount from "./Amount";
 import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
@@ -43,7 +39,7 @@ const MarketBuy: React.FC<Props> = () => {
     pool: sellPool,
   });
 
-  const { write } = useNewFulfillOrder(finalValues);
+  const { write } = useFulfillOrder(finalValues);
   const { write: approve } = useAllowance({
     amount: formValues.amount,
   });

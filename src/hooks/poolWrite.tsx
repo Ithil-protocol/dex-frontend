@@ -87,67 +87,6 @@ export const useCreateOrder = ({
   return { waitedData, write };
 };
 
-interface FulfillOrderProps {
-  amount: number | string | undefined;
-}
-
-export const useFulfillOrder = ({ amount = 0 }: FulfillOrderProps) => {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(Date.now() * 1000 + 120);
-    }, 10000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  const { address } = useAccount();
-  const [pool] = usePoolStore((state) => [state.pool]);
-
-  const { config } = usePreparePoolFulfillOrder({
-    address: pool.address,
-    args: [
-      utils.parseUnits(
-        Number(amount).toFixed(pool.underlying.decimals),
-        pool.underlying.decimals
-      ),
-      address as `0x${string}`,
-      utils.parseUnits(
-        (Number(amount) / 2.5).toFixed(pool.underlying.decimals),
-        pool.underlying.decimals
-      ),
-      utils.parseUnits(time.toString(), 0),
-      utils.parseUnits("10", 0),
-    ],
-    enabled: !!address && Number(amount) > 0,
-  });
-
-  const { data: writeData, write } = usePoolFulfillOrder({
-    ...config,
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  // const { data: waitedData } =
-  useWaitForTransaction({
-    hash: writeData?.hash,
-    onSuccess: (data) => {
-      toast.success(
-        <TransactionToast
-          text="Order fulfilled successfully."
-          hash={data.transactionHash}
-        />
-      );
-    },
-  });
-
-  return { write };
-};
-
 interface AllowanceProps {
   amount: number | string | undefined;
 }
@@ -250,19 +189,19 @@ export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
   return { cancel };
 };
 
-interface NewFulfillOrderProps {
+interface FulfillOrderProps {
   amount: BigNumber;
   minReceived: BigNumber;
   maxPaid: BigNumber;
   pool: Pool;
 }
 
-export const useNewFulfillOrder = ({
+export const useFulfillOrder = ({
   amount,
   minReceived,
   maxPaid,
   pool,
-}: NewFulfillOrderProps) => {
+}: FulfillOrderProps) => {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
