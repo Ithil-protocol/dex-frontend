@@ -40,13 +40,9 @@ const CreateOrder = () => {
           padding: "0px 15px",
         }}
       >
-        <div role="tabpanel" hidden={type !== "limit"}>
-          <LimitPoolTabs />
-        </div>
+        {type === "limit" && <LimitPoolTabs />}
 
-        <div role="tabpanel" hidden={type !== "market"}>
-          <MarketPoolTabs />
-        </div>
+        {type === "market" && <MarketPoolTabs />}
       </div>
     </Box>
   );

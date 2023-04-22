@@ -40,7 +40,6 @@ const LimitSell: React.FC<Props> = () => {
     boost: formValues.boost,
     pool: sellPool,
   });
-
   const { data: tokenBalance } = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });

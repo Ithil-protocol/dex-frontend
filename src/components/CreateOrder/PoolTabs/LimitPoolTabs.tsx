@@ -3,16 +3,18 @@ import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { Side } from "types";
 import Tabs from "@mui/material/Tabs";
-import LimitForm from "../Form/Limit";
+import LimitBuy from "../Form/Limit/Buy";
+import LimitSell from "../Form/Limit/Sell";
 
 interface Props {}
 
 const LimitPoolTabs: React.FC<Props> = () => {
   const theme = useTheme();
 
-  const [side, updateSide] = usePoolStore((store) => [
+  const [side, updateSide, type] = usePoolStore((store) => [
     store.side,
     store.updateSide,
+    store.type,
   ]);
 
   const handleChange = (
@@ -38,13 +40,9 @@ const LimitPoolTabs: React.FC<Props> = () => {
         />
       </Tabs>
 
-      <div role="tabpanel" hidden={side !== "buy"}>
-        {side === "buy" && <LimitForm />}
-      </div>
+      {side === "buy" && type === "limit" && <LimitBuy />}
 
-      <div role="tabpanel" hidden={side !== "sell"}>
-        {side === "sell" && <LimitForm />}
-      </div>
+      {side === "sell" && type === "limit" && <LimitSell />}
     </div>
   );
 };

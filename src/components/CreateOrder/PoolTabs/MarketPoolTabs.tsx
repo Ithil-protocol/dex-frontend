@@ -3,16 +3,18 @@ import { useTheme } from "@mui/material";
 import { usePoolStore } from "store";
 import { Side } from "types";
 import Tabs from "@mui/material/Tabs";
-import MarketForm from "../Form/Market";
+import MarketBuy from "../Form/Market/Buy";
+import MarketSell from "../Form/Market/Sell";
 
 interface Props {}
 
 const MarketPoolTabs: React.FC<Props> = () => {
   const theme = useTheme();
 
-  const [side, updateSide] = usePoolStore((store) => [
+  const [side, updateSide, type] = usePoolStore((store) => [
     store.side,
     store.updateSide,
+    store.type,
   ]);
 
   const handleChange = (
@@ -38,13 +40,9 @@ const MarketPoolTabs: React.FC<Props> = () => {
         />
       </Tabs>
 
-      <div role="tabpanel" hidden={side !== "buy"}>
-        <MarketForm />
-      </div>
+      {side === "buy" && type === "market" && <MarketBuy />}
 
-      <div role="tabpanel" hidden={side !== "sell"}>
-        <MarketForm />
-      </div>
+      {side === "sell" && type === "market" && <MarketSell />}
     </div>
   );
 };

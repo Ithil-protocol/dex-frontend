@@ -56,7 +56,7 @@ export const useCreateOrder = ({
     overrides: {
       value: boost,
     },
-    enabled: amount.toNumber() > 0 && price.toNumber() > 0 && !!address,
+    enabled: !amount.isZero() && !price.isZero() && !!address,
     onError: (error) => {
       toast.error(error.message.substring(0, 200));
     },
@@ -101,10 +101,12 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     watch: true,
   });
   // console.log(allowanceValue);
-  // allowanceValue &&
-  //   console.log(
-  //     Number(utils.formatUnits(allowanceValue, pool.underlying.decimals))
-  //   );
+  allowanceValue &&
+    console.log(
+      "all",
+      token.address,
+      Number(utils.formatUnits(allowanceValue, token.decimals))
+    );
   const needAllowance = () => {
     if (allowanceValue) {
       return (
@@ -219,7 +221,7 @@ export const useFulfillOrder = ({
       maxPaid,
       utils.parseUnits(time.toString(), 0),
     ],
-    enabled: !!address && amount.toNumber() > 0,
+    enabled: !!address && !amount.isZero(),
   });
 
   const { data: writeData, write } = usePoolFulfillOrder({
