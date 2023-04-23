@@ -78,6 +78,7 @@ const LimitSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
+  const total = Number(formValues.amount) * Number(formValues.price) || 0;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -89,7 +90,7 @@ const LimitSell: React.FC<Props> = () => {
           padding: "5px",
         }}
       >
-        <Price control={control} endLabel={pair?.accountingLabel || ""} />
+        <Price control={control} endLabel={pair.accountingLabel} />
 
         <LimitAmount
           control={control}
@@ -100,13 +101,13 @@ const LimitSell: React.FC<Props> = () => {
 
         <Boost control={control} />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair.accountingLabel} />
 
         <Submit
           side={side}
           isLoading={isSubmitting || createLoading || approveLoading}
           control={control}
-          label={pair?.underlyingLabel || ""}
+          label={pair.underlyingLabel}
           write={write}
           isApproved={isApproved}
         />

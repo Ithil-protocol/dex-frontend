@@ -5,13 +5,10 @@ import { truncateString } from "utility";
 
 interface Props {
   label: string;
-  control: Control<any, any>;
+  total: number;
 }
 
-const Total: React.FC<Props> = ({ label, control }) => {
-  const formValues = useWatch({ control });
-  const total = formValues.amount * formValues.price || 0;
-
+const Total: React.FC<Props> = ({ label, total }) => {
   return (
     <Box
       sx={(theme) => ({
