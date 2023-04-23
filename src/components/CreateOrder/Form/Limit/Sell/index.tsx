@@ -29,8 +29,7 @@ const LimitSell: React.FC<Props> = () => {
   });
 
   const formValues = useWatch({ control });
-  const [pool, pair, side, sellPool] = usePoolStore((state) => [
-    state.pool,
+  const [pair, side, sellPool] = usePoolStore((state) => [
     state.pair,
     state.side,
     state.sellPool,
@@ -71,9 +70,6 @@ const LimitSell: React.FC<Props> = () => {
     write?.();
   };
 
-  console.log("limit.sell.createLoading:", createLoading);
-  console.log("limit.sell.approveLoading:", approveLoading);
-
   const groupButtonHandler = useCallback(
     (item: number) => {
       const balancePercent = (item / 100) * available;
@@ -99,7 +95,7 @@ const LimitSell: React.FC<Props> = () => {
           control={control}
           availableLabel={availableLabel}
           groupButtonHandler={groupButtonHandler}
-          disabled={groupButtonDisabled}
+          groupButtonDisabled={groupButtonDisabled}
         />
 
         <Boost control={control} />

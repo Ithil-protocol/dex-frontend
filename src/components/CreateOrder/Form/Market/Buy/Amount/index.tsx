@@ -1,25 +1,23 @@
-import { Box, FormGroup, useTheme } from "@mui/material";
+import { Box, FormGroup } from "@mui/material";
 import { Control } from "react-hook-form";
 import MarketAmountTextField from "./TextField";
-import { MarketInputs, Pool } from "types";
-import { usePoolStore } from "store";
+import { MarketInputs } from "types";
 import MarketAmountGroupButton from "./GroupButton";
 import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  available: string;
+  available: string | number;
   control: Control<MarketInputs, any>;
-  pool: Pool;
-  price: number | string;
-  setValue: any;
+  groupButtonDisabled: boolean;
+  groupButtonHandler: (item: number) => void;
 }
 
-const MarketAmount: React.FC<Props> = ({ available, control, price }) => {
-  const theme = useTheme();
-
-  const pair = usePoolStore((state) => state.pair);
-  const disabled = price === "" || Number(price) === 0 || price === undefined;
-
+const MarketAmount: React.FC<Props> = ({
+  available,
+  control,
+  groupButtonDisabled: disabled,
+  groupButtonHandler,
+}) => {
   return (
     <FormGroup>
       <WrapperInputLabel
@@ -29,23 +27,19 @@ const MarketAmount: React.FC<Props> = ({ available, control, price }) => {
         htmlFor="amount"
       />
       <Box
-        sx={{
+        sx={(theme) => ({
           borderRadius: "5px",
           border: "2px solid transparent",
           "&:focus-within": {
             border: `2px solid ${theme.palette.primary.main}`,
           },
-        }}
+        })}
       >
-        <MarketAmountTextField
-          endLabel={pair?.underlyingLabel || ""}
-          control={control}
-        />
+        <MarketAmountTextField control={control} />
 
         <MarketAmountGroupButton
+          groupButtonHandler={groupButtonHandler}
           disabled={disabled}
-          price={Number(price)}
-          setValue={console.log}
         />
       </Box>
     </FormGroup>

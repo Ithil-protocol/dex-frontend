@@ -10,7 +10,6 @@ import {
   usePreparePoolFulfillOrder,
 } from "./contracts/pool";
 import { toast } from "react-toastify";
-import Link from "@mui/material/Link";
 import {
   usePrepareTokenApprove,
   useTokenAllowance,
@@ -58,7 +57,7 @@ export const useCreateOrder = ({
       value: boost,
     },
     enabled: !amount.isZero() && !price.isZero() && !!address,
-    onError: (error) => {
+    onError: (_error) => {
       // toast.error(error.message.substring(0, 200));
     },
   });

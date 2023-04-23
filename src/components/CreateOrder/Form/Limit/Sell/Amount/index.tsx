@@ -1,4 +1,4 @@
-import { Box, FormGroup, useTheme } from "@mui/material";
+import { Box, FormGroup } from "@mui/material";
 import { Control } from "react-hook-form";
 import LimitAmountGroupButton from "./GroupButton";
 import LimitAmountTextField from "./TextField";
@@ -8,18 +8,16 @@ import WrapperInputLabel from "components/Common/WrapperInputLabel";
 interface Props {
   control: Control<LimitInputs, any>;
   groupButtonHandler: (item: number) => void;
-  disabled: boolean;
+  groupButtonDisabled: boolean;
   availableLabel: string;
 }
 
 const LimitAmount: React.FC<Props> = ({
-  control,
-  groupButtonHandler,
-  disabled,
   availableLabel,
+  control,
+  groupButtonDisabled: disabled,
+  groupButtonHandler,
 }) => {
-  const theme = useTheme();
-
   return (
     <FormGroup>
       <WrapperInputLabel
@@ -29,13 +27,13 @@ const LimitAmount: React.FC<Props> = ({
         htmlFor="amount"
       />
       <Box
-        sx={{
-          borderRadius: "5px",
-          border: "2px solid transparent",
+        sx={(theme) => ({
           "&:focus-within": {
             border: `2px solid ${theme.palette.primary.main}`,
           },
-        }}
+          border: "2px solid transparent",
+          borderRadius: "5px",
+        })}
       >
         <LimitAmountTextField control={control} />
         <LimitAmountGroupButton

@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import { useTokenBalance } from "hooks/account";
 
 interface Props {
   disabled: boolean;

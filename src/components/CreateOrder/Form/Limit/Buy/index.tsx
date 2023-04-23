@@ -12,6 +12,7 @@ import LimitAmount from "./Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertBuyLimitArgs } from "components/CreateOrder/utils";
+import { useCallback } from "react";
 
 interface Props {}
 
@@ -27,8 +28,7 @@ const LimitBuy: React.FC<Props> = () => {
   });
 
   const formValues = useWatch({ control });
-  const [pool, pair, side, buyPool] = usePoolStore((state) => [
-    state.pool,
+  const [pair, side, buyPool] = usePoolStore((state) => [
     state.pair,
     state.side,
     state.buyPool,
@@ -41,7 +41,7 @@ const LimitBuy: React.FC<Props> = () => {
     pool: buyPool,
   });
 
-  const { data: tokenBalance } = useTokenBalance({
+  const available = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
@@ -53,9 +53,6 @@ const LimitBuy: React.FC<Props> = () => {
     token: buyPool.underlying,
   });
 
-  console.log("limit.buy.createLoading:", createLoading);
-  console.log("limit.buy.approveLoading:", approveLoading);
-
   const handleFormSubmit = () => {
     if (approve) {
       approve();
@@ -63,6 +60,16 @@ const LimitBuy: React.FC<Props> = () => {
     }
     write?.();
   };
+
+  const groupButtonDisabled = available === 0;
+
+  const groupButtonHandler = useCallback(
+    (item: number) => {
+      const balancePercent = (item / 100) * available;
+      setValue("amount", balancePercent.toString());
+    },
+    [setValue, available]
+  );
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -77,10 +84,10 @@ const LimitBuy: React.FC<Props> = () => {
         <Price control={control} endLabel={pair?.accountingLabel || ""} />
 
         <LimitAmount
+          groupButtonDisabled={groupButtonDisabled}
           control={control}
-          pool={pool}
-          setValue={setValue}
-          available={tokenBalance?.formatted || "0.00"}
+          available={available || "0.00"}
+          groupButtonHandler={groupButtonHandler}
         />
 
         <Boost control={control} />

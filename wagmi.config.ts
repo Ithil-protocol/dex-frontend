@@ -1,7 +1,7 @@
 /** @type {import('@wagmi/cli').Config} */
 import { defineConfig } from "@wagmi/cli";
-import { etherscan, react } from "@wagmi/cli/plugins";
-import { erc20ABI, goerli } from "wagmi";
+import { react } from "@wagmi/cli/plugins";
+import { erc20ABI } from "wagmi";
 import { contractABI, factoryABI } from "./src/store/abi";
 export default defineConfig([
   {

@@ -1,26 +1,23 @@
-import { Box, FormGroup, useTheme } from "@mui/material";
-import { Control, useWatch } from "react-hook-form";
+import { Box, FormGroup } from "@mui/material";
+import { Control } from "react-hook-form";
 import LimitAmountGroupButton from "./GroupButton";
 import LimitAmountTextField from "./TextField";
-import { LimitInputs, Pool } from "types";
-import { usePoolStore } from "store";
+import { LimitInputs } from "types";
 import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  available: string;
+  available: string | number;
   control: Control<LimitInputs, any>;
-  pool: Pool;
-  setValue: any;
+  groupButtonDisabled: boolean;
+  groupButtonHandler: (item: number) => void;
 }
 
-const LimitAmount: React.FC<Props> = ({ available, control, setValue }) => {
-  const theme = useTheme();
-  const { price } = useWatch({ control });
-
-  const pair = usePoolStore((state) => state.pair);
-
-  const disabled = price == "" || Number(price) == 0 || price == undefined;
-
+const LimitAmount: React.FC<Props> = ({
+  available,
+  control,
+  groupButtonDisabled,
+  groupButtonHandler,
+}) => {
   return (
     <FormGroup>
       <WrapperInputLabel
@@ -30,23 +27,19 @@ const LimitAmount: React.FC<Props> = ({ available, control, setValue }) => {
         htmlFor="amount"
       />
       <Box
-        sx={{
+        sx={(theme) => ({
           borderRadius: "5px",
           border: "2px solid transparent",
           "&:focus-within": {
             border: `2px solid ${theme.palette.primary.main}`,
           },
-        }}
+        })}
       >
-        <LimitAmountTextField
-          endLabel={pair?.underlyingLabel || ""}
-          control={control}
-        />
+        <LimitAmountTextField control={control} />
 
         <LimitAmountGroupButton
-          disabled={disabled}
-          price={Number(price)}
-          setValue={setValue}
+          disabled={groupButtonDisabled}
+          groupButtonHandler={groupButtonHandler}
         />
       </Box>
     </FormGroup>

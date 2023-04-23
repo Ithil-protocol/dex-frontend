@@ -10,6 +10,7 @@ import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertBuyMarketArgs } from "components/CreateOrder/utils";
+import { useCallback } from "react";
 
 interface Props {}
 
@@ -23,14 +24,13 @@ const MarketBuy: React.FC<Props> = () => {
     resolver: yupResolver(marketSchema),
   });
   const formValues = useWatch({ control });
-  const [pool, pair, side, sellPool] = usePoolStore((state) => [
-    state.pool,
+  const [pair, side, sellPool] = usePoolStore((state) => [
     state.pair,
     state.side,
     state.sellPool,
   ]);
 
-  const { data: tokenBalance } = useTokenBalance({
+  const available = useTokenBalance({
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
@@ -54,8 +54,14 @@ const MarketBuy: React.FC<Props> = () => {
     write?.();
   };
 
-  console.log("market.buy.fulfillLoading:", fulfillLoading);
-  console.log("market.buy.approveLoading:", approveLoading);
+  const groupButtonHandler = useCallback(
+    (item: number) => {
+      const balancePercent = (item / 100) * available;
+      setValue("amount", balancePercent.toString());
+    },
+    [setValue, available]
+  );
+  const groupButtonDisabled = available === 0;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -68,11 +74,10 @@ const MarketBuy: React.FC<Props> = () => {
         }}
       >
         <MarketAmount
-          price={0}
+          groupButtonHandler={groupButtonHandler}
           control={control}
-          pool={pool}
-          setValue={setValue}
-          available={tokenBalance?.formatted || "0.00"}
+          groupButtonDisabled={groupButtonDisabled}
+          available={available || "0.00"}
         />
 
         <Total control={control} label={pair?.accountingLabel || ""} />

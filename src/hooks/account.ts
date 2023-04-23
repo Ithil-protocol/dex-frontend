@@ -2,7 +2,6 @@ import { BigNumber, BigNumberish, Event, utils } from "ethers";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
 import { usePoolGetOrder } from "./contracts/pool";
-import { Token } from "types";
 
 interface TokenBalanceProps {
   tokenAddress: `0x${string}` | undefined;
