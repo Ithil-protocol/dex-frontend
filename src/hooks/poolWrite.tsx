@@ -46,7 +46,7 @@ export const useCreateOrder = ({
   }, []);
 
   const { address } = useAccount();
-  const { config } = usePreparePoolCreateOrder({
+  const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
     address: pool.address,
     args: [
       amount,
@@ -62,7 +62,6 @@ export const useCreateOrder = ({
       // toast.error(error.message.substring(0, 200));
     },
   });
-
   const {
     data: writeData,
     write,
@@ -89,7 +88,12 @@ export const useCreateOrder = ({
     },
   });
 
-  return { waitedData, write, isLoading: writeLoading || waitLoading };
+  return {
+    waitedData,
+    write,
+    isLoading: writeLoading || waitLoading,
+    gasLoading,
+  };
 };
 
 interface AllowanceProps {

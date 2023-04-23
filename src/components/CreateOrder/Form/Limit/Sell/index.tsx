@@ -12,6 +12,7 @@ import LimitAmount from "./Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertSellLimitArgs } from "components/CreateOrder/utils";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 interface Props {}
 
@@ -44,7 +45,11 @@ const LimitSell: React.FC<Props> = () => {
     tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
   });
 
-  const { write, isLoading: createLoading } = useCreateOrder(finalValues);
+  const {
+    write,
+    isLoading: createLoading,
+    gasLoading,
+  } = useCreateOrder(finalValues);
 
   const {
     write: approve,
@@ -98,6 +103,14 @@ const LimitSell: React.FC<Props> = () => {
           write={write}
           isApproved={isApproved}
         />
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
+          {gasLoading && (
+            <>
+              <CircularProgress size={12} color="info" />
+              <Typography fontSize={12}>Estimating Gas...</Typography>{" "}
+            </>
+          )}
+        </Box>
       </div>
     </form>
   );
