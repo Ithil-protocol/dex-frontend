@@ -11,6 +11,7 @@ import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 interface Props {}
 
@@ -40,7 +41,11 @@ const MarketSell: React.FC<Props> = () => {
     pool: buyPool,
   });
 
-  const { write, isLoading: fulfillLoading } = useFulfillOrder(finalValues);
+  const {
+    write,
+    isLoading: fulfillLoading,
+    gasLoading,
+  } = useFulfillOrder(finalValues);
   const {
     write: approve,
     isLoading: approveLoading,
@@ -97,6 +102,14 @@ const MarketSell: React.FC<Props> = () => {
           side={side}
           write={write}
         />
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
+          {gasLoading && (
+            <>
+              <CircularProgress size={12} color="info" />
+              <Typography fontSize={12}>Estimating Gas...</Typography>
+            </>
+          )}
+        </Box>
       </div>
     </form>
   );
