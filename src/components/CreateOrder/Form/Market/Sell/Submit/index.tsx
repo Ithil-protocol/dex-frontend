@@ -10,9 +10,9 @@ interface Props {
   control: Control<any, any>;
   write: (() => void) | undefined;
   isLoading: boolean;
-  approve: (() => void) | undefined;
   isMarket?: boolean;
   side: Side;
+  isApproved: boolean;
 }
 
 const Submit: React.FC<Props> = ({
@@ -20,15 +20,15 @@ const Submit: React.FC<Props> = ({
   control,
   write,
   isLoading,
-  approve,
   isMarket = false,
   side,
+  isApproved,
 }) => {
   const formValues = useWatch({ control });
   const approved = () => {
-    if (!!write === false && !!approve === true) {
+    if (!!write === false && isApproved === false) {
       return false;
-    } else if (!!write === true && !!approve === false) {
+    } else if (!!write === true && isApproved === true) {
       return false;
     } else {
       return true;
@@ -54,6 +54,7 @@ const Submit: React.FC<Props> = ({
   return (
     <LoadingButton
       variant="contained"
+      loadingPosition="end"
       endIcon={isLoading && <CircularProgress size={22} color="inherit" />}
       loading={isLoading}
       fullWidth
@@ -65,7 +66,7 @@ const Submit: React.FC<Props> = ({
       })}
       type="submit"
     >
-      {approve ? "Approve first" : `Buy ${label}`}
+      {!isApproved ? "Approve first" : `Sell ${label}`}
     </LoadingButton>
   );
 };

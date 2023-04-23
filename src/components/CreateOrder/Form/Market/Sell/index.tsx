@@ -41,7 +41,11 @@ const MarketSell: React.FC<Props> = () => {
   });
 
   const { write, isLoading: fulfillLoading } = useFulfillOrder(finalValues);
-  const { write: approve, isLoading: approveLoading } = useAllowance({
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
     token: buyPool.accounting,
@@ -82,14 +86,14 @@ const MarketSell: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
         />
 
-        <Total total={total} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair.accountingLabel} />
 
         <Submit
-          approve={approve}
+          isApproved={isApproved}
           control={control}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
           isMarket={true}
-          label={pair?.underlyingLabel || ""}
+          label={pair.underlyingLabel}
           side={side}
           write={write}
         />
