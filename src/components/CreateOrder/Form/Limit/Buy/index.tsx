@@ -48,7 +48,11 @@ const LimitBuy: React.FC<Props> = () => {
 
   const { write, isLoading: createLoading } = useCreateOrder(finalValues);
 
-  const { write: approve, isLoading: approveLoading } = useAllowance({
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
     token: buyPool.underlying,
@@ -103,11 +107,11 @@ const LimitBuy: React.FC<Props> = () => {
 
         <Submit
           side={side}
-          isLoading={isSubmitting || createLoading || approveLoading}
+          isLoading={createLoading || approveLoading}
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}
-          approve={approve}
+          isApproved={isApproved}
         />
       </div>
     </form>
