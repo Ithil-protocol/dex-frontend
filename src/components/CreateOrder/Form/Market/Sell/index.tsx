@@ -35,7 +35,7 @@ const MarketSell: React.FC<Props> = () => {
   });
   const availableLabel = `${available} ${pair.underlyingLabel}`;
 
-  const finalValues = useConvertSellMarketArgs({
+  const { convertedAmount, ...finalValues } = useConvertSellMarketArgs({
     amount: formValues.amount,
     pool: buyPool,
   });
@@ -63,6 +63,7 @@ const MarketSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
+  const total = convertedAmount.toFixed(buyPool.underlying.decimals);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -81,7 +82,7 @@ const MarketSell: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
         />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair?.accountingLabel || ""} />
 
         <Submit
           approve={approve}

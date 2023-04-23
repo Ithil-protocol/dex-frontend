@@ -104,7 +104,13 @@ export const useConvertSellMarketArgs = ({
     accountingDecimals
   );
 
-  return { amount: finalAmount, minReceived, maxPaid: finalMaxPaid, pool };
+  return {
+    amount: finalAmount,
+    minReceived,
+    maxPaid: finalMaxPaid,
+    pool,
+    convertedAmount,
+  };
 };
 
 export const useConvertBuyMarketArgs = ({
