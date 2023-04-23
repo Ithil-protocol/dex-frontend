@@ -42,8 +42,9 @@ const LimitBuy: React.FC<Props> = () => {
   });
 
   const available = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+    tokenAddress: buyPool.underlying.address,
   });
+  const availableLabel = `${available} ${pair.accountingLabel}`;
 
   const { write, isLoading: createLoading } = useCreateOrder(finalValues);
 
@@ -61,14 +62,15 @@ const LimitBuy: React.FC<Props> = () => {
     write?.();
   };
 
-  const groupButtonDisabled = available === 0;
+  const groupButtonDisabled = Number(finalValues.price) === 0;
 
   const groupButtonHandler = useCallback(
     (item: number) => {
       const balancePercent = (item / 100) * available;
-      setValue("amount", balancePercent.toString());
+      const amountPercent = balancePercent / Number(formValues.price || 0);
+      setValue("amount", amountPercent.toString());
     },
-    [setValue, available]
+    [setValue, available, formValues.price]
   );
 
   return (
@@ -86,7 +88,7 @@ const LimitBuy: React.FC<Props> = () => {
         <LimitAmount
           groupButtonDisabled={groupButtonDisabled}
           control={control}
-          available={available || "0.00"}
+          availableLabel={availableLabel}
           groupButtonHandler={groupButtonHandler}
         />
 

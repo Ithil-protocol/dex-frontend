@@ -6,14 +6,14 @@ import { LimitInputs } from "types";
 import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  available: string | number;
+  availableLabel: string;
   control: Control<LimitInputs, any>;
   groupButtonDisabled: boolean;
   groupButtonHandler: (item: number) => void;
 }
 
 const LimitAmount: React.FC<Props> = ({
-  available,
+  availableLabel,
   control,
   groupButtonDisabled,
   groupButtonHandler,
@@ -21,7 +21,7 @@ const LimitAmount: React.FC<Props> = ({
   return (
     <FormGroup>
       <WrapperInputLabel
-        endLabel={`(${available})`}
+        endLabel={`(${availableLabel})`}
         label="Amount"
         tooltip="Amount"
         htmlFor="amount"

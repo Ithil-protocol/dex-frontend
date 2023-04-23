@@ -31,10 +31,10 @@ const Panel = () => {
     },
   });
 
-  const [sellPool, buyPool] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-  ]);
+  // const [sellPool, buyPool] = usePoolStore((state) => [
+  //   state.sellPool,
+  //   state.buyPool,
+  // ]);
   // const { data: buyOrders } = usePoolVolumes({
   //   address: buyPool.address,
   //   args: [

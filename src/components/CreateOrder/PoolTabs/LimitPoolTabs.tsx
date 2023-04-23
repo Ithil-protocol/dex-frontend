@@ -27,11 +27,11 @@ const LimitPoolTabs: React.FC<Props> = () => {
   return (
     <div>
       <Tabs variant="fullWidth" value={side} onChange={handleChange}>
-        {/* <WrapperTab
+        <WrapperTab
           value="buy"
           label="Buy"
           selectedBgColor={theme.palette.success.main}
-        /> */}
+        />
         <WrapperTab
           value="sell"
           color={theme.palette.error.main}
@@ -40,7 +40,7 @@ const LimitPoolTabs: React.FC<Props> = () => {
         />
       </Tabs>
 
-      {/* {side === "buy" && type === "limit" && <LimitBuy />} */}
+      {side === "buy" && type === "limit" && <LimitBuy />}
 
       {side === "sell" && type === "limit" && <LimitSell />}
     </div>
