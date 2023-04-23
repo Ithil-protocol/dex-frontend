@@ -107,7 +107,7 @@ const LimitSell: React.FC<Props> = () => {
 
         <Submit
           side={side}
-          isLoading={isSubmitting || createLoading || approveLoading}
+          isLoading={createLoading || approveLoading}
           control={control}
           label={pair.underlyingLabel}
           write={write}
