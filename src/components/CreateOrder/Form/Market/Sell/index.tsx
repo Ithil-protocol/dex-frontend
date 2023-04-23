@@ -10,6 +10,7 @@ import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
+import { useCallback } from "react";
 
 interface Props {}
 
@@ -23,24 +24,28 @@ const MarketSell: React.FC<Props> = () => {
     resolver: yupResolver(marketSchema),
   });
   const formValues = useWatch({ control });
-  const [pool, pair, side, buyPool] = usePoolStore((state) => [
-    state.pool,
+  const [pair, side, buyPool] = usePoolStore((state) => [
     state.pair,
     state.side,
     state.buyPool,
   ]);
 
-  const { data: tokenBalance } = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+  const available = useTokenBalance({
+    tokenAddress: buyPool.accounting.address,
   });
+  const availableLabel = `${available} ${pair.underlyingLabel}`;
 
-  const finalValues = useConvertSellMarketArgs({
+  const { totalToTake, ...finalValues } = useConvertSellMarketArgs({
     amount: formValues.amount,
     pool: buyPool,
   });
 
   const { write, isLoading: fulfillLoading } = useFulfillOrder(finalValues);
-  const { write: approve } = useAllowance({
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
     token: buyPool.accounting,
@@ -54,6 +59,16 @@ const MarketSell: React.FC<Props> = () => {
     write?.();
   };
 
+  const groupButtonHandler = useCallback(
+    (item: number) => {
+      const balancePercent = (item / 100) * available;
+      setValue("amount", balancePercent.toString());
+    },
+    [setValue, available]
+  );
+  const groupButtonDisabled = available === 0;
+  const total = totalToTake.toFixed(buyPool.underlying.decimals);
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div
@@ -65,23 +80,22 @@ const MarketSell: React.FC<Props> = () => {
         }}
       >
         <MarketAmount
-          price={0}
+          availableLabel={availableLabel}
           control={control}
-          pool={pool}
-          setValue={setValue}
-          available={tokenBalance?.formatted || "0.00"}
+          groupButtonDisabled={groupButtonDisabled}
+          groupButtonHandler={groupButtonHandler}
         />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair.accountingLabel} />
 
         <Submit
-          side={side}
-          isSubmitting={isSubmitting}
+          isApproved={isApproved}
           control={control}
-          label={pair?.underlyingLabel || ""}
-          write={write}
-          approve={approve}
+          isLoading={isSubmitting || approveLoading || fulfillLoading}
           isMarket={true}
+          label={pair.underlyingLabel}
+          side={side}
+          write={write}
         />
       </div>
     </form>

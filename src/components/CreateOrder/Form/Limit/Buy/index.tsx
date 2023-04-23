@@ -12,6 +12,7 @@ import LimitAmount from "./Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertBuyLimitArgs } from "components/CreateOrder/utils";
+import { useCallback } from "react";
 
 interface Props {}
 
@@ -27,8 +28,7 @@ const LimitBuy: React.FC<Props> = () => {
   });
 
   const formValues = useWatch({ control });
-  const [pool, pair, side, buyPool] = usePoolStore((state) => [
-    state.pool,
+  const [pair, side, buyPool] = usePoolStore((state) => [
     state.pair,
     state.side,
     state.buyPool,
@@ -41,13 +41,18 @@ const LimitBuy: React.FC<Props> = () => {
     pool: buyPool,
   });
 
-  const { data: tokenBalance } = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+  const available = useTokenBalance({
+    tokenAddress: buyPool.underlying.address,
   });
+  const availableLabel = `${available} ${pair.accountingLabel}`;
 
-  const { write } = useCreateOrder(finalValues);
+  const { write, isLoading: createLoading } = useCreateOrder(finalValues);
 
-  const { write: approve } = useAllowance({
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
     token: buyPool.underlying,
@@ -60,6 +65,22 @@ const LimitBuy: React.FC<Props> = () => {
     }
     write?.();
   };
+
+  const groupButtonHandler = useCallback(
+    (item: number) => {
+      const balancePercent = (item / 100) * available;
+      const amountPercent = balancePercent / Number(formValues.price || 0);
+      setValue("amount", amountPercent.toString());
+    },
+    [setValue, available, formValues.price]
+  );
+
+  const groupButtonDisabled =
+    Number(formValues.price || 0) === 0 || available === 0;
+
+  const total = (
+    Number(formValues.amount) * Number(formValues.price) || 0
+  ).toFixed(buyPool.underlying.decimals);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -74,23 +95,23 @@ const LimitBuy: React.FC<Props> = () => {
         <Price control={control} endLabel={pair?.accountingLabel || ""} />
 
         <LimitAmount
+          groupButtonDisabled={groupButtonDisabled}
           control={control}
-          pool={pool}
-          setValue={setValue}
-          available={tokenBalance?.formatted || "0.00"}
+          availableLabel={availableLabel}
+          groupButtonHandler={groupButtonHandler}
         />
 
         <Boost control={control} />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair?.accountingLabel || ""} />
 
         <Submit
           side={side}
-          isSubmitting={isSubmitting}
+          isLoading={createLoading || approveLoading}
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}
-          approve={approve}
+          isApproved={isApproved}
         />
       </div>
     </form>

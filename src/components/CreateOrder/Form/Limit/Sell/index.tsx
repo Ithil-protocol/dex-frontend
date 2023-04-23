@@ -12,6 +12,8 @@ import LimitAmount from "./Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertSellLimitArgs } from "components/CreateOrder/utils";
+import { Box, CircularProgress, Typography } from "@mui/material";
+import { useCallback } from "react";
 
 interface Props {}
 
@@ -27,8 +29,7 @@ const LimitSell: React.FC<Props> = () => {
   });
 
   const formValues = useWatch({ control });
-  const [pool, pair, side, sellPool] = usePoolStore((state) => [
-    state.pool,
+  const [pair, side, sellPool] = usePoolStore((state) => [
     state.pair,
     state.side,
     state.sellPool,
@@ -40,11 +41,16 @@ const LimitSell: React.FC<Props> = () => {
     boost: formValues.boost,
     pool: sellPool,
   });
-  const { data: tokenBalance } = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+  const available = useTokenBalance({
+    tokenAddress: sellPool.underlying.address,
   });
+  const availableLabel = `${available} ${pair.underlyingLabel}`;
 
-  const { write, isLoading: createLoading } = useCreateOrder(finalValues);
+  const {
+    write,
+    isLoading: createLoading,
+    gasLoading,
+  } = useCreateOrder(finalValues);
 
   const {
     write: approve,
@@ -64,6 +70,18 @@ const LimitSell: React.FC<Props> = () => {
     write?.();
   };
 
+  const groupButtonHandler = useCallback(
+    (item: number) => {
+      const balancePercent = (item / 100) * available;
+      setValue("amount", balancePercent.toString());
+    },
+    [setValue, available]
+  );
+  const groupButtonDisabled = available === 0;
+  const total = (
+    Number(formValues.amount) * Number(formValues.price) || 0
+  ).toFixed(sellPool.accounting.decimals);
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div
@@ -74,27 +92,35 @@ const LimitSell: React.FC<Props> = () => {
           padding: "5px",
         }}
       >
-        <Price control={control} endLabel={pair?.accountingLabel || ""} />
+        <Price control={control} endLabel={pair.accountingLabel} />
 
         <LimitAmount
           control={control}
-          pool={pool}
-          setValue={setValue}
-          available={tokenBalance?.formatted || "0.00"}
+          availableLabel={availableLabel}
+          groupButtonHandler={groupButtonHandler}
+          groupButtonDisabled={groupButtonDisabled}
         />
 
         <Boost control={control} />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair.accountingLabel} />
 
         <Submit
           side={side}
-          isSubmitting={isSubmitting}
+          isLoading={createLoading || approveLoading}
           control={control}
-          label={pair?.underlyingLabel || ""}
+          label={pair.underlyingLabel}
           write={write}
           isApproved={isApproved}
         />
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
+          {gasLoading && (
+            <>
+              <CircularProgress size={12} color="info" />
+              <Typography fontSize={12}>Estimating Gas...</Typography>
+            </>
+          )}
+        </Box>
       </div>
     </form>
   );

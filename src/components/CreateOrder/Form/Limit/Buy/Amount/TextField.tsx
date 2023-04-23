@@ -1,9 +1,9 @@
 import { InputAdornment, TextField } from "@mui/material";
 import { decimalRegex } from "data/regex";
 import { useController } from "react-hook-form";
+import { usePoolStore } from "store";
 
 interface Props {
-  endLabel: string;
   control: any;
 }
 
@@ -16,6 +16,8 @@ const LimitAmountTextField: React.FC<Props> = (props) => {
     defaultValue: "",
     control: props.control,
   });
+
+  const pair = usePoolStore((state) => state.pair);
 
   return (
     <TextField
@@ -41,7 +43,7 @@ const LimitAmountTextField: React.FC<Props> = (props) => {
         },
         endAdornment: (
           <InputAdornment position="end">
-            <span>{props.endLabel}</span>
+            <span>{pair?.underlyingLabel}</span>
           </InputAdornment>
         ),
       }}

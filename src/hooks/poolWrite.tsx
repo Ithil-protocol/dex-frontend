@@ -10,7 +10,6 @@ import {
   usePreparePoolFulfillOrder,
 } from "./contracts/pool";
 import { toast } from "react-toastify";
-import Link from "@mui/material/Link";
 import {
   usePrepareTokenApprove,
   useTokenAllowance,
@@ -46,7 +45,7 @@ export const useCreateOrder = ({
   }, []);
 
   const { address } = useAccount();
-  const { config } = usePreparePoolCreateOrder({
+  const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
     address: pool.address,
     args: [
       amount,
@@ -58,11 +57,10 @@ export const useCreateOrder = ({
       value: boost,
     },
     enabled: !amount.isZero() && !price.isZero() && !!address,
-    onError: (error) => {
+    onError: (_error) => {
       // toast.error(error.message.substring(0, 200));
     },
   });
-
   const {
     data: writeData,
     write,
@@ -89,7 +87,12 @@ export const useCreateOrder = ({
     },
   });
 
-  return { waitedData, write, isLoading: writeLoading || waitLoading };
+  return {
+    waitedData,
+    write,
+    isLoading: writeLoading || waitLoading,
+    gasLoading,
+  };
 };
 
 interface AllowanceProps {

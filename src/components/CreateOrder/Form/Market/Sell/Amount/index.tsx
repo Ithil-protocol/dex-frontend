@@ -1,47 +1,45 @@
-import { Box, FormGroup, useTheme } from "@mui/material";
+import { Box, FormGroup } from "@mui/material";
 import { Control } from "react-hook-form";
-import MarketAmountLabel from "./Label";
 import MarketAmountTextField from "./TextField";
-import { MarketInputs, Pool } from "types";
-import { usePoolStore } from "store";
+import { MarketInputs } from "types";
 import MarketAmountGroupButton from "./GroupButton";
+import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  available: string;
+  availableLabel: string;
   control: Control<MarketInputs, any>;
-  pool: Pool;
-  price: number | string;
-  setValue: any;
+  groupButtonDisabled: boolean;
+  groupButtonHandler: (item: number) => void;
 }
 
-const MarketAmount: React.FC<Props> = ({ available, control, price }) => {
-  const theme = useTheme();
-
-  const pair = usePoolStore((state) => state.pair);
-  const disabled = price === "" || Number(price) === 0 || price === undefined;
-
+const MarketAmount: React.FC<Props> = ({
+  control,
+  groupButtonDisabled: disabled,
+  groupButtonHandler,
+  availableLabel
+}) => {
   return (
     <FormGroup>
-      <MarketAmountLabel available={available} />
-
+      <WrapperInputLabel
+        endLabel={`(${availableLabel})`}
+        label="Amount"
+        tooltip="Amount"
+        htmlFor="amount"
+      />
       <Box
-        sx={{
+        sx={(theme) => ({
           borderRadius: "5px",
           border: "2px solid transparent",
           "&:focus-within": {
             border: `2px solid ${theme.palette.primary.main}`,
           },
-        }}
+        })}
       >
-        <MarketAmountTextField
-          endLabel={pair?.underlyingLabel || ""}
-          control={control}
-        />
+        <MarketAmountTextField control={control} />
 
         <MarketAmountGroupButton
           disabled={disabled}
-          price={Number(price)}
-          setValue={console.log}
+          groupButtonHandler={groupButtonHandler}
         />
       </Box>
     </FormGroup>

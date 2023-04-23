@@ -1,29 +1,14 @@
 import { Button } from "@mui/material";
-import { useTokenBalance } from "hooks/account";
 
 interface Props {
-  setValue: any;
   disabled: boolean;
-  price: number;
+  groupButtonHandler: (item: number) => void;
 }
 
 const MarketAmountGroupButton: React.FC<Props> = ({
-  setValue,
   disabled,
-  price,
+  groupButtonHandler,
 }) => {
-  const { data: tokenBalance } = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
-  });
-  const balance = tokenBalance ? Number(tokenBalance.formatted) : 0;
-
-  const clickHandler = (item: number) => {
-    const balancePercent = (item / 100) * balance;
-    const amountPercent = balancePercent / price;
-
-    setValue("amount", amountPercent.toFixed(6));
-  };
-
   return (
     <div
       style={{
@@ -35,7 +20,7 @@ const MarketAmountGroupButton: React.FC<Props> = ({
         return (
           <Button
             variant="contained"
-            onClick={() => clickHandler(item)}
+            onClick={() => groupButtonHandler(item)}
             disabled={disabled}
             key={i}
             sx={(theme) => ({
