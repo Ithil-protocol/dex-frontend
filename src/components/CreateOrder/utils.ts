@@ -109,7 +109,7 @@ export const useConvertSellMarketArgs = ({
     minReceived,
     maxPaid: finalMaxPaid,
     pool,
-    convertedAmount,
+    totalToTake: convertedAmount,
   };
 };
 
