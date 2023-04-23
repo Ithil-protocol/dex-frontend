@@ -45,6 +45,7 @@ const LimitSell: React.FC<Props> = () => {
   const available = useTokenBalance({
     tokenAddress: sellPool.underlying.address,
   });
+  const availableLabel = `${available} ${pair.underlyingLabel}`;
 
   const {
     write,
@@ -80,6 +81,7 @@ const LimitSell: React.FC<Props> = () => {
     },
     [setValue, available]
   );
+  const groupButtonDisabled = available === 0;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -95,8 +97,9 @@ const LimitSell: React.FC<Props> = () => {
 
         <LimitAmount
           control={control}
-          available={available}
+          availableLabel={availableLabel}
           groupButtonHandler={groupButtonHandler}
+          disabled={groupButtonDisabled}
         />
 
         <Boost control={control} />
