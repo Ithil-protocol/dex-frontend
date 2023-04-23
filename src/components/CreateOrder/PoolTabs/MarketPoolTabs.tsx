@@ -26,7 +26,7 @@ const MarketPoolTabs: React.FC<Props> = () => {
 
   return (
     <div>
-      <Tabs variant="fullWidth" value={side} onChange={handleChange}>
+      {/* <Tabs variant="fullWidth" value={side} onChange={handleChange}>
         <WrapperTab
           value="buy"
           label="Buy"
@@ -42,7 +42,7 @@ const MarketPoolTabs: React.FC<Props> = () => {
 
       {side === "buy" && type === "market" && <MarketBuy />}
 
-      {side === "sell" && type === "market" && <MarketSell />}
+      {side === "sell" && type === "market" && <MarketSell />} */}
     </div>
   );
 };

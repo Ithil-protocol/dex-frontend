@@ -2,6 +2,7 @@ import { BigNumber, BigNumberish, Event, utils } from "ethers";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
 import { usePoolGetOrder } from "./contracts/pool";
+import { Token } from "types";
 
 interface TokenBalanceProps {
   tokenAddress: `0x${string}` | undefined;
@@ -9,10 +10,12 @@ interface TokenBalanceProps {
 
 export const useTokenBalance = ({ tokenAddress }: TokenBalanceProps) => {
   const { address } = useAccount();
-  return useBalance({
+  const { data } = useBalance({
     address,
     token: tokenAddress,
   });
+  if (data) return Number(data.formatted);
+  return 0;
 };
 
 export const useGetBlock = (event: Event) => {

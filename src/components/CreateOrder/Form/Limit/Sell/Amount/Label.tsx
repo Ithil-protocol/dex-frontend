@@ -1,7 +1,7 @@
 import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  available: string;
+  available: number;
 }
 
 const LimitAmountLabel: React.FC<Props> = (props) => {

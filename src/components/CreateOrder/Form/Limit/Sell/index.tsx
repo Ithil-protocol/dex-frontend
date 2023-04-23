@@ -13,6 +13,7 @@ import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertSellLimitArgs } from "components/CreateOrder/utils";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { useCallback } from "react";
 
 interface Props {}
 
@@ -41,8 +42,8 @@ const LimitSell: React.FC<Props> = () => {
     boost: formValues.boost,
     pool: sellPool,
   });
-  const { data: tokenBalance } = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+  const available = useTokenBalance({
+    tokenAddress: sellPool.underlying.address,
   });
 
   const {
@@ -72,6 +73,14 @@ const LimitSell: React.FC<Props> = () => {
   console.log("limit.sell.createLoading:", createLoading);
   console.log("limit.sell.approveLoading:", approveLoading);
 
+  const groupButtonHandler = useCallback(
+    (item: number) => {
+      const balancePercent = (item / 100) * available;
+      setValue("amount", balancePercent.toString());
+    },
+    [setValue, available]
+  );
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div
@@ -86,9 +95,8 @@ const LimitSell: React.FC<Props> = () => {
 
         <LimitAmount
           control={control}
-          pool={pool}
-          setValue={setValue}
-          available={tokenBalance?.formatted || "0.00"}
+          available={available}
+          groupButtonHandler={groupButtonHandler}
         />
 
         <Boost control={control} />

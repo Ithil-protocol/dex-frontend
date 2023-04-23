@@ -7,19 +7,18 @@ import { LimitInputs, Pool } from "types";
 import { usePoolStore } from "store";
 
 interface Props {
-  available: string;
+  available: number;
   control: Control<LimitInputs, any>;
-  pool: Pool;
-  setValue: any;
+  groupButtonHandler: (item: number) => void;
 }
 
-const LimitAmount: React.FC<Props> = ({ available, control, setValue }) => {
+const LimitAmount: React.FC<Props> = ({
+  available,
+  control,
+  groupButtonHandler,
+}) => {
   const theme = useTheme();
-  const { price } = useWatch({ control });
-
-  const pair = usePoolStore((state) => state.pair);
-
-  const disabled = price == "" || Number(price) == 0 || price == undefined;
+  const disabled = available === 0;
 
   return (
     <FormGroup>
@@ -34,15 +33,11 @@ const LimitAmount: React.FC<Props> = ({ available, control, setValue }) => {
           },
         }}
       >
-        <LimitAmountTextField
-          endLabel={pair?.underlyingLabel || ""}
-          control={control}
-        />
+        <LimitAmountTextField control={control} />
 
         <LimitAmountGroupButton
-          disabled={disabled}
-          price={Number(price)}
-          setValue={setValue}
+          disabled={!!disabled}
+          groupButtonHandler={groupButtonHandler}
         />
       </Box>
     </FormGroup>
