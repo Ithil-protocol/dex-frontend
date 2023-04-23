@@ -223,7 +223,7 @@ export const useFulfillOrder = ({
 
   const { address } = useAccount();
 
-  const { config } = usePreparePoolFulfillOrder({
+  const { config, isLoading: gasLoading } = usePreparePoolFulfillOrder({
     address: pool.address,
     args: [
       amount,
@@ -259,5 +259,5 @@ export const useFulfillOrder = ({
     },
   });
 
-  return { write, isLoading: writeLoading || waitLoading };
+  return { write, isLoading: writeLoading || waitLoading, gasLoading };
 };
