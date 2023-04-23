@@ -23,7 +23,7 @@ const LimitAmount: React.FC<Props> = ({
   return (
     <FormGroup>
       <WrapperInputLabel
-        endLabel={availableLabel}
+        endLabel={`(${availableLabel})`}
         label="Amount"
         tooltip="Amount"
         htmlFor="amount"
