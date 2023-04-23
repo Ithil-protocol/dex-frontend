@@ -43,7 +43,11 @@ const MarketBuy: React.FC<Props> = () => {
   });
 
   const { write, isLoading: fulfillLoading } = useFulfillOrder(finalValues);
-  const { write: approve, isLoading: approveLoading } = useAllowance({
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
     amount: formValues.amount,
     pool: sellPool,
     token: sellPool.accounting,
@@ -104,7 +108,7 @@ const MarketBuy: React.FC<Props> = () => {
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}
-          approve={approve}
+          isApproved={isApproved}
           isMarket={true}
         />
       </div>
