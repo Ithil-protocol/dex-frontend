@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { usePoolStore } from "store";
-import { contractABI } from "store/abi";
-import { useAccount, useContract, useProvider } from "wagmi";
+import { useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "./contract";
 import { Event } from "ethers";
 

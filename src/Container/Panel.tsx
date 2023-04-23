@@ -35,42 +35,42 @@ const Panel = () => {
     state.sellPool,
     state.buyPool,
   ]);
-  // const { data: buyOrders } = usePoolVolumes({
-  //   address: buyPool.address,
-  //   args: [
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("10", 0),
-  //   ],
-  // });
-  // buyOrders &&
-  //   buyOrders.forEach((e, i) => {
-  //     console.log(
-  //       i,
-  //       "buy price: ",
-  //       Number(utils.formatUnits(e.price, 6)),
-  //       "volume: ",
-  //       Number(utils.formatUnits(e.volume, 6))
-  //     );
-  //   });
-  // const { data: sellOrders } = usePoolVolumes({
-  //   address: sellPool.address,
-  //   args: [
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("10", 0),
-  //   ],
-  // });
-  // sellOrders &&
-  //   sellOrders.forEach((e, i) => {
-  //     console.log(
-  //       i,
-  //       "sell price: ",
-  //       1 / Number(utils.formatUnits(e.price, 18)),
-  //       "volume: ",
-  //       Number(utils.formatUnits(e.volume, 18))
-  //     );
-  //   });
+  const { data: buyOrders } = usePoolVolumes({
+    address: buyPool.address,
+    args: [
+      utils.parseUnits("0", 0),
+      utils.parseUnits("0", 0),
+      utils.parseUnits("10", 0),
+    ],
+  });
+  buyOrders &&
+    buyOrders.forEach((e, i) => {
+      console.log(
+        i,
+        "buy price: ",
+        Number(utils.formatUnits(e.price, 6)),
+        "volume: ",
+        Number(utils.formatUnits(e.volume, 6))
+      );
+    });
+  const { data: sellOrders } = usePoolVolumes({
+    address: sellPool.address,
+    args: [
+      utils.parseUnits("0", 0),
+      utils.parseUnits("0", 0),
+      utils.parseUnits("10", 0),
+    ],
+  });
+  sellOrders &&
+    sellOrders.forEach((e, i) => {
+      console.log(
+        i,
+        "sell price: ",
+        1 / Number(utils.formatUnits(e.price, 18)),
+        "volume: ",
+        Number(utils.formatUnits(e.volume, 18))
+      );
+    });
   // const { data: highestPrice } = usePoolGetNextPriceLevel({
   //   address: buyPool.address,
   //   args: [utils.parseUnits("0", 0)],

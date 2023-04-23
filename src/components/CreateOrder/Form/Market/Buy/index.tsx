@@ -10,6 +10,10 @@ import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertBuyMarketArgs } from "components/CreateOrder/utils";
+import { useCallback } from "react";
+import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
+import { zeroBigNumber } from "utility";
+import { utils } from "ethers";
 
 interface Props {}
 
@@ -23,24 +27,27 @@ const MarketBuy: React.FC<Props> = () => {
     resolver: yupResolver(marketSchema),
   });
   const formValues = useWatch({ control });
-  const [pool, pair, side, sellPool] = usePoolStore((state) => [
-    state.pool,
+  const [pair, side, sellPool] = usePoolStore((state) => [
     state.pair,
     state.side,
     state.sellPool,
   ]);
 
-  const { data: tokenBalance } = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+  const available = useTokenBalance({
+    tokenAddress: sellPool.accounting.address,
   });
-
-  const finalValues = useConvertBuyMarketArgs({
+  const availableLabel = `${available} ${pair.accountingLabel}`;
+  const { totalToPay, ...finalValues } = useConvertBuyMarketArgs({
     amount: formValues.amount,
     pool: sellPool,
   });
 
-  const { write } = useFulfillOrder(finalValues);
-  const { write: approve } = useAllowance({
+  const { write, isLoading: fulfillLoading } = useFulfillOrder(finalValues);
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
     amount: formValues.amount,
     pool: sellPool,
     token: sellPool.accounting,
@@ -54,6 +61,28 @@ const MarketBuy: React.FC<Props> = () => {
     write?.();
   };
 
+  const { data: highestPrice } = usePoolGetNextPriceLevel({
+    address: sellPool.address,
+    args: [zeroBigNumber],
+    watch: true,
+  });
+
+  const groupButtonHandler = useCallback(
+    (item: number) => {
+      const balancePrice = highestPrice
+        ? 1 / Number(utils.formatUnits(highestPrice, 18))
+        : 0;
+      const balancePercent = (item / 100) * available;
+      const amountPercent = balancePercent / balancePrice;
+      setValue("amount", amountPercent.toString());
+    },
+    [setValue, available, highestPrice]
+  );
+  const groupButtonDisabled =
+    available === 0 || Number(highestPrice || 0) === 0;
+
+  const total = totalToPay.toFixed(sellPool.accounting.decimals);
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div
@@ -65,22 +94,21 @@ const MarketBuy: React.FC<Props> = () => {
         }}
       >
         <MarketAmount
-          price={0}
+          groupButtonHandler={groupButtonHandler}
           control={control}
-          pool={pool}
-          setValue={setValue}
-          available={tokenBalance?.formatted || "0.00"}
+          groupButtonDisabled={groupButtonDisabled}
+          availableLabel={availableLabel}
         />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair?.accountingLabel || ""} />
 
         <Submit
           side={side}
-          isSubmitting={isSubmitting}
+          isLoading={isSubmitting || approveLoading || fulfillLoading}
           control={control}
           label={pair?.underlyingLabel || ""}
           write={write}
-          approve={approve}
+          isApproved={isApproved}
           isMarket={true}
         />
       </div>

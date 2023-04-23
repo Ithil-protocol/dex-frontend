@@ -104,7 +104,13 @@ export const useConvertSellMarketArgs = ({
     accountingDecimals
   );
 
-  return { amount: finalAmount, minReceived, maxPaid: finalMaxPaid, pool };
+  return {
+    amount: finalAmount,
+    minReceived,
+    maxPaid: finalMaxPaid,
+    pool,
+    totalToTake: convertedAmount,
+  };
 };
 
 export const useConvertBuyMarketArgs = ({
@@ -133,13 +139,14 @@ export const useConvertBuyMarketArgs = ({
     underlyingDecimals
   );
 
-  const maxPaid =
-    Number(utils.formatUnits(accountingToPay, accountingDecimals)) * 1.001;
+  const totalToPay = Number(
+    utils.formatUnits(accountingToPay, accountingDecimals)
+  );
 
-  const finalMaxPaid = utils.parseUnits(
-    maxPaid.toFixed(accountingDecimals),
+  const maxPaid = utils.parseUnits(
+    (totalToPay * 1.001).toFixed(accountingDecimals),
     accountingDecimals
   );
 
-  return { amount: finalAmount, minReceived, maxPaid: finalMaxPaid, pool };
+  return { amount: finalAmount, minReceived, maxPaid, pool, totalToPay };
 };

@@ -5,13 +5,10 @@ import { truncateString } from "utility";
 
 interface Props {
   label: string;
-  control: Control<any, any>;
+  total: string;
 }
 
-const Total: React.FC<Props> = ({ label, control }) => {
-  const formValues = useWatch({ control });
-  const total = formValues.amount * formValues.price || 0;
-
+const Total: React.FC<Props> = ({ label, total }) => {
   return (
     <Box
       sx={(theme) => ({
@@ -24,9 +21,7 @@ const Total: React.FC<Props> = ({ label, control }) => {
       })}
     >
       <span>Total</span>
-      <span style={{ display: "flex", width: "100%" }}>
-        {truncateString(total.toString(), 15)}
-      </span>
+      <span style={{ display: "flex", width: "100%" }}>{total}</span>
       <span>{label}</span>
     </Box>
   );
