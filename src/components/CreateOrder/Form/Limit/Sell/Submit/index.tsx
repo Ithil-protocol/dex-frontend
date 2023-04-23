@@ -54,6 +54,7 @@ const Submit: React.FC<Props> = ({
   return (
     <LoadingButton
       variant="contained"
+      loadingPosition="end"
       endIcon={isLoading && <CircularProgress size={22} color="inherit" />}
       loading={isLoading}
       fullWidth
