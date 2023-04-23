@@ -31,8 +31,9 @@ const MarketSell: React.FC<Props> = () => {
   ]);
 
   const available = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+    tokenAddress: buyPool.accounting.address,
   });
+  const availableLabel = `${available} ${pair.underlyingLabel}`;
 
   const finalValues = useConvertSellMarketArgs({
     amount: formValues.amount,
@@ -74,7 +75,7 @@ const MarketSell: React.FC<Props> = () => {
         }}
       >
         <MarketAmount
-          available={available || "0.00"}
+          availableLabel={availableLabel}
           control={control}
           groupButtonDisabled={groupButtonDisabled}
           groupButtonHandler={groupButtonHandler}

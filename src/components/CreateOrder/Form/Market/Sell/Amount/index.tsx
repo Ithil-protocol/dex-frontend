@@ -6,22 +6,22 @@ import MarketAmountGroupButton from "./GroupButton";
 import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  available: string | number;
+  availableLabel: string;
   control: Control<MarketInputs, any>;
   groupButtonDisabled: boolean;
   groupButtonHandler: (item: number) => void;
 }
 
 const MarketAmount: React.FC<Props> = ({
-  available,
   control,
   groupButtonDisabled: disabled,
   groupButtonHandler,
+  availableLabel
 }) => {
   return (
     <FormGroup>
       <WrapperInputLabel
-        endLabel={`(${available})`}
+        endLabel={`(${availableLabel})`}
         label="Amount"
         tooltip="Amount"
         htmlFor="amount"
