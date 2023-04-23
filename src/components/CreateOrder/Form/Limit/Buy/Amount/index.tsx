@@ -1,10 +1,10 @@
 import { Box, FormGroup, useTheme } from "@mui/material";
 import { Control, useWatch } from "react-hook-form";
 import LimitAmountGroupButton from "./GroupButton";
-import LimitAmountLabel from "./Label";
 import LimitAmountTextField from "./TextField";
 import { LimitInputs, Pool } from "types";
 import { usePoolStore } from "store";
+import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
   available: string;
@@ -23,8 +23,12 @@ const LimitAmount: React.FC<Props> = ({ available, control, setValue }) => {
 
   return (
     <FormGroup>
-      <LimitAmountLabel available={available} />
-
+      <WrapperInputLabel
+        endLabel={`(${available})`}
+        label="Amount"
+        tooltip="Amount"
+        htmlFor="amount"
+      />
       <Box
         sx={{
           borderRadius: "5px",

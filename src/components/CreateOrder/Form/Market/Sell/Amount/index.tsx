@@ -1,10 +1,10 @@
 import { Box, FormGroup, useTheme } from "@mui/material";
 import { Control } from "react-hook-form";
-import MarketAmountLabel from "./Label";
 import MarketAmountTextField from "./TextField";
 import { MarketInputs, Pool } from "types";
 import { usePoolStore } from "store";
 import MarketAmountGroupButton from "./GroupButton";
+import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
   available: string;
@@ -22,8 +22,12 @@ const MarketAmount: React.FC<Props> = ({ available, control, price }) => {
 
   return (
     <FormGroup>
-      <MarketAmountLabel available={available} />
-
+      <WrapperInputLabel
+        endLabel={`(${available})`}
+        label="Amount"
+        tooltip="Amount"
+        htmlFor="amount"
+      />
       <Box
         sx={{
           borderRadius: "5px",
