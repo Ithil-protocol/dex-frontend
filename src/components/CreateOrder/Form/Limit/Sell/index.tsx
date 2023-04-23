@@ -107,7 +107,7 @@ const LimitSell: React.FC<Props> = () => {
           {gasLoading && (
             <>
               <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>{" "}
+              <Typography fontSize={12}>Estimating Gas...</Typography>
             </>
           )}
         </Box>
