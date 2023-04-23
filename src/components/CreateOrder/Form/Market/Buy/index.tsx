@@ -37,7 +37,7 @@ const MarketBuy: React.FC<Props> = () => {
     tokenAddress: sellPool.accounting.address,
   });
   const availableLabel = `${available} ${pair.accountingLabel}`;
-  const finalValues = useConvertBuyMarketArgs({
+  const { totalToPay, ...finalValues } = useConvertBuyMarketArgs({
     amount: formValues.amount,
     pool: sellPool,
   });
@@ -74,7 +74,10 @@ const MarketBuy: React.FC<Props> = () => {
     },
     [setValue, available, highestPrice]
   );
-  const groupButtonDisabled = available === 0 || Number(highestPrice || 0) === 0;
+  const groupButtonDisabled =
+    available === 0 || Number(highestPrice || 0) === 0;
+
+  const total = totalToPay.toFixed(sellPool.accounting.decimals);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -93,7 +96,7 @@ const MarketBuy: React.FC<Props> = () => {
           availableLabel={availableLabel}
         />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair?.accountingLabel || ""} />
 
         <Submit
           side={side}
