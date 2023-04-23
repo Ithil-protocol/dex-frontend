@@ -62,7 +62,8 @@ const LimitBuy: React.FC<Props> = () => {
     write?.();
   };
 
-  const groupButtonDisabled = Number(finalValues.price) === 0;
+  const groupButtonDisabled =
+    Number(formValues.price || 0) === 0 || available === 0;
 
   const groupButtonHandler = useCallback(
     (item: number) => {
