@@ -62,9 +62,6 @@ const LimitBuy: React.FC<Props> = () => {
     write?.();
   };
 
-  const groupButtonDisabled =
-    Number(formValues.price || 0) === 0 || available === 0;
-
   const groupButtonHandler = useCallback(
     (item: number) => {
       const balancePercent = (item / 100) * available;
@@ -73,6 +70,13 @@ const LimitBuy: React.FC<Props> = () => {
     },
     [setValue, available, formValues.price]
   );
+
+  const groupButtonDisabled =
+    Number(formValues.price || 0) === 0 || available === 0;
+
+  const total = (
+    Number(formValues.amount) * Number(formValues.price) || 0
+  ).toFixed(buyPool.underlying.decimals);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -95,7 +99,7 @@ const LimitBuy: React.FC<Props> = () => {
 
         <Boost control={control} />
 
-        <Total control={control} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair?.accountingLabel || ""} />
 
         <Submit
           side={side}

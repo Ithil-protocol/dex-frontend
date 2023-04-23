@@ -5,7 +5,7 @@ import { truncateString } from "utility";
 
 interface Props {
   label: string;
-  total: number;
+  total: string;
 }
 
 const Total: React.FC<Props> = ({ label, total }) => {
@@ -21,9 +21,7 @@ const Total: React.FC<Props> = ({ label, total }) => {
       })}
     >
       <span>Total</span>
-      <span style={{ display: "flex", width: "100%" }}>
-        {truncateString(total.toString(), 15)}
-      </span>
+      <span style={{ display: "flex", width: "100%" }}>{total}</span>
       <span>{label}</span>
     </Box>
   );

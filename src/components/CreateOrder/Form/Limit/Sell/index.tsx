@@ -78,7 +78,9 @@ const LimitSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
-  const total = Number(formValues.amount) * Number(formValues.price) || 0;
+  const total = (
+    Number(formValues.amount) * Number(formValues.price) || 0
+  ).toFixed(sellPool.accounting.decimals);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
