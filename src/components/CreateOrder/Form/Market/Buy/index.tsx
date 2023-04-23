@@ -11,6 +11,9 @@ import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertBuyMarketArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
+import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
+import { zeroBigNumber } from "utility";
+import { utils } from "ethers";
 
 interface Props {}
 
@@ -31,9 +34,9 @@ const MarketBuy: React.FC<Props> = () => {
   ]);
 
   const available = useTokenBalance({
-    tokenAddress: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+    tokenAddress: sellPool.accounting.address,
   });
-
+  const availableLabel = `${available} ${pair.accountingLabel}`;
   const finalValues = useConvertBuyMarketArgs({
     amount: formValues.amount,
     pool: sellPool,
@@ -54,14 +57,24 @@ const MarketBuy: React.FC<Props> = () => {
     write?.();
   };
 
+  const { data: highestPrice } = usePoolGetNextPriceLevel({
+    address: sellPool.address,
+    args: [zeroBigNumber],
+    watch: true,
+  });
+
   const groupButtonHandler = useCallback(
     (item: number) => {
+      const balancePrice = highestPrice
+        ? 1 / Number(utils.formatUnits(highestPrice, 18))
+        : 0;
       const balancePercent = (item / 100) * available;
-      setValue("amount", balancePercent.toString());
+      const amountPercent = balancePercent / balancePrice;
+      setValue("amount", amountPercent.toString());
     },
-    [setValue, available]
+    [setValue, available, highestPrice]
   );
-  const groupButtonDisabled = available === 0;
+  const groupButtonDisabled = available === 0 || Number(highestPrice || 0) === 0;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -77,7 +90,7 @@ const MarketBuy: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
           control={control}
           groupButtonDisabled={groupButtonDisabled}
-          available={available || "0.00"}
+          availableLabel={availableLabel}
         />
 
         <Total control={control} label={pair?.accountingLabel || ""} />
