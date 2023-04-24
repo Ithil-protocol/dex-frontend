@@ -6,16 +6,16 @@ import { LimitInputs } from "types";
 import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  availableLabel: string;
-  control: Control<LimitInputs, any>;
-  groupButtonDisabled: boolean;
+  control: Control<any, any>;
   groupButtonHandler: (item: number) => void;
+  groupButtonDisabled: boolean;
+  availableLabel: string;
 }
 
 const LimitAmount: React.FC<Props> = ({
   availableLabel,
   control,
-  groupButtonDisabled,
+  groupButtonDisabled: disabled,
   groupButtonHandler,
 }) => {
   return (
@@ -28,17 +28,16 @@ const LimitAmount: React.FC<Props> = ({
       />
       <Box
         sx={(theme) => ({
-          borderRadius: "5px",
-          border: "2px solid transparent",
           "&:focus-within": {
             border: `2px solid ${theme.palette.primary.main}`,
           },
+          border: "2px solid transparent",
+          borderRadius: "5px",
         })}
       >
         <LimitAmountTextField control={control} />
-
         <LimitAmountGroupButton
-          disabled={groupButtonDisabled}
+          disabled={disabled}
           groupButtonHandler={groupButtonHandler}
         />
       </Box>
