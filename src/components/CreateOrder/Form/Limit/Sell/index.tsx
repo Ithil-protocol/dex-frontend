@@ -1,29 +1,24 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Boost from "./Boost";
-import Price from "./Price";
-import Submit from "./Submit";
-import Total from "./Total";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useCreateOrder } from "hooks/poolWrite";
-import LimitAmount from "./Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertSellLimitArgs } from "components/CreateOrder/utils";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useCallback } from "react";
+import Price from "components/CreateOrder/Inputs/Price";
+import Boost from "components/CreateOrder/Inputs/Boost";
+import Total from "components/CreateOrder/Inputs/Total";
+import Submit from "components/CreateOrder/Inputs/Submit";
+import LimitAmount from "components/CreateOrder/Inputs/Amount";
 
 interface Props {}
 
 const LimitSell: React.FC<Props> = () => {
-  const {
-    control,
-    formState: { isSubmitting },
-    handleSubmit,
-    setValue,
-  } = useForm<LimitInputs>({
+  const { control, handleSubmit, setValue } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),
     mode: "onChange",
   });
@@ -63,7 +58,7 @@ const LimitSell: React.FC<Props> = () => {
   });
 
   const handleFormSubmit = () => {
-    if (approve) {
+    if (!isApproved && approve) {
       approve();
       return;
     }
@@ -106,10 +101,12 @@ const LimitSell: React.FC<Props> = () => {
         <Total total={total} label={pair.accountingLabel} />
 
         <Submit
+          submitContent={
+            !isApproved ? "Approve first" : `Sell ${pair.underlyingLabel}`
+          }
           side={side}
           isLoading={createLoading || approveLoading}
           control={control}
-          label={pair.underlyingLabel}
           write={write}
           isApproved={isApproved}
         />

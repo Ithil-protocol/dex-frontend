@@ -1,11 +1,9 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Submit from "./Submit";
-import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import MarketAmount from "./Amount";
+import MarketAmount from "components/CreateOrder/Inputs/Amount";
 import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,6 +13,8 @@ import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
 import { zeroBigNumber } from "utility";
 import { utils } from "ethers";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import Total from "components/CreateOrder/Inputs/Total";
+import Submit from "components/CreateOrder/Inputs/Submit";
 
 interface Props {}
 
@@ -38,7 +38,7 @@ const MarketBuy: React.FC<Props> = () => {
     tokenAddress: sellPool.accounting.address,
   });
   const availableLabel = `${available} ${pair.accountingLabel}`;
-  const { totalToPay, ...finalValues } = useConvertBuyMarketArgs({
+  const { totalToPay, isAmountOut, ...finalValues } = useConvertBuyMarketArgs({
     amount: formValues.amount,
     pool: sellPool,
   });
@@ -59,7 +59,7 @@ const MarketBuy: React.FC<Props> = () => {
   });
 
   const handleFormSubmit = () => {
-    if (approve) {
+    if (!isApproved && approve) {
       approve();
       return;
     }
@@ -105,13 +105,23 @@ const MarketBuy: React.FC<Props> = () => {
           availableLabel={availableLabel}
         />
 
-        <Total total={total} label={pair?.accountingLabel || ""} />
-
+        <Total total={total} label={pair.accountingLabel} />
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
+          {isAmountOut && (
+            <>
+              <Typography color={"yellow"} fontSize={12}>
+                The amount is higher than the pool&apos;s assets!
+              </Typography>
+            </>
+          )}
+        </Box>
         <Submit
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
           control={control}
-          label={pair?.underlyingLabel || ""}
+          submitContent={
+            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
+          }
           write={write}
           isApproved={isApproved}
           isMarket={true}
