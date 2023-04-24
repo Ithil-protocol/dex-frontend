@@ -38,7 +38,7 @@ const MarketBuy: React.FC<Props> = () => {
     tokenAddress: sellPool.accounting.address,
   });
   const availableLabel = `${available} ${pair.accountingLabel}`;
-  const { totalToPay, ...finalValues } = useConvertBuyMarketArgs({
+  const { totalToPay, isAmountOut, ...finalValues } = useConvertBuyMarketArgs({
     amount: formValues.amount,
     pool: sellPool,
   });
@@ -105,8 +105,16 @@ const MarketBuy: React.FC<Props> = () => {
           availableLabel={availableLabel}
         />
 
-        <Total total={total} label={pair?.accountingLabel || ""} />
-
+        <Total total={total} label={pair.accountingLabel} />
+        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
+          {isAmountOut && (
+            <>
+              <Typography color={"yellow"} fontSize={12}>
+                The amount is higher than the pool&apos;s assets
+              </Typography>
+            </>
+          )}
+        </Box>
         <Submit
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
