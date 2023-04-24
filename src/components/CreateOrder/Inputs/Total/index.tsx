@@ -1,8 +1,5 @@
 import { Box } from "@mui/material";
 
-import { Control, useWatch } from "react-hook-form";
-import { truncateString } from "utility";
-
 interface Props {
   label: string;
   total: string;

@@ -1,11 +1,9 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Submit from "./Submit";
-import Total from "./Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import MarketAmount from "./Amount";
+import MarketAmount from "components/CreateOrder/Inputs/Amount";
 import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,6 +13,8 @@ import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
 import { zeroBigNumber } from "utility";
 import { utils } from "ethers";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import Total from "components/CreateOrder/Inputs/Total";
+import Submit from "components/CreateOrder/Inputs/Submit";
 
 interface Props {}
 
@@ -111,7 +111,9 @@ const MarketBuy: React.FC<Props> = () => {
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
           control={control}
-          label={pair?.underlyingLabel || ""}
+          submitContent={
+            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
+          }
           write={write}
           isApproved={isApproved}
           isMarket={true}

@@ -1,28 +1,28 @@
 /* eslint-disable indent */
 import { LoadingButton } from "@mui/lab";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Theme } from "@mui/material";
 
 import { Control, useWatch } from "react-hook-form";
 import { Side } from "types";
 
 interface Props {
-  label: string;
   control: Control<any, any>;
   write: (() => void) | undefined;
   isLoading: boolean;
   isMarket?: boolean;
   side: Side;
   isApproved: boolean;
+  submitContent: string;
 }
 
 const Submit: React.FC<Props> = ({
-  label,
   control,
   write,
   isLoading,
   isMarket = false,
   side,
   isApproved,
+  submitContent,
 }) => {
   const formValues = useWatch({ control });
   const approved = () => {
@@ -44,7 +44,7 @@ const Submit: React.FC<Props> = ({
   const styles =
     side === "buy"
       ? () => ({})
-      : (theme) => ({
+      : (theme: Theme) => ({
           backgroundColor: theme.palette.error.main,
           "&:hover": {
             backgroundColor: theme.palette.error.main,
@@ -66,7 +66,7 @@ const Submit: React.FC<Props> = ({
       })}
       type="submit"
     >
-      {!isApproved ? "Approve first" : `Sell ${label}`}
+      {submitContent}
     </LoadingButton>
   );
 };

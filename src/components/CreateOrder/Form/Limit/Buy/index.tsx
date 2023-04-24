@@ -1,29 +1,24 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Boost from "./Boost";
-import Price from "./Price";
-import Submit from "./Submit";
-import Total from "./Total";
+import Boost from "components/CreateOrder/Inputs/Boost";
+import Price from "components/CreateOrder/Inputs/Price";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useCreateOrder } from "hooks/poolWrite";
-import LimitAmount from "./Amount";
+import LimitAmount from "components/CreateOrder/Inputs/Amount";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertBuyLimitArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import Total from "components/CreateOrder/Inputs/Total";
+import Submit from "components/CreateOrder/Inputs/Submit";
 
 interface Props {}
 
 const LimitBuy: React.FC<Props> = () => {
-  const {
-    control,
-    formState: { isSubmitting },
-    handleSubmit,
-    setValue,
-  } = useForm<LimitInputs>({
+  const { control, handleSubmit, setValue } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),
     mode: "onChange",
   });
@@ -114,7 +109,9 @@ const LimitBuy: React.FC<Props> = () => {
           side={side}
           isLoading={createLoading || approveLoading}
           control={control}
-          label={pair?.underlyingLabel || ""}
+          submitContent={
+            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
+          }
           write={write}
           isApproved={isApproved}
         />

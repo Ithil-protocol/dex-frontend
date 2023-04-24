@@ -1,22 +1,22 @@
 import { Box, FormGroup } from "@mui/material";
 import { Control } from "react-hook-form";
-import MarketAmountTextField from "./TextField";
-import { MarketInputs } from "types";
-import MarketAmountGroupButton from "./GroupButton";
+import LimitAmountGroupButton from "./GroupButton";
+import LimitAmountTextField from "./TextField";
+import { LimitInputs } from "types";
 import WrapperInputLabel from "components/Common/WrapperInputLabel";
 
 interface Props {
-  availableLabel: string;
-  control: Control<MarketInputs, any>;
-  groupButtonDisabled: boolean;
+  control: Control<any, any>;
   groupButtonHandler: (item: number) => void;
+  groupButtonDisabled: boolean;
+  availableLabel: string;
 }
 
-const MarketAmount: React.FC<Props> = ({
+const LimitAmount: React.FC<Props> = ({
+  availableLabel,
   control,
   groupButtonDisabled: disabled,
   groupButtonHandler,
-  availableLabel
 }) => {
   return (
     <FormGroup>
@@ -28,16 +28,15 @@ const MarketAmount: React.FC<Props> = ({
       />
       <Box
         sx={(theme) => ({
-          borderRadius: "5px",
-          border: "2px solid transparent",
           "&:focus-within": {
             border: `2px solid ${theme.palette.primary.main}`,
           },
+          border: "2px solid transparent",
+          borderRadius: "5px",
         })}
       >
-        <MarketAmountTextField control={control} />
-
-        <MarketAmountGroupButton
+        <LimitAmountTextField control={control} />
+        <LimitAmountGroupButton
           disabled={disabled}
           groupButtonHandler={groupButtonHandler}
         />
@@ -46,4 +45,4 @@ const MarketAmount: React.FC<Props> = ({
   );
 };
 
-export default MarketAmount;
+export default LimitAmount;

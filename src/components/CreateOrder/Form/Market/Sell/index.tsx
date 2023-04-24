@@ -1,11 +1,11 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "store";
-import Submit from "./Submit";
-import Total from "./Total";
+import Submit from "../../../Inputs/Submit";
+import Total from "../../../Inputs/Total";
 
 import { useTokenBalance } from "hooks/account";
 import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import MarketAmount from "./Amount";
+import MarketAmount from "../../../Inputs/Amount";
 import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -94,11 +94,13 @@ const MarketSell: React.FC<Props> = () => {
         <Total total={total} label={pair.accountingLabel} />
 
         <Submit
+          submitContent={
+            !isApproved ? "Approve first" : `Sell ${pair.underlyingLabel}`
+          }
           isApproved={isApproved}
           control={control}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
           isMarket={true}
-          label={pair.underlyingLabel}
           side={side}
           write={write}
         />
