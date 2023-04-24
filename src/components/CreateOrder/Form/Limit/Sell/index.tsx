@@ -58,7 +58,7 @@ const LimitSell: React.FC<Props> = () => {
   });
 
   const handleFormSubmit = () => {
-    if (approve) {
+    if (!isApproved && approve) {
       approve();
       return;
     }
