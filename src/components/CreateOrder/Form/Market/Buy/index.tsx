@@ -110,7 +110,7 @@ const MarketBuy: React.FC<Props> = () => {
           {isAmountOut && (
             <>
               <Typography color={"yellow"} fontSize={12}>
-                The amount is higher than the pool&apos;s assets
+                The amount is higher than the pool&apos;s assets!
               </Typography>
             </>
           )}
