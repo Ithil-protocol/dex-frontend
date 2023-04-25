@@ -1,19 +1,29 @@
 import { Box } from "@mui/material";
-import Orders from "./Orders";
 import WrapperTab from "components/Common/WrapperTab";
 import { useState } from "react";
-import { useUserOrderCreatedEvents } from "hooks/events";
+import {
+  useUserOrderCancelledEvents,
+  useUserOrderCreatedEvents,
+} from "hooks/events";
 
 import Tabs from "@mui/material/Tabs";
+import OrderHistoryTable from "./History/Table";
+import OpenOrdersTable from "./Open/Table";
 
 type OpenHistory = "history" | "open";
 
-export const OpenOrders = () => {
+export const CreatedOrders = () => {
   const [value, setValue] = useState<OpenHistory>("open");
 
-  const { data } = useUserOrderCreatedEvents();
+  const { data: createdOrders } = useUserOrderCreatedEvents();
 
-  const orders = (data || []).reverse();
+  const { data: canceledOrders } = useUserOrderCancelledEvents();
+
+  console.log("canceled:::", canceledOrders);
+  console.log("created:::", createdOrders);
+
+  const reversedCreatedOrders = [...(createdOrders || [])].reverse();
+  const fixedCanceledOrders = canceledOrders || [];
 
   const handleChange = (
     _event: React.SyntheticEvent<Element, Event>,
@@ -39,11 +49,17 @@ export const OpenOrders = () => {
       </div>
 
       <div role="tabpanel" hidden={value !== "open"}>
-        <Orders orders={orders} />
+        {/* <OpenOrdersTable
+          createdOrders={reversedCreatedOrders}
+          canceledOrders={fixedCanceledOrders}
+        /> */}
       </div>
 
       <div role="tabpanel" hidden={value !== "history"}>
-        <Orders orders={orders} />
+        <OrderHistoryTable
+          createdOrders={reversedCreatedOrders}
+          canceledOrders={fixedCanceledOrders}
+        />
       </div>
     </Box>
   );

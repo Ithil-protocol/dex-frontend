@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber, ethers, utils } from "ethers";
+import { BigNumber, BigNumberish, ethers, utils, Event } from "ethers";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { CustomContractConfig } from "types";
 import { useContract, useProvider } from "wagmi";
 import { readContracts } from "@wagmi/core";
+import { usePoolGetOrder } from "./contracts/pool";
+import { useEffect, useState } from "react";
 
 const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
 
@@ -124,4 +126,44 @@ export const useBuyContract = () => {
     abi: contractABI,
     signerOrProvider: provider,
   });
+};
+
+export const useGetBlock = (event: Event) => {
+  const [block, setBlock] = useState<{ timestamp: any }>({
+    timestamp: 0,
+  });
+
+  useEffect(() => {
+    const fn = async () => {
+      const block = await event.getBlock();
+      setBlock(block);
+    };
+
+    fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  return block;
+};
+
+type Status = "open" | "fulfilled" | "";
+export const useGetOrderStatus = (
+  address: `0x${string}`,
+  price: BigNumber,
+  index: BigNumber
+) => {
+  const { data } = usePoolGetOrder({
+    address,
+    args: [price, index],
+  });
+
+  console.log("data::", data);
+
+  let status: Status = "";
+  if (data) {
+    const amount = utils.formatUnits(data.underlyingAmount as BigNumberish, 18);
+    status = +amount === 0 ? "fulfilled" : "open";
+  }
+
+  return status;
 };
