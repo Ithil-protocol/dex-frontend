@@ -3,7 +3,7 @@ import CreateOrder from "components/CreateOrder";
 import DepthChart from "components/DepthChart";
 import MarketTrades from "components/MarketTrades";
 import Navbar from "components/Navbar";
-import { OpenOrders } from "components/OpenOrders";
+import { CreatedOrders } from "components/CreatedOrders";
 import Orders from "components/Orders";
 import {
   usePoolGetNextPriceLevel,
@@ -104,7 +104,7 @@ const Panel = () => {
         <MarketTrades />
       </div>
       <div className={styles.open}>
-        <OpenOrders />
+        <CreatedOrders />
       </div>
     </div>
   );

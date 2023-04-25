@@ -3,7 +3,7 @@ import { Event, utils } from "ethers";
 import { useCancelOrder } from "hooks/poolWrite";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
-import { useGetBlock, useGetOrderStatus } from "hooks/account";
+import { useGetBlock, useGetOrderStatus } from "hooks/contract";
 
 interface Props {
   data: Event;

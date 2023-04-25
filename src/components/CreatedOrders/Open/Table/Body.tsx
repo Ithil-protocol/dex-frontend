@@ -3,13 +3,17 @@ import EachOrder from "../EachOrder";
 import { Event } from "ethers";
 
 interface Props {
-  orders: Event[];
+  canceledOrders: Event[];
+  createdOrders: Event[];
 }
 
-const OrdersTableBody: React.FC<Props> = ({ orders = [] }) => {
+const OrdersTableBody: React.FC<Props> = ({
+  canceledOrders,
+  createdOrders,
+}) => {
   return (
     <TableBody>
-      {orders.map((item, i) => (
+      {createdOrders.map((item, i) => (
         <EachOrder data={item} key={i} />
       ))}
     </TableBody>

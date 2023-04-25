@@ -1,6 +1,6 @@
 import { TableCell, TableRow, useTheme } from "@mui/material";
 import { Event, utils } from "ethers";
-import { useGetBlock } from "hooks/account";
+import { useGetBlock } from "hooks/contract";
 import { usePoolStore } from "store";
 import { formatDateToTime, truncateString } from "utility";
 
