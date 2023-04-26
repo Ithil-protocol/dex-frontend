@@ -5,6 +5,7 @@ import {
   AbiFunction,
   Narrow,
 } from "abitype";
+import { BigNumber } from "ethers";
 import { poolABI } from "hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
@@ -52,6 +53,12 @@ export interface PoolState {
   updateType: (_: LimitMarket) => void;
 }
 
+export interface OrderBook {
+  originalPrice: BigNumber;
+  value: number;
+  volume: number;
+  type: "buy" | "sell";
+}
 export interface Order {
   id: string;
   value: number;
