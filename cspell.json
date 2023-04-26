@@ -2,11 +2,7 @@
   "dictionaries": [],
   "dictionaryDefinitions": [],
   "ignorePaths": [],
-  "ignoreRegExpList": [
-    "0x(.*)?",
-    "id:(.*)?",
-    "apiKey:(.*)?"
-  ],
+  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
   "ignoreWords": [
     "ARBITRUM",
     "BTCUSDT",

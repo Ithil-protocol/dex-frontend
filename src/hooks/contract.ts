@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BigNumber, BigNumberish, ethers, utils, Event } from "ethers";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
-import { CustomContractConfig } from "types";
+import { CustomContractConfig, Status } from "types";
 import { useContract, useProvider } from "wagmi";
 import { readContracts } from "@wagmi/core";
 import { usePoolGetOrder } from "./contracts/pool";
@@ -128,7 +128,7 @@ export const useBuyContract = () => {
   });
 };
 
-export const useGetBlock = (event: Event) => {
+export const useGetBlock = (event) => {
   const [block, setBlock] = useState<{ timestamp: any }>({
     timestamp: 0,
   });
@@ -146,7 +146,6 @@ export const useGetBlock = (event: Event) => {
   return block;
 };
 
-type Status = "open" | "fulfilled" | "";
 export const useGetOrderStatus = (
   address: `0x${string}`,
   price: BigNumber,
@@ -157,9 +156,7 @@ export const useGetOrderStatus = (
     args: [price, index],
   });
 
-  console.log("data::", data);
-
-  let status: Status = "";
+  let status: Status = "open";
   if (data) {
     const amount = utils.formatUnits(data.underlyingAmount as BigNumberish, 18);
     status = +amount === 0 ? "fulfilled" : "open";

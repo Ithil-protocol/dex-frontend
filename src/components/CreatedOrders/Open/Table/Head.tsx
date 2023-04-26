@@ -8,11 +8,12 @@ export default function OrdersTableHead() {
           "time",
           "market",
           "side",
-          "status",
+          // "status",
           "amount",
           "price",
           "total",
           "staked",
+          "actions",
         ].map((item, i) => (
           <TableCell
             key={i}

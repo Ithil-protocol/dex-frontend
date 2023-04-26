@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAccount,  } from "wagmi";
+import { useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "./contract";
-import { Event } from "ethers";
+import { Event, utils } from "ethers";
+import { OpenOrderEvent, Pool, Side } from "types";
 
-export const useUserOrderCreatedEvents = () => {
+export const useUserOrderCreatedEvents = (pool: Pool) => {
   const { address } = useAccount();
   const sellContract = useSellContract();
   const buyContract = useBuyContract();
   const getEvents = async () => {
-    let results: Event[] = [];
+    const results: OpenOrderEvent[] = [];
+
     if (sellContract && buyContract && address) {
       const sellFilter = sellContract.filters.OrderCreated(
         address,
@@ -31,9 +33,41 @@ export const useUserOrderCreatedEvents = () => {
       const sellEvents = await sellContract.queryFilter(sellFilter);
       const buyEvents = await buyContract.queryFilter(buyFilter);
 
-      results = [...sellEvents, ...buyEvents];
+      results.push(
+        ...fixEvents(sellEvents, "sell"),
+        ...fixEvents(buyEvents, "buy")
+      );
     }
+
     return results;
+  };
+
+  const fixEvents = (events: Event[], side: Side) => {
+    return events.map((item) => {
+      const {
+        price: rawPrice,
+        underlyingAmount: rawAmount,
+        staked: rawStaked,
+        index,
+      } = item.args!;
+
+      const amount = utils.formatUnits(rawAmount, 18);
+      // if (+amount === 0) return undefined;
+
+      return {
+        address: item.address,
+        amount,
+        getBlock: item.getBlock,
+        index,
+        price: utils.formatUnits(rawPrice, pool.accounting.decimals),
+        rawAmount,
+        rawPrice,
+        rawStaked,
+        side,
+        staked: utils.formatUnits(rawStaked, pool.underlying.decimals),
+        transactionHash: item.transactionHash,
+      };
+    });
   };
 
   return useQuery(["userOrderCreatedEvent"], getEvents);

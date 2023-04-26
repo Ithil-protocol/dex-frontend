@@ -1,47 +1,37 @@
-import { Button, Link, TableCell, TableRow, useTheme } from "@mui/material";
+import { Link, TableCell, TableRow, useTheme } from "@mui/material";
 import { Event, utils } from "ethers";
-import { useCancelOrder } from "hooks/poolWrite";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
-import { useGetBlock, useGetOrderStatus } from "hooks/contract";
+import { useGetBlock } from "hooks/contract";
+import { buyAmountConverter } from "utility/convertors";
+import { buyPriceConverter } from "utility/convertors";
 
 interface Props {
   data: Event;
 }
 
-const Order: React.FC<Props> = ({ data }) => {
-  const args = data.args!;
+type Status = "canceled" | "fulfilled" | "";
 
+const Order: React.FC<Props> = ({ data }) => {
   const theme = useTheme();
-  const [defaultPool, pair] = usePoolStore((state) => [
-    state.default,
-    state.pair,
-  ]);
+  const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
   const block = useGetBlock(data);
-  const status = useGetOrderStatus(
-    data.address as `0x${string}`,
-    args.price,
-    args.index
+
+  const convertedUnderlyingAmount = buyAmountConverter(
+    data.args!.underlyingToTransfer || data.args!.amount || "0x00",
+    pool
   );
-  const { cancel } = useCancelOrder({
-    index: args.index,
-    price: args.price,
-  });
+
+  const status: Status =
+    +convertedUnderlyingAmount === 0 ? "fulfilled" : "canceled";
 
   const fullDate = formatDateToFullDate(block.timestamp * 1000);
 
-  const convertedUnderlyingAmount = utils.formatUnits(
-    args.underlyingAmount,
-    defaultPool.underlying.decimals
-  );
-  const convertedPrice = utils.formatUnits(
-    args.price,
-    defaultPool.accounting.decimals
-  );
+  const convertedPrice = buyPriceConverter(data.args!.price || "0x00", pool);
 
   const convertedStaked = utils.formatUnits(
-    args.staked,
-    defaultPool.underlying.decimals
+    data.args!.staked || "0x00",
+    pool.underlying.decimals
   );
 
   const total = +convertedPrice * +convertedUnderlyingAmount;
@@ -86,22 +76,6 @@ const Order: React.FC<Props> = ({ data }) => {
       <TableCell>{`${(+total).toFixed(10)} ${pair.underlyingLabel}`}</TableCell>
 
       <TableCell>{`${convertedStaked} ETH`}</TableCell>
-
-      {status === "open" && (
-        <TableCell>
-          <Button
-            size="small"
-            color="error"
-            sx={{
-              padding: "0px",
-            }}
-            onClick={() => cancel?.()}
-            disabled={!cancel}
-          >
-            cancel
-          </Button>
-        </TableCell>
-      )}
     </TableRow>
   );
 };

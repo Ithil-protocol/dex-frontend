@@ -1,24 +1,17 @@
 import { Table } from "@mui/material";
 import OrdersTableHead from "./Head";
 import OrdersTableBody from "./Body";
-import { Event } from "ethers";
+import { OpenOrderEvent } from "types";
 
 interface Props {
-  createdOrders: Event[];
-  canceledOrders: Event[];
+  orders: OpenOrderEvent[];
 }
 
-const OpenOrdersTable: React.FC<Props> = ({
-  canceledOrders,
-  createdOrders,
-}) => {
+const OpenOrdersTable: React.FC<Props> = ({ orders }) => {
   return (
     <Table size="small">
       <OrdersTableHead />
-      <OrdersTableBody
-        createdOrders={createdOrders}
-        canceledOrders={canceledOrders}
-      />
+      <OrdersTableBody orders={orders} />
     </Table>
   );
 };

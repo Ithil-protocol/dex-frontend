@@ -4,21 +4,14 @@ import OrdersTableBody from "./Body";
 import { Event } from "ethers";
 
 interface Props {
-  createdOrders: Event[];
-  canceledOrders: Event[];
+  orders: Event[];
 }
 
-const OrderHistoryTable: React.FC<Props> = ({
-  canceledOrders,
-  createdOrders,
-}) => {
+const OrderHistoryTable: React.FC<Props> = ({ orders }) => {
   return (
     <Table size="small">
       <OrdersTableHead />
-      <OrdersTableBody
-        createdOrders={createdOrders}
-        canceledOrders={canceledOrders}
-      />
+      <OrdersTableBody orders={orders} />
     </Table>
   );
 };
