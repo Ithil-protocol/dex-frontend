@@ -1,50 +1,34 @@
-import { Button, Link, TableCell, TableRow, useTheme } from "@mui/material";
-import { Event, utils } from "ethers";
+import { Button, TableCell, TableRow } from "@mui/material";
 import { useCancelOrder } from "hooks/poolWrite";
-import { formatDateToFullDate } from "utility";
+import { formatDateToFullDate, truncateString } from "utility";
 import { usePoolStore } from "store";
 import { useGetBlock, useGetOrderStatus } from "hooks/contract";
+import { OpenOrderEvent } from "types";
+import LightTooltip from "components/Common/LightTooltip";
 
 interface Props {
-  data: Event;
+  data: OpenOrderEvent;
 }
 
 const Order: React.FC<Props> = ({ data }) => {
-  const args = data.args!;
-
-  const theme = useTheme();
-  const [defaultPool, pair] = usePoolStore((state) => [
-    state.default,
-    state.pair,
-  ]);
+  const [pair] = usePoolStore((state) => [state.pair]);
   const block = useGetBlock(data);
   const status = useGetOrderStatus(
     data.address as `0x${string}`,
-    args.price,
-    args.index
+    data.rawPrice,
+    data.index
   );
+
   const { cancel } = useCancelOrder({
-    index: args.index,
-    price: args.price,
+    index: data.index,
+    price: data.rawPrice,
   });
+
+  if (status === "fulfilled") return null;
 
   const fullDate = formatDateToFullDate(block.timestamp * 1000);
 
-  const convertedUnderlyingAmount = utils.formatUnits(
-    args.underlyingAmount,
-    defaultPool.underlying.decimals
-  );
-  const convertedPrice = utils.formatUnits(
-    args.price,
-    defaultPool.accounting.decimals
-  );
-
-  const convertedStaked = utils.formatUnits(
-    args.staked,
-    defaultPool.underlying.decimals
-  );
-
-  const total = +convertedPrice * +convertedUnderlyingAmount;
+  const total = +data.price * +data.amount;
 
   return (
     <TableRow>
@@ -55,53 +39,78 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell
-        style={{
+        sx={(theme) => ({
           fontWeight: 400,
           color:
-            // data.side === "buy"
-            // ?
-            theme.palette.success.main,
-          // : theme.palette.error.main,
-        }}
+            data.side === "buy"
+              ? theme.palette.success.main
+              : theme.palette.error.main,
+        })}
       >
-        {
-          // data.side
-          "buy"
-        }
+        {data.side}
       </TableCell>
 
-      <TableCell>
+      {/* <TableCell>
         <Link
           target="_blank"
           href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
         >
           {status}
         </Link>
+      </TableCell> */}
+
+      <TableCell>
+        <LightTooltip
+          placement="top"
+          title={`${data.amount} ${pair.underlyingLabel}`}
+        >
+          <span>{`${truncateString(data.amount, 9)} ${
+            pair.underlyingLabel
+          }`}</span>
+        </LightTooltip>
       </TableCell>
 
-      <TableCell>{`${convertedUnderlyingAmount} ${pair.underlyingLabel}`}</TableCell>
+      <TableCell>
+        <LightTooltip
+          placement="top"
+          title={`${data.price} ${pair.accountingLabel}`}
+        >
+          <span>{`${truncateString(data.price, 9)} ${
+            pair.accountingLabel
+          }`}</span>
+        </LightTooltip>
+      </TableCell>
 
-      <TableCell>{`${convertedPrice} ${pair.accountingLabel}`}</TableCell>
+      <TableCell>
+        <LightTooltip
+          placement="top"
+          title={`${total} ${pair.underlyingLabel}`}
+        >
+          <span>{`${truncateString(total.toString(), 9)} ${
+            pair.underlyingLabel
+          }`}</span>
+        </LightTooltip>
+      </TableCell>
 
-      <TableCell>{`${(+total).toFixed(10)} ${pair.underlyingLabel}`}</TableCell>
+      <TableCell>
+        <LightTooltip placement="top" title={`${data.staked} ETH`}>
+          <span>{`${truncateString(data.staked, 9)} ETH`}</span>
+        </LightTooltip>
+      </TableCell>
 
-      <TableCell>{`${convertedStaked} ETH`}</TableCell>
-
-      {status === "open" && (
-        <TableCell>
-          <Button
-            size="small"
-            color="error"
-            sx={{
-              padding: "0px",
-            }}
-            onClick={() => cancel?.()}
-            disabled={!cancel}
-          >
-            cancel
-          </Button>
-        </TableCell>
-      )}
+      <TableCell>
+        <Button
+          size="small"
+          color="error"
+          sx={{
+            padding: "0px",
+          }}
+          onClick={() => cancel?.()}
+          disabled={!cancel}
+        >
+          cancel
+        </Button>
+      </TableCell>
     </TableRow>
   );
 };
