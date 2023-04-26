@@ -83,6 +83,12 @@ export interface PoolState {
   updateType: (_: LimitMarket) => void;
 }
 
+export interface OrderBook {
+  originalPrice: BigNumber;
+  value: number;
+  volume: number;
+  type: "buy" | "sell";
+}
 export interface Order {
   id: string;
   value: number;
