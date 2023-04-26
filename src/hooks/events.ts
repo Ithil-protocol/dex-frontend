@@ -2,7 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "./contract";
 import { Event, utils } from "ethers";
-import { OpenOrderEvent, Pool, Side } from "types";
+import { HistoryEvent, OpenOrderEvent, Pool } from "types";
+import {
+  buyAmountConverter,
+  sellAmountConverter,
+  sellPriceConverter,
+} from "utility/convertors";
+import { buyPriceConverter } from "utility/convertors";
 
 export const useUserOrderCreatedEvents = (pool: Pool) => {
   const { address } = useAccount();
@@ -33,41 +39,60 @@ export const useUserOrderCreatedEvents = (pool: Pool) => {
       const sellEvents = await sellContract.queryFilter(sellFilter);
       const buyEvents = await buyContract.queryFilter(buyFilter);
 
-      results.push(
-        ...fixEvents(sellEvents, "sell"),
-        ...fixEvents(buyEvents, "buy")
-      );
+      for (const item of sellEvents) {
+        const {
+          price: rawPrice,
+          underlyingAmount: rawAmount,
+          staked: rawStaked,
+          index,
+        } = item.args!;
+
+        const amount = sellAmountConverter(rawAmount, pool);
+        if (amount === 0) continue;
+
+        results.push({
+          address: item.address,
+          amount: amount.toString(),
+          getBlock: item.getBlock,
+          index,
+          price: sellPriceConverter(rawPrice, pool).toString(),
+          rawAmount,
+          rawPrice,
+          rawStaked,
+          side: "sell",
+          staked: utils.formatUnits(rawStaked, pool.underlying.decimals),
+          transactionHash: item.transactionHash,
+        });
+      }
+
+      for (const item of buyEvents) {
+        const {
+          price: rawPrice,
+          underlyingAmount: rawAmount,
+          staked: rawStaked,
+          index,
+        } = item.args!;
+
+        const amount = buyAmountConverter(rawAmount, rawPrice, pool);
+        if (amount === 0) continue;
+
+        results.push({
+          address: item.address,
+          amount: amount.toString(),
+          getBlock: item.getBlock,
+          index,
+          price: buyPriceConverter(rawPrice, pool).toString(),
+          rawAmount,
+          rawPrice,
+          rawStaked,
+          side: "buy",
+          staked: utils.formatUnits(rawStaked, pool.underlying.decimals),
+          transactionHash: item.transactionHash,
+        });
+      }
     }
 
     return results;
-  };
-
-  const fixEvents = (events: Event[], side: Side) => {
-    return events.map((item) => {
-      const {
-        price: rawPrice,
-        underlyingAmount: rawAmount,
-        staked: rawStaked,
-        index,
-      } = item.args!;
-
-      const amount = utils.formatUnits(rawAmount, 18);
-      // if (+amount === 0) return undefined;
-
-      return {
-        address: item.address,
-        amount,
-        getBlock: item.getBlock,
-        index,
-        price: utils.formatUnits(rawPrice, pool.accounting.decimals),
-        rawAmount,
-        rawPrice,
-        rawStaked,
-        side,
-        staked: utils.formatUnits(rawStaked, pool.underlying.decimals),
-        transactionHash: item.transactionHash,
-      };
-    });
   };
 
   return useQuery(["userOrderCreatedEvent"], getEvents);
@@ -95,7 +120,7 @@ export const useUserOrderCancelledEvents = () => {
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
   const getEvents = async () => {
-    let results: Event[] = [];
+    const results: HistoryEvent[] = [];
     if (buyContract && sellContract && address) {
       const sellFilter = sellContract.filters.OrderCancelled(
         null,
@@ -111,8 +136,16 @@ export const useUserOrderCancelledEvents = () => {
       );
       const sellEvents = await sellContract.queryFilter(sellFilter);
       const buyEvents = await buyContract.queryFilter(buyFilter);
-      results = [...sellEvents, ...buyEvents];
+
+      // for (const item of [...sellEvents, ...buyEvents]) {
+      //   results.push({
+      //     amount,
+      //   });
+      // }
     }
+
+    console.log("cancelled results:", results);
+
     return results;
   };
   return useQuery(["userOrderCancelledEvents"], getEvents);
@@ -191,6 +224,9 @@ export const useUserOrderFulfilledEvents = () => {
         ...buyEventsFulfiller,
       ];
     }
+
+    console.log("fulfilled results:::", results);
+
     return results;
   };
 

@@ -28,3 +28,5 @@ export const sellAmountConverter = (amount: BigNumber, pool: Pool) => {
   return Number(utils.formatUnits(amount, pool.underlying.decimals));
 };
 // toFixed can be called here if needed
+
+//TODO: Add (buy|sell) convertor for staked
