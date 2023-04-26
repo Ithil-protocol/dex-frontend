@@ -4,17 +4,16 @@ import {
 } from "hooks/events";
 
 import OrderHistoryTable from "./Table";
+import { usePoolStore } from "store";
 
 const OrderHistory = () => {
-  const { data: fulfilledOrders } = useUserOrderFulfilledEvents();
-  const { data: canceledOrders } = useUserOrderCancelledEvents();
-
-  const reversedCreatedOrders = [...(fulfilledOrders || [])].reverse();
-  const fixedCanceledOrders = canceledOrders || [];
+  const pool = usePoolStore((state) => state.pool);
+  const { data: fulfilledOrders } = useUserOrderFulfilledEvents(pool);
+  const { data: canceledOrders } = useUserOrderCancelledEvents(pool);
 
   return (
     <OrderHistoryTable
-      orders={[...reversedCreatedOrders, ...fixedCanceledOrders]}
+      orders={[...(fulfilledOrders || []), ...(canceledOrders || [])]}
     />
   );
 };

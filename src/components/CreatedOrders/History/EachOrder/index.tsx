@@ -1,41 +1,21 @@
-import { Link, TableCell, TableRow, useTheme } from "@mui/material";
-import { Event, utils } from "ethers";
-import { formatDateToFullDate } from "utility";
+import { Link, TableCell, TableRow } from "@mui/material";
+import { formatDateToFullDate, truncateString } from "utility";
 import { usePoolStore } from "store";
 import { useGetBlock } from "hooks/contract";
-import { buyAmountConverter } from "utility/convertors";
-import { buyPriceConverter } from "utility/convertors";
+import { HistoryEvent } from "types";
+import LightTooltip from "components/Common/LightTooltip";
 
 interface Props {
-  data: Event;
+  data: HistoryEvent;
 }
 
-type Status = "canceled" | "fulfilled" | "";
-
 const Order: React.FC<Props> = ({ data }) => {
-  const theme = useTheme();
-  const [pool, pair] = usePoolStore((state) => [state.pool, state.pair]);
+  const pair = usePoolStore((state) => state.pair);
   const block = useGetBlock(data);
-
-  const convertedUnderlyingAmount = buyAmountConverter(
-    data.args!.underlyingToTransfer || data.args!.amount || "0x00",
-    data.args!.underlyingToTransfer || data.args!.price || "0x00",
-    pool
-  );
-
-  const status: Status =
-    +convertedUnderlyingAmount === 0 ? "fulfilled" : "canceled";
 
   const fullDate = formatDateToFullDate(block.timestamp * 1000);
 
-  const convertedPrice = buyPriceConverter(data.args!.price || "0x00", pool);
-
-  const convertedStaked = utils.formatUnits(
-    data.args!.staked || "0x00",
-    pool.underlying.decimals
-  );
-
-  const total = +convertedPrice * +convertedUnderlyingAmount;
+  const total = +data.price * +data.amount;
 
   return (
     <TableRow>
@@ -46,19 +26,15 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell
-        style={{
+        sx={(theme) => ({
           fontWeight: 400,
           color:
-            // data.side === "buy"
-            // ?
-            theme.palette.success.main,
-          // : theme.palette.error.main,
-        }}
+            data.side === "buy"
+              ? theme.palette.success.main
+              : theme.palette.error.main,
+        })}
       >
-        {
-          // data.side
-          "buy"
-        }
+        {data.side}
       </TableCell>
 
       <TableCell>
@@ -66,17 +42,48 @@ const Order: React.FC<Props> = ({ data }) => {
           target="_blank"
           href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
         >
-          {status}
+          {data.status}
         </Link>
       </TableCell>
 
-      <TableCell>{`${convertedUnderlyingAmount} ${pair.underlyingLabel}`}</TableCell>
+      <TableCell>
+        <LightTooltip
+          placement="top"
+          title={`${data.amount} ${pair.underlyingLabel}`}
+        >
+          <span>{`${truncateString(data.amount, 9)} ${
+            pair.underlyingLabel
+          }`}</span>
+        </LightTooltip>
+      </TableCell>
 
-      <TableCell>{`${convertedPrice} ${pair.accountingLabel}`}</TableCell>
+      <TableCell>
+        <LightTooltip
+          placement="top"
+          title={`${data.price} ${pair.accountingLabel}`}
+        >
+          <span>{`${truncateString(data.price, 9)} ${
+            pair.accountingLabel
+          }`}</span>
+        </LightTooltip>
+      </TableCell>
 
-      <TableCell>{`${(+total).toFixed(10)} ${pair.underlyingLabel}`}</TableCell>
+      <TableCell>
+        <LightTooltip
+          placement="top"
+          title={`${total} ${pair.underlyingLabel}`}
+        >
+          <span>{`${truncateString(total.toString(), 9)} ${
+            pair.underlyingLabel
+          }`}</span>
+        </LightTooltip>
+      </TableCell>
 
-      <TableCell>{`${convertedStaked} ETH`}</TableCell>
+      <TableCell>
+        <LightTooltip placement="top" title={`${data.staked} ETH`}>
+          <span>{`${truncateString(data.staked, 9)} ETH`}</span>
+        </LightTooltip>
+      </TableCell>
     </TableRow>
   );
 };

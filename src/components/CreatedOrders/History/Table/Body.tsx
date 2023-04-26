@@ -1,9 +1,9 @@
 import { TableBody } from "@mui/material";
 import EachOrder from "../EachOrder";
-import { Event } from "ethers";
+import { HistoryEvent } from "types";
 
 interface Props {
-  orders: Event[];
+  orders: HistoryEvent[];
 }
 
 const OrdersTableBody: React.FC<Props> = ({ orders }) => {

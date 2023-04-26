@@ -115,7 +115,7 @@ export const useAllOrderCreatedEvents = () => {
   return useQuery(["allOrderCreatedEvent"], getEvents);
 };
 
-export const useUserOrderCancelledEvents = () => {
+export const useUserOrderCancelledEvents = (pool: Pool) => {
   const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
@@ -137,14 +137,43 @@ export const useUserOrderCancelledEvents = () => {
       const sellEvents = await sellContract.queryFilter(sellFilter);
       const buyEvents = await buyContract.queryFilter(buyFilter);
 
-      // for (const item of [...sellEvents, ...buyEvents]) {
-      //   results.push({
-      //     amount,
-      //   });
-      // }
-    }
+      for (const item of sellEvents) {
+        const { price: rawPrice, underlyingToTransfer: rawAmount } = item.args!;
+        const { value: rawStaked } = await item.getTransaction();
 
-    console.log("cancelled results:", results);
+        results.push({
+          amount: sellAmountConverter(rawAmount, pool).toString(),
+          getBlock: item.getBlock,
+          price: sellPriceConverter(rawPrice, pool).toString(),
+          rawAmount,
+          rawPrice,
+          rawStaked,
+          side: "sell",
+          staked: utils.formatUnits(rawStaked, pool.underlying.decimals),
+          status: "canceled",
+          transactionHash: item.transactionHash,
+        });
+      }
+
+      for (const item of buyEvents) {
+        const { price: rawPrice, underlyingToTransfer: rawAmount } = item.args!;
+
+        const { value: rawStaked } = await item.getTransaction();
+
+        results.push({
+          amount: buyAmountConverter(rawAmount, rawPrice, pool).toString(),
+          getBlock: item.getBlock,
+          price: sellPriceConverter(rawPrice, pool).toString(),
+          rawAmount,
+          rawPrice,
+          rawStaked,
+          side: "buy",
+          staked: utils.formatUnits(rawStaked, pool.underlying.decimals),
+          status: "canceled",
+          transactionHash: item.transactionHash,
+        });
+      }
+    }
 
     return results;
   };
@@ -167,12 +196,12 @@ export const useAllOrderFulfilledEvents = () => {
   return useQuery(["allOrderFulfilledEvents"], getEvents);
 };
 
-export const useUserOrderFulfilledEvents = () => {
+export const useUserOrderFulfilledEvents = (pool) => {
   const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
   const getEvents = async () => {
-    let results: Event[] = [];
+    const results: HistoryEvent[] = [];
     if (buyContract && sellContract && address) {
       const sellFilterOfferer = sellContract.filters.OrderFulfilled(
         null,
@@ -217,15 +246,30 @@ export const useUserOrderFulfilledEvents = () => {
         buyFilterFulfiller
       );
 
-      results = [
+      for (const item of [
         ...sellEventsOfferer,
         ...sellEventsFulfiller,
         ...buyEventsOfferer,
         ...buyEventsFulfiller,
-      ];
-    }
+      ]) {
+        const { price: rawPrice, amount: rawAmount } = item.args!;
 
-    console.log("fulfilled results:::", results);
+        const { value: rawStaked } = await item.getTransaction();
+
+        results.push({
+          amount: buyAmountConverter(rawAmount, rawPrice, pool).toString(),
+          getBlock: item.getBlock,
+          price: sellPriceConverter(rawPrice, pool).toString(),
+          rawAmount,
+          rawPrice,
+          rawStaked,
+          side: "buy",
+          staked: utils.formatUnits(rawStaked, pool.underlying.decimals),
+          status: "fulfilled",
+          transactionHash: item.transactionHash,
+        });
+      }
+    }
 
     return results;
   };

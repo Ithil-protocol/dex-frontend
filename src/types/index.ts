@@ -29,6 +29,19 @@ export interface OpenOrderEvent {
   transactionHash: string;
 }
 
+export interface HistoryEvent {
+  amount: string;
+  price: string;
+  rawAmount: BigNumber;
+  rawPrice: BigNumber;
+  rawStaked: BigNumber;
+  side: Side;
+  staked: string;
+  getBlock: any;
+  transactionHash: string;
+  status: Status;
+}
+
 export interface StringMap {
   [prop: string]: any;
 }
