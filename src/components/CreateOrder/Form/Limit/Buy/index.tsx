@@ -88,12 +88,10 @@ const LimitBuy: React.FC<Props> = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 5,
+          gap: 7,
           padding: "5px",
         }}
       >
-        <Price control={control} endLabel={pair?.accountingLabel || ""} />
-
         <LimitAmount
           groupButtonDisabled={groupButtonDisabled}
           control={control}
@@ -101,9 +99,11 @@ const LimitBuy: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
         />
 
+        <Price control={control} endLabel={pair?.accountingLabel} />
+
         <Boost control={control} />
 
-        <Total total={total} label={pair?.accountingLabel || ""} />
+        <Total total={total} label={pair?.accountingLabel} />
 
         <Submit
           side={side}

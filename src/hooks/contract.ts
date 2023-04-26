@@ -1,10 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber, ethers, utils } from "ethers";
+import { BigNumber, BigNumberish, ethers, utils, Event } from "ethers";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
-import { CustomContractConfig } from "types";
-import { useContract, useProvider } from "wagmi";
-import { readContracts } from "@wagmi/core";
+import { CustomContractConfig, OrderBook, Status } from "types";
+import { useContract, useProvider, readContracts } from "wagmi";
+import { readContract } from "@wagmi/core";
+import { usePoolGetOrder } from "./contracts/pool";
+import { useEffect, useState } from "react";
+import { useBuyPriceConverter, useSellPriceConverter } from "./convertors";
+
+export const buy_volume = "buy-volume";
+export const sell_volume = "sell-volume";
 
 const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
 
@@ -123,5 +129,111 @@ export const useBuyContract = () => {
     address: buyPool.address,
     abi: contractABI,
     signerOrProvider: provider,
+  });
+};
+
+export const useGetBlock = (event) => {
+  const [block, setBlock] = useState<{ timestamp: any }>({
+    timestamp: 0,
+  });
+
+  useEffect(() => {
+    const fn = async () => {
+      const block = await event.getBlock();
+      setBlock(block);
+    };
+
+    fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event]);
+
+  return block;
+};
+
+export const useGetOrderStatus = (
+  address: `0x${string}`,
+  price: BigNumber,
+  index: BigNumber
+) => {
+  const { data } = usePoolGetOrder({
+    address,
+    args: [price, index],
+  });
+
+  let status: Status = "open";
+  if (data) {
+    const amount = utils.formatUnits(data.underlyingAmount as BigNumberish, 18);
+    status = +amount === 0 ? "fulfilled" : "open";
+  }
+
+  return status;
+};
+
+export const useBuyVolumes = () => {
+  const [buyPool] = usePoolStore((state) => [state.buyPool]);
+
+  const convert = useBuyPriceConverter();
+
+  return useQuery<OrderBook[]>([buy_volume, buyPool.address], async () => {
+    const data = await readContracts({
+      contracts: [
+        {
+          address: buyPool.address,
+          abi: contractABI,
+          functionName: "volumes",
+          args: [
+            utils.parseUnits("0", 0),
+            utils.parseUnits("0", 0),
+            utils.parseUnits("10", 0),
+          ],
+        },
+      ],
+    });
+    const convertedData = data[0].map((item) => {
+      const price = convert(item.price);
+
+      return {
+        originalPrice: item.price,
+        value: price,
+        volume: convert(item.volume) / price,
+        type: "buy" as const,
+      };
+    });
+
+    return convertedData.filter((item) => +item.value !== 0);
+  });
+};
+
+export const useSellVolumes = () => {
+  const [sellPool] = usePoolStore((state) => [state.sellPool]);
+  const convert = useSellPriceConverter();
+
+  return useQuery<OrderBook[]>([sell_volume, sellPool.address], async () => {
+    const data = await readContracts({
+      contracts: [
+        {
+          address: sellPool.address,
+          abi: contractABI,
+          functionName: "volumes",
+          args: [
+            utils.parseUnits("0", 0),
+            utils.parseUnits("0", 0),
+            utils.parseUnits("10", 0),
+          ],
+        },
+      ],
+    });
+    const convertedData = data[0].map((item) => {
+      const value = convert(item.price);
+
+      return {
+        originalPrice: item.price,
+        value: value !== 0 ? 1 / value : 0,
+        volume: convert(item.volume),
+        type: "sell" as const,
+      };
+    });
+
+    return convertedData.filter((item) => +item.value !== 0);
   });
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import {
   AbiConstructor,
   AbiError,
@@ -5,11 +6,41 @@ import {
   AbiFunction,
   Narrow,
 } from "abitype";
+import { BigNumber } from "ethers";
 import { poolABI } from "hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
   HTMLTextAreaElement | HTMLInputElement
 >;
+
+export type Status = "open" | "fulfilled" | "canceled";
+
+export interface OpenOrderEvent {
+  address: string;
+  amount: string;
+  index: BigNumber;
+  price: string;
+  rawAmount: BigNumber;
+  rawPrice: BigNumber;
+  rawStaked: BigNumber;
+  side: Side;
+  staked: string;
+  getBlock: any;
+  transactionHash: string;
+}
+
+export interface HistoryEvent {
+  amount: string;
+  price: string;
+  rawAmount: BigNumber;
+  rawPrice: BigNumber;
+  rawStaked: BigNumber;
+  side: Side;
+  staked: string;
+  getBlock: any;
+  transactionHash: string;
+  status: Status;
+}
 
 export interface StringMap {
   [prop: string]: any;
@@ -52,6 +83,12 @@ export interface PoolState {
   updateType: (_: LimitMarket) => void;
 }
 
+export interface OrderBook {
+  originalPrice: BigNumber;
+  value: number;
+  volume: number;
+  type: "buy" | "sell";
+}
 export interface Order {
   id: string;
   value: number;

@@ -34,13 +34,6 @@ const PriceTextField: React.FC<Props> = (props) => {
       autoComplete="off"
       error={!!error}
       helperText={error?.message}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <span>{props.endLabel}</span>
-          </InputAdornment>
-        ),
-      }}
       fullWidth
       required
     />

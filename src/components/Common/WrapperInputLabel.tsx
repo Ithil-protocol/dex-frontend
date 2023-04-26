@@ -1,4 +1,4 @@
-import { InputLabel } from "@mui/material";
+import { Chip, InputLabel } from "@mui/material";
 import InfoTooltip from "./InfoTooltip";
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
   endLabel?: string;
   tooltip: string;
   [prop: string]: any;
+  Currency?: React.ReactNode;
 }
 
 const WrapperInputLabel: React.FC<Props> = ({
@@ -14,6 +15,7 @@ const WrapperInputLabel: React.FC<Props> = ({
   label,
   tooltip,
   endLabel,
+  Currency,
 }) => {
   return (
     <InputLabel
@@ -33,6 +35,7 @@ const WrapperInputLabel: React.FC<Props> = ({
       >
         <span style={{ marginRight: "5px" }}>{label}</span>
         <InfoTooltip title={tooltip} />
+        {Currency}
       </span>
 
       <span style={{ fontSize: 12 }}>{endLabel}</span>
