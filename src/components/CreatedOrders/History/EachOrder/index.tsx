@@ -19,6 +19,7 @@ const Order: React.FC<Props> = ({ data }) => {
 
   const convertedUnderlyingAmount = buyAmountConverter(
     data.args!.underlyingToTransfer || data.args!.amount || "0x00",
+    data.args!.underlyingToTransfer || data.args!.price || "0x00",
     pool
   );
 
