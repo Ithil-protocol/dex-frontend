@@ -87,14 +87,14 @@ const LimitSell: React.FC<Props> = () => {
           padding: "5px",
         }}
       >
-        <Price control={control} endLabel={pair.accountingLabel} />
-
         <LimitAmount
           control={control}
           availableLabel={availableLabel}
           groupButtonHandler={groupButtonHandler}
           groupButtonDisabled={groupButtonDisabled}
         />
+
+        <Price control={control} endLabel={pair.accountingLabel} />
 
         <Boost control={control} />
 
