@@ -10,23 +10,28 @@ import {
 import { buyOrders } from "store/web3Store";
 import WrapperTooltip from "./Tooltip";
 import { briefing, computeOrders } from "utility";
+import { useBuyVolumes, useSellVolumes } from "hooks/contract";
 
 const computedOrders = computeOrders(buyOrders);
 
-const data = [
-  ...computedOrders.map((item) => ({
-    x: item.value,
-    yBuy: item.value * item.volume,
-    y: item.value * item.volume,
-  })),
-  ...computedOrders.map((item) => ({
-    x: item.value,
-    ySell: item.value * item.volume,
-    y: item.value * item.volume,
-  })),
-];
-
 const DepthChart = () => {
+  const { data: buyData } = useBuyVolumes();
+  const { data: sellData } = useSellVolumes();
+
+  if (!buyData || !sellData) return null;
+
+  const data = [
+    ...sellData.map((item) => ({
+      x: item.value,
+      yBuy: item.value * item.volume,
+      y: item.value * item.volume,
+    })),
+    ...buyData.map((item) => ({
+      x: item.value,
+      ySell: item.value * item.volume,
+      y: item.value * item.volume,
+    })),
+  ];
   //   return(
   //       <pre>{JSON.stringify(computedOrders,null,2)}</pre>
   //   )

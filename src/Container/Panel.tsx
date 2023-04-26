@@ -3,7 +3,7 @@ import CreateOrder from "components/CreateOrder";
 import DepthChart from "components/DepthChart";
 import MarketTrades from "components/MarketTrades";
 import Navbar from "components/Navbar";
-import { OpenOrders } from "components/OpenOrders";
+import { CreatedOrders } from "components/CreatedOrders";
 import Orders from "components/Orders";
 import {
   usePoolGetNextPriceLevel,
@@ -16,25 +16,178 @@ import styles from "styles/panel.module.scss";
 import { useContractEvent } from "wagmi";
 import { utils } from "ethers";
 import { usePoolStore } from "store";
+import { useQueryClient } from "@tanstack/react-query";
+import { useBuyPriceConverter, useSellPriceConverter } from "hooks/convertors";
+import { OrderBook } from "types";
+import { buy_volume, sell_volume } from "hooks/contract";
 
 const Panel = () => {
-  // const eventData =
-  useContractEvent({
-    address: "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37",
-    abi: contractABI,
-    eventName: "OrderCreated",
-    listener(...rest) {
-      // queryClient.setQueryData(["orders"], (prev) => {
-      //   return [...prev, rest];
-      // });
-      toast(rest[0]);
-    },
-  });
-
   const [sellPool, buyPool] = usePoolStore((state) => [
     state.sellPool,
     state.buyPool,
   ]);
+
+  const queryClient = useQueryClient();
+
+  const sellConvert = useSellPriceConverter();
+  const buyConvert = useBuyPriceConverter();
+
+  useContractEvent({
+    address: sellPool.address,
+    abi: contractABI,
+    eventName: "OrderCreated",
+    listener(...rest) {
+      console.log("rest", rest);
+      const price = rest[1];
+      const amount = rest[3];
+      queryClient.setQueryData<OrderBook[]>(
+        [sell_volume, sellPool.address],
+        (prev) => {
+          if (!prev) return;
+          return prev.map((item) => {
+            if (item.originalPrice.eq(price)) {
+              return {
+                ...item,
+                volume: item.volume + sellConvert(amount),
+              };
+            }
+            return item;
+          });
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: buyPool.address,
+    abi: contractABI,
+    eventName: "OrderCreated",
+    listener(...rest) {
+      console.log("rest", rest);
+      const price = rest[1];
+      const amount = rest[3];
+      queryClient.setQueryData<OrderBook[]>(
+        [buy_volume, buyPool.address],
+        (prev) => {
+          if (!prev) return;
+          return prev.map((item) => {
+            if (item.originalPrice.eq(price)) {
+              return {
+                ...item,
+                volume: item.volume + buyConvert(amount),
+              };
+            }
+            return item;
+          });
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: sellPool.address,
+    abi: contractABI,
+    eventName: "OrderFulfilled",
+    listener(...rest) {
+      console.log("rest", rest);
+      const price = rest[4];
+      const amount = rest[3];
+      queryClient.setQueryData<OrderBook[]>(
+        [sell_volume, sellPool.address],
+        (prev) => {
+          if (!prev) return;
+          return prev.map((item) => {
+            if (item.originalPrice.eq(price)) {
+              return {
+                ...item,
+                volume: item.volume - sellConvert(amount),
+              };
+            }
+            return item;
+          });
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: buyPool.address,
+    abi: contractABI,
+    eventName: "OrderFulfilled",
+    listener(...rest) {
+      console.log("rest", rest);
+      const price = rest[4];
+      const amount = rest[3];
+      queryClient.setQueryData<OrderBook[]>(
+        [buy_volume, buyPool.address],
+        (prev) => {
+          if (!prev) return;
+          return prev.map((item) => {
+            if (item.originalPrice.eq(price)) {
+              return {
+                ...item,
+                volume: item.volume - buyConvert(amount),
+              };
+            }
+            return item;
+          });
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: sellPool.address,
+    abi: contractABI,
+    eventName: "OrderCancelled",
+    listener(...rest) {
+      console.log("rest", rest);
+      const price = rest[2];
+      const amount = rest[3];
+      queryClient.setQueryData<OrderBook[]>(
+        [sell_volume, sellPool.address],
+        (prev) => {
+          if (!prev) return;
+          return prev.map((item) => {
+            if (item.originalPrice.eq(price)) {
+              return {
+                ...item,
+                volume: item.volume - sellConvert(amount),
+              };
+            }
+            return item;
+          });
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: buyPool.address,
+    abi: contractABI,
+    eventName: "OrderCancelled",
+    listener(...rest) {
+      console.log("rest", rest);
+      const price = rest[2];
+      const amount = rest[3];
+      queryClient.setQueryData<OrderBook[]>(
+        [buy_volume, buyPool.address],
+        (prev) => {
+          if (!prev) return;
+          return prev.map((item) => {
+            if (item.originalPrice.eq(price)) {
+              return {
+                ...item,
+                volume: item.volume - buyConvert(amount),
+              };
+            }
+            return item;
+          });
+        }
+      );
+    },
+  });
+
   const { data: buyOrders } = usePoolVolumes({
     address: buyPool.address,
     args: [
@@ -50,7 +203,8 @@ const Panel = () => {
         "buy price: ",
         Number(utils.formatUnits(e.price, 6)),
         "volume: ",
-        Number(utils.formatUnits(e.volume, 6))
+        Number(utils.formatUnits(e.volume, 6)) /
+          Number(utils.formatUnits(e.price, 6))
       );
     });
   const { data: sellOrders } = usePoolVolumes({
@@ -104,7 +258,7 @@ const Panel = () => {
         <MarketTrades />
       </div>
       <div className={styles.open}>
-        <OpenOrders />
+        <CreatedOrders />
       </div>
     </div>
   );

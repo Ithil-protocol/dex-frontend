@@ -6,9 +6,16 @@ export const buyPriceConverter = (price: BigNumber, pool: Pool) => {
   return Number(utils.formatUnits(price, pool.underlying.decimals));
 };
 
-export const buyAmountConverter = (amount: BigNumber, pool: Pool) => {
+export const buyAmountConverter = (
+  amount: BigNumber,
+  price: BigNumber,
+  pool: Pool
+) => {
   // pool is equal to buyPool
-  return Number(utils.formatUnits(amount, pool.underlying.decimals));
+  return (
+    Number(utils.formatUnits(amount, pool.underlying.decimals)) /
+    Number(utils.formatUnits(price, pool.underlying.decimals))
+  );
 };
 
 export const sellPriceConverter = (price: BigNumber, pool: Pool) => {
@@ -21,3 +28,5 @@ export const sellAmountConverter = (amount: BigNumber, pool: Pool) => {
   return Number(utils.formatUnits(amount, pool.underlying.decimals));
 };
 // toFixed can be called here if needed
+
+//TODO: Add (buy|sell) convertor for staked
