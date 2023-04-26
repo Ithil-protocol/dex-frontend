@@ -88,7 +88,7 @@ const LimitBuy: React.FC<Props> = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 5,
+          gap: 7,
           padding: "5px",
         }}
       >
