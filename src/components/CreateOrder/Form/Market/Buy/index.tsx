@@ -48,23 +48,6 @@ const MarketBuy: React.FC<Props> = () => {
     isLoading: fulfillLoading,
     gasLoading,
   } = useFulfillOrder(finalValues);
-  const {
-    write: approve,
-    isLoading: approveLoading,
-    isApproved,
-  } = useAllowance({
-    amount: formValues.amount,
-    pool: sellPool,
-    token: sellPool.accounting,
-  });
-
-  const handleFormSubmit = () => {
-    if (!isApproved && approve) {
-      approve();
-      return;
-    }
-    write?.();
-  };
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
     address: sellPool.address,
@@ -87,6 +70,24 @@ const MarketBuy: React.FC<Props> = () => {
     available === 0 || Number(highestPrice || 0) === 0;
 
   const total = totalToPay.toFixed(sellPool.accounting.decimals);
+
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
+    amount: total,
+    pool: sellPool,
+    token: sellPool.accounting,
+  });
+
+  const handleFormSubmit = () => {
+    if (!isApproved && approve) {
+      approve();
+      return;
+    }
+    write?.();
+  };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
