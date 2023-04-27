@@ -52,7 +52,6 @@ const Panel = () => {
               ...newArray[index],
               volume: newArray[index].volume + sellConvert(amount),
             };
-            newArray.sort((a, b) => b.value - a.value);
             console.log("newArray", newArray);
           } else {
             const convertedPrice = sellConvert(price);
@@ -62,6 +61,7 @@ const Panel = () => {
               volume: sellConvert(amount),
               type: "sell" as const,
             });
+            newArray.sort((a, b) => b.value - a.value);
           }
 
           return newArray;
