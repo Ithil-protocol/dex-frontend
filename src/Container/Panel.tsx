@@ -44,15 +44,23 @@ const Panel = () => {
         [sell_volume, sellPool.address],
         (prev) => {
           if (!prev) return;
-          return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume + sellConvert(amount),
-              };
-            }
-            return item;
-          });
+          const index = prev.findIndex((item) => item.originalPrice.eq(price));
+          const newArray = [...prev];
+          if (index > -1) {
+            newArray[index] = {
+              ...newArray[index],
+              volume: newArray[index].volume + sellConvert(amount),
+            };
+          } else {
+            newArray.push({
+              originalPrice: price,
+              value: sellConvert(price),
+              volume: sellConvert(amount),
+              type: "sell" as const,
+            });
+          }
+
+          return newArray;
         }
       );
     },
@@ -70,15 +78,23 @@ const Panel = () => {
         [buy_volume, buyPool.address],
         (prev) => {
           if (!prev) return;
-          return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume + buyConvert(amount),
-              };
-            }
-            return item;
-          });
+          const index = prev.findIndex((item) => item.originalPrice.eq(price));
+          const newArray = [...prev];
+          if (index > -1) {
+            newArray[index] = {
+              ...newArray[index],
+              volume: newArray[index].volume + buyConvert(amount),
+            };
+          } else {
+            newArray.push({
+              originalPrice: price,
+              value: buyConvert(price),
+              volume: buyConvert(amount),
+              type: "buy" as const,
+            });
+          }
+
+          return newArray;
         }
       );
     },
