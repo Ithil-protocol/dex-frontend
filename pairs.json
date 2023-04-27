@@ -8,5 +8,15 @@
     "buy": {
       "address": "0x67Fa562Ad2547774B648111e9918bd4b6ACfc224"
     }
+  },
+  {
+    "underlyingLabel": "WETH",
+    "accountingLabel": "FAUCET",
+    "sell": {
+      "address": "0x165D3eBD60BBBD227589dA9eFCD42EB42D1F93E1"
+    },
+    "buy": {
+      "address": "0x4E2f71a3b6bd2Be6770980004495cD46C3075949"
+    }
   }
 ]
