@@ -1,17 +1,21 @@
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import TradesTableBody from "./TableBody";
-import { TradesTableHead } from "./TableHead";
+import TradesTableBody from "./Body";
+import TradesTableHead from "./Head";
 import { MarketEvent } from "types";
 
 interface Props {
-  trades?: MarketEvent[];
+  trades: MarketEvent[];
+  isLoading: boolean;
 }
 
-const Trades: React.FC<Props> = ({ trades }) => {
+const Trades: React.FC<Props> = ({ trades, isLoading }) => {
+  const heads = ["price", "amount", "time"];
+
   return (
     <TableContainer
+      sx={{ maxHeight: "400px" }}
       component={(props) => (
         <Paper
           {...props}
@@ -24,8 +28,12 @@ const Trades: React.FC<Props> = ({ trades }) => {
       )}
     >
       <Table size="small">
-        <TradesTableHead />
-        <TradesTableBody trades={trades} />
+        <TradesTableHead heads={heads} />
+        <TradesTableBody
+          headsLength={heads.length}
+          trades={trades}
+          isLoading={!isLoading}
+        />
       </Table>
     </TableContainer>
   );
