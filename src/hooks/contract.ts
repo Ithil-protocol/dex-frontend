@@ -234,6 +234,8 @@ export const useSellVolumes = () => {
       };
     });
 
-    return convertedData.filter((item) => +item.value !== 0);
+    return convertedData.filter(
+      (item) => +item.value !== 0 && +item.volume !== 0
+    );
   });
 };

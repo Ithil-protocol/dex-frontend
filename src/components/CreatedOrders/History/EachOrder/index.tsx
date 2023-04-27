@@ -47,41 +47,26 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell>
-        <LightTooltip
-          placement="top"
-          title={`${data.amount} ${pair.underlyingLabel}`}
-        >
-          <span>{`${truncateString(data.amount, 9)} ${
-            pair.underlyingLabel
-          }`}</span>
+        <LightTooltip placement="top" title={data.amount}>
+          <span>{truncateString(data.amount, 9)}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
-        <LightTooltip
-          placement="top"
-          title={`${data.price} ${pair.accountingLabel}`}
-        >
-          <span>{`${truncateString(data.price, 9)} ${
-            pair.accountingLabel
-          }`}</span>
+        <LightTooltip placement="top" title={data.price}>
+          <span>{truncateString(data.price, 9)}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
-        <LightTooltip
-          placement="top"
-          title={`${total} ${pair.underlyingLabel}`}
-        >
-          <span>{`${truncateString(total.toString(), 9)} ${
-            pair.underlyingLabel
-          }`}</span>
+        <LightTooltip placement="top" title={total}>
+          <span>{truncateString(total.toString(), 9)}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={`${data.staked} ETH`}>
-          <span>{`${truncateString(data.staked, 9)} ETH`}</span>
+        <LightTooltip placement="top" title={data.staked}>
+          <span>{truncateString(data.staked, 9)}</span>
         </LightTooltip>
       </TableCell>
     </TableRow>

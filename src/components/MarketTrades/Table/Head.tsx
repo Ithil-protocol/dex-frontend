@@ -1,13 +1,18 @@
 import { TableCell, TableHead, TableRow } from "@mui/material";
 
-export function TradesTableHead() {
+interface Props {
+  heads: string[];
+}
+const TradesTableHead: React.FC<Props> = ({ heads }) => {
   return (
     <TableHead>
       <TableRow>
-        {["price", "amount", "time"].map((item, i) => (
+        {heads.map((item, i) => (
           <TableCell key={i}>{item}</TableCell>
         ))}
       </TableRow>
     </TableHead>
   );
-}
+};
+
+export default TradesTableHead;

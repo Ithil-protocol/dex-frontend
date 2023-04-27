@@ -44,15 +44,27 @@ const Panel = () => {
         [sell_volume, sellPool.address],
         (prev) => {
           if (!prev) return;
-          return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume + sellConvert(amount),
-              };
-            }
-            return item;
-          });
+          const index = prev.findIndex((item) => item.originalPrice.eq(price));
+          const newArray = [...prev];
+          if (index > -1) {
+            console.log("prevArray", newArray);
+            newArray[index] = {
+              ...newArray[index],
+              volume: newArray[index].volume + sellConvert(amount),
+            };
+            console.log("newArray", newArray);
+          } else {
+            const convertedPrice = sellConvert(price);
+            newArray.push({
+              originalPrice: price,
+              value: convertedPrice !== 0 ? 1 / convertedPrice : 0,
+              volume: sellConvert(amount),
+              type: "sell" as const,
+            });
+            newArray.sort((a, b) => a.value - b.value);
+          }
+
+          return newArray;
         }
       );
     },
@@ -70,15 +82,26 @@ const Panel = () => {
         [buy_volume, buyPool.address],
         (prev) => {
           if (!prev) return;
-          return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume + buyConvert(amount),
-              };
-            }
-            return item;
-          });
+          const index = prev.findIndex((item) => item.originalPrice.eq(price));
+          const newArray = [...prev];
+          const convertedPrice = buyConvert(price);
+          if (index > -1) {
+            newArray[index] = {
+              ...newArray[index],
+              volume:
+                newArray[index].volume + buyConvert(amount) / convertedPrice,
+            };
+          } else {
+            newArray.push({
+              originalPrice: price,
+              value: convertedPrice,
+              volume: buyConvert(amount) / convertedPrice,
+              type: "buy" as const,
+            });
+            newArray.sort((a, b) => b.value - a.value);
+          }
+
+          return newArray;
         }
       );
     },
@@ -126,7 +149,7 @@ const Panel = () => {
             if (item.originalPrice.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - buyConvert(amount),
+                volume: item.volume - buyConvert(amount) / buyConvert(price),
               };
             }
             return item;
@@ -178,7 +201,7 @@ const Panel = () => {
             if (item.originalPrice.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - buyConvert(amount),
+                volume: item.volume - buyConvert(amount) / buyConvert(price),
               };
             }
             return item;
