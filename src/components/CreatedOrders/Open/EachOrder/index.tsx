@@ -5,13 +5,14 @@ import { usePoolStore } from "store";
 import { useGetBlock, useGetOrderStatus } from "hooks/contract";
 import { OpenOrderEvent } from "types";
 import LightTooltip from "components/Common/LightTooltip";
+import Link from "next/link";
 
 interface Props {
   data: OpenOrderEvent;
 }
 
 const Order: React.FC<Props> = ({ data }) => {
-  const [pair] = usePoolStore((state) => [state.pair]);
+  const pair = usePoolStore((state) => state.pair);
   const block = useGetBlock(data);
   const status = useGetOrderStatus(
     data.address as `0x${string}`,
@@ -50,61 +51,51 @@ const Order: React.FC<Props> = ({ data }) => {
         {data.side}
       </TableCell>
 
-      {/* <TableCell>
+      <TableCell>
         <Link
           target="_blank"
           href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
         >
           {status}
         </Link>
-      </TableCell> */}
+      </TableCell>
 
       <TableCell>
-        <LightTooltip
-          placement="top"
-          title={`${data.amount} ${pair.underlyingLabel}`}
-        >
-          <span>{`${truncateString(data.amount, 9)} ${
-            pair.underlyingLabel
-          }`}</span>
+        <LightTooltip placement="top" title={data.amount}>
+          <span>{truncateString(data.amount, 9)}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
-        <LightTooltip
-          placement="top"
-          title={`${data.price} ${pair.accountingLabel}`}
-        >
-          <span>{`${truncateString(data.price, 9)} ${
-            pair.accountingLabel
-          }`}</span>
+        <LightTooltip placement="top" title={data.price}>
+          <span>{truncateString(data.price, 9)}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
-        <LightTooltip
-          placement="top"
-          title={`${total} ${pair.underlyingLabel}`}
-        >
-          <span>{`${truncateString(total.toString(), 9)} ${
-            pair.underlyingLabel
-          }`}</span>
+        <LightTooltip placement="top" title={total}>
+          <span>{truncateString(total.toString(), 9)}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={`${data.staked} ETH`}>
-          <span>{`${truncateString(data.staked, 9)} ETH`}</span>
+        <LightTooltip placement="top" title={data.staked}>
+          <span>{truncateString(data.staked, 9)}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
         <Button
+          variant="contained"
+          disableElevation
           size="small"
           color="error"
-          sx={{
+          sx={(theme) => ({
             padding: "0px",
-          }}
+            ":disabled": {
+              color: theme.palette.text.disabled,
+            },
+          })}
           onClick={() => cancel?.()}
           disabled={!cancel}
         >

@@ -63,5 +63,6 @@ module.exports = {
     "object-shorthand": ["warn", "always"],
     quotes: ["warn", "double"],
     semi: ["warn", "always"],
+    "sonarjs/no-duplicate-string": "warn",
   },
 };
