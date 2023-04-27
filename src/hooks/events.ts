@@ -67,6 +67,7 @@ export const useUserOrderCreatedEvents = () => {
           side: "sell",
           staked: utils.formatUnits(rawStaked, sellPool.underlying.decimals),
           transactionHash: item.transactionHash,
+          pool: sellPool,
         });
       }
 
@@ -93,6 +94,7 @@ export const useUserOrderCreatedEvents = () => {
           side: "buy",
           staked: utils.formatUnits(rawStaked, buyPool.underlying.decimals),
           transactionHash: item.transactionHash,
+          pool: buyPool,
         });
       }
     }
@@ -163,6 +165,7 @@ export const useUserOrderCancelledEvents = () => {
           staked: utils.formatUnits(rawStaked, sellPool.underlying.decimals),
           status: "canceled",
           transactionHash: item.transactionHash,
+          pool: sellPool,
         });
       }
 
@@ -182,6 +185,7 @@ export const useUserOrderCancelledEvents = () => {
           staked: utils.formatUnits(rawStaked, buyPool.underlying.decimals),
           status: "canceled",
           transactionHash: item.transactionHash,
+          pool: buyPool,
         });
       }
     }
@@ -213,6 +217,7 @@ export const useAllOrderFulfilledEvents = () => {
           price: buyPriceConverter(rawPrice, buyPool).toString(),
           rawAmount,
           rawPrice,
+          pool: buyPool,
         });
       }
 
@@ -225,6 +230,7 @@ export const useAllOrderFulfilledEvents = () => {
           price: sellPriceConverter(rawPrice, sellPool).toString(),
           rawAmount,
           rawPrice,
+          pool: sellPool,
         });
       }
     }
@@ -305,6 +311,7 @@ export const useUserOrderFulfilledEvents = () => {
           staked: utils.formatUnits(rawStaked, buyPool.underlying.decimals),
           status: "fulfilled",
           transactionHash: item.transactionHash,
+          pool: buyPool,
         });
       }
 
@@ -324,6 +331,7 @@ export const useUserOrderFulfilledEvents = () => {
           staked: utils.formatUnits(rawStaked, sellPool.underlying.decimals),
           status: "fulfilled",
           transactionHash: item.transactionHash,
+          pool: sellPool,
         });
       }
     }

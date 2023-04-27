@@ -23,6 +23,7 @@ const Order: React.FC<Props> = ({ data }) => {
   const { cancel } = useCancelOrder({
     index: data.index,
     price: data.rawPrice,
+    pool: data.pool,
   });
 
   if (status === "fulfilled") return null;
