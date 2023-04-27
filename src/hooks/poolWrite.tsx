@@ -108,13 +108,12 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     enabled: !!address,
     watch: true,
   });
-  // console.log(allowanceValue);
-  // allowanceValue &&
-  //   console.log(
-  //     "all",
-  //     token.address,
-  //     Number(utils.formatUnits(allowanceValue, token.decimals))
-  //   );
+  allowanceValue &&
+    console.log(
+      "allowance:",
+      token.address,
+      Number(utils.formatUnits(allowanceValue, token.decimals))
+    );
   const needAllowance =
     Number(utils.formatUnits(allowanceValue ?? zeroBigNumber, token.decimals)) <
     Number(amount);
