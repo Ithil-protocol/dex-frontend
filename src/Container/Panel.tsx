@@ -51,10 +51,12 @@ const Panel = () => {
               ...newArray[index],
               volume: newArray[index].volume + sellConvert(amount),
             };
+            newArray.sort((a, b) => b.value - a.value);
           } else {
+            const convertedPrice = sellConvert(price);
             newArray.push({
               originalPrice: price,
-              value: sellConvert(price),
+              value: convertedPrice !== 0 ? 1 / convertedPrice : 0,
               volume: sellConvert(amount),
               type: "sell" as const,
             });
@@ -93,7 +95,7 @@ const Panel = () => {
               volume: buyConvert(amount) / convertedPrice,
               type: "buy" as const,
             });
-            newArray.sort((a, b) => a.value - b.value);
+            newArray.sort((a, b) => b.value - a.value);
           }
 
           return newArray;
