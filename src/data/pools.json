@@ -24,5 +24,31 @@
         "decimals": 18
       }
     }
+  },
+  {
+    "underlyingLabel": "WETH",
+    "accountingLabel": "FAUCET",
+    "sell": {
+      "address": "0x165D3eBD60BBBD227589dA9eFCD42EB42D1F93E1",
+      "underlying": {
+        "address": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+        "decimals": 18
+      },
+      "accounting": {
+        "address": "0xBA62BCfcAaFc6622853cca2BE6Ac7d845BC0f2Dc",
+        "decimals": 18
+      }
+    },
+    "buy": {
+      "address": "0x4E2f71a3b6bd2Be6770980004495cD46C3075949",
+      "underlying": {
+        "address": "0xBA62BCfcAaFc6622853cca2BE6Ac7d845BC0f2Dc",
+        "decimals": 18
+      },
+      "accounting": {
+        "address": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+        "decimals": 18
+      }
+    }
   }
 ]
