@@ -15,31 +15,42 @@ export type CustomInputEvent = React.ChangeEvent<
 
 export type Status = "open" | "fulfilled" | "canceled";
 
-export interface OpenOrderEvent {
-  address: string;
+export interface HistoryEvent {
   amount: string;
-  index: BigNumber;
+  getBlock: any;
+  pool: Pool;
   price: string;
   rawAmount: BigNumber;
   rawPrice: BigNumber;
   rawStaked: BigNumber;
   side: Side;
   staked: string;
-  getBlock: any;
+  status: Status;
   transactionHash: string;
 }
 
-export interface HistoryEvent {
+export interface OpenOrderEvent {
+  address: string;
   amount: string;
+  getBlock: any;
+  index: BigNumber;
+  pool: Pool;
   price: string;
   rawAmount: BigNumber;
   rawPrice: BigNumber;
   rawStaked: BigNumber;
   side: Side;
   staked: string;
-  getBlock: any;
   transactionHash: string;
-  status: Status;
+}
+
+export interface MarketEvent {
+  amount: string;
+  getBlock: any;
+  pool: Pool;
+  price: string;
+  rawAmount: BigNumber;
+  rawPrice: BigNumber;
 }
 
 export interface StringMap {
