@@ -47,11 +47,13 @@ const Panel = () => {
           const index = prev.findIndex((item) => item.originalPrice.eq(price));
           const newArray = [...prev];
           if (index > -1) {
+            console.log("prevArray", newArray);
             newArray[index] = {
               ...newArray[index],
               volume: newArray[index].volume + sellConvert(amount),
             };
-            newArray.sort((a, b) => a.value - b.value);
+            newArray.sort((a, b) => b.value - a.value);
+            console.log("newArray", newArray);
           } else {
             const convertedPrice = sellConvert(price);
             newArray.push({
@@ -82,20 +84,21 @@ const Panel = () => {
           if (!prev) return;
           const index = prev.findIndex((item) => item.originalPrice.eq(price));
           const newArray = [...prev];
+          const convertedPrice = buyConvert(price);
           if (index > -1) {
             newArray[index] = {
               ...newArray[index],
-              volume: newArray[index].volume + buyConvert(amount),
+              volume:
+                newArray[index].volume + buyConvert(amount) / convertedPrice,
             };
           } else {
-            const convertedPrice = buyConvert(price);
             newArray.push({
               originalPrice: price,
               value: convertedPrice,
               volume: buyConvert(amount) / convertedPrice,
               type: "buy" as const,
             });
-            newArray.sort((a, b) => a.value - b.value);
+            newArray.sort((a, b) => b.value - a.value);
           }
 
           return newArray;
@@ -146,7 +149,7 @@ const Panel = () => {
             if (item.originalPrice.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - buyConvert(amount),
+                volume: item.volume - buyConvert(amount) / buyConvert(price),
               };
             }
             return item;
@@ -198,7 +201,7 @@ const Panel = () => {
             if (item.originalPrice.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - buyConvert(amount),
+                volume: item.volume - buyConvert(amount) / buyConvert(price),
               };
             }
             return item;
