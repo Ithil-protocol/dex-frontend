@@ -144,3 +144,11 @@ export interface FactoryInputs {
 export interface MarketInputs {
   amount: string;
 }
+
+export interface MarketEvent {
+  amount: string;
+  price: string;
+  getBlock: any;
+  rawAmount: BigNumber;
+  rawPrice: BigNumber;
+}
