@@ -19,7 +19,7 @@ const OpenOrdersTable: React.FC<Props> = ({ orders, isLoading }) => {
     "status",
     `amount (${pair.underlyingLabel})`,
     `price (${pair.accountingLabel})`,
-    `total (${pair.underlyingLabel})`,
+    `total (${pair.accountingLabel})`,
     "staked (ETH)",
     "actions",
   ];
