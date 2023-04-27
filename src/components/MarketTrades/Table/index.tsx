@@ -32,7 +32,7 @@ const Trades: React.FC<Props> = ({ trades, isLoading }) => {
         <TradesTableBody
           headsLength={heads.length}
           trades={trades}
-          isLoading={!isLoading}
+          isLoading={isLoading}
         />
       </Table>
     </TableContainer>
