@@ -219,7 +219,8 @@ const Panel = () => {
         "buy price: ",
         Number(utils.formatUnits(e.price, 6)),
         "volume: ",
-        Number(utils.formatUnits(e.volume, 6))
+        Number(utils.formatUnits(e.volume, 6)) /
+          Number(utils.formatUnits(e.price, 6))
       );
     });
   const { data: sellOrders } = usePoolVolumes({

@@ -4,13 +4,12 @@ import round from "lodash/round";
 
 export const useBuyPriceConverter = () => {
   const pool = usePoolStore((store) => store.buyPool);
-
   return (price: BigNumber) =>
-    round(Number(utils.formatUnits(price, pool.underlying.decimals)), 5);
+    Number(utils.formatUnits(price, pool.underlying.decimals));
 };
 
 export const useSellPriceConverter = () => {
   const pool = usePoolStore((store) => store.sellPool);
   return (price: BigNumber) =>
-    round(Number(utils.formatUnits(price, pool.underlying.decimals)), 5);
+    Number(utils.formatUnits(price, pool.underlying.decimals));
 };
