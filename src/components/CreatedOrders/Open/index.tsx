@@ -1,12 +1,10 @@
 import { useUserOrderCreatedEvents } from "hooks/events";
 import OpenOrdersTable from "./Table";
-import { usePoolStore } from "store";
 
 const OpenOrders = () => {
-  const pool = usePoolStore((state) => state.pool);
-  const { data } = useUserOrderCreatedEvents(pool);
+  const { data, isLoading } = useUserOrderCreatedEvents();
 
-  return <OpenOrdersTable orders={data || []} />;
+  return <OpenOrdersTable orders={data || []} isLoading={isLoading} />;
 };
 
 export default OpenOrders;

@@ -15,7 +15,6 @@ import {
   useTokenAllowance,
   useTokenApprove,
 } from "./contracts/token";
-import { usePoolStore } from "store";
 import TransactionToast from "components/Common/Toast/TransactionToast";
 import { Pool, Token } from "types";
 import { zeroBigNumber } from "utility";
@@ -127,7 +126,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
       utils.parseUnits(Number(amount).toFixed(token.decimals), token.decimals),
     ],
     overrides: {
-      gasLimit: utils.parseUnits("1000000", 0),
+      gasLimit: utils.parseUnits("200000", 0),
     },
     enabled: needAllowance,
     cacheTime: 0,
@@ -169,10 +168,10 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
 interface CancelOrderProps {
   index: BigNumber;
   price: BigNumber;
+  pool: Pool;
 }
 
-export const useCancelOrder = ({ index, price }: CancelOrderProps) => {
-  const [pool] = usePoolStore((state) => [state.pool]);
+export const useCancelOrder = ({ index, price, pool }: CancelOrderProps) => {
   const { config } = usePreparePoolCancelOrder({
     address: pool.address as `0x${string}`,
     args: [index, price],

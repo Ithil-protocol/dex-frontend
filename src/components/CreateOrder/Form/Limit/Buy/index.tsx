@@ -48,24 +48,6 @@ const LimitBuy: React.FC<Props> = () => {
     gasLoading,
   } = useCreateOrder(finalValues);
 
-  const {
-    write: approve,
-    isLoading: approveLoading,
-    isApproved,
-  } = useAllowance({
-    amount: formValues.amount,
-    pool: buyPool,
-    token: buyPool.underlying,
-  });
-
-  const handleFormSubmit = () => {
-    if (!isApproved && approve) {
-      approve();
-      return;
-    }
-    write?.();
-  };
-
   const groupButtonHandler = useCallback(
     (item: number) => {
       const balancePercent = (item / 100) * available;
@@ -81,6 +63,24 @@ const LimitBuy: React.FC<Props> = () => {
   const total = (
     Number(formValues.amount) * Number(formValues.price) || 0
   ).toFixed(buyPool.underlying.decimals);
+
+  const {
+    write: approve,
+    isLoading: approveLoading,
+    isApproved,
+  } = useAllowance({
+    amount: total,
+    pool: buyPool,
+    token: buyPool.underlying,
+  });
+
+  const handleFormSubmit = () => {
+    if (!isApproved && approve) {
+      approve();
+      return;
+    }
+    write?.();
+  };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>

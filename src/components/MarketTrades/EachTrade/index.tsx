@@ -1,34 +1,32 @@
-import { TableCell, TableRow, useTheme } from "@mui/material";
-import { Event, utils } from "ethers";
+import { TableCell, TableRow } from "@mui/material";
+import LightTooltip from "components/Common/LightTooltip";
 import { useGetBlock } from "hooks/contract";
-import { usePoolStore } from "store";
+import { MarketEvent } from "types";
 import { formatDateToTime, truncateString } from "utility";
 
 interface Props {
-  data: Event;
+  data: MarketEvent;
 }
 
 const EachTrade = ({ data }: Props) => {
-  const theme = useTheme();
-  const defaultPool = usePoolStore((state) => state.default);
   const block = useGetBlock(data);
 
-  const args = data.args!;
-
   const fullDate = formatDateToTime(block.timestamp * 1000);
-  const convertedAmount = utils.formatUnits(
-    args.amount,
-    defaultPool.underlying.decimals
-  );
-  const convertedPrice = utils.formatUnits(
-    args.price,
-    defaultPool.accounting.decimals
-  );
 
   return (
     <TableRow>
       <TableCell
         style={{
+          fontSize: 14,
+          fontWeight: 900,
+        }}
+      >
+        <LightTooltip placeholder="top" title={data.amount}>
+          <span>{truncateString(data.amount, 9)}</span>
+        </LightTooltip>
+      </TableCell>
+      <TableCell
+        sx={(theme) => ({
           fontWeight: 900,
           color:
             // data.type === "taker"
@@ -36,18 +34,11 @@ const EachTrade = ({ data }: Props) => {
             theme.palette.success.main,
           // : theme.palette.error.main,
           fontSize: 14,
-        }}
+        })}
       >
-        {truncateString(convertedPrice, 9)}
-      </TableCell>
-
-      <TableCell
-        style={{
-          fontSize: 14,
-          fontWeight: 900,
-        }}
-      >
-        {truncateString(convertedAmount, 18)}
+        <LightTooltip placeholder="top" title={data.price}>
+          <span>{truncateString(data.price, 9)}</span>
+        </LightTooltip>
       </TableCell>
 
       <TableCell
