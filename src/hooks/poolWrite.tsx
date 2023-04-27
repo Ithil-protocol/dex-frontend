@@ -126,7 +126,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
       utils.parseUnits(Number(amount).toFixed(token.decimals), token.decimals),
     ],
     overrides: {
-      gasLimit: utils.parseUnits("1000000", 0),
+      gasLimit: utils.parseUnits("200000", 0),
     },
     enabled: needAllowance,
     cacheTime: 0,
