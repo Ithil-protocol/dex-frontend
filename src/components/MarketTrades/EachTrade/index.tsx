@@ -16,6 +16,16 @@ const EachTrade = ({ data }: Props) => {
   return (
     <TableRow>
       <TableCell
+        style={{
+          fontSize: 14,
+          fontWeight: 900,
+        }}
+      >
+        <LightTooltip placeholder="top" title={data.amount}>
+          <span>{truncateString(data.amount, 9)}</span>
+        </LightTooltip>
+      </TableCell>
+      <TableCell
         sx={(theme) => ({
           fontWeight: 900,
           color:
@@ -28,17 +38,6 @@ const EachTrade = ({ data }: Props) => {
       >
         <LightTooltip placeholder="top" title={data.price}>
           <span>{truncateString(data.price, 9)}</span>
-        </LightTooltip>
-      </TableCell>
-
-      <TableCell
-        style={{
-          fontSize: 14,
-          fontWeight: 900,
-        }}
-      >
-        <LightTooltip placeholder="top" title={data.amount}>
-          <span>{truncateString(data.amount, 9)}</span>
         </LightTooltip>
       </TableCell>
 
