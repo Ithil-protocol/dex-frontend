@@ -4,6 +4,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TradesTableBody from "./Body";
 import TradesTableHead from "./Head";
 import { MarketEvent } from "types";
+import { usePoolStore } from "store";
 
 interface Props {
   trades: MarketEvent[];
@@ -11,7 +12,13 @@ interface Props {
 }
 
 const Trades: React.FC<Props> = ({ trades, isLoading }) => {
-  const heads = ["price", "amount", "time"];
+  const pair = usePoolStore((state) => state.pair);
+
+  const heads = [
+    `amount (${pair.underlyingLabel})`,
+    `price (${pair.accountingLabel})`,
+    "time",
+  ];
 
   return (
     <TableContainer
