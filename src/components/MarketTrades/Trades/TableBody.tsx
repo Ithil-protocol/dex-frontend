@@ -1,9 +1,9 @@
 import { TableBody } from "@mui/material";
 import EachTrade from "../EachTrade";
-import { Event } from "ethers";
+import { MarketEvent } from "types";
 
 interface Props {
-  trades?: Event[];
+  trades?: MarketEvent[];
 }
 
 const TradesTableBody: React.FC<Props> = ({ trades = [] }) => {

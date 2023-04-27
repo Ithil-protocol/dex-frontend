@@ -4,14 +4,12 @@ import {
 } from "hooks/events";
 
 import OrderHistoryTable from "./Table";
-import { usePoolStore } from "store";
 
 const OrderHistory = () => {
-  const pool = usePoolStore((state) => state.pool);
   const { data: fulfilledOrders, isLoading: isFulfillLoading } =
-    useUserOrderFulfilledEvents(pool);
+    useUserOrderFulfilledEvents();
   const { data: canceledOrders, isLoading: isCancelLoading } =
-    useUserOrderCancelledEvents(pool);
+    useUserOrderCancelledEvents();
 
   return (
     <OrderHistoryTable
