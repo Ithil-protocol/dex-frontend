@@ -14,6 +14,7 @@ import Boost from "components/CreateOrder/Inputs/Boost";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import LimitAmount from "components/CreateOrder/Inputs/Amount";
+import Info from "components/Common/Info";
 
 interface Props {}
 
@@ -111,14 +112,11 @@ const LimitSell: React.FC<Props> = () => {
           write={write}
           isApproved={isApproved}
         />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
+        <Info
+          hasLoading={true}
+          isRendered={gasLoading}
+          text="Estimating Gas..."
+        />
       </div>
     </form>
   );
