@@ -36,10 +36,12 @@ const MarketSell: React.FC<Props> = () => {
   });
   const availableLabel = `${available} ${pair.underlyingLabel}`;
 
-  const { totalToTake, ...finalValues } = useConvertSellMarketArgs({
-    amount: formValues.amount,
-    pool: buyPool,
-  });
+  const { totalToTake, isAmountOut, ...finalValues } = useConvertSellMarketArgs(
+    {
+      amount: formValues.amount,
+      pool: buyPool,
+    }
+  );
 
   const {
     write,
@@ -93,7 +95,10 @@ const MarketSell: React.FC<Props> = () => {
         />
 
         <Total total={total} label={pair.accountingLabel} />
-
+        <Info
+          isRendered={isAmountOut}
+          text="The amount is higher than the pool's assets!"
+        />
         <Info
           isRendered={!isApproved}
           color="warning"
