@@ -18,6 +18,7 @@ import {
 import TransactionToast from "components/Common/Toast/TransactionToast";
 import { Pool, Token } from "types";
 import { zeroBigNumber } from "utility";
+import { useDeadline } from "./useDeadline";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -31,17 +32,7 @@ export const useCreateOrder = ({
   boost,
   pool,
 }: CreateOrderProps) => {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(Date.now() * 1000 + 120);
-    }, 10000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  const time = useDeadline();
 
   const { address } = useAccount();
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
@@ -210,17 +201,7 @@ export const useFulfillOrder = ({
   maxPaid,
   pool,
 }: FulfillOrderProps) => {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(Date.now() * 1000 + 120);
-    }, 10000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  const time = useDeadline();
 
   const { address } = useAccount();
 
