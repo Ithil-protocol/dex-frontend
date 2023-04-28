@@ -102,9 +102,7 @@ const LimitSell: React.FC<Props> = () => {
         <Total total={total} label={pair.accountingLabel} />
 
         <Submit
-          submitContent={
-            !isApproved ? "Approve first" : `Sell ${pair.underlyingLabel}`
-          }
+          submitContent={`Sell ${pair.underlyingLabel}`}
           side={side}
           isLoading={createLoading || approveLoading}
           control={control}

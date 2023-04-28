@@ -126,9 +126,7 @@ const MarketBuy: React.FC<Props> = () => {
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
           control={control}
-          submitContent={
-            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
-          }
+          submitContent={`Buy ${pair?.underlyingLabel}`}
           write={write}
           isApproved={isApproved}
           isMarket={true}

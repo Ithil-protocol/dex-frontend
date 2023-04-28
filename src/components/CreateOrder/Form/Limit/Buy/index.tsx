@@ -109,9 +109,7 @@ const LimitBuy: React.FC<Props> = () => {
           side={side}
           isLoading={createLoading || approveLoading}
           control={control}
-          submitContent={
-            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
-          }
+          submitContent={`Buy ${pair?.underlyingLabel}`}
           write={write}
           isApproved={isApproved}
         />

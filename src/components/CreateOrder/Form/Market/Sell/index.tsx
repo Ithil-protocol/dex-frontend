@@ -94,9 +94,7 @@ const MarketSell: React.FC<Props> = () => {
         <Total total={total} label={pair.accountingLabel} />
 
         <Submit
-          submitContent={
-            !isApproved ? "Approve first" : `Sell ${pair.underlyingLabel}`
-          }
+          submitContent={`Sell ${pair.underlyingLabel}`}
           isApproved={isApproved}
           control={control}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
