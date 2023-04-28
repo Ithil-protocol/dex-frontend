@@ -11,7 +11,6 @@ import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
 import Info from "components/Common/Info";
 
 interface Props {}

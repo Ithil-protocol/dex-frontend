@@ -12,7 +12,7 @@ import { useCallback } from "react";
 import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
 import { zeroBigNumber } from "utility";
 import { utils } from "ethers";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import Info from "components/Common/Info";
