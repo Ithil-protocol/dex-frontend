@@ -200,6 +200,7 @@ export const useAllOrderFulfilledEvents = () => {
     state.sellPool,
     state.buyPool,
   ]);
+  const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
   const getEvents = async () => {
@@ -238,7 +239,7 @@ export const useAllOrderFulfilledEvents = () => {
     return results;
   };
 
-  return useQuery(["allOrderFulfilledEvents"], getEvents);
+  return useQuery(["allOrderFulfilledEvents", address], getEvents);
 };
 
 export const useUserOrderFulfilledEvents = () => {
@@ -339,5 +340,5 @@ export const useUserOrderFulfilledEvents = () => {
     return results;
   };
 
-  return useQuery(["userOrderFulfilledEvents"], getEvents);
+  return useQuery(["userOrderFulfilledEvents", address], getEvents);
 };
