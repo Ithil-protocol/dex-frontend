@@ -95,17 +95,17 @@ const LimitSell: React.FC<Props> = () => {
           groupButtonDisabled={groupButtonDisabled}
         />
 
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+        />
+
         <Price control={control} endLabel={pair.accountingLabel} />
 
         <Boost control={control} />
 
         <Total total={total} label={pair.accountingLabel} />
-
-        <Info
-          isRendered={true}
-          color="warning"
-          text="Current allowance: 1678USDC"
-        />
 
         <Submit
           submitContent={`Sell ${pair.underlyingLabel}`}

@@ -16,7 +16,7 @@ const Info: React.FC<Props> = ({
 }) => {
   const theme = useTheme();
   return (
-    <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
+    <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 14 }}>
       {isRendered && (
         <>
           {hasLoading && <CircularProgress size={12} color={color} />}
