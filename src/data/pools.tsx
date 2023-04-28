@@ -2,6 +2,7 @@ import DAI from "cryptocurrency-icons/svg/icon/dai.svg";
 import ETH from "cryptocurrency-icons/svg/icon/eth.svg";
 import USDC from "cryptocurrency-icons/svg/icon/usdc.svg";
 import WBTC from "cryptocurrency-icons/svg/icon/wbtc.svg";
+import Generic from "cryptocurrency-icons/svg/icon/generic.svg";
 import { Pair } from "types";
 import rawPools from "./pools.json";
 
@@ -27,18 +28,18 @@ const poolsIcons = [
   {
     sell: {
       underlying: {
-        icon: <DAI />,
+        icon: <ETH />,
       },
       accounting: {
-        icon: <WBTC />,
+        icon: <Generic />,
       },
     },
     buy: {
       underlying: {
-        icon: <WBTC />,
+        icon: <Generic />,
       },
       accounting: {
-        icon: <DAI />,
+        icon: <ETH />,
       },
     },
   },
