@@ -68,6 +68,7 @@ const LimitBuy: React.FC<Props> = () => {
     write: approve,
     isLoading: approveLoading,
     isApproved,
+    currentAllowance,
   } = useAllowance({
     amount: total,
     pool: buyPool,
@@ -99,17 +100,23 @@ const LimitBuy: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
         />
 
-        <Price control={control} endLabel={pair?.accountingLabel} />
+        <Price control={control} endLabel={pair.accountingLabel} />
 
         <Boost control={control} />
 
-        <Total total={total} label={pair?.accountingLabel} />
+        <Total total={total} label={pair.accountingLabel} />
+
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
+        />
 
         <Submit
           side={side}
           isLoading={createLoading || approveLoading}
           control={control}
-          submitContent={`Buy ${pair?.underlyingLabel}`}
+          submitContent={`Buy ${pair.underlyingLabel}`}
           write={write}
           isApproved={isApproved}
         />
