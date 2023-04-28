@@ -108,20 +108,13 @@ const MarketBuy: React.FC<Props> = () => {
         />
 
         <Total total={total} label={pair.accountingLabel} />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {isAmountOut && (
-            <>
-              <Typography color={"yellow"} fontSize={12}>
-                The amount is higher than the pool&apos;s assets!
-              </Typography>
-            </>
-          )}
-        </Box>
+
         <Info
           hasLoading={false}
           isRendered={isAmountOut}
           text="The amount is higher than the pool's assets!"
         />
+
         <Submit
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
