@@ -99,16 +99,17 @@ const LimitBuy: React.FC<Props> = () => {
           availableLabel={availableLabel}
           groupButtonHandler={groupButtonHandler}
         />
-        <Info
-          isRendered={!isApproved}
-          color="warning"
-          text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
-        />
         <Price control={control} endLabel={pair.accountingLabel} />
 
         <Boost control={control} />
 
         <Total total={total} label={pair.accountingLabel} />
+
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
+        />
 
         <Submit
           side={side}

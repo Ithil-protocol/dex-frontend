@@ -50,6 +50,7 @@ const MarketSell: React.FC<Props> = () => {
     write: approve,
     isLoading: approveLoading,
     isApproved,
+    currentAllowance,
   } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
@@ -92,6 +93,12 @@ const MarketSell: React.FC<Props> = () => {
         />
 
         <Total total={total} label={pair.accountingLabel} />
+
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+        />
 
         <Submit
           submitContent={`Sell ${pair.underlyingLabel}`}
