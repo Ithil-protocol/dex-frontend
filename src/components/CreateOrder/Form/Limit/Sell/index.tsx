@@ -101,6 +101,12 @@ const LimitSell: React.FC<Props> = () => {
 
         <Total total={total} label={pair.accountingLabel} />
 
+        <Info
+          isRendered={true}
+          color="warning"
+          text="Current allowance: 1678USDC"
+        />
+
         <Submit
           submitContent={`Sell ${pair.underlyingLabel}`}
           side={side}

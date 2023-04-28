@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
 import { ThemeColor } from "types";
 
 interface Props {
@@ -14,12 +14,13 @@ const Info: React.FC<Props> = ({
   hasLoading = false,
   color = "info",
 }) => {
+  const theme = useTheme();
   return (
     <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
       {isRendered && (
         <>
           {hasLoading && <CircularProgress size={12} color={color} />}
-          <Typography fontSize={12} color={color}>
+          <Typography fontSize={12} color={theme.palette[color].main}>
             {text}
           </Typography>
         </>
