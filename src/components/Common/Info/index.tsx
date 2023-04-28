@@ -15,17 +15,15 @@ const Info: React.FC<Props> = ({
   color = "info",
 }) => {
   const theme = useTheme();
+  if (!isRendered) return null;
+
   return (
-    <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 14 }}>
-      {isRendered && (
-        <>
-          {hasLoading && <CircularProgress size={12} color={color} />}
-          <Typography fontSize={12} color={theme.palette[color].main}>
-            {text}
-          </Typography>
-        </>
-      )}
-    </Box>
+    <>
+      {hasLoading && <CircularProgress size={12} color={color} />}
+      <Typography fontSize={12} color={theme.palette[color].main}>
+        {text}
+      </Typography>
+    </>
   );
 };
 

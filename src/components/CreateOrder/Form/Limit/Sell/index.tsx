@@ -14,6 +14,7 @@ import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import LimitAmount from "components/CreateOrder/Inputs/Amount";
 import Info from "components/Common/Info";
+import InfoContainer from "components/Common/Info/InfoContainer";
 
 interface Props {}
 
@@ -94,12 +95,13 @@ const LimitSell: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
           groupButtonDisabled={groupButtonDisabled}
         />
-
-        <Info
-          isRendered={!isApproved}
-          color="warning"
-          text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
-        />
+        <InfoContainer>
+          <Info
+            isRendered={!isApproved}
+            color="warning"
+            text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+          />
+        </InfoContainer>
 
         <Price control={control} endLabel={pair.accountingLabel} />
 
