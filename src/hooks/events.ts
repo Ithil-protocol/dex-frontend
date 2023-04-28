@@ -192,7 +192,7 @@ export const useUserOrderCancelledEvents = () => {
 
     return results;
   };
-  return useQuery(["userOrderCancelledEvents"], getEvents);
+  return useQuery(["userOrderCancelledEvents", address], getEvents);
 };
 
 export const useAllOrderFulfilledEvents = () => {
