@@ -5,9 +5,9 @@ import { Pair } from "types";
 import rawPools from "./pools.json";
 
 const icons = {
-  WETH: <ETH />,
-  FAUCET: <FAUCET />,
-  USDC: <USDC />,
+  WETH: ETH,
+  FAUCET,
+  USDC,
 };
 
 export const pairs: Pair[] = rawPools.map((item, index) => ({

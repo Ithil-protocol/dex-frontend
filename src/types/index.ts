@@ -58,7 +58,7 @@ export interface StringMap {
 }
 
 export interface Token {
-  icon: JSX.Element;
+  icon: any;
   address: `0x${string}`;
   decimals: number;
 }
