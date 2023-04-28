@@ -4,17 +4,24 @@ import { ThemeColor } from "types";
 interface Props {
   isRendered: boolean;
   text: string;
-  hasLoading: boolean;
+  hasLoading?: boolean;
   color?: ThemeColor;
 }
 
-const Info: React.FC<Props> = ({ isRendered, text, hasLoading, color }) => {
+const Info: React.FC<Props> = ({
+  isRendered,
+  text,
+  hasLoading = false,
+  color = "info",
+}) => {
   return (
     <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
       {isRendered && (
         <>
-          {hasLoading && <CircularProgress size={12} color={color ?? "info"} />}
-          <Typography fontSize={12}>{text}</Typography>
+          {hasLoading && <CircularProgress size={12} color={color} />}
+          <Typography fontSize={12} color={color}>
+            {text}
+          </Typography>
         </>
       )}
     </Box>

@@ -117,6 +117,11 @@ const MarketBuy: React.FC<Props> = () => {
             </>
           )}
         </Box>
+        <Info
+          hasLoading={false}
+          isRendered={isAmountOut}
+          text="The amount is higher than the pool's assets!"
+        />
         <Submit
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
