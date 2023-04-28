@@ -1,14 +1,6 @@
-import ETH from "cryptocurrency-icons/svg/icon/eth.svg";
-import USDC from "cryptocurrency-icons/svg/icon/usdc.svg";
-import FAUCET from "cryptocurrency-icons/svg/icon/generic.svg";
 import { Pair } from "types";
 import rawPools from "./pools.json";
-
-const icons = {
-  WETH: ETH,
-  FAUCET,
-  USDC,
-};
+import { icons } from "../../icons";
 
 export const pairs: Pair[] = rawPools.map((item, index) => ({
   ...item,
