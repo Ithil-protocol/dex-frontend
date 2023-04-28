@@ -1,9 +1,9 @@
 import { Skeleton } from "@mui/material";
 import styles from "./Order.module.scss";
-import { OrderBook } from "types";
+import { FormattedOrderBook } from "types";
 
 interface Props {
-  data?: OrderBook;
+  data?: FormattedOrderBook;
   isLoading: boolean;
 }
 

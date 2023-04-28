@@ -1,9 +1,9 @@
 import styles from "./Orders.module.scss";
 import Order from "./Order";
-import { useSellVolumes } from "hooks/contract";
+import { useFormatSellData } from "hooks/convertors";
 
 const Sell = () => {
-  const { data, isLoading } = useSellVolumes();
+  const { data, isLoading } = useFormatSellData();
 
   const orders: JSX.Element[] = [];
   for (let i = 0; i < 8; i++) {

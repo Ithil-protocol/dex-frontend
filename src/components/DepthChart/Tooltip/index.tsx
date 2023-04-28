@@ -32,13 +32,16 @@ const WrapperTooltip = ({
       })}
     >
       <p>
-        value :{" "}
+        price :{" "}
         <b>
           {payload[0].payload.x} {pair.accountingLabel}
         </b>
       </p>
       <p>
-        volume :<b>{payload[0].payload.y}</b>
+        volume :
+        <b>
+          {payload[0].payload.y} {pair.underlyingLabel}
+        </b>
       </p>
     </Box>
   );

@@ -29,9 +29,6 @@ const Panel = () => {
 
   const queryClient = useQueryClient();
 
-  const sellConvert = useSellPriceConverter();
-  const buyConvert = useBuyPriceConverter();
-
   useContractEvent({
     address: sellPool.address,
     abi: contractABI,
@@ -44,24 +41,26 @@ const Panel = () => {
         [sell_volume, sellPool.address],
         (prev) => {
           if (!prev) return;
-          const index = prev.findIndex((item) => item.originalPrice.eq(price));
+          const index = prev.findIndex((item) => item.value.eq(price));
           const newArray = [...prev];
           if (index > -1) {
             console.log("prevArray", newArray);
             newArray[index] = {
               ...newArray[index],
-              volume: newArray[index].volume + sellConvert(amount),
+              volume: newArray[index].volume.add(amount),
             };
             console.log("newArray", newArray);
           } else {
-            const convertedPrice = sellConvert(price);
             newArray.push({
-              originalPrice: price,
-              value: convertedPrice !== 0 ? 1 / convertedPrice : 0,
-              volume: sellConvert(amount),
+              value: price,
+              volume: amount,
               type: "sell" as const,
             });
-            newArray.sort((a, b) => a.value - b.value);
+            newArray.sort((a, b) => {
+              if (a.value.gt(b.value)) return 1;
+              else if (a.value.lt(b.value)) return -1;
+              else return 0;
+            });
           }
 
           return newArray;
@@ -82,23 +81,24 @@ const Panel = () => {
         [buy_volume, buyPool.address],
         (prev) => {
           if (!prev) return;
-          const index = prev.findIndex((item) => item.originalPrice.eq(price));
+          const index = prev.findIndex((item) => item.value.eq(price));
           const newArray = [...prev];
-          const convertedPrice = buyConvert(price);
           if (index > -1) {
             newArray[index] = {
               ...newArray[index],
-              volume:
-                newArray[index].volume + buyConvert(amount) / convertedPrice,
+              volume: newArray[index].volume.add(amount),
             };
           } else {
             newArray.push({
-              originalPrice: price,
-              value: convertedPrice,
-              volume: buyConvert(amount) / convertedPrice,
+              value: price,
+              volume: amount,
               type: "buy" as const,
             });
-            newArray.sort((a, b) => b.value - a.value);
+            newArray.sort((a, b) => {
+              if (b.value.gt(a.value)) return 1;
+              else if (b.value.lt(a.value)) return -1;
+              else return 0;
+            });
           }
 
           return newArray;
@@ -120,10 +120,10 @@ const Panel = () => {
         (prev) => {
           if (!prev) return;
           return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
+            if (item.value.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - sellConvert(amount),
+                volume: item.volume.sub(amount),
               };
             }
             return item;
@@ -146,10 +146,10 @@ const Panel = () => {
         (prev) => {
           if (!prev) return;
           return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
+            if (item.value.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - buyConvert(amount) / buyConvert(price),
+                volume: item.volume.sub(amount),
               };
             }
             return item;
@@ -172,10 +172,10 @@ const Panel = () => {
         (prev) => {
           if (!prev) return;
           return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
+            if (item.value.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - sellConvert(amount),
+                volume: item.volume.sub(amount),
               };
             }
             return item;
@@ -198,10 +198,10 @@ const Panel = () => {
         (prev) => {
           if (!prev) return;
           return prev.map((item) => {
-            if (item.originalPrice.eq(price)) {
+            if (item.value.eq(price)) {
               return {
                 ...item,
-                volume: item.volume - buyConvert(amount) / buyConvert(price),
+                volume: item.volume.sub(amount),
               };
             }
             return item;
@@ -211,43 +211,43 @@ const Panel = () => {
     },
   });
 
-  const { data: buyOrders } = usePoolVolumes({
-    address: buyPool.address,
-    args: [
-      utils.parseUnits("0", 0),
-      utils.parseUnits("0", 0),
-      utils.parseUnits("10", 0),
-    ],
-  });
-  buyOrders &&
-    buyOrders.forEach((e, i) => {
-      console.log(
-        i,
-        "buy price: ",
-        Number(utils.formatUnits(e.price, 6)),
-        "volume: ",
-        Number(utils.formatUnits(e.volume, 6)) /
-          Number(utils.formatUnits(e.price, 6))
-      );
-    });
-  const { data: sellOrders } = usePoolVolumes({
-    address: sellPool.address,
-    args: [
-      utils.parseUnits("0", 0),
-      utils.parseUnits("0", 0),
-      utils.parseUnits("10", 0),
-    ],
-  });
-  sellOrders &&
-    sellOrders.forEach((e, i) => {
-      console.log(
-        i,
-        "sell price: ",
-        1 / Number(utils.formatUnits(e.price, 18)),
-        "volume: ",
-        Number(utils.formatUnits(e.volume, 18))
-      );
-    });
+  // const { data: buyOrders } = usePoolVolumes({
+  //   address: buyPool.address,
+  //   args: [
+  //     utils.parseUnits("0", 0),
+  //     utils.parseUnits("0", 0),
+  //     utils.parseUnits("10", 0),
+  //   ],
+  // });
+  // buyOrders &&
+  //   buyOrders.forEach((e, i) => {
+  //     console.log(
+  //       i,
+  //       "buy price: ",
+  //       Number(utils.formatUnits(e.price, 6)),
+  //       "volume: ",
+  //       Number(utils.formatUnits(e.volume, 6)) /
+  //         Number(utils.formatUnits(e.price, 6))
+  //     );
+  //   });
+  // const { data: sellOrders } = usePoolVolumes({
+  //   address: sellPool.address,
+  //   args: [
+  //     utils.parseUnits("0", 0),
+  //     utils.parseUnits("0", 0),
+  //     utils.parseUnits("10", 0),
+  //   ],
+  // });
+  // sellOrders &&
+  //   sellOrders.forEach((e, i) => {
+  //     console.log(
+  //       i,
+  //       "sell price: ",
+  //       1 / Number(utils.formatUnits(e.price, 18)),
+  //       "volume: ",
+  //       Number(utils.formatUnits(e.volume, 18))
+  //     );
+  //   });
   // const { data: highestPrice } = usePoolGetNextPriceLevel({
   //   address: buyPool.address,
   //   args: [utils.parseUnits("0", 0)],

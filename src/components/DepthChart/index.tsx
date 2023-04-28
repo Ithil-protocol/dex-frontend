@@ -10,31 +10,40 @@ import {
 import { buyOrders } from "store/web3Store";
 import WrapperTooltip from "./Tooltip";
 import { briefing, computeOrders } from "utility";
-import { useBuyVolumes, useSellVolumes } from "hooks/contract";
-
-const computedOrders = computeOrders(buyOrders);
+import { useFormatBuyData, useFormatSellData } from "hooks/convertors";
 
 const DepthChart = () => {
-  const { data: buyData } = useBuyVolumes();
-  const { data: sellData } = useSellVolumes();
+  const { data: buyData } = useFormatBuyData();
+  const { data: sellData } = useFormatSellData();
 
   if (!buyData || !sellData) return null;
 
   const data = [
     ...sellData.map((item) => ({
       x: item.value,
-      yBuy: item.value * item.volume,
-      y: item.value * item.volume,
+      ySell: item.volume,
+      y: item.volume,
     })),
     ...buyData.map((item) => ({
       x: item.value,
-      ySell: item.value * item.volume,
-      y: item.value * item.volume,
+      yBuy: item.volume,
+      y: item.volume,
     })),
   ];
-  //   return(
-  //       <pre>{JSON.stringify(computedOrders,null,2)}</pre>
-  //   )
+
+  // const data = [
+  //   ...sellData.map((item) => ({
+  //     x: item.value,
+  //     ySell: item.value * item.volume,
+  //     y: item.value * item.volume,
+  //   })),
+  //   ...buyData.map((item) => ({
+  //     x: item.value,
+  //     yBuy: item.value * item.volume,
+  //     y: item.value * item.volume,
+  //   })),
+  // ];
+
   return (
     <ResponsiveContainer width="100%">
       <AreaChart data={data}>
@@ -90,7 +99,7 @@ const DepthChart = () => {
         />
 
         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
-        <Tooltip content={WrapperTooltip} />
+        <Tooltip content={WrapperTooltip} wrapperStyle={{ outline: "none" }} />
       </AreaChart>
     </ResponsiveContainer>
   );

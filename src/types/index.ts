@@ -95,7 +95,13 @@ export interface PoolState {
 }
 
 export interface OrderBook {
-  originalPrice: BigNumber;
+  // originalPrice: BigNumber;
+  value: BigNumber;
+  volume: BigNumber;
+  type: "buy" | "sell";
+}
+
+export interface FormattedOrderBook {
   value: number;
   volume: number;
   type: "buy" | "sell";

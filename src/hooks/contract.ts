@@ -170,15 +170,13 @@ export const useGetOrderStatus = (
 };
 
 export const useBuyVolumes = () => {
-  const [buyPool] = usePoolStore((state) => [state.buyPool]);
+  const [pair] = usePoolStore((state) => [state.pair]);
 
-  const convert = useBuyPriceConverter();
-
-  return useQuery<OrderBook[]>([buy_volume, buyPool.address], async () => {
+  return useQuery<OrderBook[]>([buy_volume, pair.buy.address], async () => {
     const data = await readContracts({
       contracts: [
         {
-          address: buyPool.address,
+          address: pair.buy.address,
           abi: contractABI,
           functionName: "volumes",
           args: [
@@ -189,30 +187,24 @@ export const useBuyVolumes = () => {
         },
       ],
     });
-    const convertedData = data[0].map((item) => {
-      const price = convert(item.price);
-
+    return data[0].map((item) => {
       return {
-        originalPrice: item.price,
-        value: price,
-        volume: convert(item.volume) / price,
+        value: item.price,
+        volume: item.volume,
         type: "buy" as const,
       };
     });
-
-    return convertedData.filter((item) => +item.value !== 0);
   });
 };
 
 export const useSellVolumes = () => {
-  const [sellPool] = usePoolStore((state) => [state.sellPool]);
-  const convert = useSellPriceConverter();
+  const [pair] = usePoolStore((state) => [state.pair]);
 
-  return useQuery<OrderBook[]>([sell_volume, sellPool.address], async () => {
+  return useQuery<OrderBook[]>([sell_volume, pair.sell.address], async () => {
     const data = await readContracts({
       contracts: [
         {
-          address: sellPool.address,
+          address: pair.sell.address,
           abi: contractABI,
           functionName: "volumes",
           args: [
@@ -223,19 +215,12 @@ export const useSellVolumes = () => {
         },
       ],
     });
-    const convertedData = data[0].map((item) => {
-      const value = convert(item.price);
-
+    return data[0].map((item) => {
       return {
-        originalPrice: item.price,
-        value: value !== 0 ? 1 / value : 0,
-        volume: convert(item.volume),
+        value: item.price,
+        volume: item.volume,
         type: "sell" as const,
       };
     });
-
-    return convertedData.filter(
-      (item) => +item.value !== 0 && +item.volume !== 0
-    );
   });
 };
