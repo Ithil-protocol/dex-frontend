@@ -117,11 +117,13 @@ const LimitSell: React.FC<Props> = () => {
           write={write}
           isApproved={isApproved}
         />
-        <Info
-          hasLoading={true}
-          isRendered={gasLoading}
-          text="Estimating Gas..."
-        />
+        <InfoContainer>
+          <Info
+            hasLoading={true}
+            isRendered={gasLoading}
+            text="Estimating Gas..."
+          />
+        </InfoContainer>
       </div>
     </form>
   );

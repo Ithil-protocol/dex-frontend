@@ -12,6 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
 import Info from "components/Common/Info";
+import InfoContainer from "components/Common/Info/InfoContainer";
 
 interface Props {}
 
@@ -102,11 +103,14 @@ const MarketSell: React.FC<Props> = () => {
           side={side}
           write={write}
         />
-        <Info
-          hasLoading={true}
-          isRendered={gasLoading}
-          text="Estimating Gas..."
-        />
+
+        <InfoContainer>
+          <Info
+            hasLoading={true}
+            isRendered={gasLoading}
+            text="Estimating Gas..."
+          />
+        </InfoContainer>
       </div>
     </form>
   );

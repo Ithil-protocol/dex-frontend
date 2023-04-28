@@ -16,6 +16,7 @@ import { Box, Typography } from "@mui/material";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import Info from "components/Common/Info";
+import InfoContainer from "components/Common/Info/InfoContainer";
 
 interface Props {}
 
@@ -108,13 +109,13 @@ const MarketBuy: React.FC<Props> = () => {
         />
 
         <Total total={total} label={pair.accountingLabel} />
-
-        <Info
-          hasLoading={false}
-          isRendered={isAmountOut}
-          text="The amount is higher than the pool's assets!"
-        />
-
+        <InfoContainer>
+          <Info
+            hasLoading={false}
+            isRendered={isAmountOut}
+            text="The amount is higher than the pool's assets!"
+          />
+        </InfoContainer>
         <Submit
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
@@ -124,11 +125,13 @@ const MarketBuy: React.FC<Props> = () => {
           isApproved={isApproved}
           isMarket={true}
         />
-        <Info
-          hasLoading={true}
-          isRendered={gasLoading}
-          text="Estimating Gas..."
-        />
+        <InfoContainer>
+          <Info
+            hasLoading={true}
+            isRendered={gasLoading}
+            text="Estimating Gas..."
+          />
+        </InfoContainer>
       </div>
     </form>
   );
