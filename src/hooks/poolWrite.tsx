@@ -99,15 +99,17 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     enabled: !!address,
     watch: true,
   });
-  allowanceValue &&
-    console.log(
-      "allowance:",
-      token.address,
-      Number(utils.formatUnits(allowanceValue, token.decimals))
-    );
-  const needAllowance =
-    Number(utils.formatUnits(allowanceValue ?? zeroBigNumber, token.decimals)) <
-    Number(amount);
+  // allowanceValue &&
+  //   console.log(
+  //     "allowance:",
+  //     token.address,
+  //     Number(utils.formatUnits(allowanceValue, token.decimals))
+  //   );
+  const currentAllowance = allowanceValue
+    ? utils.formatUnits(allowanceValue, token.decimals)
+    : "0";
+
+  const needAllowance = Number(currentAllowance) < Number(amount);
 
   const { config } = usePrepareTokenApprove({
     address: token.address,
@@ -152,7 +154,12 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     }
   }, [needAllowance]);
 
-  return { write, isApproved, isLoading: writeLoading || waitLoading };
+  return {
+    write,
+    isApproved,
+    isLoading: writeLoading || waitLoading,
+    currentAllowance,
+  };
 };
 
 interface CancelOrderProps {

@@ -51,6 +51,7 @@ const LimitSell: React.FC<Props> = () => {
     write: approve,
     isApproved,
     isLoading: approveLoading,
+    currentAllowance,
   } = useAllowance({
     amount: formValues.amount,
     pool: sellPool,
