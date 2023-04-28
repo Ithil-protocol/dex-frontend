@@ -103,11 +103,7 @@ const MarketSell: React.FC<Props> = () => {
           write={write}
         />
 
-        <Info
-          hasLoading={true}
-          isRendered={gasLoading}
-          text="Estimating Gas..."
-        />
+        <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
       </div>
     </form>
   );

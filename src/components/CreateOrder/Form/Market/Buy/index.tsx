@@ -126,11 +126,7 @@ const MarketBuy: React.FC<Props> = () => {
           isApproved={isApproved}
           isMarket={true}
         />
-        <Info
-          hasLoading={true}
-          isRendered={gasLoading}
-          text="Estimating Gas..."
-        />
+        <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
       </div>
     </form>
   );
