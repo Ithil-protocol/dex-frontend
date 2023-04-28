@@ -1,17 +1,11 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { ThemeColor } from "types";
 
 interface Props {
   isRendered: boolean;
   text: string;
   hasLoading: boolean;
-  color?:
-    | "error"
-    | "success"
-    | "inherit"
-    | "info"
-    | "primary"
-    | "secondary"
-    | "warning";
+  color?: ThemeColor;
 }
 
 const Info: React.FC<Props> = ({ isRendered, text, hasLoading, color }) => {

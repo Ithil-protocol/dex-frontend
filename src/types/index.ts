@@ -155,3 +155,12 @@ export interface FactoryInputs {
 export interface MarketInputs {
   amount: string;
 }
+
+export type ThemeColor =
+  | "error"
+  | "success"
+  | "inherit"
+  | "info"
+  | "primary"
+  | "secondary"
+  | "warning";
