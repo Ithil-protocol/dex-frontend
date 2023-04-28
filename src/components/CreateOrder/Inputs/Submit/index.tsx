@@ -66,7 +66,7 @@ const Submit: React.FC<Props> = ({
       })}
       type="submit"
     >
-      {submitContent}
+      {!isApproved ? "Approve first" : submitContent}
     </LoadingButton>
   );
 };

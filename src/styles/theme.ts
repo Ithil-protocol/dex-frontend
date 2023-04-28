@@ -1,59 +1,59 @@
-import { createTheme } from "@mui/material/styles";
+import { PaletteOptions, createTheme } from "@mui/material/styles";
 import { cormorant, raleway } from "assets/font";
 
-const palette = {
-  background: {
-    default: "#2c374d",
-    paper: "#18294b",
+let theme = createTheme({
+  palette: {
+    background: {
+      default: "#2c374d",
+      paper: "#18294b",
+    },
+    error: {
+      dark: "#B11616",
+      main: "#EB0000",
+    },
+    info: {
+      main: "#ffffff",
+    },
+    primary: {
+      light: "#077CE0",
+      main: "#0058A5",
+    },
+    secondary: {
+      dark: "#4E5F71",
+      light: "#A4B1BE",
+      main: "#E5EBED",
+    },
+    success: {
+      dark: "#0C6450",
+      main: "#15AC89",
+    },
+    text: {
+      disabled: "#e3e3e378",
+      primary: "#ffffff",
+      secondary: "#4E5F71",
+    },
+    warning: {
+      dark: "#B85600",
+      main: "#F07000",
+    },
   },
-  error: {
-    dark: "#B11616",
-    main: "#EB0000",
-  },
-  info: {
-    main: "#ffffff",
-  },
-  primary: {
-    light: "#077CE0",
-    main: "#0058A5",
-  },
-  secondary: {
-    dark: "#4E5F71",
-    light: "#A4B1BE",
-    main: "#E5EBED",
-  },
-  success: {
-    dark: "#0C6450",
-    main: "#15AC89",
-  },
-  text: {
-    disabled: "#e3e3e378",
-    primary: "#ffffff",
-    secondary: "#4E5F71",
-  },
-  warning: {
-    dark: "#B85600",
-    main: "#F07000",
-  },
-};
+});
 
-const theme = createTheme({
-  palette,
-
+theme = createTheme(theme, {
   components: {
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
           ":disabled": {
-            backgroundColor: palette.secondary.dark,
-            color: palette.text.disabled,
+            backgroundColor: theme.palette.secondary.dark,
+            color: theme.palette.text.disabled,
           },
           ":hover": {
-            backgroundColor: palette.success.main,
-            color: palette.text.primary,
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.text.primary,
           },
-          backgroundColor: palette.success.main,
-          color: palette.text.primary,
+          backgroundColor: theme.palette.success.main,
+          color: theme.palette.text.primary,
           fontWeight: 500,
           padding: "10px",
         },
@@ -62,14 +62,14 @@ const theme = createTheme({
     MuiInputAdornment: {
       styleOverrides: {
         root: {
-          color: palette.text.primary,
+          color: theme.palette.text.primary,
         },
       },
     },
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: palette.text.primary,
+          color: theme.palette.text.primary,
           fontSize: 14,
           padding: "5px",
         },
@@ -78,7 +78,7 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          backgroundColor: palette.background.default,
+          backgroundColor: theme.palette.background.default,
           padding: "5px 15px 5px 5px",
         },
       },
@@ -113,7 +113,7 @@ const theme = createTheme({
             border: 0,
           },
           "&:not(:last-child)": {
-            borderBottom: `2px solid ${palette.background.default}`,
+            borderBottom: `2px solid ${theme.palette.background.default}`,
           },
         },
       },

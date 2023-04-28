@@ -11,9 +11,9 @@ import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertBuyLimitArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
+import Info from "components/Common/Info";
 
 interface Props {}
 
@@ -68,6 +68,7 @@ const LimitBuy: React.FC<Props> = () => {
     write: approve,
     isLoading: approveLoading,
     isApproved,
+    currentAllowance,
   } = useAllowance({
     amount: total,
     pool: buyPool,
@@ -98,31 +99,27 @@ const LimitBuy: React.FC<Props> = () => {
           availableLabel={availableLabel}
           groupButtonHandler={groupButtonHandler}
         />
-
-        <Price control={control} endLabel={pair?.accountingLabel} />
+        <Price control={control} endLabel={pair.accountingLabel} />
 
         <Boost control={control} />
 
-        <Total total={total} label={pair?.accountingLabel} />
+        <Total total={total} label={pair.accountingLabel} />
+
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
+        />
 
         <Submit
           side={side}
           isLoading={createLoading || approveLoading}
           control={control}
-          submitContent={
-            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
-          }
+          submitContent={`Buy ${pair.underlyingLabel}`}
           write={write}
           isApproved={isApproved}
         />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
+        <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
       </div>
     </form>
   );

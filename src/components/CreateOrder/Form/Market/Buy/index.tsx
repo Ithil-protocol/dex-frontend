@@ -12,9 +12,9 @@ import { useCallback } from "react";
 import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
 import { zeroBigNumber } from "utility";
 import { utils } from "ethers";
-import { Box, CircularProgress, Typography } from "@mui/material";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
+import Info from "components/Common/Info";
 
 interface Props {}
 
@@ -75,6 +75,7 @@ const MarketBuy: React.FC<Props> = () => {
     write: approve,
     isLoading: approveLoading,
     isApproved,
+    currentAllowance,
   } = useAllowance({
     amount: total,
     pool: sellPool,
@@ -107,34 +108,25 @@ const MarketBuy: React.FC<Props> = () => {
         />
 
         <Total total={total} label={pair.accountingLabel} />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {isAmountOut && (
-            <>
-              <Typography color={"yellow"} fontSize={12}>
-                The amount is higher than the pool&apos;s assets!
-              </Typography>
-            </>
-          )}
-        </Box>
+        <Info
+          isRendered={isAmountOut}
+          text="The amount is higher than the pool's assets!"
+        />
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
+        />
         <Submit
           side={side}
           isLoading={isSubmitting || approveLoading || fulfillLoading}
           control={control}
-          submitContent={
-            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
-          }
+          submitContent={`Buy ${pair?.underlyingLabel}`}
           write={write}
           isApproved={isApproved}
           isMarket={true}
         />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
+        <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
       </div>
     </form>
   );

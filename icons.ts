@@ -4,7 +4,7 @@ import Generic from "cryptocurrency-icons/svg/icon/generic.svg";
 
 // the "keies" in icons object must match underlyingLabels or accountingLabels
 // if underlyingLabel is TokenX we should add it in the object like this:
-// TokenX: anySVG-icon-file
+// TokenX: any-SVG-icon-file
 
 export const icons = {
   WETH: ETH,

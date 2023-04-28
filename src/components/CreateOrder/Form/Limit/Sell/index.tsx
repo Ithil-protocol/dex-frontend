@@ -7,13 +7,13 @@ import { useAllowance, useCreateOrder } from "hooks/poolWrite";
 import { LimitInputs } from "types";
 import { limitSchema } from "data/forms";
 import { convertSellLimitArgs } from "components/CreateOrder/utils";
-import { Box, CircularProgress, Typography } from "@mui/material";
 import { useCallback } from "react";
 import Price from "components/CreateOrder/Inputs/Price";
 import Boost from "components/CreateOrder/Inputs/Boost";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import LimitAmount from "components/CreateOrder/Inputs/Amount";
+import Info from "components/Common/Info";
 
 interface Props {}
 
@@ -51,6 +51,7 @@ const LimitSell: React.FC<Props> = () => {
     write: approve,
     isApproved,
     isLoading: approveLoading,
+    currentAllowance,
   } = useAllowance({
     amount: formValues.amount,
     pool: sellPool,
@@ -93,6 +94,11 @@ const LimitSell: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
           groupButtonDisabled={groupButtonDisabled}
         />
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+        />
 
         <Price control={control} endLabel={pair.accountingLabel} />
 
@@ -101,23 +107,14 @@ const LimitSell: React.FC<Props> = () => {
         <Total total={total} label={pair.accountingLabel} />
 
         <Submit
-          submitContent={
-            !isApproved ? "Approve first" : `Sell ${pair.underlyingLabel}`
-          }
+          submitContent={`Sell ${pair.underlyingLabel}`}
           side={side}
           isLoading={createLoading || approveLoading}
           control={control}
           write={write}
           isApproved={isApproved}
         />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
+        <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
       </div>
     </form>
   );
