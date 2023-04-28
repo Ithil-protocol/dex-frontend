@@ -6,7 +6,7 @@ interface Props {
   hasLoading: boolean;
 }
 
-const LoadingInfo: React.FC<Props> = ({ isRendered, text, hasLoading }) => {
+const Info: React.FC<Props> = ({ isRendered, text, hasLoading }) => {
   return (
     <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
       {isRendered && (
@@ -19,4 +19,4 @@ const LoadingInfo: React.FC<Props> = ({ isRendered, text, hasLoading }) => {
   );
 };
 
-export default LoadingInfo;
+export default Info;
