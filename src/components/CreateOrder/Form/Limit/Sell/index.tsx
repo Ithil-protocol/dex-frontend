@@ -14,7 +14,6 @@ import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import LimitAmount from "components/CreateOrder/Inputs/Amount";
 import Info from "components/Common/Info";
-import InfoContainer from "components/Common/Info/InfoContainer";
 
 interface Props {}
 
@@ -95,13 +94,11 @@ const LimitSell: React.FC<Props> = () => {
           groupButtonHandler={groupButtonHandler}
           groupButtonDisabled={groupButtonDisabled}
         />
-        <InfoContainer>
-          <Info
-            isRendered={!isApproved}
-            color="warning"
-            text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
-          />
-        </InfoContainer>
+        <Info
+          isRendered={!isApproved}
+          color="warning"
+          text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+        />
 
         <Price control={control} endLabel={pair.accountingLabel} />
 
@@ -117,13 +114,11 @@ const LimitSell: React.FC<Props> = () => {
           write={write}
           isApproved={isApproved}
         />
-        <InfoContainer>
-          <Info
-            hasLoading={true}
-            isRendered={gasLoading}
-            text="Estimating Gas..."
-          />
-        </InfoContainer>
+        <Info
+          hasLoading={true}
+          isRendered={gasLoading}
+          text="Estimating Gas..."
+        />
       </div>
     </form>
   );
