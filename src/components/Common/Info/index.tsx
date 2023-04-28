@@ -18,12 +18,18 @@ const Info: React.FC<Props> = ({
   if (!isRendered) return null;
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        gap: 1,
+        alignItems: "center",
+      }}
+    >
       {hasLoading && <CircularProgress size={12} color={color} />}
       <Typography fontSize={12} color={theme.palette[color].main}>
         {text}
       </Typography>
-    </>
+    </Box>
   );
 };
 
