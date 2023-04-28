@@ -11,7 +11,7 @@ interface Props {
   isLoading: boolean;
 }
 
-const Trades: React.FC<Props> = ({ trades, isLoading }) => {
+const MarketTradesTable: React.FC<Props> = ({ trades, isLoading }) => {
   const pair = usePoolStore((state) => state.pair);
 
   const heads = [
@@ -46,4 +46,4 @@ const Trades: React.FC<Props> = ({ trades, isLoading }) => {
   );
 };
 
-export default Trades;
+export default MarketTradesTable;
