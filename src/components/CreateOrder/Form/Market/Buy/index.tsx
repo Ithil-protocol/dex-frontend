@@ -15,6 +15,7 @@ import { utils } from "ethers";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
+import Info from "components/Common/Info";
 
 interface Props {}
 
@@ -127,14 +128,11 @@ const MarketBuy: React.FC<Props> = () => {
           isApproved={isApproved}
           isMarket={true}
         />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
+        <Info
+          hasLoading={true}
+          isRendered={gasLoading}
+          text="Estimating Gas..."
+        />
       </div>
     </form>
   );

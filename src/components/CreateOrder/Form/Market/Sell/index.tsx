@@ -12,6 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import Info from "components/Common/Info";
 
 interface Props {}
 
@@ -104,14 +105,11 @@ const MarketSell: React.FC<Props> = () => {
           side={side}
           write={write}
         />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
+        <Info
+          hasLoading={true}
+          isRendered={gasLoading}
+          text="Estimating Gas..."
+        />
       </div>
     </form>
   );
