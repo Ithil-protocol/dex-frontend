@@ -2,9 +2,10 @@ import { Box } from "@mui/material";
 
 interface Props {
   children: React.ReactNode;
+  height?: number;
 }
 
-const InfoContainer: React.FC<Props> = ({ children }) => {
+const InfoContainer: React.FC<Props> = ({ children, height = 16 }) => {
   return (
     <Box
       sx={{
@@ -12,7 +13,7 @@ const InfoContainer: React.FC<Props> = ({ children }) => {
         flexDirection: "column",
         gap: 0,
         justifyContent: "center",
-        height: 16,
+        height,
       }}
     >
       {children}
