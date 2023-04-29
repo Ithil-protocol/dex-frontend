@@ -14,13 +14,15 @@ const TradesTableBody: React.FC<Props> = ({
   isLoading,
   headsLength,
 }) => {
+  const MAX_ROWS = 10;
+
   return (
     <TableBody>
       {isLoading ? (
-        <TableLoader cellsNumber={headsLength} rowsNum={10} />
+        <TableLoader cellsNumber={headsLength} rowsNum={MAX_ROWS} />
       ) : (
         trades
-          .slice(-15)
+          .slice(-MAX_ROWS)
           .reverse()
           .map((item, i) => <EachTrade key={i} data={item} />)
       )}
