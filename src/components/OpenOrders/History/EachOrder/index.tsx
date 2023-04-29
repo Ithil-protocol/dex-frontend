@@ -19,7 +19,7 @@ const Order: React.FC<Props> = ({ data }) => {
 
   return (
     <TableRow>
-      <TableCell>{fullDate}</TableCell>
+      <TableCell sx={{ padding: "8px" }}>{fullDate}</TableCell>
 
       <TableCell style={{ fontWeight: 600 }}>
         {`${pair.underlyingLabel} / ${pair.accountingLabel}`}

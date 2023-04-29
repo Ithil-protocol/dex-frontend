@@ -32,7 +32,8 @@
     "lib": true,
     "pairs.json": true,
     ".json": true,
-    "wagmi.config.ts": true
+    "wagmi.config.ts": true,
+    "icons.ts": true
   },
   "prettier.configPath": ".prettierrc.json",
   "prettier.endOfLine": "crlf",

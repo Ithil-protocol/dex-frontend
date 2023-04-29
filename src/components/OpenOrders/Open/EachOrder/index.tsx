@@ -36,7 +36,7 @@ const Order: React.FC<Props> = ({ data }) => {
     <TableRow>
       <TableCell>{fullDate}</TableCell>
 
-      <TableCell style={{ fontWeight: 600 }}>
+      <TableCell sx={{ padding: "8px", fontWeight: 600 }}>
         {`${pair.underlyingLabel} / ${pair.accountingLabel}`}
       </TableCell>
 
