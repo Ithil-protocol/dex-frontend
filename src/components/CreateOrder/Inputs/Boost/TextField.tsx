@@ -39,7 +39,6 @@ const BoostTextField: React.FC<Props> = ({
       }}
       autoComplete="off"
       id="boost"
-      placeholder="0"
       size="small"
       variant="outlined"
       InputProps={{

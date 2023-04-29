@@ -28,7 +28,6 @@ const LimitAmountTextField: React.FC<Props> = (props) => {
         }
       }}
       sx={{ "& fieldset": { border: "none" } }}
-      placeholder="0"
       id="amount"
       inputRef={ref}
       size="small"
