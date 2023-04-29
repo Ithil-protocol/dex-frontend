@@ -11,8 +11,6 @@ const Order: React.FC<Props> = ({ data, isLoading }) => {
   const base = 20;
   const width = (Math.min(data?.volume || Infinity, base) / base) * 100 + "%";
 
-  if (!isLoading && (data?.value === 0 || data?.volume === 0)) return null;
-
   return isLoading ? (
     <Skeleton height={40} />
   ) : (
