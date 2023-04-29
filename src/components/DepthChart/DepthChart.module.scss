@@ -2,7 +2,7 @@
   display: grid;
   height: 100%;
   width: 100%;
-  grid-template-columns: 1fr 70px;
+  grid-template-columns: 1fr 40px;
   grid-template-rows: 1fr 30px;
 
   grid-template-areas:
@@ -17,10 +17,13 @@
 .underlying {
   grid-area: underlying;
   align-self: center;
-  justify-self: center;
+  justify-self: start;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
 
 .accounting {
   grid-area: accounting;
+  align-self: start;
   justify-self: center;
 }
