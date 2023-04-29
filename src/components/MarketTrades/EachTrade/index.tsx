@@ -21,7 +21,7 @@ const EachTrade = ({ data }: Props) => {
           fontWeight: 900,
         }}
       >
-        <LightTooltip placeholder="top" title={data.amount}>
+        <LightTooltip placement="top" title={data.amount}>
           <span>{truncateString(data.amount, 9)}</span>
         </LightTooltip>
       </TableCell>
@@ -35,7 +35,7 @@ const EachTrade = ({ data }: Props) => {
           fontSize: 14,
         })}
       >
-        <LightTooltip placeholder="top" title={data.price}>
+        <LightTooltip placement="top" title={data.price}>
           <span>{truncateString(data.price, 9)}</span>
         </LightTooltip>
       </TableCell>
