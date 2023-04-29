@@ -53,7 +53,7 @@ export const useUserOrderCreatedEvents = () => {
         } = item.args!;
 
         const amount = sellAmountConverter(rawAmount, sellPool);
-        if (amount === 0) continue;
+        if (amount === "0") continue;
 
         results.push({
           address: item.address,
@@ -215,10 +215,11 @@ export const useAllOrderFulfilledEvents = () => {
         results.push({
           amount: buyAmountConverter(rawAmount, rawPrice, buyPool).toString(),
           getBlock: item.getBlock,
+          pool: buyPool,
           price: buyPriceConverter(rawPrice, buyPool).toString(),
           rawAmount,
           rawPrice,
-          pool: buyPool,
+          side: "buy",
         });
       }
 
@@ -228,10 +229,11 @@ export const useAllOrderFulfilledEvents = () => {
         results.push({
           amount: sellAmountConverter(rawAmount, sellPool).toString(),
           getBlock: item.getBlock,
+          pool: sellPool,
           price: sellPriceConverter(rawPrice, sellPool).toString(),
           rawAmount,
           rawPrice,
-          pool: sellPool,
+          side: "sell",
         });
       }
     }

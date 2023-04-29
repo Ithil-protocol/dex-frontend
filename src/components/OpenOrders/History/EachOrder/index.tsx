@@ -1,32 +1,17 @@
-import { Button, TableCell, TableRow } from "@mui/material";
-import { useCancelOrder } from "hooks/poolWrite";
+import { Link, TableCell, TableRow } from "@mui/material";
 import { formatDateToFullDate, truncateString } from "utility";
 import { usePoolStore } from "store";
-import { useGetBlock, useGetOrderStatus } from "hooks/contract";
-import { OpenOrderEvent } from "types";
+import { useGetBlock } from "hooks/contract";
+import { HistoryEvent } from "types";
 import LightTooltip from "components/Common/LightTooltip";
-import Link from "next/link";
 
 interface Props {
-  data: OpenOrderEvent;
+  data: HistoryEvent;
 }
 
 const Order: React.FC<Props> = ({ data }) => {
   const pair = usePoolStore((state) => state.pair);
   const block = useGetBlock(data);
-  const status = useGetOrderStatus(
-    data.address as `0x${string}`,
-    data.rawPrice,
-    data.index
-  );
-
-  const { cancel } = useCancelOrder({
-    index: data.index,
-    price: data.rawPrice,
-    pool: data.pool,
-  });
-
-  if (status === "fulfilled") return null;
 
   const fullDate = formatDateToFullDate(block.timestamp * 1000);
 
@@ -34,7 +19,7 @@ const Order: React.FC<Props> = ({ data }) => {
 
   return (
     <TableRow>
-      <TableCell>{fullDate}</TableCell>
+      <TableCell sx={{ padding: "8px" }}>{fullDate}</TableCell>
 
       <TableCell style={{ fontWeight: 600 }}>
         {`${pair.underlyingLabel} / ${pair.accountingLabel}`}
@@ -57,7 +42,7 @@ const Order: React.FC<Props> = ({ data }) => {
           target="_blank"
           href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
         >
-          {status}
+          {data.status}
         </Link>
       </TableCell>
 
@@ -83,25 +68,6 @@ const Order: React.FC<Props> = ({ data }) => {
         <LightTooltip placement="top" title={data.staked}>
           <span>{truncateString(data.staked, 9)}</span>
         </LightTooltip>
-      </TableCell>
-
-      <TableCell>
-        <Button
-          variant="contained"
-          disableElevation
-          size="small"
-          color="error"
-          sx={(theme) => ({
-            padding: "0px",
-            ":disabled": {
-              color: theme.palette.text.disabled,
-            },
-          })}
-          onClick={() => cancel?.()}
-          disabled={!cancel}
-        >
-          cancel
-        </Button>
       </TableCell>
     </TableRow>
   );

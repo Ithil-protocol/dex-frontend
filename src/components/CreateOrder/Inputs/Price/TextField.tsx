@@ -26,7 +26,6 @@ const PriceTextField: React.FC<Props> = (props) => {
           onChange(value);
         }
       }}
-      placeholder="0"
       inputRef={ref}
       size="small"
       variant="outlined"

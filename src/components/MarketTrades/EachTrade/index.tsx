@@ -21,7 +21,7 @@ const EachTrade = ({ data }: Props) => {
           fontWeight: 900,
         }}
       >
-        <LightTooltip placeholder="top" title={data.amount}>
+        <LightTooltip placement="top" title={data.amount}>
           <span>{truncateString(data.amount, 9)}</span>
         </LightTooltip>
       </TableCell>
@@ -29,14 +29,13 @@ const EachTrade = ({ data }: Props) => {
         sx={(theme) => ({
           fontWeight: 900,
           color:
-            // data.type === "taker"
-            // ?
-            theme.palette.success.main,
-          // : theme.palette.error.main,
+            data.side === "buy"
+              ? theme.palette.success.main
+              : theme.palette.error.main,
           fontSize: 14,
         })}
       >
-        <LightTooltip placeholder="top" title={data.price}>
+        <LightTooltip placement="top" title={data.price}>
           <span>{truncateString(data.price, 9)}</span>
         </LightTooltip>
       </TableCell>
