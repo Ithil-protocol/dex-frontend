@@ -53,7 +53,7 @@ export const useFormatSellData = () => {
     const formattedValue = priceConverter(item.value);
     const formattedAmount = amountConverter(item.volume);
 
-    if (formattedValue !== 0 && formattedAmount !== 0) {
+    if (!item.volume.isZero()) {
       formattedData.push({
         ...item,
         value: formattedValue,
@@ -80,7 +80,7 @@ export const useFormatBuyData = () => {
     const formattedValue = priceConverter(item.value);
     const formattedAmount = amountConverter(item.value, item.volume);
 
-    if (formattedValue !== 0 && formattedAmount !== 0) {
+    if (!item.volume.isZero()) {
       formattedData.push({
         ...item,
         value: formattedValue,
