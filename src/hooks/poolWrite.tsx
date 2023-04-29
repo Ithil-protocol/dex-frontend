@@ -60,6 +60,11 @@ export const useCreateOrder = ({
     onError: (error) => {
       toast.error(error.message);
     },
+    onSuccess: (...args) => {
+      console.log("data:::", args[0]);
+      console.log("args1:::", args[1]);
+      console.log("args:::", ...args);
+    },
   });
 
   const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({

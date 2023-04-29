@@ -10,6 +10,12 @@ import {
 } from "utility/convertors";
 import { buyPriceConverter } from "utility/convertors";
 import { usePoolStore } from "store";
+import {
+  useBuyAmountConverter,
+  useBuyPriceConverter,
+  useSellAmountConverter,
+  useSellPriceConverter,
+} from "./convertors";
 
 export const useUserOrderCreatedEvents = () => {
   const [sellPool, buyPool] = usePoolStore((state) => [
@@ -196,52 +202,57 @@ export const useUserOrderCancelledEvents = () => {
 };
 
 export const useAllOrderFulfilledEvents = () => {
-  const [sellPool, buyPool] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-  ]);
-  const { address } = useAccount();
+  const buyAmountConverter = useBuyAmountConverter();
+  const buyPriceConverter = useBuyPriceConverter();
+  const sellAmountConverter = useSellAmountConverter();
+  const sellPriceConverter = useSellPriceConverter();
+
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
   const getEvents = async () => {
     const results: MarketEvent[] = [];
+
     if (buyContract && sellContract) {
       const sellEvents = await sellContract.queryFilter("OrderFulfilled");
       const buyEvents = await buyContract.queryFilter("OrderFulfilled");
 
-      for (const item of buyEvents) {
+      const buyBlocks = await Promise.all(
+        buyEvents.map((item) => item.getBlock())
+      );
+
+      buyEvents.forEach((item, i) => {
         const { amount: rawAmount, price: rawPrice } = item.args!;
+        const block = buyBlocks[i];
 
         results.push({
-          amount: buyAmountConverter(rawAmount, rawPrice, buyPool).toString(),
-          getBlock: item.getBlock,
-          pool: buyPool,
-          price: buyPriceConverter(rawPrice, buyPool).toString(),
-          rawAmount,
-          rawPrice,
+          amount: buyAmountConverter(rawAmount, rawPrice),
+          price: buyPriceConverter(rawPrice),
           side: "buy",
+          timestamp: block.timestamp * 1000,
         });
-      }
+      });
 
-      for (const item of sellEvents) {
+      const sellBlocks = await Promise.all(
+        sellEvents.map((item) => item.getBlock())
+      );
+
+      sellEvents.forEach((item, i) => {
+        const block = sellBlocks[i];
         const { amount: rawAmount, price: rawPrice } = item.args!;
 
         results.push({
-          amount: sellAmountConverter(rawAmount, sellPool).toString(),
-          getBlock: item.getBlock,
-          pool: sellPool,
-          price: sellPriceConverter(rawPrice, sellPool).toString(),
-          rawAmount,
-          rawPrice,
+          amount: sellAmountConverter(rawAmount),
+          price: sellPriceConverter(rawPrice),
           side: "sell",
+          timestamp: block.timestamp * 1000,
         });
-      }
+      });
     }
 
-    return results;
+    return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
-  return useQuery(["allOrderFulfilledEvents", address], getEvents);
+  return useQuery(["allOrderFulfilledEvents"], getEvents);
 };
 
 export const useUserOrderFulfilledEvents = () => {

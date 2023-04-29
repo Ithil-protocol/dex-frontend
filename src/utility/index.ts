@@ -68,7 +68,7 @@ export function shuffleArray<T>(array: T[]) {
 }
 
 export const formatDateToTime = (date: number) => {
-  return format(new Date(date), "KK:mm:ss");
+  return format(new Date(date), "HH:mm:ss");
 };
 
 export const formatDateToFullDate = (date: number) => {
