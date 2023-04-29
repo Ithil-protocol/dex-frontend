@@ -88,13 +88,17 @@ createClient({
   }));
 
   for (let i = 0; i < addressesLength; i++) {
+
     newData[i].base = newPools[i].base;
     newData[i].tick = newPools[i].tick;
-    newData[i].decimalPrecision = newPools[i].decimalPrecision;
     newData[i].underlyingLabel = newPools[i].underlying.label;
     newData[i].accountingLabel = newPools[i].accounting.label;
     newData[i].sell.address = sellPoolAddresses[i];
     newData[i].buy.address = buyPoolAddresses[i];
+    newData[i].sell.underlying.displayPrecision = newPools[i].underlying.displayPrecision;
+    newData[i].buy.underlying.displayPrecision = newPools[i].accounting.displayPrecision;
+    newData[i].sell.accounting.displayPrecision = newPools[i].accounting.displayPrecision;
+    newData[i].buy.accounting.displayPrecision = newPools[i].underlying.displayPrecision;
     newData[i].sell.underlying.address = newPools[i].underlying.address;
     newData[i].buy.underlying.address = newPools[i].accounting.address;
     newData[i].sell.accounting.address = newPools[i].accounting.address;
