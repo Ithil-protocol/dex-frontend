@@ -29,10 +29,9 @@ const EachTrade = ({ data }: Props) => {
         sx={(theme) => ({
           fontWeight: 900,
           color:
-            // data.type === "taker"
-            // ?
-            theme.palette.success.main,
-          // : theme.palette.error.main,
+            data.side === "buy"
+              ? theme.palette.success.main
+              : theme.palette.error.main,
           fontSize: 14,
         })}
       >

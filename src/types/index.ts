@@ -51,6 +51,7 @@ export interface MarketEvent {
   price: string;
   rawAmount: BigNumber;
   rawPrice: BigNumber;
+  side: Side;
 }
 
 export interface StringMap {
