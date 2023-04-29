@@ -30,3 +30,12 @@ export const sellAmountConverter = (amount: BigNumber, pool: Pool) => {
 // toFixed can be called here if needed
 
 //TODO: Add (buy|sell) convertor for staked
+
+// fixing precision manually
+export const fixPrecision = (value: number, decimals: number) => {
+  value = value * Math.pow(10, decimals);
+  value = Math.round(value);
+  value = value / Math.pow(10, decimals);
+
+  return value;
+};
