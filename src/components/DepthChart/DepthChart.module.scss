@@ -1,0 +1,26 @@
+.container {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 1fr 70px;
+  grid-template-rows: 1fr 30px;
+
+  grid-template-areas:
+    "chart underlying"
+    "accounting .";
+}
+
+.chart {
+  grid-area: chart;
+}
+
+.underlying {
+  grid-area: underlying;
+  align-self: center;
+  justify-self: center;
+}
+
+.accounting {
+  grid-area: accounting;
+  justify-self: center;
+}
