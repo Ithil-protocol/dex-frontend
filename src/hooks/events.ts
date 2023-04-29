@@ -10,6 +10,12 @@ import {
 } from "utility/convertors";
 import { buyPriceConverter } from "utility/convertors";
 import { usePoolStore } from "store";
+import {
+  useBuyAmountConverter,
+  useBuyPriceConverter,
+  useSellAmountConverter,
+  useSellPriceConverter,
+} from "./convertors";
 
 export const useUserOrderCreatedEvents = () => {
   const [sellPool, buyPool] = usePoolStore((state) => [
@@ -196,10 +202,11 @@ export const useUserOrderCancelledEvents = () => {
 };
 
 export const useAllOrderFulfilledEvents = () => {
-  const [sellPool, buyPool] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-  ]);
+  const buyAmountConverter = useBuyAmountConverter();
+  const buyPriceConverter = useBuyPriceConverter();
+  const sellAmountConverter = useSellAmountConverter();
+  const sellPriceConverter = useSellPriceConverter();
+
   const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
@@ -213,12 +220,9 @@ export const useAllOrderFulfilledEvents = () => {
         const { amount: rawAmount, price: rawPrice } = item.args!;
 
         results.push({
-          amount: buyAmountConverter(rawAmount, rawPrice, buyPool).toString(),
+          amount: buyAmountConverter(rawAmount, rawPrice),
           getBlock: item.getBlock,
-          pool: buyPool,
-          price: buyPriceConverter(rawPrice, buyPool).toString(),
-          rawAmount,
-          rawPrice,
+          price: buyPriceConverter(rawPrice),
           side: "buy",
         });
       }
@@ -227,12 +231,9 @@ export const useAllOrderFulfilledEvents = () => {
         const { amount: rawAmount, price: rawPrice } = item.args!;
 
         results.push({
-          amount: sellAmountConverter(rawAmount, sellPool).toString(),
+          amount: sellAmountConverter(rawAmount),
           getBlock: item.getBlock,
-          pool: sellPool,
-          price: sellPriceConverter(rawPrice, sellPool).toString(),
-          rawAmount,
-          rawPrice,
+          price: sellPriceConverter(rawPrice),
           side: "sell",
         });
       }

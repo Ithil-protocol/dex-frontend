@@ -45,12 +45,9 @@ export interface OpenOrderEvent {
 }
 
 export interface MarketEvent {
-  amount: string;
+  amount: number;
   getBlock: any;
-  pool: Pool;
-  price: string;
-  rawAmount: BigNumber;
-  rawPrice: BigNumber;
+  price: number;
   side: Side;
 }
 

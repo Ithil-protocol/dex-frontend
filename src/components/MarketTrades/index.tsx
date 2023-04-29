@@ -1,11 +1,8 @@
 import MarketTradesTable from "./Table";
 import InfoTooltip from "components/Common/InfoTooltip";
-import { useAllOrderFulfilledEvents } from "hooks/events";
 import { Box } from "@mui/material";
 
 const MarketTrades = () => {
-  const { data: trades, isLoading } = useAllOrderFulfilledEvents();
-
   return (
     <Box
       sx={(theme) => ({
@@ -27,7 +24,7 @@ const MarketTrades = () => {
         <InfoTooltip title="All the trades happening" />
       </div>
 
-      <MarketTradesTable trades={trades || []} isLoading={isLoading} />
+      <MarketTradesTable />
     </Box>
   );
 };
