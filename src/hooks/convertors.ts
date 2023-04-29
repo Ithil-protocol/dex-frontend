@@ -8,7 +8,7 @@ export const useBuyPriceConverter = () => {
   const pool = usePoolStore((store) => store.buyPool);
   return (price: BigNumber) => {
     const value = Number(utils.formatUnits(price, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals);
+    return fixPrecision(value, pool.underlying.decimals / 3);
   };
 };
 
@@ -18,7 +18,7 @@ export const useBuyAmountConverter = () => {
     const value =
       Number(utils.formatUnits(amount, pool.underlying.decimals)) /
       Number(utils.formatUnits(price, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals);
+    return fixPrecision(value, pool.accounting.decimals / 3);
   };
 };
 
@@ -29,7 +29,8 @@ export const useSellPriceConverter = () => {
       utils.formatUnits(price, pool.underlying.decimals)
     );
     const value = formattedPrice !== 0 ? 1 / formattedPrice : 0;
-    return fixPrecision(value, pool.underlying.decimals);
+
+    return fixPrecision(value, pool.accounting.decimals / 3);
   };
 };
 
@@ -37,7 +38,7 @@ export const useSellAmountConverter = () => {
   const pool = usePoolStore((store) => store.sellPool);
   return (price: BigNumber) => {
     const value = Number(utils.formatUnits(price, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals);
+    return fixPrecision(value, pool.underlying.decimals / 3);
   };
 };
 
