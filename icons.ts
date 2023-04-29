@@ -6,8 +6,12 @@ import Generic from "cryptocurrency-icons/svg/icon/generic.svg";
 // if underlyingLabel is TokenX we should add it in the object like this:
 // TokenX: any-SVG-icon-file
 
-export const icons = {
+const icons = {
   WETH: ETH,
-  FAUCET: Generic,
   USDC,
+};
+
+export const getIcon = (key: string) => {
+  const icon = icons[key];
+  return icon || Generic;
 };

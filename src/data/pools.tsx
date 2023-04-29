@@ -1,6 +1,6 @@
 import { Pair } from "types";
 import rawPools from "./pools.json";
-import { icons } from "../../icons";
+import { getIcon } from "../../icons";
 
 export const pairs: Pair[] = rawPools.map((item, index) => ({
   ...item,
@@ -9,12 +9,12 @@ export const pairs: Pair[] = rawPools.map((item, index) => ({
     ...item.sell,
     underlying: {
       ...item.sell.underlying,
-      icon: icons[item.underlyingLabel],
+      icon: getIcon(item.underlyingLabel),
       address: item.sell.underlying.address as `0x${string}`,
     },
     accounting: {
       ...item.sell.accounting,
-      icon: icons[item.accountingLabel],
+      icon: getIcon(item.accountingLabel),
       address: item.sell.accounting.address as `0x${string}`,
     },
     address: item.sell.address as `0x${string}`,
@@ -23,12 +23,12 @@ export const pairs: Pair[] = rawPools.map((item, index) => ({
     ...item.buy,
     underlying: {
       ...item.buy.underlying,
-      icon: icons[item.accountingLabel],
+      icon: getIcon(item.accountingLabel),
       address: item.buy.underlying.address as `0x${string}`,
     },
     accounting: {
       ...item.buy.accounting,
-      icon: icons[item.underlyingLabel],
+      icon: getIcon(item.underlyingLabel),
       address: item.buy.accounting.address as `0x${string}`,
     },
     address: item.buy.address as `0x${string}`,
