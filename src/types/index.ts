@@ -45,10 +45,10 @@ export interface OpenOrderEvent {
 }
 
 export interface MarketEvent {
-  amount: number;
-  getBlock: any;
   price: number;
+  amount: number;
   side: Side;
+  timestamp: number;
 }
 
 export interface StringMap {

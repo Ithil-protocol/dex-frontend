@@ -1,6 +1,5 @@
 import { TableCell, TableRow } from "@mui/material";
 import LightTooltip from "components/Common/LightTooltip";
-import { useGetBlock } from "hooks/contract";
 import { MarketEvent } from "types";
 import { formatDateToTime } from "utility";
 
@@ -9,9 +8,7 @@ interface Props {
 }
 
 const EachTrade = ({ data }: Props) => {
-  const block = useGetBlock(data);
-
-  const fullDate = formatDateToTime(block.timestamp * 1000);
+  const fullDate = formatDateToTime(data.timestamp);
 
   return (
     <TableRow>

@@ -207,42 +207,52 @@ export const useAllOrderFulfilledEvents = () => {
   const sellAmountConverter = useSellAmountConverter();
   const sellPriceConverter = useSellPriceConverter();
 
-  const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
   const getEvents = async () => {
     const results: MarketEvent[] = [];
+
     if (buyContract && sellContract) {
       const sellEvents = await sellContract.queryFilter("OrderFulfilled");
       const buyEvents = await buyContract.queryFilter("OrderFulfilled");
 
-      for (const item of buyEvents) {
+      const buyBlocks = await Promise.all(
+        buyEvents.map((item) => item.getBlock())
+      );
+
+      buyEvents.forEach((item, i) => {
         const { amount: rawAmount, price: rawPrice } = item.args!;
+        const block = buyBlocks[i];
 
         results.push({
           amount: buyAmountConverter(rawAmount, rawPrice),
-          getBlock: item.getBlock,
           price: buyPriceConverter(rawPrice),
           side: "buy",
+          timestamp: block.timestamp * 1000,
         });
-      }
+      });
 
-      for (const item of sellEvents) {
+      const sellBlocks = await Promise.all(
+        sellEvents.map((item) => item.getBlock())
+      );
+
+      sellEvents.forEach((item, i) => {
+        const block = sellBlocks[i];
         const { amount: rawAmount, price: rawPrice } = item.args!;
 
         results.push({
           amount: sellAmountConverter(rawAmount),
-          getBlock: item.getBlock,
           price: sellPriceConverter(rawPrice),
           side: "sell",
+          timestamp: block.timestamp * 1000,
         });
-      }
+      });
     }
 
-    return results;
+    return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
-  return useQuery(["allOrderFulfilledEvents", address], getEvents);
+  return useQuery(["allOrderFulfilledEvents"], getEvents);
 };
 
 export const useUserOrderFulfilledEvents = () => {

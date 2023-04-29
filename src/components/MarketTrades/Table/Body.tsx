@@ -18,7 +18,6 @@ const TradesTableBody: React.FC<Props> = ({ headsLength }) => {
       ) : (
         (trades || [])
           .slice(-MAX_ROWS)
-          .reverse()
           .map((item, i) => <EachTrade key={i} data={item} />)
       )}
     </TableBody>
