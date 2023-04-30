@@ -58,6 +58,7 @@ export interface Token {
   icon: any;
   address: `0x${string}`;
   decimals: number;
+  displayPrecision: number;
 }
 
 export interface Pool {

@@ -5,53 +5,57 @@ import { useBuyVolumes, useSellVolumes } from "./contract";
 import { fixPrecision } from "utility/convertors";
 
 export const useBuyAmountConverter = () => {
-  const pool = usePoolStore((store) => store.buyPool);
+  const buyPool = usePoolStore((store) => store.buyPool);
   return (amount: BigNumber, price: BigNumber) => {
     const value =
-      Number(utils.formatUnits(amount, pool.underlying.decimals)) /
-      Number(utils.formatUnits(price, pool.underlying.decimals));
-    return fixPrecision(value, pool.accounting.decimals / 3);
+      Number(utils.formatUnits(amount, buyPool.underlying.decimals)) /
+      Number(utils.formatUnits(price, buyPool.underlying.decimals));
+    return fixPrecision(value, buyPool.accounting.displayPrecision);
   };
 };
 export const useSellAmountConverter = () => {
-  const pool = usePoolStore((store) => store.sellPool);
+  const sellPool = usePoolStore((store) => store.sellPool);
   return (amount: BigNumber) => {
-    const value = Number(utils.formatUnits(amount, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals / 3);
+    const value = Number(
+      utils.formatUnits(amount, sellPool.underlying.decimals)
+    );
+    return fixPrecision(value, sellPool.underlying.displayPrecision);
   };
 };
 
 export const useBuyPriceConverter = () => {
-  const pool = usePoolStore((store) => store.buyPool);
+  const buyPool = usePoolStore((store) => store.buyPool);
   return (price: BigNumber) => {
-    const value = Number(utils.formatUnits(price, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals / 3);
+    const value = Number(utils.formatUnits(price, buyPool.underlying.decimals));
+    return fixPrecision(value, buyPool.underlying.displayPrecision);
   };
 };
 export const useSellPriceConverter = () => {
-  const pool = usePoolStore((store) => store.sellPool);
+  const sellPool = usePoolStore((store) => store.sellPool);
   return (price: BigNumber) => {
     const formattedPrice = Number(
-      utils.formatUnits(price, pool.underlying.decimals)
+      utils.formatUnits(price, sellPool.underlying.decimals)
     );
     const value = formattedPrice !== 0 ? 1 / formattedPrice : 0;
 
-    return fixPrecision(value, pool.accounting.decimals / 3);
+    return fixPrecision(value, sellPool.accounting.displayPrecision);
   };
 };
 
 export const useBuyStakeConverter = () => {
-  const pool = usePoolStore((store) => store.buyPool);
+  const buyPool = usePoolStore((store) => store.buyPool);
   return (stake: BigNumber) => {
-    const value = Number(utils.formatUnits(stake, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals / 3);
+    const value = Number(utils.formatUnits(stake, buyPool.underlying.decimals));
+    return fixPrecision(value, buyPool.underlying.displayPrecision);
   };
 };
 export const useSellStakeConverter = () => {
-  const pool = usePoolStore((store) => store.sellPool);
+  const sellPool = usePoolStore((store) => store.sellPool);
   return (stake: BigNumber) => {
-    const value = Number(utils.formatUnits(stake, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals / 3);
+    const value = Number(
+      utils.formatUnits(stake, sellPool.underlying.decimals)
+    );
+    return fixPrecision(value, sellPool.underlying.displayPrecision);
   };
 };
 
