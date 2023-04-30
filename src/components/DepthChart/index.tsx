@@ -11,7 +11,7 @@ import {
 import { buyOrders } from "store/web3Store";
 import WrapperTooltip from "./Tooltip";
 import { briefing, computeOrders } from "utility";
-import { useFormatBuyData, useFormatSellData } from "hooks/convertors";
+import { useFormatBuyData, useFormatSellData } from "hooks/converters";
 import { usePoolStore } from "store";
 
 const DepthChart = () => {

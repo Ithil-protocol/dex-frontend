@@ -1,6 +1,6 @@
 import styles from "./Orders.module.scss";
 import Order from "./Order";
-import { useFormatBuyData } from "hooks/convertors";
+import { useFormatBuyData } from "hooks/converters";
 
 const Buy = () => {
   const { data, isLoading } = useFormatBuyData();

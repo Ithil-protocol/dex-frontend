@@ -1,5 +1,5 @@
 import { utils, BigNumber } from "ethers";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCancelOrder,
@@ -16,9 +16,9 @@ import {
   useTokenApprove,
 } from "./contracts/token";
 import TransactionToast from "components/Common/Toast/TransactionToast";
-import { Pool, Token } from "types";
-import { zeroBigNumber } from "utility";
+import { OpenOrderEvent, Pool, Token } from "types";
 import { useDeadline } from "./useDeadline";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -33,6 +33,7 @@ export const useCreateOrder = ({
   pool,
 }: CreateOrderProps) => {
   const time = useDeadline();
+  const queryClient = useQueryClient();
 
   const { address } = useAccount();
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
@@ -64,8 +65,21 @@ export const useCreateOrder = ({
       console.log("data:::", args[0]);
       console.log("args1:::", args[1]);
       console.log("args:::", ...args);
+
+      queryClient.setQueryData<OpenOrderEvent[]>(
+        ["userOrderCreatedEvent"],
+        (prev) => {
+          if (!prev) return undefined;
+
+          console.log("prev:::", prev);
+
+          // prev.push({});
+        }
+      );
     },
   });
+
+  console.log("writeData:", writeData);
 
   const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,

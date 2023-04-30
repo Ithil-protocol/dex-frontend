@@ -1,14 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "./contract";
-import { Event, utils } from "ethers";
+import { Event } from "ethers";
 import { HistoryEvent, MarketEvent, OpenOrderEvent } from "types";
-import {
-  buyAmountConverter,
-  sellAmountConverter,
-  sellPriceConverter,
-} from "utility/convertors";
-import { usePoolStore } from "store";
 import {
   useBuyAmountConverter,
   useBuyPriceConverter,
@@ -16,7 +10,7 @@ import {
   useSellAmountConverter,
   useSellPriceConverter,
   useSellStakeConverter,
-} from "./convertors";
+} from "./converters";
 
 export const useUserOrderCreatedEvents = () => {
   const buyAmountConverter = useBuyAmountConverter();
@@ -59,8 +53,6 @@ export const useUserOrderCreatedEvents = () => {
       );
 
       for (const [i, item] of sellEvents.entries()) {
-        const block = sellBlocks[i];
-
         const {
           price: rawPrice,
           underlyingAmount: rawAmount,
@@ -81,7 +73,7 @@ export const useUserOrderCreatedEvents = () => {
           rawStaked,
           side: "sell",
           staked: buyStakeConverter(rawStaked),
-          timestamp: block.timestamp * 1000,
+          timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });
       }
@@ -91,8 +83,6 @@ export const useUserOrderCreatedEvents = () => {
       );
 
       for (const [i, item] of buyEvents.entries()) {
-        const block = buyBlocks[i];
-
         const {
           price: rawPrice,
           underlyingAmount: rawAmount,
@@ -113,7 +103,7 @@ export const useUserOrderCreatedEvents = () => {
           rawStaked,
           side: "buy",
           staked: sellStakeConverter(rawStaked),
-          timestamp: block.timestamp * 1000,
+          timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });
       }
@@ -143,14 +133,16 @@ export const useAllOrderCreatedEvents = () => {
 };
 
 export const useUserOrderCancelledEvents = () => {
-  const [sellPool, buyPool] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-  ]);
-
+  const buyAmountConverter = useBuyAmountConverter();
+  const buyPriceConverter = useBuyPriceConverter();
+  const sellAmountConverter = useSellAmountConverter();
+  const sellPriceConverter = useSellPriceConverter();
+  const buyStakeConverter = useBuyStakeConverter();
+  const sellStakeConverter = useSellStakeConverter();
   const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
+
   const getEvents = async () => {
     const results: HistoryEvent[] = [];
     if (buyContract && sellContract && address) {
@@ -169,43 +161,48 @@ export const useUserOrderCancelledEvents = () => {
       const sellEvents = await sellContract.queryFilter(sellFilter);
       const buyEvents = await buyContract.queryFilter(buyFilter);
 
-      for (const item of sellEvents) {
+      const sellBlocks = await Promise.all(
+        sellEvents.map((item) => item.getBlock())
+      );
+      for (const [i, item] of sellEvents.entries()) {
         const { price: rawPrice, underlyingToTransfer: rawAmount } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
         results.push({
-          amount: sellAmountConverter(rawAmount, sellPool).toString(),
-          getBlock: item.getBlock,
-          price: sellPriceConverter(rawPrice, sellPool).toString(),
+          amount: sellAmountConverter(rawAmount),
+          price: sellPriceConverter(rawPrice),
           rawAmount,
           rawPrice,
           rawStaked,
           side: "sell",
-          staked: utils.formatUnits(rawStaked, sellPool.underlying.decimals),
+          staked: sellStakeConverter(rawStaked),
           status: "canceled",
+          timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
-          pool: sellPool,
         });
       }
 
-      for (const item of buyEvents) {
+      const buyBlocks = await Promise.all(
+        buyEvents.map((item) => item.getBlock())
+      );
+
+      for (const [i, item] of buyEvents.entries()) {
         const { price: rawPrice, underlyingToTransfer: rawAmount } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
         results.push({
-          amount: buyAmountConverter(rawAmount, rawPrice, buyPool).toString(),
-          getBlock: item.getBlock,
-          price: sellPriceConverter(rawPrice, buyPool).toString(),
+          amount: buyAmountConverter(rawAmount, rawPrice),
+          price: buyPriceConverter(rawPrice),
           rawAmount,
           rawPrice,
           rawStaked,
           side: "buy",
-          staked: utils.formatUnits(rawStaked, buyPool.underlying.decimals),
+          staked: buyStakeConverter(rawStaked),
           status: "canceled",
+          timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
-          pool: buyPool,
         });
       }
     }
@@ -234,33 +231,31 @@ export const useAllOrderFulfilledEvents = () => {
         buyEvents.map((item) => item.getBlock())
       );
 
-      buyEvents.forEach((item, i) => {
+      for (const [i, item] of buyEvents.entries()) {
         const { amount: rawAmount, price: rawPrice } = item.args!;
-        const block = buyBlocks[i];
 
         results.push({
           amount: buyAmountConverter(rawAmount, rawPrice),
           price: buyPriceConverter(rawPrice),
           side: "buy",
-          timestamp: block.timestamp * 1000,
+          timestamp: buyBlocks[i].timestamp * 1000,
         });
-      });
+      }
 
       const sellBlocks = await Promise.all(
         sellEvents.map((item) => item.getBlock())
       );
 
-      sellEvents.forEach((item, i) => {
-        const block = sellBlocks[i];
+      for (const [i, item] of sellEvents.entries()) {
         const { amount: rawAmount, price: rawPrice } = item.args!;
 
         results.push({
           amount: sellAmountConverter(rawAmount),
           price: sellPriceConverter(rawPrice),
           side: "sell",
-          timestamp: block.timestamp * 1000,
+          timestamp: sellBlocks[i].timestamp * 1000,
         });
-      });
+      }
     }
 
     return results.sort((a, b) => b.timestamp - a.timestamp);
@@ -270,10 +265,12 @@ export const useAllOrderFulfilledEvents = () => {
 };
 
 export const useUserOrderFulfilledEvents = () => {
-  const [sellPool, buyPool] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-  ]);
+  const buyAmountConverter = useBuyAmountConverter();
+  const buyPriceConverter = useBuyPriceConverter();
+  const sellAmountConverter = useSellAmountConverter();
+  const sellPriceConverter = useSellPriceConverter();
+  const buyStakeConverter = useBuyStakeConverter();
+  const sellStakeConverter = useSellStakeConverter();
   const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
@@ -323,43 +320,51 @@ export const useUserOrderFulfilledEvents = () => {
         buyFilterFulfiller
       );
 
-      for (const item of [...buyEventsOfferer, ...buyEventsFulfiller]) {
+      const buyEvents = [...buyEventsOfferer, ...buyEventsFulfiller];
+
+      const buyBlocks = await Promise.all(
+        buyEvents.map((item) => item.getBlock())
+      );
+
+      for (const [i, item] of buyEvents.entries()) {
         const { price: rawPrice, amount: rawAmount } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
         results.push({
-          amount: buyAmountConverter(rawAmount, rawPrice, buyPool).toString(),
-          getBlock: item.getBlock,
-          price: sellPriceConverter(rawPrice, buyPool).toString(),
+          amount: buyAmountConverter(rawAmount, rawPrice),
+          price: buyPriceConverter(rawPrice),
           rawAmount,
           rawPrice,
           rawStaked,
           side: "buy",
-          staked: utils.formatUnits(rawStaked, buyPool.underlying.decimals),
+          staked: buyStakeConverter(rawStaked),
           status: "fulfilled",
+          timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
-          pool: buyPool,
         });
       }
 
-      for (const item of [...sellEventsOfferer, ...sellEventsFulfiller]) {
+      const sellEvents = [...sellEventsOfferer, ...sellEventsFulfiller];
+      const sellBlocks = await Promise.all(
+        sellEvents.map((item) => item.getBlock())
+      );
+      for (const [i, item] of sellEvents.entries()) {
         const { price: rawPrice, amount: rawAmount } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
         results.push({
-          amount: buyAmountConverter(rawAmount, rawPrice, sellPool).toString(),
-          getBlock: item.getBlock,
-          price: sellPriceConverter(rawPrice, sellPool).toString(),
+          amount: sellAmountConverter(rawAmount),
+          price: sellPriceConverter(rawPrice),
           rawAmount,
           rawPrice,
           rawStaked,
           side: "sell",
-          staked: utils.formatUnits(rawStaked, sellPool.underlying.decimals),
+          staked: sellStakeConverter(rawStaked),
           status: "fulfilled",
+          timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
-          pool: sellPool,
         });
       }
     }

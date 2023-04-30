@@ -5,19 +5,12 @@ import MarketTrades from "components/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";
-import {
-  usePoolGetNextPriceLevel,
-  usePoolPreviewTake,
-  usePoolVolumes,
-} from "hooks/contracts/pool";
-import { toast } from "react-toastify";
+
 import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
 import { useContractEvent } from "wagmi";
-import { utils } from "ethers";
 import { usePoolStore } from "store";
 import { useQueryClient } from "@tanstack/react-query";
-import { useBuyPriceConverter, useSellPriceConverter } from "hooks/convertors";
 import { OrderBook } from "types";
 import { buy_volume, sell_volume } from "hooks/contract";
 
@@ -195,6 +188,32 @@ const Panel = () => {
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
         [buy_volume, buyPool.address],
+        (prev) => {
+          if (!prev) return;
+          return prev.map((item) => {
+            if (item.value.eq(price)) {
+              return {
+                ...item,
+                volume: item.volume.sub(amount),
+              };
+            }
+            return item;
+          });
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: sellPool.address,
+    abi: contractABI,
+    eventName: "OrderCreated",
+    listener(...rest) {
+      console.log("rest", rest);
+      const price = rest[2];
+      const amount = rest[3];
+      queryClient.setQueryData<OrderBook[]>(
+        ["allOrderFulfilledEvents"],
         (prev) => {
           if (!prev) return;
           return prev.map((item) => {
