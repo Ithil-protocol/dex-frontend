@@ -5,8 +5,8 @@ export const useDeadline = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime(Math.round(Date.now() / 1000) + 120);
-    }, 10000);
+      setTime(Math.round(Date.now() / 1000) + 60);
+    }, 5000);
 
     return () => {
       clearInterval(timer);
