@@ -3,7 +3,6 @@ import { useCancelOrder } from "hooks/poolWrite";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { OpenOrderEvent } from "types";
-import LightTooltip from "components/Common/LightTooltip";
 import Link from "next/link";
 import PreciseNumber from "components/Common/PreciseNumber";
 
@@ -24,7 +23,7 @@ const Order: React.FC<Props> = ({ data }) => {
     hash: data.transactionHash,
   });
 
-  const total = +data.price * +data.amount;
+  const total = data.price * data.amount;
 
   return (
     <TableRow>
@@ -68,13 +67,13 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell>
-        <span>{total}</span>
+        <span>
+          <PreciseNumber num={total} isPrice={true} />
+        </span>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={data.staked}>
-          <span>{data.staked}</span>
-        </LightTooltip>
+        <span>{data.staked}</span>
       </TableCell>
 
       <TableCell>
