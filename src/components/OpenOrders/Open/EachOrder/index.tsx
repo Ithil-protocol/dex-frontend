@@ -1,9 +1,8 @@
-import { Button, TableCell, TableRow } from "@mui/material";
+import { Button, TableCell, TableRow, Link, Chip } from "@mui/material";
 import { useCancelOrder } from "hooks/poolWrite";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { OpenOrderEvent } from "types";
-import Link from "next/link";
 import PreciseNumber from "components/Common/PreciseNumber";
 import { fixPrecision } from "utility/convertors";
 
@@ -51,12 +50,19 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell>
-        <Link
-          target="_blank"
-          href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-        >
-          {data.status}
-        </Link>
+        <Chip
+          size="small"
+          variant="outlined"
+          color="default"
+          component={"a"}
+          label={data.status}
+          onClick={() =>
+            window.open(
+              `https://goerli.etherscan.io/tx/${data.transactionHash}`,
+              "_blank"
+            )
+          }
+        />
       </TableCell>
 
       <TableCell>
