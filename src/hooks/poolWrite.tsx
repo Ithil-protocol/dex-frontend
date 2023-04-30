@@ -16,7 +16,7 @@ import {
   useTokenApprove,
 } from "./contracts/token";
 import TransactionToast from "components/Common/Toast/TransactionToast";
-import { OpenOrderEvent, Pool, Token } from "types";
+import { HistoryEvent, OpenOrderEvent, Pool, Token } from "types";
 import { useDeadline } from "./useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -224,12 +224,19 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
 };
 
 interface CancelOrderProps {
+  hash: string;
   index: BigNumber;
-  price: BigNumber;
   pool: Pool;
+  price: BigNumber;
 }
 
-export const useCancelOrder = ({ index, price, pool }: CancelOrderProps) => {
+export const useCancelOrder = ({
+  index,
+  price,
+  pool,
+  hash,
+}: CancelOrderProps) => {
+  const { address } = useAccount();
   const { config } = usePreparePoolCancelOrder({
     address: pool.address as `0x${string}`,
     args: [index, price],
@@ -241,6 +248,8 @@ export const useCancelOrder = ({ index, price, pool }: CancelOrderProps) => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   // const { data: waitedData } =
   useWaitForTransaction({
     hash: writeData?.hash,
@@ -250,6 +259,45 @@ export const useCancelOrder = ({ index, price, pool }: CancelOrderProps) => {
           text="Order canceled successfully."
           hash={data.transactionHash}
         />
+      );
+
+      let canceledOrder: OpenOrderEvent | undefined;
+
+      queryClient.setQueryData<OpenOrderEvent[]>(
+        ["userOrderCreatedEvent"],
+        (orders) => {
+          if (!orders) return;
+
+          canceledOrder = orders.find((i) => i.transactionHash === hash);
+
+          if (canceledOrder) {
+            const copyOrders = [...orders];
+            copyOrders.splice(copyOrders.indexOf(canceledOrder), 1);
+
+            return copyOrders;
+          }
+
+          return orders;
+        }
+      );
+
+      queryClient.setQueryData<HistoryEvent[]>(
+        ["userOrderCancelledEvents", address],
+        (orders) => {
+          if (!orders || !canceledOrder) return;
+
+          const { address, index, ...rest } = canceledOrder;
+
+          const newOrders: HistoryEvent[] = [
+            {
+              ...rest,
+              status: "canceled",
+            },
+            ...orders,
+          ];
+
+          return newOrders;
+        }
       );
     },
   });

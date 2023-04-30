@@ -204,32 +204,6 @@ const Panel = () => {
     },
   });
 
-  useContractEvent({
-    address: sellPool.address,
-    abi: contractABI,
-    eventName: "OrderCreated",
-    listener(...rest) {
-      console.log("rest", rest);
-      const price = rest[2];
-      const amount = rest[3];
-      queryClient.setQueryData<OrderBook[]>(
-        ["allOrderFulfilledEvents"],
-        (prev) => {
-          if (!prev) return;
-          return prev.map((item) => {
-            if (item.value.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume.sub(amount),
-              };
-            }
-            return item;
-          });
-        }
-      );
-    },
-  });
-
   // const { data: buyOrders } = usePoolVolumes({
   //   address: buyPool.address,
   //   args: [
