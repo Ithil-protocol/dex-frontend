@@ -8,23 +8,27 @@ import {
   sellAmountConverter,
   sellPriceConverter,
 } from "utility/convertors";
-import { buyPriceConverter } from "utility/convertors";
 import { usePoolStore } from "store";
 import {
   useBuyAmountConverter,
   useBuyPriceConverter,
+  useBuyStakeConverter,
   useSellAmountConverter,
   useSellPriceConverter,
+  useSellStakeConverter,
 } from "./convertors";
 
 export const useUserOrderCreatedEvents = () => {
-  const [sellPool, buyPool] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-  ]);
+  const buyAmountConverter = useBuyAmountConverter();
+  const buyPriceConverter = useBuyPriceConverter();
+  const sellAmountConverter = useSellAmountConverter();
+  const sellPriceConverter = useSellPriceConverter();
+  const buyStakeConverter = useBuyStakeConverter();
+  const sellStakeConverter = useSellStakeConverter();
   const { address } = useAccount();
   const sellContract = useSellContract();
   const buyContract = useBuyContract();
+
   const getEvents = async () => {
     const results: OpenOrderEvent[] = [];
 
@@ -50,7 +54,13 @@ export const useUserOrderCreatedEvents = () => {
       const sellEvents = await sellContract.queryFilter(sellFilter);
       const buyEvents = await buyContract.queryFilter(buyFilter);
 
-      for (const item of sellEvents) {
+      const sellBlocks = await Promise.all(
+        sellEvents.map((item) => item.getBlock())
+      );
+
+      for (const [i, item] of sellEvents.entries()) {
+        const block = sellBlocks[i];
+
         const {
           price: rawPrice,
           underlyingAmount: rawAmount,
@@ -58,49 +68,53 @@ export const useUserOrderCreatedEvents = () => {
           index,
         } = item.args!;
 
-        const amount = sellAmountConverter(rawAmount, sellPool);
-        if (amount === "0") continue;
-
-        results.push({
-          address: item.address,
-          amount: amount.toString(),
-          getBlock: item.getBlock,
-          index,
-          price: sellPriceConverter(rawPrice, sellPool).toString(),
-          rawAmount,
-          rawPrice,
-          rawStaked,
-          side: "sell",
-          staked: utils.formatUnits(rawStaked, sellPool.underlying.decimals),
-          transactionHash: item.transactionHash,
-          pool: sellPool,
-        });
-      }
-
-      for (const item of buyEvents) {
-        const {
-          price: rawPrice,
-          underlyingAmount: rawAmount,
-          staked: rawStaked,
-          index,
-        } = item.args!;
-
-        const amount = buyAmountConverter(rawAmount, rawPrice, buyPool);
+        const amount = sellAmountConverter(rawAmount);
         if (amount === 0) continue;
 
         results.push({
           address: item.address,
-          amount: amount.toString(),
-          getBlock: item.getBlock,
+          amount,
           index,
-          price: buyPriceConverter(rawPrice, buyPool).toString(),
+          price: sellPriceConverter(rawPrice),
+          rawAmount,
+          rawPrice,
+          rawStaked,
+          side: "sell",
+          staked: buyStakeConverter(rawStaked),
+          timestamp: block.timestamp * 1000,
+          transactionHash: item.transactionHash,
+        });
+      }
+
+      const buyBlocks = await Promise.all(
+        buyEvents.map((item) => item.getBlock())
+      );
+
+      for (const [i, item] of buyEvents.entries()) {
+        const block = buyBlocks[i];
+
+        const {
+          price: rawPrice,
+          underlyingAmount: rawAmount,
+          staked: rawStaked,
+          index,
+        } = item.args!;
+
+        const amount = buyAmountConverter(rawAmount, rawPrice);
+        if (amount === 0) continue;
+
+        results.push({
+          address: item.address,
+          amount,
+          index,
+          price: buyPriceConverter(rawPrice),
           rawAmount,
           rawPrice,
           rawStaked,
           side: "buy",
-          staked: utils.formatUnits(rawStaked, buyPool.underlying.decimals),
+          staked: sellStakeConverter(rawStaked),
+          timestamp: block.timestamp * 1000,
           transactionHash: item.transactionHash,
-          pool: buyPool,
         });
       }
     }
