@@ -1,4 +1,4 @@
-import { Chip, Link, TableCell, TableRow } from "@mui/material";
+import { Chip, TableCell, TableRow } from "@mui/material";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { HistoryEvent } from "types";
