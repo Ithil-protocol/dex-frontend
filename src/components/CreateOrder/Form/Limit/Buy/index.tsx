@@ -14,6 +14,7 @@ import { useCallback } from "react";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import Info from "components/Common/Info";
+import { fixPrecision } from "utility/convertors";
 
 interface Props {}
 
@@ -40,7 +41,10 @@ const LimitBuy: React.FC<Props> = () => {
   const available = useTokenBalance({
     tokenAddress: buyPool.underlying.address,
   });
-  const availableLabel = `${available} ${pair.accountingLabel}`;
+  const availableLabel = `${fixPrecision(
+    available,
+    buyPool.underlying.displayPrecision
+  )} ${pair.accountingLabel}`;
 
   const {
     write,
