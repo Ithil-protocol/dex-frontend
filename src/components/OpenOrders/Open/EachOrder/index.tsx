@@ -1,8 +1,8 @@
 import { Button, TableCell, TableRow } from "@mui/material";
 import { useCancelOrder } from "hooks/poolWrite";
-import { formatDateToFullDate, truncateString } from "utility";
+import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
-import { useGetBlock, useGetOrderStatus } from "hooks/contract";
+import { useGetOrderStatus } from "hooks/contract";
 import { OpenOrderEvent } from "types";
 import LightTooltip from "components/Common/LightTooltip";
 import Link from "next/link";
@@ -12,8 +12,12 @@ interface Props {
 }
 
 const Order: React.FC<Props> = ({ data }) => {
-  const pair = usePoolStore((state) => state.pair);
-  const block = useGetBlock(data);
+  const [pair, pool] = usePoolStore((state) => [
+    state.pair,
+    data.side === "buy" ? state.buyPool : state.sellPool,
+  ]);
+
+  //CLEANME
   const status = useGetOrderStatus(
     data.address as `0x${string}`,
     data.rawPrice,
@@ -22,13 +26,13 @@ const Order: React.FC<Props> = ({ data }) => {
 
   const { cancel } = useCancelOrder({
     index: data.index,
+    pool,
     price: data.rawPrice,
-    pool: data.pool,
   });
 
   if (status === "fulfilled") return null;
 
-  const fullDate = formatDateToFullDate(block.timestamp * 1000);
+  const fullDate = formatDateToFullDate(data.timestamp);
 
   const total = +data.price * +data.amount;
 
@@ -63,25 +67,25 @@ const Order: React.FC<Props> = ({ data }) => {
 
       <TableCell>
         <LightTooltip placement="top" title={data.amount}>
-          <span>{truncateString(data.amount, 9)}</span>
+          <span>{data.amount}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
         <LightTooltip placement="top" title={data.price}>
-          <span>{truncateString(data.price, 9)}</span>
+          <span>{data.price}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
         <LightTooltip placement="top" title={total}>
-          <span>{truncateString(total.toString(), 9)}</span>
+          <span>{total}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
         <LightTooltip placement="top" title={data.staked}>
-          <span>{truncateString(data.staked, 9)}</span>
+          <span>{data.staked}</span>
         </LightTooltip>
       </TableCell>
 
