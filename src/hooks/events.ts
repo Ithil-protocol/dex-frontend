@@ -341,8 +341,8 @@ export const useUserOrderFulfilledEvents = () => {
       );
       const sellFilterFulfiller = sellContract.filters.OrderFulfilled(
         null,
-        address,
         null,
+        address,
         null,
         null,
         null
