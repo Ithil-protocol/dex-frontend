@@ -1,4 +1,4 @@
-import { Link, TableCell, TableRow } from "@mui/material";
+import { Chip, Link, TableCell, TableRow } from "@mui/material";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { HistoryEvent } from "types";
@@ -41,12 +41,20 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell>
-        <Link
-          target="_blank"
-          href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
-        >
-          {data.status}
-        </Link>
+        <Chip
+          sx={{ width: 80 }}
+          size="small"
+          variant="filled"
+          color={data.status === "fulfilled" ? "success" : "error"}
+          component={"a"}
+          label={data.status}
+          onClick={() =>
+            window.open(
+              `https://goerli.etherscan.io/tx/${data.transactionHash}`,
+              "_blank"
+            )
+          }
+        />
       </TableCell>
 
       <TableCell>
