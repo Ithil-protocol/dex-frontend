@@ -5,6 +5,7 @@ import { usePoolStore } from "store";
 import { OpenOrderEvent } from "types";
 import LightTooltip from "components/Common/LightTooltip";
 import Link from "next/link";
+import PreciseNumber from "components/Common/PreciseNumber";
 
 interface Props {
   data: OpenOrderEvent;
@@ -55,21 +56,19 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={data.amount}>
-          <span>{data.amount}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.amount} isPrice={false} />
+        </span>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={data.price}>
-          <span>{data.price}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.price} isPrice={true} />
+        </span>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={total}>
-          <span>{total}</span>
-        </LightTooltip>
+        <span>{total}</span>
       </TableCell>
 
       <TableCell>
