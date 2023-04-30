@@ -42,8 +42,12 @@ export const convertSellLimitArgs = ({
   const convertedPrice =
     Number(price) === 0
       ? 0
-      : Math.floor((1 / Number(price)) * Math.pow(10, decimals));
-  const finalPrice: BigNumber = utils.parseUnits(convertedPrice.toString(), 0);
+      : Math.floor((1 / Number(price)) * Math.pow(10, decimals)) /
+        Math.pow(10, decimals);
+  const finalPrice: BigNumber = utils.parseUnits(
+    convertedPrice.toFixed(decimals),
+    0
+  );
   const finalAmount: BigNumber = utils.parseUnits(
     Number(amount).toFixed(decimals),
     decimals
