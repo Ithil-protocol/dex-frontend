@@ -1,5 +1,5 @@
 import { Pool } from "types";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, utils, constants } from "ethers";
 import {
   usePoolGetNextPriceLevel,
   usePoolPreviewTake,
@@ -39,14 +39,10 @@ export const convertSellLimitArgs = ({
   pool,
 }: ConvertLimitArgsProps) => {
   const { decimals } = pool.underlying;
-  const convertedPrice =
-    Number(price) === 0
-      ? 0
-      : Math.floor((1 / Number(price)) * Math.pow(10, decimals)) /
-        Math.pow(10, decimals);
+  const convertedPrice = Number(price) === 0 ? 0 : 1 / Number(price);
   const finalPrice: BigNumber = utils.parseUnits(
     convertedPrice.toFixed(decimals),
-    0
+    decimals
   );
   const finalAmount: BigNumber = utils.parseUnits(
     Number(amount).toFixed(decimals),
