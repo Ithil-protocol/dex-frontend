@@ -3,6 +3,7 @@ import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { HistoryEvent } from "types";
 import PreciseNumber from "components/Common/PreciseNumber";
+import { fixPrecision } from "utility/convertors";
 
 interface Props {
   data: HistoryEvent;
@@ -11,7 +12,11 @@ interface Props {
 const Order: React.FC<Props> = ({ data }) => {
   const pair = usePoolStore((state) => state.pair);
 
-  const total = data.price * data.amount;
+  const {
+    accounting: { displayPrecision },
+  } = usePoolStore((state) => state.default);
+
+  const total = fixPrecision(data.price * data.amount, displayPrecision);
 
   return (
     <TableRow>
