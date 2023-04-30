@@ -4,14 +4,6 @@ import { FormattedOrderBook } from "types";
 import { useBuyVolumes, useSellVolumes } from "./contract";
 import { fixPrecision } from "utility/convertors";
 
-export const useBuyPriceConverter = () => {
-  const pool = usePoolStore((store) => store.buyPool);
-  return (price: BigNumber) => {
-    const value = Number(utils.formatUnits(price, pool.underlying.decimals));
-    return fixPrecision(value, pool.underlying.decimals / 3);
-  };
-};
-
 export const useBuyAmountConverter = () => {
   const pool = usePoolStore((store) => store.buyPool);
   return (price: BigNumber, amount: BigNumber) => {
@@ -21,7 +13,21 @@ export const useBuyAmountConverter = () => {
     return fixPrecision(value, pool.accounting.decimals / 3);
   };
 };
+export const useSellAmountConverter = () => {
+  const pool = usePoolStore((store) => store.sellPool);
+  return (amount: BigNumber) => {
+    const value = Number(utils.formatUnits(amount, pool.underlying.decimals));
+    return fixPrecision(value, pool.underlying.decimals / 3);
+  };
+};
 
+export const useBuyPriceConverter = () => {
+  const pool = usePoolStore((store) => store.buyPool);
+  return (price: BigNumber) => {
+    const value = Number(utils.formatUnits(price, pool.underlying.decimals));
+    return fixPrecision(value, pool.underlying.decimals / 3);
+  };
+};
 export const useSellPriceConverter = () => {
   const pool = usePoolStore((store) => store.sellPool);
   return (price: BigNumber) => {
@@ -34,10 +40,17 @@ export const useSellPriceConverter = () => {
   };
 };
 
-export const useSellAmountConverter = () => {
+export const useBuyStakeConverter = () => {
+  const pool = usePoolStore((store) => store.buyPool);
+  return (stake: BigNumber) => {
+    const value = Number(utils.formatUnits(stake, pool.underlying.decimals));
+    return fixPrecision(value, pool.underlying.decimals / 3);
+  };
+};
+export const useSellStakeConverter = () => {
   const pool = usePoolStore((store) => store.sellPool);
-  return (price: BigNumber) => {
-    const value = Number(utils.formatUnits(price, pool.underlying.decimals));
+  return (stake: BigNumber) => {
+    const value = Number(utils.formatUnits(stake, pool.underlying.decimals));
     return fixPrecision(value, pool.underlying.decimals / 3);
   };
 };
