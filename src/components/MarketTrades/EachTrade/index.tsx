@@ -1,5 +1,6 @@
 import { TableCell, TableRow } from "@mui/material";
 import LightTooltip from "components/Common/LightTooltip";
+import PreciseNumber from "components/Common/PreciseNumber";
 import { MarketEvent } from "types";
 import { formatDateToTime } from "utility";
 
@@ -18,9 +19,9 @@ const EachTrade = ({ data }: Props) => {
           fontWeight: 900,
         }}
       >
-        <LightTooltip placement="top" title={data.amount}>
-          <span>{data.amount}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.amount} isPrice={false} />
+        </span>
       </TableCell>
       <TableCell
         sx={(theme) => ({
@@ -32,9 +33,9 @@ const EachTrade = ({ data }: Props) => {
           fontSize: 14,
         })}
       >
-        <LightTooltip placement="top" title={data.price}>
-          <span>{data.price}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.price} isPrice={true} />
+        </span>
       </TableCell>
 
       <TableCell
