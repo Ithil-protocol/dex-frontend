@@ -5,6 +5,7 @@ import { usePoolStore } from "store";
 import { OpenOrderEvent } from "types";
 import Link from "next/link";
 import PreciseNumber from "components/Common/PreciseNumber";
+import { fixPrecision } from "utility/convertors";
 
 interface Props {
   data: OpenOrderEvent;
@@ -23,7 +24,11 @@ const Order: React.FC<Props> = ({ data }) => {
     hash: data.transactionHash,
   });
 
-  const total = data.price * data.amount;
+  const {
+    accounting: { displayPrecision },
+  } = usePoolStore((state) => state.default);
+
+  const total = fixPrecision(data.price * data.amount, displayPrecision);
 
   return (
     <TableRow>
