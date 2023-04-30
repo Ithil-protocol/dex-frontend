@@ -2,7 +2,6 @@ import { Link, TableCell, TableRow } from "@mui/material";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { HistoryEvent } from "types";
-import LightTooltip from "components/Common/LightTooltip";
 import PreciseNumber from "components/Common/PreciseNumber";
 
 interface Props {
