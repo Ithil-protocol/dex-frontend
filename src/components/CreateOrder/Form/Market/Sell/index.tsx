@@ -12,6 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
 import Info from "components/Common/Info";
+import { fixPrecision } from "utility/convertors";
 
 interface Props {}
 
@@ -34,7 +35,10 @@ const MarketSell: React.FC<Props> = () => {
   const available = useTokenBalance({
     tokenAddress: buyPool.accounting.address,
   });
-  const availableLabel = `${available} ${pair.underlyingLabel}`;
+  const availableLabel = `${fixPrecision(
+    available,
+    buyPool.accounting.displayPrecision
+  )} ${pair.underlyingLabel}`;
 
   const { totalToTake, isAmountOut, ...finalValues } = useConvertSellMarketArgs(
     {
