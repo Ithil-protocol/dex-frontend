@@ -216,10 +216,12 @@ export const useUserOrderCancelledEvents = () => {
       const sellBlocks = await Promise.all(
         sellEvents.map((item) => item.getBlock())
       );
+      const sellTransactions = await Promise.all(
+        sellEvents.map((item) => item.getTransaction())
+      );
       for (const [i, item] of sellEvents.entries()) {
         const { price: rawPrice, underlyingToTransfer: rawAmount } = item.args!;
-
-        const { value: rawStaked } = await item.getTransaction();
+        const { value: rawStaked } = sellTransactions[i];
 
         results.push({
           amount: sellAmountConverter(rawAmount),
@@ -239,10 +241,12 @@ export const useUserOrderCancelledEvents = () => {
         buyEvents.map((item) => item.getBlock())
       );
 
+      const buyTransactions = await Promise.all(
+        buyEvents.map((item) => item.getTransaction())
+      );
       for (const [i, item] of buyEvents.entries()) {
         const { price: rawPrice, underlyingToTransfer: rawAmount } = item.args!;
-
-        const { value: rawStaked } = await item.getTransaction();
+        const { value: rawStaked } = buyTransactions[i];
 
         results.push({
           amount: buyAmountConverter(rawAmount, rawPrice),

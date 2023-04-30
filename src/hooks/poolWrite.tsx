@@ -292,6 +292,7 @@ export const useCancelOrder = ({
             {
               ...rest,
               status: "canceled",
+              timestamp: Date.now(),
             },
             ...orders,
           ];
