@@ -19,6 +19,15 @@ import TransactionToast from "components/Common/Toast/TransactionToast";
 import { OpenOrderEvent, Pool, Token } from "types";
 import { useDeadline } from "./useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
+import {
+  useBuyAmountConverter,
+  useBuyPriceConverter,
+  useBuyStakeConverter,
+  useSellAmountConverter,
+  useSellPriceConverter,
+  useSellStakeConverter,
+} from "./converters";
+import { usePoolStore } from "store";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -33,7 +42,6 @@ export const useCreateOrder = ({
   pool,
 }: CreateOrderProps) => {
   const time = useDeadline();
-  const queryClient = useQueryClient();
 
   const { address } = useAccount();
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
@@ -52,6 +60,15 @@ export const useCreateOrder = ({
       // toast.error(error.message.substring(0, 200));
     },
   });
+
+  const queryClient = useQueryClient();
+  const buyAmountConverter = useBuyAmountConverter();
+  const buyPriceConverter = useBuyPriceConverter();
+  const sellAmountConverter = useSellAmountConverter();
+  const sellPriceConverter = useSellPriceConverter();
+  const buyStakeConverter = useBuyStakeConverter();
+  const sellStakeConverter = useSellStakeConverter();
+  const side = usePoolStore((state) => state.side);
   const {
     data: writeData,
     write,
@@ -61,25 +78,50 @@ export const useCreateOrder = ({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: (...args) => {
-      console.log("data:::", args[0]);
-      console.log("args1:::", args[1]);
-      console.log("args:::", ...args);
+    onSuccess: async (...args) => {
+      const converters = {
+        buy: {
+          amount: buyAmountConverter,
+          price: buyPriceConverter,
+          stake: buyStakeConverter,
+        },
+        sell: {
+          amount: sellAmountConverter,
+          price: sellPriceConverter,
+          stake: sellStakeConverter,
+        },
+      };
+
+      const { transactionHash, transactionIndex } = await args[0].wait();
 
       queryClient.setQueryData<OpenOrderEvent[]>(
         ["userOrderCreatedEvent"],
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
         (prev) => {
           if (!prev) return undefined;
 
-          console.log("prev:::", prev);
-
-          // prev.push({});
+          return [
+            {
+              address: address as `0x${string}`,
+              amount: converters[side].amount(amount, price),
+              index: transactionIndex,
+              price: converters[side].price(price),
+              rawAmount: amount,
+              rawPrice: price,
+              rawStaked: boost,
+              side,
+              staked: converters[side].stake(boost),
+              status: "pending",
+              timestamp: Date.now(),
+              transactionHash,
+            },
+            ...prev,
+          ];
         }
       );
     },
   });
-
-  console.log("writeData:", writeData);
 
   const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
