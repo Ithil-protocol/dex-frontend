@@ -54,7 +54,7 @@ const Order: React.FC<Props> = ({ data }) => {
           sx={{ width: 60 }}
           size="small"
           variant="outlined"
-          color="default"
+          color={data.status === "open" ? "default" : "warning"}
           component={"a"}
           label={data.status}
           onClick={() =>
