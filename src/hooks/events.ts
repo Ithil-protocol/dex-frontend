@@ -12,8 +12,11 @@ import {
   useSellStakeConverter,
 } from "./converters";
 import { contractABI } from "store/abi";
+import { usePoolStore } from "store";
 
 export const useUserOrderCreatedEvents = () => {
+  const { address: poolAddress } = usePoolStore((state) => state.default);
+
   const buyAmountConverter = useBuyAmountConverter();
   const buyPriceConverter = useBuyPriceConverter();
   const sellAmountConverter = useSellAmountConverter();
@@ -162,27 +165,32 @@ export const useUserOrderCreatedEvents = () => {
     return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
-  return useQuery(["userOrderCreatedEvent"], getEvents);
+  return useQuery(["userOrderCreatedEvent", poolAddress], getEvents);
 };
 
-export const useAllOrderCreatedEvents = () => {
-  const buyContract = useBuyContract();
-  const sellContract = useSellContract();
+// export const useAllOrderCreatedEvents = () => {
 
-  const getEvents = async () => {
-    let results: Event[] = [];
-    if (buyContract && sellContract) {
-      const sellEvents = await sellContract.queryFilter("OrderCreated");
-      const buyEvents = await buyContract.queryFilter("OrderCreated");
-      results = [...sellEvents, ...buyEvents];
-    }
-    return results;
-  };
+//   const {address:poolAddress} = usePoolStore(state=>state.default);
 
-  return useQuery(["allOrderCreatedEvent"], getEvents);
-};
+//   const buyContract = useBuyContract();
+//   const sellContract = useSellContract();
+
+//   const getEvents = async () => {
+//     let results: Event[] = [];
+//     if (buyContract && sellContract) {
+//       const sellEvents = await sellContract.queryFilter("OrderCreated");
+//       const buyEvents = await buyContract.queryFilter("OrderCreated");
+//       results = [...sellEvents, ...buyEvents];
+//     }
+//     return results;
+//   };
+
+//   return useQuery(["allOrderCreatedEvent",poolAddress], getEvents);
+// };
 
 export const useUserOrderCancelledEvents = () => {
+  const { address: poolAddress } = usePoolStore((state) => state.default);
+
   const buyAmountConverter = useBuyAmountConverter();
   const buyPriceConverter = useBuyPriceConverter();
   const sellAmountConverter = useSellAmountConverter();
@@ -263,10 +271,15 @@ export const useUserOrderCancelledEvents = () => {
 
     return results;
   };
-  return useQuery(["userOrderCancelledEvents", address], getEvents);
+  return useQuery(
+    ["userOrderCancelledEvents", address, poolAddress],
+    getEvents
+  );
 };
 
 export const useAllOrderFulfilledEvents = () => {
+  const { address: poolAddress } = usePoolStore((state) => state.default);
+
   const buyAmountConverter = useBuyAmountConverter();
   const buyPriceConverter = useBuyPriceConverter();
   const sellAmountConverter = useSellAmountConverter();
@@ -315,10 +328,11 @@ export const useAllOrderFulfilledEvents = () => {
     return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
-  return useQuery(["allOrderFulfilledEvents"], getEvents);
+  return useQuery(["allOrderFulfilledEvents", poolAddress], getEvents);
 };
 
 export const useUserOrderFulfilledEvents = () => {
+  const { address: poolAddress } = usePoolStore((state) => state.default);
   const buyAmountConverter = useBuyAmountConverter();
   const buyPriceConverter = useBuyPriceConverter();
   const sellAmountConverter = useSellAmountConverter();
@@ -426,5 +440,8 @@ export const useUserOrderFulfilledEvents = () => {
     return results;
   };
 
-  return useQuery(["userOrderFulfilledEvents", address], getEvents);
+  return useQuery(
+    ["userOrderFulfilledEvents", address, poolAddress],
+    getEvents
+  );
 };

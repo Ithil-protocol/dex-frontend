@@ -61,6 +61,7 @@ export const useCreateOrder = ({
     },
   });
 
+  const { address: poolAddress } = usePoolStore((state) => state.default);
   const queryClient = useQueryClient();
   const buyAmountConverter = useBuyAmountConverter();
   const buyPriceConverter = useBuyPriceConverter();
@@ -93,9 +94,8 @@ export const useCreateOrder = ({
       };
 
       const { transactionHash, transactionIndex } = await args[0].wait();
-
       queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent"],
+        ["userOrderCreatedEvent", poolAddress],
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         (prev) => {
@@ -249,6 +249,7 @@ export const useCancelOrder = ({
   });
 
   const queryClient = useQueryClient();
+  const { address: poolAddress } = usePoolStore((state) => state.default);
 
   // const { data: waitedData } =
   useWaitForTransaction({
@@ -264,7 +265,7 @@ export const useCancelOrder = ({
       let canceledOrder: OpenOrderEvent | undefined;
 
       queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent"],
+        ["userOrderCreatedEvent", poolAddress],
         (orders) => {
           if (!orders) return;
 
@@ -282,7 +283,7 @@ export const useCancelOrder = ({
       );
 
       queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderCancelledEvents", address],
+        ["userOrderCancelledEvents", address, poolAddress],
         (orders) => {
           if (!orders || !canceledOrder) return;
 
