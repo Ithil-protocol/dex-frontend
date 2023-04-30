@@ -95,7 +95,7 @@ export const useCreateOrder = ({
 
       const { transactionHash, transactionIndex } = await args[0].wait();
       queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", poolAddress],
+        ["userOrderCreatedEvent", address, poolAddress],
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         (prev) => {
@@ -265,7 +265,7 @@ export const useCancelOrder = ({
       let canceledOrder: OpenOrderEvent | undefined;
 
       queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", poolAddress],
+        ["userOrderCreatedEvent", address, poolAddress],
         (orders) => {
           if (!orders) return;
 
