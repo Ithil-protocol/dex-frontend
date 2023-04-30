@@ -4,6 +4,7 @@ import {
 } from "hooks/events";
 
 import OrderHistoryTable from "./Table";
+import { useMemo } from "react";
 
 const OrderHistory = () => {
   const { data: fulfilledOrders, isLoading: isFulfillLoading } =
@@ -11,10 +12,16 @@ const OrderHistory = () => {
   const { data: canceledOrders, isLoading: isCancelLoading } =
     useUserOrderCancelledEvents();
 
+  const orders = useMemo(() => {
+    return [...(fulfilledOrders || []), ...(canceledOrders || [])].sort(
+      (a, b) => b.timestamp - a.timestamp
+    );
+  }, [fulfilledOrders, canceledOrders]);
+
   return (
     <OrderHistoryTable
       isLoading={isFulfillLoading || isCancelLoading}
-      orders={[...(fulfilledOrders || []), ...(canceledOrders || [])]}
+      orders={orders}
     />
   );
 };
