@@ -79,15 +79,14 @@ export const useUserOrderCreatedEvents = () => {
           index,
         } = item.args!;
 
-        const status: Status =
-          sellAmountConverter(sellOrders[i].underlyingAmount) === 0
-            ? "fulfilled"
-            : "open";
+        const status: Status = sellOrders[i].underlyingAmount.isZero()
+          ? "fulfilled"
+          : "open";
 
         if (status !== "open") continue;
 
         const amount = sellAmountConverter(rawAmount);
-        if (amount === 0) continue;
+        if (rawAmount.isZero()) continue;
 
         results.push({
           address: item.address,
@@ -134,15 +133,14 @@ export const useUserOrderCreatedEvents = () => {
           index,
         } = item.args!;
 
-        const status: Status =
-          buyAmountConverter(buyOrders[i].underlyingAmount, rawPrice) === 0
-            ? "fulfilled"
-            : "open";
+        const status: Status = buyOrders[i].underlyingAmount.isZero()
+          ? "fulfilled"
+          : "open";
 
         if (status !== "open") continue;
 
         const amount = buyAmountConverter(rawAmount, rawPrice);
-        if (amount === 0) continue;
+        if (rawAmount.isZero()) continue;
 
         results.push({
           address: item.address,
