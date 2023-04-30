@@ -14,6 +14,7 @@ import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import LimitAmount from "components/CreateOrder/Inputs/Amount";
 import Info from "components/Common/Info";
+import { fixPrecision } from "utility/convertors";
 
 interface Props {}
 
@@ -39,7 +40,10 @@ const LimitSell: React.FC<Props> = () => {
   const available = useTokenBalance({
     tokenAddress: sellPool.underlying.address,
   });
-  const availableLabel = `${available} ${pair.underlyingLabel}`;
+  const availableLabel = `${fixPrecision(
+    available,
+    sellPool.underlying.displayPrecision
+  )} ${pair.underlyingLabel}`;
 
   const {
     write,
