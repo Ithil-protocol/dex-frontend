@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber, BigNumberish, ethers, utils, Event } from "ethers";
+import { BigNumber, BigNumberish, ethers, utils } from "ethers";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { CustomContractConfig, OrderBook, Status } from "types";
 import { useContract, useProvider, readContracts } from "wagmi";
-import { readContract } from "@wagmi/core";
 import { usePoolGetOrder } from "./contracts/pool";
 import { useEffect, useState } from "react";
-import { useBuyPriceConverter, useSellPriceConverter } from "./converters";
 
 export const buy_volume = "buy-volume";
 export const sell_volume = "sell-volume";

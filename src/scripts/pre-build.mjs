@@ -28,25 +28,19 @@ createClient({
   let newPools = [...addresses];
   const addressesLength = addresses.length;
 
-  const sellPoolAddressesContracts = newPools.map(item => ({
+  const sellPoolAddressesContracts = newPools.map((item) => ({
     address: "0x247B707Ac8b1f58fc4Ef0610Eb5d716211A9EEF4",
-    args: [
-      item.underlying.address,
-      item.accounting.address
-    ],
+    args: [item.underlying.address, item.accounting.address],
     abi: rawFactoryABI,
     functionName: "pools",
-  }))
+  }));
 
-  const buyPoolAddressesContracts = newPools.map(item => ({
+  const buyPoolAddressesContracts = newPools.map((item) => ({
     address: "0x247B707Ac8b1f58fc4Ef0610Eb5d716211A9EEF4",
-    args: [
-      item.accounting.address,
-      item.underlying.address
-    ],
+    args: [item.accounting.address, item.underlying.address],
     abi: rawFactoryABI,
     functionName: "pools",
-  }))
+  }));
 
   const sellPoolAddresses = await readContracts({
     contracts: sellPoolAddressesContracts,
@@ -76,29 +70,32 @@ createClient({
     contracts: accountingTokensContracts,
   });
 
-  const newData = [...Array(addressesLength)].map(_ => ({
+  const newData = [...Array(addressesLength)].map((_) => ({
     sell: {
       underlying: {},
-      accounting: {}
+      accounting: {},
     },
     buy: {
       underlying: {},
-      accounting: {}
-    }
+      accounting: {},
+    },
   }));
 
   for (let i = 0; i < addressesLength; i++) {
-
     newData[i].base = newPools[i].base;
     newData[i].tick = newPools[i].tick;
     newData[i].underlyingLabel = newPools[i].underlying.label;
     newData[i].accountingLabel = newPools[i].accounting.label;
     newData[i].sell.address = sellPoolAddresses[i];
     newData[i].buy.address = buyPoolAddresses[i];
-    newData[i].sell.underlying.displayPrecision = newPools[i].underlying.displayPrecision;
-    newData[i].buy.underlying.displayPrecision = newPools[i].accounting.displayPrecision;
-    newData[i].sell.accounting.displayPrecision = newPools[i].accounting.displayPrecision;
-    newData[i].buy.accounting.displayPrecision = newPools[i].underlying.displayPrecision;
+    newData[i].sell.underlying.displayPrecision =
+      newPools[i].underlying.displayPrecision;
+    newData[i].buy.underlying.displayPrecision =
+      newPools[i].accounting.displayPrecision;
+    newData[i].sell.accounting.displayPrecision =
+      newPools[i].accounting.displayPrecision;
+    newData[i].buy.accounting.displayPrecision =
+      newPools[i].underlying.displayPrecision;
     newData[i].sell.underlying.address = newPools[i].underlying.address;
     newData[i].buy.underlying.address = newPools[i].accounting.address;
     newData[i].sell.accounting.address = newPools[i].accounting.address;

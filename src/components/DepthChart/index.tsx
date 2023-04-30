@@ -8,9 +8,8 @@ import {
   Area,
   ResponsiveContainer,
 } from "recharts";
-import { buyOrders } from "store/web3Store";
 import WrapperTooltip from "./Tooltip";
-import { briefing, computeOrders } from "utility";
+import { briefing } from "utility";
 import { useFormatBuyData, useFormatSellData } from "hooks/converters";
 import { usePoolStore } from "store";
 
