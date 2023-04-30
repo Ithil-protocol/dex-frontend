@@ -1,6 +1,7 @@
 import { Skeleton } from "@mui/material";
 import styles from "./Order.module.scss";
 import { FormattedOrderBook } from "types";
+import { usePoolStore } from "store";
 
 interface Props {
   data?: FormattedOrderBook;
@@ -8,8 +9,11 @@ interface Props {
 }
 
 const Order: React.FC<Props> = ({ data, isLoading }) => {
-  const base = 20;
-  const width = (Math.min(data?.volume || Infinity, base) / base) * 100 + "%";
+  const pair = usePoolStore((state) => state.pair);
+  const width =
+    pair.base !== 0
+      ? (Math.min(data?.volume || 0, pair.base) / pair.base) * 100 + "%"
+      : 0;
 
   return isLoading ? (
     <Skeleton height={40} />

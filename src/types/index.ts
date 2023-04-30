@@ -76,6 +76,8 @@ export interface Pair {
   sell: Pool;
   buy: Pool;
   value: number;
+  tick: number;
+  base: number;
 }
 
 export interface PoolState {

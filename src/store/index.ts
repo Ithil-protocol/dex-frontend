@@ -30,7 +30,9 @@ export const usePoolStore = create<PoolState>((set) => ({
     set((state) => ({
       pair,
       pairValue: pair.value,
-      default: pairs[pair.value][typeObj[state.type + "-" + state.side]],
+      default: pairs[pair.value]["sell"],
+      sellPool: pairs[pair.value]["sell"],
+      buyPool: pairs[pair.value]["buy"],
     }));
   },
   updateType: (type) => {
