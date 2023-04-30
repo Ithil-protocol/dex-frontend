@@ -2,7 +2,6 @@ import { Button, TableCell, TableRow } from "@mui/material";
 import { useCancelOrder } from "hooks/poolWrite";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
-import { useGetOrderStatus } from "hooks/contract";
 import { OpenOrderEvent } from "types";
 import LightTooltip from "components/Common/LightTooltip";
 import Link from "next/link";
@@ -17,28 +16,17 @@ const Order: React.FC<Props> = ({ data }) => {
     data.side === "buy" ? state.buyPool : state.sellPool,
   ]);
 
-  //CLEANME
-  const status = useGetOrderStatus(
-    data.address as `0x${string}`,
-    data.rawPrice,
-    data.index
-  );
-
   const { cancel } = useCancelOrder({
     index: data.index,
     pool,
     price: data.rawPrice,
   });
 
-  if (status === "fulfilled") return null;
-
-  const fullDate = formatDateToFullDate(data.timestamp);
-
   const total = +data.price * +data.amount;
 
   return (
     <TableRow>
-      <TableCell>{fullDate}</TableCell>
+      <TableCell>{formatDateToFullDate(data.timestamp)}</TableCell>
 
       <TableCell sx={{ padding: "8px", fontWeight: 600 }}>
         {`${pair.underlyingLabel} / ${pair.accountingLabel}`}
@@ -61,7 +49,7 @@ const Order: React.FC<Props> = ({ data }) => {
           target="_blank"
           href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}
         >
-          {status}
+          {data.status}
         </Link>
       </TableCell>
 

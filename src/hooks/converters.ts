@@ -6,7 +6,7 @@ import { fixPrecision } from "utility/convertors";
 
 export const useBuyAmountConverter = () => {
   const pool = usePoolStore((store) => store.buyPool);
-  return (price: BigNumber, amount: BigNumber) => {
+  return (amount: BigNumber, price: BigNumber) => {
     const value =
       Number(utils.formatUnits(amount, pool.underlying.decimals)) /
       Number(utils.formatUnits(price, pool.underlying.decimals));
@@ -92,7 +92,7 @@ export const useFormatBuyData = () => {
 
   result.data?.forEach((item) => {
     const formattedValue = priceConverter(item.value);
-    const formattedAmount = amountConverter(item.value, item.volume);
+    const formattedAmount = amountConverter(item.volume, item.value);
 
     if (!item.volume.isZero()) {
       formattedData.push({

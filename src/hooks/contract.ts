@@ -160,8 +160,9 @@ export const useGetOrderStatus = (
 
   let status: Status = "open";
   if (data) {
+    //FIXME: Converter must be added
     const amount = utils.formatUnits(data.underlyingAmount as BigNumberish, 18);
-    status = +amount === 0 ? "fulfilled" : "open";
+    if (+amount === 0) status = "fulfilled";
   }
 
   return status;

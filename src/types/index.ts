@@ -13,7 +13,7 @@ export type CustomInputEvent = React.ChangeEvent<
   HTMLTextAreaElement | HTMLInputElement
 >;
 
-export type Status = "open" | "fulfilled" | "canceled";
+export type Status = "open" | "fulfilled" | "canceled" | "pending" | "error";
 
 export interface HistoryEvent {
   amount: number;
@@ -40,6 +40,7 @@ export interface OpenOrderEvent {
   staked: number;
   transactionHash: string;
   timestamp: number;
+  status: Status;
 }
 
 export interface MarketEvent {

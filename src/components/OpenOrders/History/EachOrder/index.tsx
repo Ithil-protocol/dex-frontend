@@ -11,13 +11,13 @@ interface Props {
 const Order: React.FC<Props> = ({ data }) => {
   const pair = usePoolStore((state) => state.pair);
 
-  const fullDate = formatDateToFullDate(data.timestamp);
-
   const total = +data.price * +data.amount;
 
   return (
     <TableRow>
-      <TableCell sx={{ padding: "8px" }}>{fullDate}</TableCell>
+      <TableCell sx={{ padding: "8px" }}>
+        {formatDateToFullDate(data.timestamp)}
+      </TableCell>
 
       <TableCell style={{ fontWeight: 600 }}>
         {`${pair.underlyingLabel} / ${pair.accountingLabel}`}

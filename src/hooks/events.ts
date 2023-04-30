@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAccount } from "wagmi";
+import { readContracts, useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "./contract";
 import { Event } from "ethers";
-import { HistoryEvent, MarketEvent, OpenOrderEvent } from "types";
+import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "types";
 import {
   useBuyAmountConverter,
   useBuyPriceConverter,
@@ -11,6 +11,7 @@ import {
   useSellPriceConverter,
   useSellStakeConverter,
 } from "./converters";
+import { contractABI } from "store/abi";
 
 export const useUserOrderCreatedEvents = () => {
   const buyAmountConverter = useBuyAmountConverter();
@@ -23,6 +24,7 @@ export const useUserOrderCreatedEvents = () => {
   const sellContract = useSellContract();
   const buyContract = useBuyContract();
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const getEvents = async () => {
     const results: OpenOrderEvent[] = [];
 
@@ -52,6 +54,23 @@ export const useUserOrderCreatedEvents = () => {
         sellEvents.map((item) => item.getBlock())
       );
 
+      const sellOrders = (
+        await Promise.all(
+          sellEvents.map((item) => {
+            return readContracts({
+              contracts: [
+                {
+                  address: item.address as `0x${string}`,
+                  args: [item.args!.price, item.args!.index],
+                  abi: contractABI,
+                  functionName: "getOrder",
+                },
+              ],
+            });
+          })
+        )
+      ).flat();
+
       for (const [i, item] of sellEvents.entries()) {
         const {
           price: rawPrice,
@@ -59,6 +78,13 @@ export const useUserOrderCreatedEvents = () => {
           staked: rawStaked,
           index,
         } = item.args!;
+
+        const status: Status =
+          sellAmountConverter(sellOrders[i].underlyingAmount) === 0
+            ? "fulfilled"
+            : "open";
+
+        if (status !== "open") continue;
 
         const amount = sellAmountConverter(rawAmount);
         if (amount === 0) continue;
@@ -73,6 +99,7 @@ export const useUserOrderCreatedEvents = () => {
           rawStaked,
           side: "sell",
           staked: buyStakeConverter(rawStaked),
+          status,
           timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });
@@ -82,6 +109,23 @@ export const useUserOrderCreatedEvents = () => {
         buyEvents.map((item) => item.getBlock())
       );
 
+      const buyOrders = (
+        await Promise.all(
+          buyEvents.map((item) => {
+            return readContracts({
+              contracts: [
+                {
+                  address: item.address as `0x${string}`,
+                  args: [item.args!.price, item.args!.index],
+                  abi: contractABI,
+                  functionName: "getOrder",
+                },
+              ],
+            });
+          })
+        )
+      ).flat();
+
       for (const [i, item] of buyEvents.entries()) {
         const {
           price: rawPrice,
@@ -89,6 +133,13 @@ export const useUserOrderCreatedEvents = () => {
           staked: rawStaked,
           index,
         } = item.args!;
+
+        const status: Status =
+          buyAmountConverter(buyOrders[i].underlyingAmount, rawPrice) === 0
+            ? "fulfilled"
+            : "open";
+
+        if (status !== "open") continue;
 
         const amount = buyAmountConverter(rawAmount, rawPrice);
         if (amount === 0) continue;
@@ -103,13 +154,14 @@ export const useUserOrderCreatedEvents = () => {
           rawStaked,
           side: "buy",
           staked: sellStakeConverter(rawStaked),
+          status,
           timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });
       }
     }
 
-    return results;
+    return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
   return useQuery(["userOrderCreatedEvent"], getEvents);
