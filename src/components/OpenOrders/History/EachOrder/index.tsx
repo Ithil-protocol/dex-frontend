@@ -1,7 +1,6 @@
 import { Link, TableCell, TableRow } from "@mui/material";
-import { formatDateToFullDate, truncateString } from "utility";
+import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
-import { useGetBlock } from "hooks/contract";
 import { HistoryEvent } from "types";
 import LightTooltip from "components/Common/LightTooltip";
 
@@ -11,9 +10,8 @@ interface Props {
 
 const Order: React.FC<Props> = ({ data }) => {
   const pair = usePoolStore((state) => state.pair);
-  const block = useGetBlock(data);
 
-  const fullDate = formatDateToFullDate(block.timestamp * 1000);
+  const fullDate = formatDateToFullDate(data.timestamp);
 
   const total = +data.price * +data.amount;
 
@@ -48,25 +46,25 @@ const Order: React.FC<Props> = ({ data }) => {
 
       <TableCell>
         <LightTooltip placement="top" title={data.amount}>
-          <span>{truncateString(data.amount, 9)}</span>
+          <span>{data.amount}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
         <LightTooltip placement="top" title={data.price}>
-          <span>{truncateString(data.price, 9)}</span>
+          <span>{data.price}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
         <LightTooltip placement="top" title={total}>
-          <span>{truncateString(total.toString(), 9)}</span>
+          <span>{total}</span>
         </LightTooltip>
       </TableCell>
 
       <TableCell>
         <LightTooltip placement="top" title={data.staked}>
-          <span>{truncateString(data.staked, 9)}</span>
+          <span>{data.staked}</span>
         </LightTooltip>
       </TableCell>
     </TableRow>
