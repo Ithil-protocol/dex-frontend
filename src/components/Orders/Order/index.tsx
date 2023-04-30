@@ -2,6 +2,7 @@ import { Skeleton } from "@mui/material";
 import styles from "./Order.module.scss";
 import { FormattedOrderBook } from "types";
 import { usePoolStore } from "store";
+import PreciseNumber from "components/Common/PreciseNumber";
 
 interface Props {
   data?: FormattedOrderBook;
@@ -20,8 +21,12 @@ const Order: React.FC<Props> = ({ data, isLoading }) => {
   ) : (
     <div className={styles.order} data-type={data?.type}>
       <div className={styles.background} style={{ width }}></div>
-      <p className={styles.value}>{data?.value}</p>
-      <p>{data?.volume}</p>
+      <p className={styles.value}>
+        <PreciseNumber num={data?.value} isPrice={true} />
+      </p>
+      <p>
+        <PreciseNumber num={data?.volume} isPrice={false} />
+      </p>
     </div>
   );
 };
