@@ -51,6 +51,7 @@ const Order: React.FC<Props> = ({ data }) => {
 
       <TableCell>
         <Chip
+          sx={{ width: 60 }}
           size="small"
           variant="outlined"
           color="default"
