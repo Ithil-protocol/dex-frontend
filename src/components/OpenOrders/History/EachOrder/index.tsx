@@ -3,6 +3,7 @@ import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { HistoryEvent } from "types";
 import LightTooltip from "components/Common/LightTooltip";
+import PreciseNumber from "components/Common/PreciseNumber";
 
 interface Props {
   data: HistoryEvent;
@@ -11,7 +12,7 @@ interface Props {
 const Order: React.FC<Props> = ({ data }) => {
   const pair = usePoolStore((state) => state.pair);
 
-  const total = +data.price * +data.amount;
+  const total = data.price * data.amount;
 
   return (
     <TableRow>
@@ -45,27 +46,25 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={data.amount}>
-          <span>{data.amount}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.amount} isPrice={false} />
+        </span>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={data.price}>
-          <span>{data.price}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.price} isPrice={true} />
+        </span>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={total}>
-          <span>{total}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={total} isPrice={true} />
+        </span>
       </TableCell>
 
       <TableCell>
-        <LightTooltip placement="top" title={data.staked}>
-          <span>{data.staked}</span>
-        </LightTooltip>
+        <span>{data.staked}</span>
       </TableCell>
     </TableRow>
   );
