@@ -176,3 +176,10 @@ export type ThemeColor =
   | "primary"
   | "secondary"
   | "warning";
+
+export interface LimitFinalValues {
+  amount: BigNumber;
+  price: BigNumber;
+  boost: BigNumber;
+  pool: Pool;
+}

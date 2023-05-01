@@ -1,34 +1,28 @@
-import { Box, Dialog } from "@mui/material";
+import { Box, Dialog, DialogTitle } from "@mui/material";
 import { BigNumber } from "ethers";
 import { usePoolPreviewOrder } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "store";
+import { LimitFinalValues } from "types";
 
 interface Props {
-  price: BigNumber;
-  amount: BigNumber;
-  staked: BigNumber;
+  finalValues: LimitFinalValues;
   write: (() => void) | undefined;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Confirmation: React.FC<Props> = ({
-  amount,
-  open,
-  price,
-  staked,
-  write,
-}) => {
+const Confirmation: React.FC<Props> = ({ finalValues, open, write }) => {
   const [side, pool] = usePoolStore((state) => [state.side, state.pool]);
 
   const { data } = usePoolPreviewOrder({
     address: pool.address,
-    args: [price, staked],
+    args: [finalValues.price, finalValues.boost],
   });
 
   return (
     <Dialog open={open}>
+      <DialogTitle>Limit order confirmation</DialogTitle>
       <Box>
         <Box></Box>
       </Box>
