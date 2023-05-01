@@ -19,7 +19,11 @@ const LimitConfirmation: React.FC<Props> = ({
   setOpen,
   write,
 }) => {
-  const [side, pool] = usePoolStore((state) => [state.side, state.pool]);
+  const [side, pool, pair] = usePoolStore((state) => [
+    state.side,
+    state.pool,
+    state.pair,
+  ]);
 
   const converters = useGetConvertersBySide(side);
   const { data: preview, isLoading } = usePoolPreviewOrder({
@@ -36,11 +40,14 @@ const LimitConfirmation: React.FC<Props> = ({
       <DialogTitle align="center">Limit order confirmation</DialogTitle>
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
         <div className={styles.row}>
-          <span>Actual price</span>
+          <span>Actual Price</span>
           {isLoading ? (
             <Skeleton height={20} />
           ) : (
-            <span>{converters.priceConverter(preview!.actualPrice)}</span>
+            <span>
+              {converters.priceConverter(preview!.actualPrice)}{" "}
+              {pair.accountingLabel}
+            </span>
           )}
         </div>
         <div className={styles.row}>
@@ -52,7 +59,8 @@ const LimitConfirmation: React.FC<Props> = ({
               {converters.amountConverter(
                 finalValues.amount,
                 preview!.actualPrice
-              )}
+              )}{" "}
+              {pair.underlyingLabel}
             </span>
           )}
         </div>
@@ -73,7 +81,8 @@ const LimitConfirmation: React.FC<Props> = ({
               {converters.amountConverter(
                 preview!.cumulativeUndAmount,
                 preview!.actualPrice
-              )}
+              )}{" "}
+              {pair.underlyingLabel}
             </span>
           )}
         </div>
