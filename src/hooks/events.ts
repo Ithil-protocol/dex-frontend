@@ -159,7 +159,7 @@ export const useUserOrderCreatedEvents = () => {
     return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
-  return useQuery(["userOrderCreatedEvent", poolAddress], getEvents);
+  return useQuery(["userOrderCreatedEvent", address, poolAddress], getEvents);
 };
 
 // export const useAllOrderCreatedEvents = () => {

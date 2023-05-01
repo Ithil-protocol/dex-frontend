@@ -50,8 +50,8 @@ const Panel = () => {
               type: "sell" as const,
             });
             newArray.sort((a, b) => {
-              if (a.value.gt(b.value)) return 1;
-              else if (a.value.lt(b.value)) return -1;
+              if (b.value.gt(a.value)) return 1;
+              else if (b.value.lt(a.value)) return -1;
               else return 0;
             });
           }

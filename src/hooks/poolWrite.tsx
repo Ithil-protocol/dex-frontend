@@ -314,7 +314,7 @@ export const useCancelOrder = ({
       let canceledOrder: OpenOrderEvent | undefined;
 
       queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", poolAddress],
+        ["userOrderCreatedEvent", address, poolAddress],
         (orders) => {
           if (!orders) return;
 
