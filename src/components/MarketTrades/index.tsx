@@ -10,6 +10,7 @@ const MarketTrades = () => {
         borderRadius: "5px",
         position: "sticky",
         top: 15,
+        paddingBottom: "15px",
       })}
     >
       <div

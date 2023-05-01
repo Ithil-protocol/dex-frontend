@@ -24,7 +24,7 @@ export const OpenOrders = () => {
         backgroundColor: theme.palette.background.paper,
         borderRadius: "5px",
         gap: "5px",
-        padding: "10px 5px 5px 5px",
+        padding: "10px 5px 15px 5px",
       })}
     >
       <div>

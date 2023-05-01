@@ -21,6 +21,7 @@ const MarketTradesTable: React.FC<Props> = () => {
       sx={{ maxHeight: "400px" }}
       component={(props) => (
         <Paper
+          elevation={0}
           {...props}
           sx={{
             height: "100%",

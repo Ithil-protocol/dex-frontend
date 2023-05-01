@@ -27,7 +27,7 @@ export const usePoolStore = create<PoolState>((set) => ({
     });
   },
   updatePair: (pair) => {
-    set((state) => ({
+    set(() => ({
       pair,
       pairValue: pair.value,
       default: pairs[pair.value]["sell"],

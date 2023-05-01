@@ -1,5 +1,5 @@
 import { Pool } from "types";
-import { BigNumber, utils, constants } from "ethers";
+import { BigNumber, utils } from "ethers";
 import {
   usePoolGetNextPriceLevel,
   usePoolPreviewTake,

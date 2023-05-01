@@ -1,4 +1,4 @@
-import { Paper, Table, TableContainer } from "@mui/material";
+import { Table, TableContainer } from "@mui/material";
 import OrdersTableHead from "./Head";
 import OrdersTableBody from "./Body";
 import { HistoryEvent } from "types";

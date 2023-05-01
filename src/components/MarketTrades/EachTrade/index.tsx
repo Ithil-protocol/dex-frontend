@@ -1,5 +1,4 @@
 import { TableCell, TableRow } from "@mui/material";
-import LightTooltip from "components/Common/LightTooltip";
 import PreciseNumber from "components/Common/PreciseNumber";
 import { MarketEvent } from "types";
 import { formatDateToTime } from "utility";
