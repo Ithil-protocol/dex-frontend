@@ -31,7 +31,7 @@ export interface HistoryEvent {
 export interface OpenOrderEvent {
   address: string;
   amount: number;
-  index: BigNumber;
+  index: BigNumber | -1;
   price: number;
   rawAmount: BigNumber;
   rawPrice: BigNumber;

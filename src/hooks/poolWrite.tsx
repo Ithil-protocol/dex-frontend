@@ -1,5 +1,5 @@
-import { utils, BigNumber } from "ethers";
-import { useLayoutEffect, useState } from "react";
+import { utils, ethers, BigNumber } from "ethers";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCancelOrder,
@@ -19,14 +19,7 @@ import TransactionToast from "components/Common/Toast/TransactionToast";
 import { HistoryEvent, OpenOrderEvent, Pool, Token } from "types";
 import { useDeadline } from "./useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  useBuyAmountConverter,
-  useBuyPriceConverter,
-  useBuyStakeConverter,
-  useSellAmountConverter,
-  useSellPriceConverter,
-  useSellStakeConverter,
-} from "./converters";
+import { useGetConverters } from "./converters";
 import { usePoolStore } from "store";
 
 interface CreateOrderProps {
@@ -42,6 +35,7 @@ export const useCreateOrder = ({
   pool,
 }: CreateOrderProps) => {
   const time = useDeadline();
+  const transactionHashRef = useRef("");
 
   const { address } = useAccount();
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
@@ -59,17 +53,22 @@ export const useCreateOrder = ({
     onError: (_error) => {
       // toast.error(error.message.substring(0, 200));
     },
+    // onSuccess(...args) {},
   });
 
-  const { address: poolAddress } = usePoolStore((state) => state.default);
+  const [{ address: poolAddress }, side] = usePoolStore((state) => [
+    state.default,
+    state.side,
+  ]);
   const queryClient = useQueryClient();
-  const buyAmountConverter = useBuyAmountConverter();
-  const buyPriceConverter = useBuyPriceConverter();
-  const sellAmountConverter = useSellAmountConverter();
-  const sellPriceConverter = useSellPriceConverter();
-  const buyStakeConverter = useBuyStakeConverter();
-  const sellStakeConverter = useSellStakeConverter();
-  const side = usePoolStore((state) => state.side);
+  const {
+    buyAmountConverter,
+    buyPriceConverter,
+    buyStakeConverter,
+    sellAmountConverter,
+    sellPriceConverter,
+    sellStakeConverter,
+  } = useGetConverters();
   const {
     data: writeData,
     write,
@@ -93,19 +92,17 @@ export const useCreateOrder = ({
         },
       };
 
-      const { transactionHash, transactionIndex } = await args[0].wait();
       queryClient.setQueryData<OpenOrderEvent[]>(
         ["userOrderCreatedEvent", poolAddress],
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
         (prev) => {
-          if (!prev) return undefined;
+          if (!prev) return;
 
+          transactionHashRef.current = args[0].hash;
           return [
             {
               address: address as `0x${string}`,
               amount: converters[side].amount(amount, price),
-              index: transactionIndex,
+              index: -1,
               price: converters[side].price(price),
               rawAmount: amount,
               rawPrice: price,
@@ -114,7 +111,7 @@ export const useCreateOrder = ({
               staked: converters[side].stake(boost),
               status: "pending",
               timestamp: Date.now(),
-              transactionHash,
+              transactionHash: transactionHashRef.current,
             },
             ...prev,
           ];
@@ -132,11 +129,63 @@ export const useCreateOrder = ({
           hash={data.transactionHash}
         />
       );
+
+      queryClient.setQueryData<OpenOrderEvent[]>(
+        ["userOrderCreatedEvent", poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          const index = prev?.findIndex(
+            (i) => i.transactionHash === data.transactionHash
+          );
+
+          if (index !== -1) {
+            const order = { ...prev[index] };
+            order.status = "open";
+            order.index = -1;
+
+            const copyOrders = [...prev];
+            copyOrders.splice(index, 1, order);
+            return copyOrders;
+          }
+
+          return prev;
+        }
+      );
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
+
+  useEffect(() => {
+    if (waitedData?.transactionIndex) {
+      queryClient.setQueryData<OpenOrderEvent[]>(
+        ["userOrderCreatedEvent", poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          const index = prev?.findIndex(
+            (i) => i.transactionHash === transactionHashRef.current
+          );
+
+          if (index !== -1) {
+            const order = { ...prev[index] };
+
+            order.index = ethers.BigNumber.from(waitedData.transactionIndex);
+
+            const copyOrders = [...prev];
+            copyOrders.splice(index, 1, order);
+
+            return copyOrders;
+          }
+
+          return prev;
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [waitedData]);
 
   return {
     waitedData,
@@ -225,7 +274,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
 
 interface CancelOrderProps {
   hash: string;
-  index: BigNumber;
+  index: BigNumber | -1;
   pool: Pool;
   price: BigNumber;
 }
@@ -239,7 +288,7 @@ export const useCancelOrder = ({
   const { address } = useAccount();
   const { config } = usePreparePoolCancelOrder({
     address: pool.address as `0x${string}`,
-    args: [index, price],
+    args: [index as BigNumber, price],
   });
   const { write: cancel, data: writeData } = usePoolCancelOrder({
     ...config,
