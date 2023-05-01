@@ -16,7 +16,7 @@ import {
   useTokenApprove,
 } from "./contracts/token";
 import TransactionToast from "components/Common/Toast/TransactionToast";
-import { HistoryEvent, OpenOrderEvent, Pool, Token } from "types";
+import { HistoryEvent, OpenOrderEvent, Pool, Side, Token } from "types";
 import { useDeadline } from "./useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetConverters } from "./converters";
@@ -24,15 +24,17 @@ import { usePoolStore } from "store";
 
 interface CreateOrderProps {
   amount: BigNumber;
-  price: BigNumber;
   boost: BigNumber;
   pool: Pool;
+  price: BigNumber;
+  side: Side;
 }
 export const useCreateOrder = ({
   amount,
-  price,
   boost,
   pool,
+  price,
+  side,
 }: CreateOrderProps) => {
   const time = useDeadline();
 
@@ -55,10 +57,7 @@ export const useCreateOrder = ({
     // onSuccess(...args) {},
   });
 
-  const [{ address: poolAddress }, side] = usePoolStore((state) => [
-    state.default,
-    state.side,
-  ]);
+  const { address: poolAddress } = usePoolStore((state) => state.default);
   const queryClient = useQueryClient();
   const {
     buyAmountConverter,

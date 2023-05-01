@@ -50,7 +50,7 @@ const LimitBuy: React.FC<Props> = () => {
     write,
     isLoading: createLoading,
     gasLoading,
-  } = useCreateOrder(finalValues);
+  } = useCreateOrder({ ...finalValues, side: "buy" });
 
   const groupButtonHandler = useCallback(
     (item: number) => {

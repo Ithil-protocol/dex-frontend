@@ -49,7 +49,7 @@ const LimitSell: React.FC<Props> = () => {
     write,
     isLoading: createLoading,
     gasLoading,
-  } = useCreateOrder(finalValues);
+  } = useCreateOrder({ ...finalValues, side: "sell" });
 
   const {
     write: approve,
