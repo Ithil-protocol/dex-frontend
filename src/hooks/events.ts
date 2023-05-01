@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { readContracts, useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "./contract";
 import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "types";
@@ -444,4 +444,18 @@ export const useUserOrderFulfilledEvents = () => {
     ["userOrderFulfilledEvents", address, poolAddress],
     getEvents
   );
+};
+
+export const useLatestTrade = () => {
+  const { address: poolAddress } = usePoolStore((state) => state.default);
+  const queryClient = useQueryClient();
+
+  const data = queryClient.getQueryData([
+    "allOrderFulfilledEvents",
+    poolAddress,
+  ]);
+  if (data) {
+    return data?.[0].price;
+  }
+  return 0;
 };
