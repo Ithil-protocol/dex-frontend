@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogTitle, Skeleton } from "@mui/material";
+import { Box, Dialog, DialogTitle, Skeleton, Button } from "@mui/material";
 import { BigNumber } from "ethers";
 import { usePoolPreviewOrder } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
@@ -6,6 +6,7 @@ import { usePoolStore } from "store";
 import { LimitFinalValues } from "types";
 import styles from "./LimitConfirmation.module.scss";
 import { useGetConvertersBySide } from "hooks/converters";
+import { capitalizeFirstLetter } from "utility";
 interface Props {
   finalValues: LimitFinalValues;
   write: (() => void) | undefined;
@@ -85,6 +86,24 @@ const LimitConfirmation: React.FC<Props> = ({
               {pair.underlyingLabel}
             </span>
           )}
+        </div>
+        <div className={styles.buttons}>
+          <Button
+            onClick={closeHandler}
+            fullWidth
+            variant="outlined"
+            color="info"
+          >
+            Close
+          </Button>
+          <Button
+            onClick={() => write?.()}
+            fullWidth
+            variant="contained"
+            color={side === "buy" ? "success" : "error"}
+          >
+            {capitalizeFirstLetter(side)}
+          </Button>
         </div>
       </Box>
     </Dialog>
