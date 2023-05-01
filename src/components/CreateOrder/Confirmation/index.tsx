@@ -1,5 +1,8 @@
-import { Dialog } from "@mui/material";
+import { Box, Dialog } from "@mui/material";
 import { BigNumber } from "ethers";
+import { usePoolPreviewOrder } from "hooks/contracts/pool";
+import { Dispatch, SetStateAction } from "react";
+import { usePoolStore } from "store";
 
 interface Props {
   price: BigNumber;
@@ -7,6 +10,7 @@ interface Props {
   staked: BigNumber;
   write: (() => void) | undefined;
   open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Confirmation: React.FC<Props> = ({
@@ -16,7 +20,20 @@ const Confirmation: React.FC<Props> = ({
   staked,
   write,
 }) => {
-  return <Dialog open={open}></Dialog>;
+  const [side, pool] = usePoolStore((state) => [state.side, state.pool]);
+
+  const { data } = usePoolPreviewOrder({
+    address: pool.address,
+    args: [price, staked],
+  });
+
+  return (
+    <Dialog open={open}>
+      <Box>
+        <Box></Box>
+      </Box>
+    </Dialog>
+  );
 };
 
 export default Confirmation;
