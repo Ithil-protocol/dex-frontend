@@ -1,10 +1,11 @@
-import { Button, TableCell, TableRow, Chip } from "@mui/material";
+import { TableCell, TableRow, Chip, CircularProgress } from "@mui/material";
 import { useCancelOrder } from "hooks/poolWrite";
 import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { OpenOrderEvent } from "types";
 import PreciseNumber from "components/Common/PreciseNumber";
 import { fixPrecision } from "utility/convertors";
+import { LoadingButton } from "@mui/lab";
 
 interface Props {
   data: OpenOrderEvent;
@@ -17,6 +18,7 @@ const Order: React.FC<Props> = ({ data }) => {
   ]);
 
   const { cancel } = useCancelOrder({
+    hash: data.transactionHash,
     index: data.index,
     pool,
     price: data.rawPrice,
@@ -28,12 +30,20 @@ const Order: React.FC<Props> = ({ data }) => {
 
   const total = fixPrecision(data.price * data.amount, displayPrecision);
 
+  const isCanceling = data.status === "canceling";
+
   return (
     <TableRow
       sx={(theme) => ({
         transition: "background-color 200ms",
+        backgroundColor: isCanceling
+          ? theme.palette.background.default
+          : theme.palette.background.paper,
+
         ":hover": {
-          backgroundColor: theme.palette.primary.dark,
+          backgroundColor: isCanceling
+            ? theme.palette.background.default
+            : theme.palette.primary.dark,
         },
       })}
     >
@@ -57,20 +67,26 @@ const Order: React.FC<Props> = ({ data }) => {
 
       <TableCell>
         <Chip
-          sx={{ width: 70 }}
+          sx={{ width: 80 }}
           size="small"
           variant="outlined"
-          color={data.status === "open" ? "default" : "warning"}
+          color={
+            data.status === "open"
+              ? "default"
+              : isCanceling
+              ? "error"
+              : "warning"
+          }
           component={"a"}
           label={data.status}
           onClick={
-            data.status === "pending"
-              ? undefined
-              : () =>
+            data.status === "open"
+              ? () =>
                   window.open(
                     `https://goerli.etherscan.io/tx/${data.transactionHash}`,
                     "_blank"
                   )
+              : undefined
           }
         />
       </TableCell>
@@ -98,7 +114,8 @@ const Order: React.FC<Props> = ({ data }) => {
       </TableCell>
 
       <TableCell>
-        <Button
+        <LoadingButton
+          loading={isCanceling}
           variant="contained"
           disableElevation
           size="small"
@@ -109,11 +126,19 @@ const Order: React.FC<Props> = ({ data }) => {
               color: theme.palette.text.disabled,
             },
           })}
-          onClick={() => cancel?.()}
+          onClick={isCanceling ? undefined : () => cancel?.()}
           disabled={!cancel}
         >
-          cancel
-        </Button>
+          {isCanceling ? (
+            <CircularProgress
+              sx={{ margin: "5px" }}
+              size={14}
+              color="inherit"
+            />
+          ) : (
+            "cancel"
+          )}
+        </LoadingButton>
       </TableCell>
     </TableRow>
   );

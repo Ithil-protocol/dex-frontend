@@ -16,7 +16,7 @@ import {
   useTokenApprove,
 } from "./contracts/token";
 import TransactionToast from "components/Common/Toast/TransactionToast";
-import { OpenOrderEvent, Pool, Token } from "types";
+import { HistoryEvent, OpenOrderEvent, Pool, Token } from "types";
 import { useDeadline } from "./useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetConverters } from "./converters";
@@ -219,20 +219,53 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
 };
 
 interface CancelOrderProps {
+  hash: string;
   index: BigNumber | -1;
   pool: Pool;
   price: BigNumber;
 }
 
-export const useCancelOrder = ({ index, price, pool }: CancelOrderProps) => {
+export const useCancelOrder = ({
+  hash,
+  index,
+  pool,
+  price,
+}: CancelOrderProps) => {
+  const queryClient = useQueryClient();
+  const { address } = useAccount();
+  const { address: poolAddress } = usePoolStore((state) => state.default);
+
   const { config } = usePreparePoolCancelOrder({
     address: pool.address as `0x${string}`,
     args: [index as BigNumber, price],
   });
+
   const { write: cancel, data: writeData } = usePoolCancelOrder({
     ...config,
     onError: (error) => {
       toast.error(error.message);
+    },
+    onSuccess() {
+      queryClient.setQueryData<HistoryEvent[]>(
+        ["userOrderCreatedEvent", address, poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          const index = prev.findIndex((i) => i.transactionHash === hash);
+
+          if (index > -1) {
+            const order = { ...prev[index] };
+            const copyOrders = [...prev];
+            copyOrders.splice(index, 1, {
+              ...order,
+              status: "canceling",
+            });
+            return copyOrders;
+          }
+
+          return prev;
+        }
+      );
     },
   });
 
