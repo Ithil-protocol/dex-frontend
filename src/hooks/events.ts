@@ -447,13 +447,9 @@ export const useUserOrderFulfilledEvents = () => {
 };
 
 export const useLatestTrade = () => {
-  const { address: poolAddress } = usePoolStore((state) => state.default);
-  const queryClient = useQueryClient();
+  const { data } = useAllOrderFulfilledEvents();
 
-  const data = queryClient.getQueryData([
-    "allOrderFulfilledEvents",
-    poolAddress,
-  ]);
+  console.log(data?.[0].price);
   if (data) {
     return data?.[0].price;
   }
