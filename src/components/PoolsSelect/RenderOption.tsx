@@ -3,8 +3,9 @@ import { Pair } from "types";
 import styles from "./PoolsSelect.module.scss";
 
 const RenderOption = (props: object, option: Pair) => {
-  const UndIcon: any = option["sell"].underlying.icon;
-  const AccIcon: any = option["sell"].accounting.icon;
+  const UndIcon = option["sell"].underlying.icon;
+  const AccIcon = option["sell"].accounting.icon;
+  const tick = option.tick;
   return (
     <ListItemButton {...props}>
       <span className={styles.underlying_icon}>
@@ -13,9 +14,10 @@ const RenderOption = (props: object, option: Pair) => {
       <span className={styles.accounting_icon}>
         <AccIcon />
       </span>
-      <span className={styles.underlying_label}>{option.underlyingLabel}</span>
-      <span className={styles.slash}>/</span>
+      <span>{option.underlyingLabel}</span>
+      <span>/</span>
       <span className={styles.accounting_label}> {option.accountingLabel}</span>
+      <span>Tick {tick}</span>
     </ListItemButton>
   );
 };
