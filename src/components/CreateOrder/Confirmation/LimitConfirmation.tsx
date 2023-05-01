@@ -21,10 +21,10 @@ const LimitConfirmation: React.FC<Props> = ({ finalValues, open, write }) => {
   });
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>Limit order confirmation</DialogTitle>
-      <Box>
-        <Box></Box>
+    <Dialog open={open} fullWidth maxWidth={"sm"}>
+      <DialogTitle align="center">Limit order confirmation</DialogTitle>
+      <Box display={"flex"} flexDirection={"column"} px={6} py={3}>
+        <Box>4654</Box>
       </Box>
     </Dialog>
   );
