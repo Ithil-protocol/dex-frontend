@@ -1,5 +1,5 @@
-import { utils, ethers, BigNumber } from "ethers";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { utils, BigNumber } from "ethers";
+import { useLayoutEffect, useState } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCancelOrder,
@@ -35,7 +35,6 @@ export const useCreateOrder = ({
   pool,
 }: CreateOrderProps) => {
   const time = useDeadline();
-  const transactionHashRef = useRef("");
 
   const { address } = useAccount();
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
@@ -93,11 +92,10 @@ export const useCreateOrder = ({
       };
 
       queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", poolAddress],
+        ["userOrderCreatedEvent", address, poolAddress],
         (prev) => {
           if (!prev) return;
 
-          transactionHashRef.current = args[0].hash;
           return [
             {
               address: address as `0x${string}`,
@@ -111,7 +109,7 @@ export const useCreateOrder = ({
               staked: converters[side].stake(boost),
               status: "pending",
               timestamp: Date.now(),
-              transactionHash: transactionHashRef.current,
+              transactionHash: args[0].hash,
             },
             ...prev,
           ];
@@ -129,63 +127,11 @@ export const useCreateOrder = ({
           hash={data.transactionHash}
         />
       );
-
-      queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          const index = prev?.findIndex(
-            (i) => i.transactionHash === data.transactionHash
-          );
-
-          if (index !== -1) {
-            const order = { ...prev[index] };
-            order.status = "open";
-            order.index = -1;
-
-            const copyOrders = [...prev];
-            copyOrders.splice(index, 1, order);
-            return copyOrders;
-          }
-
-          return prev;
-        }
-      );
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
-
-  useEffect(() => {
-    if (waitedData?.transactionIndex) {
-      queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          const index = prev?.findIndex(
-            (i) => i.transactionHash === transactionHashRef.current
-          );
-
-          if (index !== -1) {
-            const order = { ...prev[index] };
-
-            order.index = ethers.BigNumber.from(waitedData.transactionIndex);
-
-            const copyOrders = [...prev];
-            copyOrders.splice(index, 1, order);
-
-            return copyOrders;
-          }
-
-          return prev;
-        }
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [waitedData]);
 
   return {
     waitedData,

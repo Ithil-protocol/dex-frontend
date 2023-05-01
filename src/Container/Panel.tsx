@@ -8,19 +8,19 @@ import Orders from "components/Orders";
 
 import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
-import { useContractEvent } from "wagmi";
+import { useAccount, useContractEvent } from "wagmi";
 import { usePoolStore } from "store";
-import { useQueryClient } from "@tanstack/react-query";
-import { MarketEvent, OrderBook } from "types";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { MarketEvent, OpenOrderEvent, OrderBook } from "types";
 import { buy_volume, sell_volume } from "hooks/contract";
 import { useGetConverters } from "hooks/converters";
+import { BigNumber } from "ethers";
 
 const Panel = () => {
-  const [sellPool, buyPool, poolAddress] = usePoolStore((state) => [
-    state.sellPool,
-    state.buyPool,
-    state.default,
-  ]);
+  const { address } = useAccount();
+  const [sellPool, buyPool, { address: poolAddress }] = usePoolStore(
+    (state) => [state.sellPool, state.buyPool, state.default]
+  );
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -34,6 +34,7 @@ const Panel = () => {
     address: sellPool.address,
     abi: contractABI,
     eventName: "OrderCreated",
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     listener(...rest) {
       console.log("rest", rest);
       const price = rest[1];
@@ -67,6 +68,13 @@ const Panel = () => {
           return newArray;
         }
       );
+
+      updateOrderFromPendingToCancel(
+        address as string,
+        poolAddress,
+        queryClient,
+        rest
+      );
     },
   });
 
@@ -74,6 +82,7 @@ const Panel = () => {
     address: buyPool.address,
     abi: contractABI,
     eventName: "OrderCreated",
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     listener(...rest) {
       console.log("rest", rest);
       const price = rest[1];
@@ -105,6 +114,13 @@ const Panel = () => {
           return newArray;
         }
       );
+
+      updateOrderFromPendingToCancel(
+        address as string,
+        poolAddress,
+        queryClient,
+        rest
+      );
     },
   });
 
@@ -129,6 +145,23 @@ const Panel = () => {
             }
             return item;
           });
+        }
+      );
+
+      queryClient.setQueryData<MarketEvent[]>(
+        ["allOrderFulfilledEvents", poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          return [
+            {
+              amount: sellAmountConverter(amount),
+              price: sellPriceConverter(price),
+              side: "sell",
+              timestamp: Date.now(),
+            },
+            ...prev,
+          ];
         }
       );
     },
@@ -157,16 +190,7 @@ const Panel = () => {
           });
         }
       );
-    },
-  });
 
-  useContractEvent({
-    address: buyPool.address,
-    abi: contractABI,
-    eventName: "OrderFulfilled",
-    listener(...rest) {
-      const price = rest[4];
-      const amount = rest[3];
       queryClient.setQueryData<MarketEvent[]>(
         ["allOrderFulfilledEvents", poolAddress],
         (prev) => {
@@ -177,32 +201,6 @@ const Panel = () => {
               amount: buyAmountConverter(amount, price),
               price: buyPriceConverter(price),
               side: "buy",
-              timestamp: Date.now(),
-            },
-            ...prev,
-          ];
-        }
-      );
-    },
-  });
-
-  useContractEvent({
-    address: sellPool.address,
-    abi: contractABI,
-    eventName: "OrderFulfilled",
-    listener(...rest) {
-      const price = rest[4];
-      const amount = rest[3];
-      queryClient.setQueryData<MarketEvent[]>(
-        ["allOrderFulfilledEvents", poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          return [
-            {
-              amount: sellAmountConverter(amount),
-              price: sellPriceConverter(price),
-              side: "sell",
               timestamp: Date.now(),
             },
             ...prev,
@@ -341,3 +339,40 @@ const Panel = () => {
 };
 
 export default Panel;
+
+const updateOrderFromPendingToCancel = (
+  address: string,
+  poolAddress: string,
+  queryClient: QueryClient,
+  rest: [string, ...BigNumber[]]
+) => {
+  queryClient.setQueryData<OpenOrderEvent[]>(
+    ["userOrderCreatedEvent", address, poolAddress],
+    (prev) => {
+      if (!prev) return;
+
+      const offerer = rest[0];
+      if (offerer !== address) return prev;
+
+      const price = rest[1];
+      const amount = rest[3];
+      const orderIndex = rest[2];
+
+      const index = prev.findIndex(
+        (i) => i.rawPrice.eq(price) && i.rawAmount.eq(amount)
+      );
+
+      if (index !== -1) {
+        const order = { ...prev[index] };
+        order.status = "open";
+        order.index = orderIndex;
+
+        const copyOrders = [...prev];
+        copyOrders.splice(index, 1, order);
+        return copyOrders;
+      }
+
+      return prev;
+    }
+  );
+};
