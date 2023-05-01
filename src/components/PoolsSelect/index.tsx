@@ -8,7 +8,8 @@ import RenderOption from "./RenderOption";
 function PoolsSelect() {
   const theme = useTheme();
 
-  const [pairValue, updatePair] = usePoolStore((state) => [
+  const [pair, pairValue, updatePair] = usePoolStore((state) => [
+    state.pair,
     state.pairValue,
     state.updatePair,
   ]);
@@ -22,13 +23,18 @@ function PoolsSelect() {
       sx={(theme) => ({
         borderBottom: `1px solid ${theme.palette.text.primary} `,
         "& .MuiSvgIcon-root": { fill: theme.palette.text.primary },
+        width: 350,
       })}
       value={pairs.find((option) => option.value === pairValue)}
       onChange={handleChange}
       options={pairs}
       disableClearable
       getOptionLabel={(option: Pair) =>
-        option.underlyingLabel + "/" + option.accountingLabel
+        option.underlyingLabel +
+        "/" +
+        option.accountingLabel +
+        " | Tick " +
+        pair.tick
       }
       renderOption={RenderOption}
       renderInput={(params) => (
