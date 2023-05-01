@@ -1,6 +1,6 @@
 import { usePoolStore } from "store";
 import { BigNumber, utils } from "ethers";
-import { FormattedOrderBook } from "types";
+import { FormattedOrderBook, Side } from "types";
 import { useBuyVolumes, useSellVolumes } from "./contract";
 import { fixPrecision } from "utility/convertors";
 
@@ -49,6 +49,12 @@ export const useBuyStakeConverter = () => {
     return fixPrecision(value, buyPool.underlying.displayPrecision);
   };
 };
+export const useStakedConverter = () => {
+  return (stake: BigNumber) => {
+    const value = Number(utils.formatUnits(stake, 18));
+    return fixPrecision(value, 6);
+  };
+};
 export const useSellStakeConverter = () => {
   const sellPool = usePoolStore((store) => store.sellPool);
   return (stake: BigNumber) => {
@@ -67,6 +73,27 @@ export const useGetConverters = () => {
     sellAmountConverter: useSellAmountConverter(),
     sellPriceConverter: useSellPriceConverter(),
     sellStakeConverter: useSellStakeConverter(),
+  };
+};
+
+export const useGetConvertersBySide = (side: Side) => {
+  const buyAmountConverter = useBuyAmountConverter();
+  const buyPriceConverter = useBuyPriceConverter();
+  const stakedConverter = useStakedConverter();
+  const sellAmountConverter = useSellAmountConverter();
+  const sellPriceConverter = useSellPriceConverter();
+
+  if (side === "buy") {
+    return {
+      amountConverter: buyAmountConverter,
+      priceConverter: buyPriceConverter,
+      stakedConverter,
+    };
+  }
+  return {
+    amountConverter: sellAmountConverter,
+    priceConverter: sellPriceConverter,
+    stakedConverter,
   };
 };
 
