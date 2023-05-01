@@ -7,35 +7,4 @@
   gap: 30px;
 }
 
-.latest {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 30px;
-}
 
-.last_value {
-  color: $color-green;
-  font-size: 30px;
-}
-
-.last_percent {
-  font-size: 16px;
-}
-
-.select {
-  width: 200px;
-}
-
-.item {
-  // color: $color-gray;
-  color: rgb(190, 190, 190);
-}
-
-.value {
-  margin-left: 8px;
-  color: $color-white;
-}
-
-.connect_btn {
-}

@@ -8,7 +8,7 @@ const Navbar = () => {
       <div className={styles.select}>
         <PoolsSelect />
       </div>
-      <div className={styles.connect_btn}>
+      <div>
         <ConnectButton />
       </div>
     </nav>

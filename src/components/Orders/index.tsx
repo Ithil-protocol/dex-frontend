@@ -8,7 +8,7 @@ import { Skeleton, Typography } from "@mui/material";
 const Orders = () => {
   const pair = usePoolStore((store) => store.pair);
 
-  const { data: latestPrice, isLoading } = useLatestTrade();
+  const { latestPrice, isLoading } = useLatestTrade();
   return (
     <div className={styles.orders}>
       <div className={styles.header}>

@@ -23,7 +23,7 @@ function PoolsSelect() {
         borderBottom: `1px solid ${theme.palette.text.primary} `,
         "& .MuiSvgIcon-root": { fill: theme.palette.text.primary },
       })}
-      value={pairs.find((option) => +option.value === pairValue)}
+      value={pairs.find((option) => option.value === pairValue)}
       onChange={handleChange}
       options={pairs}
       disableClearable
