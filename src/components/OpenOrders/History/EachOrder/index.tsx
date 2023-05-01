@@ -19,7 +19,14 @@ const Order: React.FC<Props> = ({ data }) => {
   const total = fixPrecision(data.price * data.amount, displayPrecision);
 
   return (
-    <TableRow>
+    <TableRow
+      sx={(theme) => ({
+        transition: "background-color 200ms",
+        ":hover": {
+          backgroundColor: theme.palette.primary.dark,
+        },
+      })}
+    >
       <TableCell sx={{ padding: "8px" }}>
         {formatDateToFullDate(data.timestamp)}
       </TableCell>
