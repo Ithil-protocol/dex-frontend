@@ -59,6 +59,17 @@ export const useSellStakeConverter = () => {
   };
 };
 
+export const useGetConverters = () => {
+  return {
+    buyAmountConverter: useBuyAmountConverter(),
+    buyPriceConverter: useBuyPriceConverter(),
+    buyStakeConverter: useBuyStakeConverter(),
+    sellAmountConverter: useSellAmountConverter(),
+    sellPriceConverter: useSellPriceConverter(),
+    sellStakeConverter: useSellStakeConverter(),
+  };
+};
+
 export const useFormatSellData = () => {
   const result = useSellVolumes();
 
