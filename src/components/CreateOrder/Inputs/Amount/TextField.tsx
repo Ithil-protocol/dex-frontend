@@ -27,6 +27,7 @@ const LimitAmountTextField: React.FC<Props> = (props) => {
           onChange(value);
         }
       }}
+      placeholder="0"
       sx={{ "& fieldset": { border: "none" } }}
       id="amount"
       inputRef={ref}
