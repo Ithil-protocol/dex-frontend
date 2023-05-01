@@ -16,7 +16,7 @@ import {
   useTokenApprove,
 } from "./contracts/token";
 import TransactionToast from "components/Common/Toast/TransactionToast";
-import { HistoryEvent, OpenOrderEvent, Pool, Token } from "types";
+import { OpenOrderEvent, Pool, Token } from "types";
 import { useDeadline } from "./useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetConverters } from "./converters";
@@ -219,19 +219,12 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
 };
 
 interface CancelOrderProps {
-  hash: string;
   index: BigNumber | -1;
   pool: Pool;
   price: BigNumber;
 }
 
-export const useCancelOrder = ({
-  index,
-  price,
-  pool,
-  hash,
-}: CancelOrderProps) => {
-  const { address } = useAccount();
+export const useCancelOrder = ({ index, price, pool }: CancelOrderProps) => {
   const { config } = usePreparePoolCancelOrder({
     address: pool.address as `0x${string}`,
     args: [index as BigNumber, price],
@@ -243,9 +236,6 @@ export const useCancelOrder = ({
     },
   });
 
-  const queryClient = useQueryClient();
-  const { address: poolAddress } = usePoolStore((state) => state.default);
-
   // const { data: waitedData } =
   useWaitForTransaction({
     hash: writeData?.hash,
@@ -255,46 +245,6 @@ export const useCancelOrder = ({
           text="Order canceled successfully."
           hash={data.transactionHash}
         />
-      );
-
-      let canceledOrder: OpenOrderEvent | undefined;
-
-      queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", address, poolAddress],
-        (orders) => {
-          if (!orders) return;
-
-          canceledOrder = orders.find((i) => i.transactionHash === hash);
-
-          if (canceledOrder) {
-            const copyOrders = [...orders];
-            copyOrders.splice(copyOrders.indexOf(canceledOrder), 1);
-
-            return copyOrders;
-          }
-
-          return orders;
-        }
-      );
-
-      queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderCancelledEvents", address, poolAddress],
-        (orders) => {
-          if (!orders || !canceledOrder) return;
-
-          const { address, index, ...rest } = canceledOrder;
-
-          const newOrders: HistoryEvent[] = [
-            {
-              ...rest,
-              status: "canceled",
-              timestamp: Date.now(),
-            },
-            ...orders,
-          ];
-
-          return newOrders;
-        }
       );
     },
   });

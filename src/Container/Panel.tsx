@@ -11,21 +11,24 @@ import styles from "styles/panel.module.scss";
 import { useAccount, useContractEvent } from "wagmi";
 import { usePoolStore } from "store";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { MarketEvent, OpenOrderEvent, OrderBook } from "types";
+import { HistoryEvent, MarketEvent, OpenOrderEvent, OrderBook } from "types";
 import { buy_volume, sell_volume } from "hooks/contract";
 import { useGetConverters } from "hooks/converters";
-import { BigNumber } from "ethers";
+import { BigNumber, Event } from "ethers";
 
 const Panel = () => {
   const { address } = useAccount();
+
   const [sellPool, buyPool, { address: poolAddress }] = usePoolStore(
     (state) => [state.sellPool, state.buyPool, state.default]
   );
   const {
     buyAmountConverter,
     buyPriceConverter,
+    buyStakeConverter,
     sellAmountConverter,
     sellPriceConverter,
+    sellStakeConverter,
   } = useGetConverters();
 
   const queryClient = useQueryClient();
@@ -214,14 +217,16 @@ const Panel = () => {
     address: sellPool.address,
     abi: contractABI,
     eventName: "OrderCancelled",
-    listener(...rest) {
-      console.log("rest", rest);
+    async listener(...rest) {
+      const offerer = rest[1];
       const price = rest[2];
       const amount = rest[3];
+
       queryClient.setQueryData<OrderBook[]>(
         [sell_volume, sellPool.address],
         (prev) => {
           if (!prev) return;
+
           return prev.map((item) => {
             if (item.value.eq(price)) {
               return {
@@ -233,6 +238,45 @@ const Panel = () => {
           });
         }
       );
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      const data = rest[4]! as Event;
+      const { value: rawStaked } = await data.getTransaction();
+
+      queryClient.setQueryData<HistoryEvent[]>(
+        ["userOrderCancelledEvents", address, poolAddress],
+        (prev) => {
+          if (!prev) return;
+          if (offerer !== address) return prev;
+
+          const newOrders: HistoryEvent[] = [
+            {
+              status: "canceled",
+              timestamp: Date.now(),
+              amount: sellAmountConverter(amount),
+              price: sellPriceConverter(price),
+              rawAmount: amount,
+              rawPrice: price,
+              rawStaked,
+              side: "sell",
+              staked: sellStakeConverter(rawStaked),
+              transactionHash: data.transactionHash,
+            },
+            ...prev,
+          ];
+
+          return newOrders;
+        }
+      );
+
+      removeCanceledOrder(
+        queryClient,
+        address as string,
+        poolAddress,
+        price,
+        amount
+      );
     },
   });
 
@@ -240,10 +284,11 @@ const Panel = () => {
     address: buyPool.address,
     abi: contractABI,
     eventName: "OrderCancelled",
-    listener(...rest) {
-      console.log("rest", rest);
+    async listener(...rest) {
+      const offerer = rest[1];
       const price = rest[2];
       const amount = rest[3];
+
       queryClient.setQueryData<OrderBook[]>(
         [buy_volume, buyPool.address],
         (prev) => {
@@ -258,6 +303,45 @@ const Panel = () => {
             return item;
           });
         }
+      );
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      const data = rest[4]! as Event;
+      const { value: rawStaked } = await data.getTransaction();
+
+      queryClient.setQueryData<HistoryEvent[]>(
+        ["userOrderCancelledEvents", address, poolAddress],
+        (prev) => {
+          if (!prev) return;
+          if (offerer !== address) return prev;
+
+          const newOrders: HistoryEvent[] = [
+            {
+              status: "canceled",
+              timestamp: Date.now(),
+              amount: buyAmountConverter(amount, price),
+              price: buyPriceConverter(price),
+              rawAmount: amount,
+              rawPrice: price,
+              rawStaked,
+              side: "buy",
+              staked: buyStakeConverter(rawStaked),
+              transactionHash: data.transactionHash,
+            },
+            ...prev,
+          ];
+
+          return newOrders;
+        }
+      );
+
+      removeCanceledOrder(
+        queryClient,
+        address as string,
+        poolAddress,
+        price,
+        amount
       );
     },
   });
@@ -373,6 +457,34 @@ const updateOrderFromPendingToCancel = (
       }
 
       return prev;
+    }
+  );
+};
+
+const removeCanceledOrder = (
+  queryClient: QueryClient,
+  address: string,
+  poolAddress: string,
+  price: BigNumber,
+  amount: BigNumber
+) => {
+  queryClient.setQueryData<OpenOrderEvent[]>(
+    ["userOrderCreatedEvent", address, poolAddress],
+    (orders) => {
+      if (!orders) return;
+
+      const canceledOrder = orders.find(
+        (i) => i.rawPrice.eq(price) && i.rawAmount.eq(amount)
+      );
+
+      if (canceledOrder) {
+        const copyOrders = [...orders];
+        copyOrders.splice(copyOrders.indexOf(canceledOrder), 1);
+
+        return copyOrders;
+      }
+
+      return orders;
     }
   );
 };

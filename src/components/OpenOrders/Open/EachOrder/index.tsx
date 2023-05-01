@@ -20,7 +20,6 @@ const Order: React.FC<Props> = ({ data }) => {
     index: data.index,
     pool,
     price: data.rawPrice,
-    hash: data.transactionHash,
   });
 
   const {
