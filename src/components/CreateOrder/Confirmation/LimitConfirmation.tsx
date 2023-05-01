@@ -12,7 +12,7 @@ interface Props {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Confirmation: React.FC<Props> = ({ finalValues, open, write }) => {
+const LimitConfirmation: React.FC<Props> = ({ finalValues, open, write }) => {
   const [side, pool] = usePoolStore((state) => [state.side, state.pool]);
 
   const { data } = usePoolPreviewOrder({
@@ -30,4 +30,4 @@ const Confirmation: React.FC<Props> = ({ finalValues, open, write }) => {
   );
 };
 
-export default Confirmation;
+export default LimitConfirmation;

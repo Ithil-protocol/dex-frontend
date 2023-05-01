@@ -15,7 +15,7 @@ import Submit from "components/CreateOrder/Inputs/Submit";
 import LimitAmount from "components/CreateOrder/Inputs/Amount";
 import Info from "components/Common/Info";
 import { fixPrecision } from "utility/convertors";
-import Confirmation from "components/CreateOrder/Confirmation";
+import LimitConfirmation from "components/CreateOrder/Confirmation/LimitConfirmation";
 
 interface Props {}
 
@@ -124,7 +124,7 @@ const LimitSell: React.FC<Props> = () => {
           <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
         </div>
       </form>
-      <Confirmation
+      <LimitConfirmation
         finalValues={finalValues}
         open={open}
         setOpen={setOpen}
