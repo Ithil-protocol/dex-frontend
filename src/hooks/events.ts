@@ -1,28 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { readContracts, useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "./contract";
-import { Event } from "ethers";
 import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "types";
-import {
-  useBuyAmountConverter,
-  useBuyPriceConverter,
-  useBuyStakeConverter,
-  useSellAmountConverter,
-  useSellPriceConverter,
-  useSellStakeConverter,
-} from "./converters";
+import { useGetConverters } from "./converters";
 import { contractABI } from "store/abi";
 import { usePoolStore } from "store";
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
 
-  const buyAmountConverter = useBuyAmountConverter();
-  const buyPriceConverter = useBuyPriceConverter();
-  const sellAmountConverter = useSellAmountConverter();
-  const sellPriceConverter = useSellPriceConverter();
-  const buyStakeConverter = useBuyStakeConverter();
-  const sellStakeConverter = useSellStakeConverter();
+  const {
+    buyAmountConverter,
+    buyPriceConverter,
+    buyStakeConverter,
+    sellAmountConverter,
+    sellPriceConverter,
+    sellStakeConverter,
+  } = useGetConverters();
   const { address } = useAccount();
   const sellContract = useSellContract();
   const buyContract = useBuyContract();
@@ -191,12 +185,14 @@ export const useUserOrderCreatedEvents = () => {
 export const useUserOrderCancelledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
 
-  const buyAmountConverter = useBuyAmountConverter();
-  const buyPriceConverter = useBuyPriceConverter();
-  const sellAmountConverter = useSellAmountConverter();
-  const sellPriceConverter = useSellPriceConverter();
-  const buyStakeConverter = useBuyStakeConverter();
-  const sellStakeConverter = useSellStakeConverter();
+  const {
+    buyAmountConverter,
+    buyPriceConverter,
+    buyStakeConverter,
+    sellAmountConverter,
+    sellPriceConverter,
+    sellStakeConverter,
+  } = useGetConverters();
   const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
@@ -280,10 +276,12 @@ export const useUserOrderCancelledEvents = () => {
 export const useAllOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
 
-  const buyAmountConverter = useBuyAmountConverter();
-  const buyPriceConverter = useBuyPriceConverter();
-  const sellAmountConverter = useSellAmountConverter();
-  const sellPriceConverter = useSellPriceConverter();
+  const {
+    buyAmountConverter,
+    buyPriceConverter,
+    sellAmountConverter,
+    sellPriceConverter,
+  } = useGetConverters();
 
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
@@ -333,12 +331,14 @@ export const useAllOrderFulfilledEvents = () => {
 
 export const useUserOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const buyAmountConverter = useBuyAmountConverter();
-  const buyPriceConverter = useBuyPriceConverter();
-  const sellAmountConverter = useSellAmountConverter();
-  const sellPriceConverter = useSellPriceConverter();
-  const buyStakeConverter = useBuyStakeConverter();
-  const sellStakeConverter = useSellStakeConverter();
+  const {
+    buyAmountConverter,
+    buyPriceConverter,
+    buyStakeConverter,
+    sellAmountConverter,
+    sellPriceConverter,
+    sellStakeConverter,
+  } = useGetConverters();
   const { address } = useAccount();
   const buyContract = useBuyContract();
   const sellContract = useSellContract();
