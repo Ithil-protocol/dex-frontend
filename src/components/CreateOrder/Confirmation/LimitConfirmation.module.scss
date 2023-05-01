@@ -1,4 +1,10 @@
-.price {
+.row {
   display: flex;
   justify-content: space-between;
+  padding-inline: 10px;
+  padding-block: 5px;
+  border-radius: 3px;
+  &:hover {
+    background: #ffffff45;
+  }
 }

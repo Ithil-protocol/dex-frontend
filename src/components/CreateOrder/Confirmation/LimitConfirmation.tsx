@@ -32,15 +32,49 @@ const LimitConfirmation: React.FC<Props> = ({
   };
 
   return (
-    <Dialog open={open} onClose={closeHandler} fullWidth maxWidth={"sm"}>
+    <Dialog open={open} onClose={closeHandler} fullWidth maxWidth={"xs"}>
       <DialogTitle align="center">Limit order confirmation</DialogTitle>
-      <Box display={"flex"} flexDirection={"column"} px={6} py={3}>
-        <div className={styles.price}>
+      <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
+        <div className={styles.row}>
           <span>Actual price</span>
           {isLoading ? (
             <Skeleton height={20} />
           ) : (
             <span>{converters.priceConverter(preview!.actualPrice)}</span>
+          )}
+        </div>
+        <div className={styles.row}>
+          <span>Amount</span>
+          {isLoading ? (
+            <Skeleton height={20} />
+          ) : (
+            <span>
+              {converters.amountConverter(
+                finalValues.amount,
+                preview!.actualPrice
+              )}
+            </span>
+          )}
+        </div>
+        <div className={styles.row}>
+          <span>Position</span>
+          {isLoading ? (
+            <Skeleton height={20} />
+          ) : (
+            <span>{preview!.position.toNumber()}</span>
+          )}
+        </div>
+        <div className={styles.row}>
+          <span>Volume before you</span>
+          {isLoading ? (
+            <Skeleton height={20} />
+          ) : (
+            <span>
+              {converters.amountConverter(
+                preview!.cumulativeUndAmount,
+                preview!.actualPrice
+              )}
+            </span>
           )}
         </div>
       </Box>
