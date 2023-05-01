@@ -11,14 +11,22 @@ import styles from "styles/panel.module.scss";
 import { useContractEvent } from "wagmi";
 import { usePoolStore } from "store";
 import { useQueryClient } from "@tanstack/react-query";
-import { OrderBook } from "types";
+import { MarketEvent, OrderBook } from "types";
 import { buy_volume, sell_volume } from "hooks/contract";
+import { useGetConverters } from "hooks/converters";
 
 const Panel = () => {
-  const [sellPool, buyPool] = usePoolStore((state) => [
+  const [sellPool, buyPool, poolAddress] = usePoolStore((state) => [
     state.sellPool,
     state.buyPool,
+    state.default,
   ]);
+  const {
+    buyAmountConverter,
+    buyPriceConverter,
+    sellAmountConverter,
+    sellPriceConverter,
+  } = useGetConverters();
 
   const queryClient = useQueryClient();
 
@@ -147,6 +155,58 @@ const Panel = () => {
             }
             return item;
           });
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: buyPool.address,
+    abi: contractABI,
+    eventName: "OrderFulfilled",
+    listener(...rest) {
+      const price = rest[4];
+      const amount = rest[3];
+      queryClient.setQueryData<MarketEvent[]>(
+        ["allOrderFulfilledEvents", poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          return [
+            {
+              amount: buyAmountConverter(amount, price),
+              price: buyPriceConverter(price),
+              side: "buy",
+              timestamp: Date.now(),
+            },
+            ...prev,
+          ];
+        }
+      );
+    },
+  });
+
+  useContractEvent({
+    address: sellPool.address,
+    abi: contractABI,
+    eventName: "OrderFulfilled",
+    listener(...rest) {
+      const price = rest[4];
+      const amount = rest[3];
+      queryClient.setQueryData<MarketEvent[]>(
+        ["allOrderFulfilledEvents", poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          return [
+            {
+              amount: sellAmountConverter(amount),
+              price: sellPriceConverter(price),
+              side: "sell",
+              timestamp: Date.now(),
+            },
+            ...prev,
+          ];
         }
       );
     },
