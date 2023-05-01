@@ -3,12 +3,12 @@ import Sell from "./Sell";
 import styles from "./Orders.module.scss";
 import { usePoolStore } from "store";
 import { useLatestTrade } from "hooks/events";
-import { Typography } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 
 const Orders = () => {
   const pair = usePoolStore((store) => store.pair);
 
-  const latestPrice = useLatestTrade();
+  const { data: latestPrice, isLoading } = useLatestTrade();
   return (
     <div className={styles.orders}>
       <div className={styles.header}>
@@ -16,9 +16,13 @@ const Orders = () => {
         <span>amount ({pair.accountingLabel})</span>
       </div>
       <Buy />
-      <Typography textAlign={"end"} marginY={3} fontSize={28}>
-        {latestPrice} {pair.accountingLabel}
-      </Typography>
+      {isLoading ? (
+        <Skeleton height={90} />
+      ) : (
+        <Typography textAlign={"end"} marginY={3} fontSize={28}>
+          {latestPrice} {pair.accountingLabel}
+        </Typography>
+      )}
       <Sell />
     </div>
   );

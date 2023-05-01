@@ -447,11 +447,7 @@ export const useUserOrderFulfilledEvents = () => {
 };
 
 export const useLatestTrade = () => {
-  const { data } = useAllOrderFulfilledEvents();
+  const { data, isLoading } = useAllOrderFulfilledEvents();
 
-  console.log(data?.[0].price);
-  if (data) {
-    return data?.[0].price;
-  }
-  return 0;
+  return { data: data?.[0].price, isLoading };
 };
