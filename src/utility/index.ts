@@ -72,7 +72,7 @@ export const formatDateToTime = (date: number) => {
 };
 
 export const formatDateToFullDate = (date: number) => {
-  return format(new Date(date), "KK:mm:ss dd/MM/yy");
+  return format(new Date(date), "HH:mm:ss dd/MM/yy");
 };
 
 export const zeroBigNumber = utils.parseUnits("0", 0);
