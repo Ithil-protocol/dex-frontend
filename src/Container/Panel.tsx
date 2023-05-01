@@ -131,7 +131,7 @@ const Panel = () => {
     address: sellPool.address,
     abi: contractABI,
     eventName: "OrderFulfilled",
-    listener(...rest) {
+    async listener(...rest) {
       console.log("rest", rest);
       const price = rest[4];
       const amount = rest[3];
@@ -167,6 +167,40 @@ const Panel = () => {
           ];
         }
       );
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      const data = rest[6]! as Event;
+      const { value: rawStaked } = await data.getTransaction();
+
+      queryClient.setQueryData<HistoryEvent[]>(
+        ["userOrderFulfilledEvents", address, poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          const [, offerer, fulfiller, rawAmount, rawPrice] = rest;
+
+          if (offerer === address || fulfiller === address) {
+            return [
+              {
+                amount: sellAmountConverter(rawAmount),
+                price: sellPriceConverter(rawPrice),
+                rawAmount,
+                rawPrice,
+                rawStaked,
+                side: "sell",
+                staked: sellStakeConverter(rawStaked),
+                status: "fulfilled",
+                timestamp: Date.now(),
+                transactionHash: data.transactionHash,
+              },
+              ...prev,
+            ];
+          }
+
+          return prev;
+        }
+      );
     },
   });
 
@@ -174,7 +208,7 @@ const Panel = () => {
     address: buyPool.address,
     abi: contractABI,
     eventName: "OrderFulfilled",
-    listener(...rest) {
+    async listener(...rest) {
       console.log("rest", rest);
       const price = rest[4];
       const amount = rest[3];
@@ -208,6 +242,40 @@ const Panel = () => {
             },
             ...prev,
           ];
+        }
+      );
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      const data = rest[6]! as Event;
+      const { value: rawStaked } = await data.getTransaction();
+
+      queryClient.setQueryData<HistoryEvent[]>(
+        ["userOrderFulfilledEvents", address, poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          const [, offerer, fulfiller, rawAmount, rawPrice] = rest;
+
+          if (offerer === address || fulfiller === address) {
+            return [
+              {
+                amount: buyAmountConverter(rawAmount, rawPrice),
+                price: buyPriceConverter(rawPrice),
+                rawAmount,
+                rawPrice,
+                rawStaked,
+                side: "buy",
+                staked: buyStakeConverter(rawStaked),
+                status: "fulfilled",
+                timestamp: Date.now(),
+                transactionHash: data.transactionHash,
+              },
+              ...prev,
+            ];
+          }
+
+          return prev;
         }
       );
     },
