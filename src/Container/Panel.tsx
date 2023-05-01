@@ -73,9 +73,9 @@ const Panel = () => {
       );
 
       updateOrderFromPendingToCancel(
+        queryClient,
         address as string,
         poolAddress,
-        queryClient,
         rest
       );
     },
@@ -119,9 +119,9 @@ const Panel = () => {
       );
 
       updateOrderFromPendingToCancel(
+        queryClient,
         address as string,
         poolAddress,
-        queryClient,
         rest
       );
     },
@@ -218,9 +218,7 @@ const Panel = () => {
     abi: contractABI,
     eventName: "OrderCancelled",
     async listener(...rest) {
-      const offerer = rest[1];
-      const price = rest[2];
-      const amount = rest[3];
+      const [index, offerer, price, amount] = rest;
 
       queryClient.setQueryData<OrderBook[]>(
         [sell_volume, sellPool.address],
@@ -275,7 +273,7 @@ const Panel = () => {
         address as string,
         poolAddress,
         price,
-        amount
+        index
       );
     },
   });
@@ -285,9 +283,7 @@ const Panel = () => {
     abi: contractABI,
     eventName: "OrderCancelled",
     async listener(...rest) {
-      const offerer = rest[1];
-      const price = rest[2];
-      const amount = rest[3];
+      const [index, offerer, price, amount] = rest;
 
       queryClient.setQueryData<OrderBook[]>(
         [buy_volume, buyPool.address],
@@ -341,7 +337,7 @@ const Panel = () => {
         address as string,
         poolAddress,
         price,
-        amount
+        index
       );
     },
   });
@@ -425,9 +421,9 @@ const Panel = () => {
 export default Panel;
 
 const updateOrderFromPendingToCancel = (
+  queryClient: QueryClient,
   address: string,
   poolAddress: string,
-  queryClient: QueryClient,
   rest: [string, ...BigNumber[]]
 ) => {
   queryClient.setQueryData<OpenOrderEvent[]>(
@@ -435,15 +431,12 @@ const updateOrderFromPendingToCancel = (
     (prev) => {
       if (!prev) return;
 
-      const offerer = rest[0];
+      const [offerer, price, orderIndex] = rest;
+
       if (offerer !== address) return prev;
 
-      const price = rest[1];
-      const amount = rest[3];
-      const orderIndex = rest[2];
-
       const index = prev.findIndex(
-        (i) => i.rawPrice.eq(price) && i.rawAmount.eq(amount)
+        (i) => i.rawPrice.eq(price) && (i.index as BigNumber).eq(orderIndex)
       );
 
       if (index !== -1) {
@@ -466,7 +459,7 @@ const removeCanceledOrder = (
   address: string,
   poolAddress: string,
   price: BigNumber,
-  amount: BigNumber
+  index: BigNumber
 ) => {
   queryClient.setQueryData<OpenOrderEvent[]>(
     ["userOrderCreatedEvent", address, poolAddress],
@@ -474,7 +467,7 @@ const removeCanceledOrder = (
       if (!orders) return;
 
       const canceledOrder = orders.find(
-        (i) => i.rawPrice.eq(price) && i.rawAmount.eq(amount)
+        (i) => i.rawPrice.eq(price) && (i.index as BigNumber).eq(index)
       );
 
       if (canceledOrder) {
