@@ -1,10 +1,23 @@
-.underlying_icon {
-  z-index: 10;
+.container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.accounting_icon {
-  margin-left: -16px;
-  margin-right: 16px;
+.pair{
+    display: flex;
+    align-items: center;
+}
+
+.underlying_icon {
+    z-index: 10;
+    margin-top: 6px;
+  }
+  
+  .accounting_icon {
+    margin-left: -16px;
+    margin-right: 16px;
+    margin-top: 6px;
 }
 
 .accounting_label {

@@ -7,16 +7,21 @@ const RenderOption = (props: object, option: Pair) => {
   const AccIcon = option["sell"].accounting.icon;
   const tick = option.tick;
   return (
-    <ListItemButton {...props}>
-      <span className={styles.underlying_icon}>
-        <UndIcon />
-      </span>
-      <span className={styles.accounting_icon}>
-        <AccIcon />
-      </span>
-      <span>{option.underlyingLabel}</span>
-      <span>/</span>
-      <span className={styles.accounting_label}> {option.accountingLabel}</span>
+    <ListItemButton {...props} className={styles.container}>
+      <div className={styles.pair}>
+        <span className={styles.underlying_icon}>
+          <UndIcon />
+        </span>
+        <span className={styles.accounting_icon}>
+          <AccIcon />
+        </span>
+        <span>{option.underlyingLabel}</span>
+        <span>/</span>
+        <span className={styles.accounting_label}>
+          {" "}
+          {option.accountingLabel}
+        </span>
+      </div>
       <span>Tick {tick}</span>
     </ListItemButton>
   );
