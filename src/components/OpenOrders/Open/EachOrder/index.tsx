@@ -51,17 +51,20 @@ const Order: React.FC<Props> = ({ data }) => {
 
       <TableCell>
         <Chip
-          sx={{ width: 60 }}
+          sx={{ width: 70 }}
           size="small"
           variant="outlined"
           color={data.status === "open" ? "default" : "warning"}
           component={"a"}
           label={data.status}
-          onClick={() =>
-            window.open(
-              `https://goerli.etherscan.io/tx/${data.transactionHash}`,
-              "_blank"
-            )
+          onClick={
+            data.status === "pending"
+              ? undefined
+              : () =>
+                  window.open(
+                    `https://goerli.etherscan.io/tx/${data.transactionHash}`,
+                    "_blank"
+                  )
           }
         />
       </TableCell>
