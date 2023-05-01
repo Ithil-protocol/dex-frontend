@@ -46,7 +46,7 @@ module.exports = {
       },
     ],
     "arrow-parens": "warn",
-    indent: ["warn", 2],
+    // indent: ["warn", 2],
     "linebreak-style": ["warn", "windows"],
     "no-delete-var": "warn",
     "no-unused-vars": "off",
