@@ -10,7 +10,7 @@ import {
 import { usePoolPreviewTake } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "store";
-import { MarketSellFinalValues } from "types";
+import { MarketBuyFinalValues } from "types";
 import styles from "./LimitConfirmation.module.scss";
 import {
   useBuyAmountConverter,
@@ -27,7 +27,7 @@ import LabelChip from "./LabelChip";
 import RowContainer from "./RowContainer";
 
 interface Props {
-  finalValues: MarketSellFinalValues;
+  finalValues: MarketBuyFinalValues;
   write: (() => void) | undefined;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -38,7 +38,7 @@ interface Props {
   waitedSuccess: boolean;
 }
 
-const MarketSellConfirmation: React.FC<Props> = ({
+const MarketBuyConfirmation: React.FC<Props> = ({
   finalValues,
   open,
   setOpen,
@@ -51,7 +51,7 @@ const MarketSellConfirmation: React.FC<Props> = ({
 }) => {
   const [side, pair] = usePoolStore((state) => [state.side, state.pair]);
 
-  const buyAmountConverter = useBuyAmountConverter();
+  // const buyAmountConverter = useBuyAmountConverter();
 
   const { data: preview, isLoading: previewLoading } = usePoolPreviewTake({
     address: finalValues.pool.address,
@@ -66,7 +66,7 @@ const MarketSellConfirmation: React.FC<Props> = ({
   return (
     <Dialog open={open} onClose={closeHandler} fullWidth maxWidth={"xs"}>
       <DialogTitle fontWeight={800} align="center">
-        Market order confirmation
+        market order confirmation
       </DialogTitle>
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
         <RowContainer
@@ -74,30 +74,7 @@ const MarketSellConfirmation: React.FC<Props> = ({
           isLoading={previewLoading}
           title="You obtain"
         >
-          {preview &&
-            fixPrecision(
-              finalValues.totalToTake,
-              finalValues.pool.underlying.displayPrecision
-            )}
-        </RowContainer>
-
-        <RowContainer
-          label={pair.underlyingLabel}
-          isLoading={previewLoading}
-          title="You sell (max)"
-        >
-          {preview &&
-            fixPrecision(
-              finalValues.inputAmount,
-              finalValues.pool.accounting.displayPrecision
-            )}
-        </RowContainer>
-        <RowContainer
-          label={pair.underlyingLabel}
-          isLoading={previewLoading}
-          title="You sell (min)"
-        >
-          {preview && buyAmountConverter(finalValues.amount, finalValues.price)}
+          0
         </RowContainer>
 
         <TransactionResponse
@@ -142,4 +119,4 @@ const MarketSellConfirmation: React.FC<Props> = ({
   );
 };
 
-export default MarketSellConfirmation;
+export default MarketBuyConfirmation;

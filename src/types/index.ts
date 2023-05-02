@@ -184,7 +184,7 @@ export interface LimitFinalValues {
   pool: Pool;
 }
 
-export interface MarketFinalValues {
+export interface MarketSellFinalValues {
   amount: BigNumber;
   price: BigNumber;
   minReceived: BigNumber;
@@ -192,4 +192,12 @@ export interface MarketFinalValues {
   pool: Pool;
   totalToTake: number;
   inputAmount: number;
+}
+export interface MarketBuyFinalValues {
+  amount: BigNumber;
+  minReceived: BigNumber;
+  maxPaid: BigNumber;
+  pool: Pool;
+  totalToPay: number;
+  isAmountOut: boolean;
 }
