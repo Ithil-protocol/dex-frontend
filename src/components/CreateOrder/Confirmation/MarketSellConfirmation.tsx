@@ -19,10 +19,11 @@ import {
 import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
 import { providers, utils } from "ethers";
-import CheckIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
+
 import { appConfig } from "Config";
 import { fixPrecision } from "utility/convertors";
+import TransactionResponse from "./TransactionResponse";
+import LabelChip from "./LabelChip";
 
 interface Props {
   finalValues: MarketFinalValues;
@@ -164,66 +165,6 @@ function RowContainer({
         <span>
           {children} {label && <LabelChip label={label} />}
         </span>
-      )}
-    </div>
-  );
-}
-
-interface LabelChipProps {
-  label: string;
-}
-function LabelChip({ label }: LabelChipProps) {
-  return (
-    <Chip
-      label={label}
-      variant="filled"
-      size="small"
-      color="secondary"
-      sx={{ fontSize: 10, fontWeight: 600, marginTop: -0.2 }}
-    />
-  );
-}
-
-interface TransactionResponseProps {
-  fulfillLoading: boolean;
-  waitedData: providers.TransactionReceipt | undefined;
-  waitedError: boolean;
-  waitedSuccess: boolean;
-}
-
-function TransactionResponse({
-  fulfillLoading,
-  waitedError,
-  waitedSuccess,
-  waitedData,
-}: TransactionResponseProps) {
-  return (
-    <div className={styles.response}>
-      {fulfillLoading ? (
-        <div className={styles.response}>
-          <CircularProgress size={148} color="success" />
-        </div>
-      ) : (
-        (waitedError || waitedSuccess) && (
-          <div className={styles.response}>
-            {waitedSuccess && (
-              <CheckIcon sx={{ fontSize: 100 }} color="success" />
-            )}
-            {waitedError && <CancelIcon sx={{ fontSize: 100 }} color="error" />}
-            <Chip
-              label={"Check on Etherscan"}
-              size="medium"
-              onClick={() =>
-                window.open(
-                  `https://goerli.etherscan.io/tx/${waitedData?.transactionHash}`
-                )
-              }
-              variant="filled"
-              color={waitedSuccess ? "success" : "error"}
-              sx={(theme) => ({ color: theme.palette.info.main })}
-            />
-          </div>
-        )
       )}
     </div>
   );
