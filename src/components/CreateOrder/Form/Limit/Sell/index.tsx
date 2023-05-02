@@ -51,6 +51,7 @@ const LimitSell: React.FC<Props> = () => {
     write,
     isLoading: createLoading,
     gasLoading,
+    waitedData,
   } = useCreateOrder({ ...finalValues, side: "sell" });
 
   const {
@@ -129,7 +130,9 @@ const LimitSell: React.FC<Props> = () => {
         open={open}
         setOpen={setOpen}
         write={write}
-        isLoading={createLoading || gasLoading}
+        createLoading={createLoading}
+        gasLoading={gasLoading}
+        waitedData={waitedData}
       />
     </>
   );

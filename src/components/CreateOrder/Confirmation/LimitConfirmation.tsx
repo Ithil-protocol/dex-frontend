@@ -15,13 +15,16 @@ import styles from "./LimitConfirmation.module.scss";
 import { useGetConvertersBySide } from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
-import { constants } from "ethers";
+import { providers } from "ethers";
+
 interface Props {
   finalValues: LimitFinalValues;
   write: (() => void) | undefined;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  isLoading: boolean;
+  createLoading: boolean;
+  gasLoading: boolean;
+  waitedData: providers.TransactionReceipt | undefined;
 }
 
 const LimitConfirmation: React.FC<Props> = ({
@@ -29,7 +32,8 @@ const LimitConfirmation: React.FC<Props> = ({
   open,
   setOpen,
   write,
-  isLoading,
+  gasLoading,
+  createLoading,
 }) => {
   const [side, pool, pair] = usePoolStore((state) => [
     state.side,
@@ -100,10 +104,14 @@ const LimitConfirmation: React.FC<Props> = ({
           <LoadingButton
             variant="contained"
             loadingPosition="end"
-            endIcon={isLoading && <CircularProgress size={22} color="info" />}
-            loading={isLoading}
+            endIcon={
+              (createLoading || gasLoading) && (
+                <CircularProgress size={22} color="info" />
+              )
+            }
+            loading={createLoading || gasLoading}
             onClick={() => write?.()}
-            disabled={isLoading}
+            disabled={createLoading || gasLoading}
             sx={(theme) => ({
               color: theme.palette.text.primary,
               ":disabled": { color: theme.palette.text.disabled },
