@@ -183,3 +183,12 @@ export interface LimitFinalValues {
   boost: BigNumber;
   pool: Pool;
 }
+
+export interface MarketFinalValues {
+  amount: BigNumber;
+  minReceived: BigNumber;
+  maxPaid: BigNumber;
+  pool: Pool;
+  totalToTake: number;
+  isAmountOut: boolean;
+}

@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Skeleton,
 } from "@mui/material";
-import { usePoolPreviewOrder } from "hooks/contracts/pool";
+import { usePoolPreviewOrder, usePoolPreviewTake } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "store";
 import { LimitFinalValues } from "types";
@@ -42,17 +42,13 @@ const MarketConfirmation: React.FC<Props> = ({
   waitedError,
   waitedSuccess,
 }) => {
-  const [side, pool, pair] = usePoolStore((state) => [
-    state.side,
-    state.pool,
-    state.pair,
-  ]);
+  const [side, pair] = usePoolStore((state) => [state.side, state.pair]);
 
   const converters = useGetConvertersBySide(side);
 
-  const { data: preview, isLoading: previewLoading } = usePoolPreviewOrder({
-    address: pool.address,
-    args: [finalValues.price, finalValues.boost],
+  const { data: preview, isLoading: previewLoading } = usePoolPreviewTake({
+    address: finalValues.pool.address,
+    args: [finalValues.amount],
     watch: true,
   });
 
@@ -66,43 +62,6 @@ const MarketConfirmation: React.FC<Props> = ({
         Limit order confirmation
       </DialogTitle>
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
-        <RowContainer
-          label={pair.accountingLabel}
-          isLoading={previewLoading}
-          title="Actual Price"
-        >
-          {preview && converters.priceConverter(preview.actualPrice)}
-        </RowContainer>
-        <RowContainer
-          label={pair.underlyingLabel}
-          isLoading={previewLoading}
-          title="Amount"
-        >
-          {preview &&
-            converters.amountConverter(finalValues.amount, preview.actualPrice)}
-        </RowContainer>
-        <RowContainer
-          label={"ETH"}
-          isLoading={previewLoading}
-          title="Staked (Boost)"
-        >
-          {converters.stakedConverter(finalValues.boost)}
-        </RowContainer>
-        <RowContainer isLoading={previewLoading} title="Orders before you">
-          {preview && preview.position.toNumber()}
-        </RowContainer>
-        <RowContainer
-          label={pair.underlyingLabel}
-          isLoading={previewLoading}
-          title="Volume before you"
-        >
-          {preview &&
-            converters.amountConverter(
-              preview.cumulativeUndAmount,
-              preview.actualPrice
-            )}
-        </RowContainer>
-
         <TransactionResponse
           createLoading={createLoading}
           waitedError={waitedError}
