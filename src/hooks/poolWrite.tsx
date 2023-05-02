@@ -41,7 +41,6 @@ export const useCreateOrder = ({
 
   const { address } = useAccount();
   const previewData = useReadPreviewOrder(pool.address, price, boost);
-  console.log("previewData:::", previewData);
 
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
     address: pool.address,
@@ -100,17 +99,14 @@ export const useCreateOrder = ({
           if (!prev) return;
           if (!previewData) return;
 
-          const index = previewData[2];
-          const actualPrice = previewData[4];
-
           return [
             {
               address: address as `0x${string}`,
               amount: converters[side].amount(amount, price),
-              index,
-              price: converters[side].price(actualPrice),
+              index: previewData.position,
+              price: converters[side].price(previewData.actualPrice),
               rawAmount: amount,
-              rawPrice: actualPrice,
+              rawPrice: previewData.actualPrice,
               rawStaked: boost,
               side,
               staked: converters[side].stake(boost),

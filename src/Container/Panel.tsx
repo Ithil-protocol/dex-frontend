@@ -503,9 +503,12 @@ const updateOrderFromPendingToCreate = (
 
       if (offerer !== address) return prev;
 
-      const index = prev.findIndex(
-        (i) => i.rawPrice.eq(price) && i.index.eq(orderIndex)
-      );
+      const index = prev.findIndex((i) => {
+        console.log("i.index.eq(orderIndex):::", i.index.eq(orderIndex));
+        console.log("i.rawPrice.eq(price):::", i.rawPrice.eq(price));
+
+        return i.rawPrice.eq(price) && i.index.eq(orderIndex);
+      });
 
       if (index !== -1) {
         const order = { ...prev[index] };
