@@ -214,7 +214,7 @@ function TransactionResponse({
             {waitedSuccess && (
               <CheckIcon sx={{ fontSize: 100 }} color="success" />
             )}
-            {waitedError && <CancelIcon color="error" />}
+            {waitedError && <CancelIcon sx={{ fontSize: 100 }} color="error" />}
             <Chip
               label={"Check on Etherscan"}
               size="medium"
