@@ -1,4 +1,11 @@
-import { Box, Dialog, DialogTitle, Skeleton, Button } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogTitle,
+  Skeleton,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { BigNumber } from "ethers";
 import { usePoolPreviewOrder } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
@@ -7,6 +14,7 @@ import { LimitFinalValues } from "types";
 import styles from "./LimitConfirmation.module.scss";
 import { useGetConvertersBySide } from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
+import { LoadingButton } from "@mui/lab";
 interface Props {
   finalValues: LimitFinalValues;
   write: (() => void) | undefined;
@@ -98,15 +106,18 @@ const LimitConfirmation: React.FC<Props> = ({
           >
             Close
           </Button>
-          <Button
-            onClick={() => write?.()}
-            disabled={isLoading}
-            fullWidth
+          <LoadingButton
             variant="contained"
+            loadingPosition="end"
+            endIcon={isLoading && <CircularProgress size={22} color="info" />}
+            loading={isLoading}
+            onClick={() => write?.()}
+            disabled={true}
+            fullWidth
             color={side === "buy" ? "success" : "error"}
           >
             {capitalizeFirstLetter(side)}
-          </Button>
+          </LoadingButton>
         </div>
       </Box>
     </Dialog>
