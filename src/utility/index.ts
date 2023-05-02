@@ -76,3 +76,7 @@ export const formatDateToFullDate = (date: number) => {
 };
 
 export const zeroBigNumber = utils.parseUnits("0", 0);
+
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
