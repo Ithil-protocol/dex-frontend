@@ -15,6 +15,7 @@ import styles from "./LimitConfirmation.module.scss";
 import {
   useBuyAmountConverter,
   useGetConvertersBySide,
+  useSellAmountConverter,
 } from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
@@ -51,7 +52,7 @@ const MarketBuyConfirmation: React.FC<Props> = ({
 }) => {
   const [side, pair] = usePoolStore((state) => [state.side, state.pair]);
 
-  // const buyAmountConverter = useBuyAmountConverter();
+  const sellAmountConverter = useSellAmountConverter();
 
   const { data: preview, isLoading: previewLoading } = usePoolPreviewTake({
     address: finalValues.pool.address,
@@ -70,11 +71,49 @@ const MarketBuyConfirmation: React.FC<Props> = ({
       </DialogTitle>
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
         <RowContainer
+          label={pair.underlyingLabel}
+          isLoading={previewLoading}
+          title="You buy"
+        >
+          {preview && sellAmountConverter(finalValues.amount)}
+        </RowContainer>
+        <RowContainer
           label={pair.accountingLabel}
           isLoading={previewLoading}
-          title="You obtain"
+          title="You pay"
         >
-          0
+          {preview &&
+            fixPrecision(
+              finalValues.totalToPay,
+              finalValues.pool.accounting.displayPrecision
+            )}
+        </RowContainer>
+        <RowContainer
+          label={pair.accountingLabel}
+          isLoading={previewLoading}
+          title="Max slippage"
+        >
+          {preview &&
+            fixPrecision(
+              Number(
+                utils.formatUnits(
+                  finalValues.maxPaid,
+                  finalValues.pool.accounting.decimals
+                )
+              ),
+              finalValues.pool.accounting.displayPrecision
+            )}
+        </RowContainer>
+        <RowContainer
+          label={pair.accountingLabel}
+          isLoading={previewLoading}
+          title="Price"
+        >
+          {preview &&
+            fixPrecision(
+              finalValues.totalToPay,
+              finalValues.pool.accounting.displayPrecision
+            ) / sellAmountConverter(finalValues.amount)}
         </RowContainer>
 
         <TransactionResponse

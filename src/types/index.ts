@@ -199,5 +199,4 @@ export interface MarketBuyFinalValues {
   maxPaid: BigNumber;
   pool: Pool;
   totalToPay: number;
-  isAmountOut: boolean;
 }

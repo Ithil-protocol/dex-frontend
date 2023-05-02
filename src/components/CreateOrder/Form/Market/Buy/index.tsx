@@ -8,7 +8,7 @@ import { MarketInputs } from "types";
 import { marketSchema } from "data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertBuyMarketArgs } from "components/CreateOrder/utils";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
 import { zeroBigNumber } from "utility";
 import { utils } from "ethers";
@@ -16,10 +16,12 @@ import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import Info from "components/Common/Info";
 import { fixPrecision } from "utility/convertors";
+import MarketBuyConfirmation from "components/CreateOrder/Confirmation/MarketBuyConfirmation";
 
 interface Props {}
 
 const MarketBuy: React.FC<Props> = () => {
+  const [open, setOpen] = useState(false);
   const {
     control,
     formState: { isSubmitting },
@@ -51,6 +53,9 @@ const MarketBuy: React.FC<Props> = () => {
     write,
     isLoading: fulfillLoading,
     gasLoading,
+    waitedData,
+    waitedError,
+    waitedSuccess,
   } = useFulfillOrder(finalValues);
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
@@ -91,48 +96,61 @@ const MarketBuy: React.FC<Props> = () => {
       approve();
       return;
     }
-    write?.();
+    setOpen(true);
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 5,
-          padding: "5px",
-        }}
-      >
-        <MarketAmount
-          groupButtonHandler={groupButtonHandler}
-          control={control}
-          groupButtonDisabled={groupButtonDisabled}
-          availableLabel={availableLabel}
-        />
+    <>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 5,
+            padding: "5px",
+          }}
+        >
+          <MarketAmount
+            groupButtonHandler={groupButtonHandler}
+            control={control}
+            groupButtonDisabled={groupButtonDisabled}
+            availableLabel={availableLabel}
+          />
 
-        <Total total={total} label={pair.accountingLabel} />
-        <Info
-          isRendered={isAmountOut}
-          text="The amount is higher than the pool's assets!"
-        />
-        <Info
-          isRendered={!isApproved}
-          color="warning"
-          text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
-        />
-        <Submit
-          side={side}
-          isLoading={isSubmitting || approveLoading || fulfillLoading}
-          control={control}
-          submitContent={`Buy ${pair?.underlyingLabel}`}
-          write={write}
-          isApproved={isApproved}
-          isMarket={true}
-        />
-        <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
-      </div>
-    </form>
+          <Total total={total} label={pair.accountingLabel} />
+          <Info
+            isRendered={isAmountOut}
+            text="The amount is higher than the pool's assets!"
+          />
+          <Info
+            isRendered={!isApproved}
+            color="warning"
+            text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
+          />
+          <Submit
+            side={side}
+            isLoading={isSubmitting || approveLoading || fulfillLoading}
+            control={control}
+            submitContent={`Buy ${pair?.underlyingLabel}`}
+            write={write}
+            isApproved={isApproved}
+            isMarket={true}
+          />
+          <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
+        </div>
+      </form>
+      <MarketBuyConfirmation
+        finalValues={{ ...finalValues, totalToPay }}
+        fulfillLoading={fulfillLoading}
+        gasLoading={gasLoading}
+        open={open}
+        setOpen={setOpen}
+        waitedData={waitedData}
+        waitedError={waitedError}
+        waitedSuccess={waitedSuccess}
+        write={write}
+      />
+    </>
   );
 };
 

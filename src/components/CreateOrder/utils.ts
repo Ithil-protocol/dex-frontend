@@ -152,7 +152,7 @@ export const useConvertBuyMarketArgs = ({
   );
 
   const maxPaid = utils.parseUnits(
-    (totalToPay * 1.001).toFixed(accountingDecimals),
+    (totalToPay * (appConfig.SLIPPAGE + 1)).toFixed(accountingDecimals),
     accountingDecimals
   );
 
