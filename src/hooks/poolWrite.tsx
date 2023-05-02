@@ -342,7 +342,6 @@ export const useFulfillOrder = ({
     },
   });
 
-  // const { data: waitedData } =
   const { isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
