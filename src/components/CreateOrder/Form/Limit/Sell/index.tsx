@@ -52,7 +52,8 @@ const LimitSell: React.FC<Props> = () => {
     isLoading: createLoading,
     gasLoading,
     waitedData,
-    waitedStatus,
+    waitedError,
+    waitedSuccess,
   } = useCreateOrder({ ...finalValues, side: "sell" });
 
   const {
@@ -134,7 +135,8 @@ const LimitSell: React.FC<Props> = () => {
         createLoading={createLoading}
         gasLoading={gasLoading}
         waitedData={waitedData}
-        waitedStatus={waitedStatus}
+        waitedError={waitedError}
+        waitedSuccess={waitedSuccess}
       />
     </>
   );

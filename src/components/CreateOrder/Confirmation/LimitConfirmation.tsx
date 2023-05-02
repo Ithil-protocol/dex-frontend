@@ -16,6 +16,8 @@ import { useGetConvertersBySide } from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
 import { providers } from "ethers";
+import CheckIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 interface Props {
   finalValues: LimitFinalValues;
@@ -25,7 +27,8 @@ interface Props {
   createLoading: boolean;
   gasLoading: boolean;
   waitedData: providers.TransactionReceipt | undefined;
-  waitedStatus: boolean;
+  waitedError: boolean;
+  waitedSuccess: boolean;
 }
 
 const LimitConfirmation: React.FC<Props> = ({
@@ -36,7 +39,8 @@ const LimitConfirmation: React.FC<Props> = ({
   gasLoading,
   createLoading,
   waitedData,
-  waitedStatus,
+  waitedError,
+  waitedSuccess,
 }) => {
   const [side, pool, pair] = usePoolStore((state) => [
     state.side,
@@ -101,11 +105,29 @@ const LimitConfirmation: React.FC<Props> = ({
 
         <div className={styles.response}>
           {createLoading ? (
-            <div>
+            <div className={styles.response}>
               <CircularProgress size={50} color="success" />
             </div>
           ) : (
-            waitedStatus && <div></div>
+            (waitedError || waitedSuccess) && (
+              <div className={styles.response}>
+                {waitedSuccess && (
+                  <CheckIcon sx={{ fontSize: 100 }} color="success" />
+                )}
+                {waitedError && <CancelIcon color="error" />}
+                <Chip
+                  label={"Check on Etherscan"}
+                  size="medium"
+                  onClick={() =>
+                    window.open(
+                      `https://goerli.etherscan.io/tx/${waitedData?.transactionHash}`
+                    )
+                  }
+                  variant="filled"
+                  color={waitedSuccess ? "success" : "error"}
+                />
+              </div>
+            )
           )}
         </div>
 
