@@ -335,6 +335,8 @@ export const useFulfillOrder = ({
     data: writeData,
     write,
     isLoading: writeLoading,
+    isError,
+    isSuccess,
   } = usePoolFulfillOrder({
     ...config,
     onError: (error) => {
@@ -342,7 +344,7 @@ export const useFulfillOrder = ({
     },
   });
 
-  const { isLoading: waitLoading } = useWaitForTransaction({
+  const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -354,5 +356,15 @@ export const useFulfillOrder = ({
     },
   });
 
-  return { write, isLoading: writeLoading || waitLoading, gasLoading };
+  return {
+    waitedData: {
+      ...waitedData,
+      transactionHash: writeData?.hash ?? constants.HashZero,
+    } as providers.TransactionReceipt,
+    waitedError: isError,
+    waitedSuccess: isSuccess,
+    write,
+    isLoading: writeLoading || waitLoading,
+    gasLoading,
+  };
 };
