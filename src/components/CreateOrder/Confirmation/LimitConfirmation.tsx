@@ -113,7 +113,7 @@ const LimitConfirmation: React.FC<Props> = ({
             endIcon={isLoading && <CircularProgress size={22} color="info" />}
             loading={isLoading}
             onClick={() => write?.()}
-            disabled={true}
+            disabled={isLoading}
             sx={(theme) => ({
               color: theme.palette.text.primary,
               ":disabled": { color: theme.palette.text.disabled },
