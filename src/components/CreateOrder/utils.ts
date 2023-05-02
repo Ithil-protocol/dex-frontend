@@ -1,5 +1,5 @@
 import { Pool } from "types";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, constants, utils } from "ethers";
 import {
   usePoolGetNextPriceLevel,
   usePoolPreviewTake,
@@ -88,10 +88,10 @@ export const useConvertSellMarketArgs = ({
     args: [finalAmount],
   });
   const accountingToPay = previewTake ? previewTake[0] : zeroBigNumber;
-  const totalToTake = previewTake ? previewTake[1] : zeroBigNumber;
-  const isAmountOut =
-    Number(utils.formatUnits(totalToTake, underlyingDecimals)) <
-    convertedAmount;
+  const totalToTake = previewTake
+    ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
+    : 0;
+  const isAmountOut = totalToTake < convertedAmount;
 
   const minReceived = utils.parseUnits(
     (convertedAmount * (1 - appConfig.SLIPPAGE)).toFixed(underlyingDecimals),
@@ -113,8 +113,8 @@ export const useConvertSellMarketArgs = ({
     pool,
     totalToTake,
     isAmountOut,
-    price: highestPrice,
-    inputAmount: amount,
+    price: highestPrice || constants.Zero,
+    inputAmount: Number(amount),
   };
 };
 

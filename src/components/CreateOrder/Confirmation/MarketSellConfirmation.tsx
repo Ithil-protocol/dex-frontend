@@ -12,40 +12,44 @@ import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "store";
 import { MarketFinalValues } from "types";
 import styles from "./LimitConfirmation.module.scss";
-import { useGetConvertersBySide } from "hooks/converters";
+import {
+  useBuyAmountConverter,
+  useGetConvertersBySide,
+} from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
-import { providers } from "ethers";
+import { providers, utils } from "ethers";
 import CheckIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { appConfig } from "Config";
+import { fixPrecision } from "utility/convertors";
 
 interface Props {
   finalValues: MarketFinalValues;
   write: (() => void) | undefined;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  createLoading: boolean;
+  fulfillLoading: boolean;
   gasLoading: boolean;
   waitedData: providers.TransactionReceipt | undefined;
   waitedError: boolean;
   waitedSuccess: boolean;
 }
 
-const MarketConfirmation: React.FC<Props> = ({
+const MarketSellConfirmation: React.FC<Props> = ({
   finalValues,
   open,
   setOpen,
   write,
   gasLoading,
-  createLoading,
+  fulfillLoading,
   waitedData,
   waitedError,
   waitedSuccess,
 }) => {
   const [side, pair] = usePoolStore((state) => [state.side, state.pair]);
 
-  const converters = useGetConvertersBySide(side);
+  const buyAmountConverter = useBuyAmountConverter();
 
   const { data: preview, isLoading: previewLoading } = usePoolPreviewTake({
     address: finalValues.pool.address,
@@ -69,26 +73,33 @@ const MarketConfirmation: React.FC<Props> = ({
           title="You obtain"
         >
           {preview &&
-            converters.amountConverter(finalValues.amount, finalValues.price)}
+            fixPrecision(
+              finalValues.totalToTake,
+              finalValues.pool.underlying.displayPrecision
+            )}
         </RowContainer>
 
         <RowContainer
-          label={pair.accountingLabel}
+          label={pair.underlyingLabel}
           isLoading={previewLoading}
           title="You sell (max)"
         >
-          {preview && finalValues.inputAmount}
+          {preview &&
+            fixPrecision(
+              finalValues.inputAmount,
+              finalValues.pool.accounting.displayPrecision
+            )}
         </RowContainer>
         <RowContainer
-          label={pair.accountingLabel}
+          label={pair.underlyingLabel}
           isLoading={previewLoading}
           title="You sell (min)"
         >
-          {preview && finalValues.inputAmount}
+          {preview && buyAmountConverter(finalValues.amount, finalValues.price)}
         </RowContainer>
 
         <TransactionResponse
-          createLoading={createLoading}
+          fulfillLoading={fulfillLoading}
           waitedError={waitedError}
           waitedSuccess={waitedSuccess}
           waitedData={waitedData}
@@ -107,13 +118,13 @@ const MarketConfirmation: React.FC<Props> = ({
             variant="contained"
             loadingPosition="end"
             endIcon={
-              (createLoading || gasLoading) && (
+              (fulfillLoading || gasLoading) && (
                 <CircularProgress size={22} color="info" />
               )
             }
-            loading={createLoading || gasLoading}
+            loading={fulfillLoading || gasLoading}
             onClick={() => write?.()}
-            disabled={createLoading || gasLoading}
+            disabled={fulfillLoading || gasLoading}
             sx={(theme) => ({
               color: theme.palette.text.primary,
               ":disabled": { color: theme.palette.text.disabled },
@@ -129,7 +140,7 @@ const MarketConfirmation: React.FC<Props> = ({
   );
 };
 
-export default MarketConfirmation;
+export default MarketSellConfirmation;
 
 interface RowContainerProps {
   isLoading: boolean;
@@ -174,21 +185,21 @@ function LabelChip({ label }: LabelChipProps) {
 }
 
 interface TransactionResponseProps {
-  createLoading: boolean;
+  fulfillLoading: boolean;
   waitedData: providers.TransactionReceipt | undefined;
   waitedError: boolean;
   waitedSuccess: boolean;
 }
 
 function TransactionResponse({
-  createLoading,
+  fulfillLoading,
   waitedError,
   waitedSuccess,
   waitedData,
 }: TransactionResponseProps) {
   return (
     <div className={styles.response}>
-      {createLoading ? (
+      {fulfillLoading ? (
         <div className={styles.response}>
           <CircularProgress size={148} color="success" />
         </div>

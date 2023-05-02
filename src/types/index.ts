@@ -190,7 +190,6 @@ export interface MarketFinalValues {
   minReceived: BigNumber;
   maxPaid: BigNumber;
   pool: Pool;
-  totalToTake: BigNumber;
-  isAmountOut: boolean;
-  inputAmount: string;
+  totalToTake: number;
+  inputAmount: number;
 }
