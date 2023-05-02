@@ -2,14 +2,14 @@ import LabelChip from "./LabelChip";
 import styles from "./LimitConfirmation.module.scss";
 import { Skeleton } from "@mui/material";
 
-interface RowContainerProps {
+interface Props {
   isLoading: boolean;
   children: React.ReactNode;
   title: string;
   label?: string;
 }
 
-const RowContainer: React.FC<RowContainerProps> = ({
+const RowContainer: React.FC<Props> = ({
   isLoading,
   children,
   title,

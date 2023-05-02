@@ -4,14 +4,14 @@ import { Chip, CircularProgress } from "@mui/material";
 import CheckIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-interface TransactionResponseProps {
+interface Props {
   fulfillLoading: boolean;
   waitedData: providers.TransactionReceipt | undefined;
   waitedError: boolean;
   waitedSuccess: boolean;
 }
 
-const TransactionResponse: React.FC<TransactionResponseProps> = ({
+const TransactionResponse: React.FC<Props> = ({
   fulfillLoading,
   waitedError,
   waitedSuccess,

@@ -1,9 +1,9 @@
 import { Chip } from "@mui/material";
 
-interface LabelChipProps {
+interface Props {
   label: string;
 }
-const LabelChip: React.FC<LabelChipProps> = ({ label }) => {
+const LabelChip: React.FC<Props> = ({ label }) => {
   return (
     <Chip
       label={label}
