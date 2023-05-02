@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
   Dialog,
   DialogTitle,
@@ -59,7 +60,13 @@ const LimitConfirmation: React.FC<Props> = ({
           ) : (
             <span>
               {converters.priceConverter(preview!.actualPrice)}{" "}
-              {pair.accountingLabel}
+              <Chip
+                label={pair.accountingLabel}
+                variant="filled"
+                size="small"
+                color="secondary"
+                sx={{ fontSize: 10 }}
+              />
             </span>
           )}
         </div>
@@ -73,7 +80,13 @@ const LimitConfirmation: React.FC<Props> = ({
                 finalValues.amount,
                 preview!.actualPrice
               )}{" "}
-              {pair.underlyingLabel}
+              <Chip
+                label={pair.underlyingLabel}
+                variant="filled"
+                size="small"
+                color="secondary"
+                sx={{ fontSize: 10 }}
+              />
             </span>
           )}
         </div>
@@ -95,7 +108,13 @@ const LimitConfirmation: React.FC<Props> = ({
                 preview!.cumulativeUndAmount,
                 preview!.actualPrice
               )}{" "}
-              {pair.underlyingLabel}
+              <Chip
+                label={pair.underlyingLabel}
+                variant="filled"
+                size="small"
+                color="secondary"
+                sx={{ fontSize: 10 }}
+              />
             </span>
           )}
         </div>
