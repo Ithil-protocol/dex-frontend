@@ -2,8 +2,9 @@ import { Order } from "types";
 import { computeOrders } from "utility";
 import { useContractRead } from "wagmi";
 import { contractABI } from "./abi";
+import { BigNumber } from "ethers";
 // const abi = "";
-const address: `0x${string}` = "0xjkhj";
+// const address: `0x${string}` = "0xjkhj";
 
 // export const getLatestTrade = () => {};
 // export const getBuyOrders = () => {};
@@ -19,11 +20,16 @@ const address: `0x${string}` = "0xjkhj";
 // export const submitMakerSellOrder = () => {};
 // export const submitFulfillOrder = () => {};
 
-export const useCustomContractRead = () => {
+export const useReadPreviewOrder = (
+  address,
+  price: BigNumber,
+  stake: BigNumber
+) => {
   const { data } = useContractRead({
     abi: contractABI,
     address,
     functionName: "previewOrder",
+    args: [price, stake],
   });
 
   return data;

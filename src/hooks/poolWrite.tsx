@@ -21,6 +21,7 @@ import { useDeadline } from "./useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetConverters } from "./converters";
 import { usePoolStore } from "store";
+import { useReadPreviewOrder } from "store/web3Store";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -39,6 +40,9 @@ export const useCreateOrder = ({
   const time = useDeadline();
 
   const { address } = useAccount();
+  const previewData = useReadPreviewOrder(pool.address, price, boost);
+  console.log("previewData:::", previewData);
+
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
     address: pool.address,
     args: [
@@ -94,15 +98,19 @@ export const useCreateOrder = ({
         ["userOrderCreatedEvent", address, poolAddress],
         (prev) => {
           if (!prev) return;
+          if (!previewData) return;
+
+          const index = previewData[2];
+          const actualPrice = previewData[4];
 
           return [
             {
               address: address as `0x${string}`,
               amount: converters[side].amount(amount, price),
-              index: -1,
-              price: converters[side].price(price),
+              index,
+              price: converters[side].price(actualPrice),
               rawAmount: amount,
-              rawPrice: price,
+              rawPrice: actualPrice,
               rawStaked: boost,
               side,
               staked: converters[side].stake(boost),

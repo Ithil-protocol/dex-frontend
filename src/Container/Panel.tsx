@@ -72,7 +72,7 @@ const Panel = () => {
         }
       );
 
-      updateOrderFromPendingToCancel(
+      updateOrderFromPendingToCreate(
         queryClient,
         address as string,
         poolAddress,
@@ -118,7 +118,7 @@ const Panel = () => {
         }
       );
 
-      updateOrderFromPendingToCancel(
+      updateOrderFromPendingToCreate(
         queryClient,
         address as string,
         poolAddress,
@@ -488,7 +488,7 @@ const Panel = () => {
 
 export default Panel;
 
-const updateOrderFromPendingToCancel = (
+const updateOrderFromPendingToCreate = (
   queryClient: QueryClient,
   address: string,
   poolAddress: string,
@@ -504,7 +504,7 @@ const updateOrderFromPendingToCancel = (
       if (offerer !== address) return prev;
 
       const index = prev.findIndex(
-        (i) => i.rawPrice.eq(price) && (i.index as BigNumber).eq(orderIndex)
+        (i) => i.rawPrice.eq(price) && i.index.eq(orderIndex)
       );
 
       if (index !== -1) {
@@ -535,7 +535,7 @@ const removeCanceledOrder = (
       if (!orders) return;
 
       const canceledOrder = orders.find(
-        (i) => i.rawPrice.eq(price) && (i.index as BigNumber).eq(index)
+        (i) => i.rawPrice.eq(price) && i.index.eq(index)
       );
 
       if (canceledOrder) {
