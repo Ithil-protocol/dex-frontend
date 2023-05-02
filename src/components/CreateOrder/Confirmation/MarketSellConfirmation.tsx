@@ -18,6 +18,7 @@ import { LoadingButton } from "@mui/lab";
 import { providers } from "ethers";
 import CheckIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { appConfig } from "Config";
 
 interface Props {
   finalValues: MarketFinalValues;
@@ -62,6 +63,23 @@ const MarketConfirmation: React.FC<Props> = ({
         Limit order confirmation
       </DialogTitle>
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
+        <RowContainer
+          label={pair.accountingLabel}
+          isLoading={previewLoading}
+          title="You obtain"
+        >
+          {preview &&
+            converters.amountConverter(finalValues.amount, finalValues.price)}
+        </RowContainer>
+
+        <RowContainer
+          label={pair.accountingLabel}
+          isLoading={previewLoading}
+          title="You sell (max)"
+        >
+          {preview && converters.priceConverter(finalValues.amount)}
+        </RowContainer>
+
         <TransactionResponse
           createLoading={createLoading}
           waitedError={waitedError}

@@ -5,6 +5,7 @@ import {
   usePoolPreviewTake,
 } from "hooks/contracts/pool";
 import { zeroBigNumber } from "utility";
+import { appConfig } from "Config";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -73,7 +74,8 @@ export const useConvertSellMarketArgs = ({
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
   const convertedAmount = highestPrice
     ? Number(utils.formatUnits(highestPrice, underlyingDecimals)) *
-      Number(amount)
+      Number(amount) *
+      (1 - appConfig.SLIPPAGE)
     : 0;
 
   const finalAmount = utils.parseUnits(
@@ -83,12 +85,7 @@ export const useConvertSellMarketArgs = ({
 
   const { data: previewTake } = usePoolPreviewTake({
     address: pool.address,
-    args: [
-      utils.parseUnits(
-        convertedAmount.toFixed(underlyingDecimals),
-        underlyingDecimals
-      ),
-    ],
+    args: [finalAmount],
   });
   const accountingToPay = previewTake ? previewTake[0] : zeroBigNumber;
   const amountOut = previewTake ? previewTake[1] : zeroBigNumber;
@@ -96,12 +93,13 @@ export const useConvertSellMarketArgs = ({
     Number(utils.formatUnits(amountOut, underlyingDecimals)) < convertedAmount;
 
   const minReceived = utils.parseUnits(
-    (convertedAmount * 0.99).toFixed(underlyingDecimals),
+    (convertedAmount * (1 - appConfig.SLIPPAGE)).toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
   const maxPaid =
-    Number(utils.formatUnits(accountingToPay, accountingDecimals)) * 1.001;
+    Number(utils.formatUnits(accountingToPay, accountingDecimals)) *
+    (1 + appConfig.SLIPPAGE);
   const finalMaxPaid = utils.parseUnits(
     maxPaid.toFixed(accountingDecimals),
     accountingDecimals
@@ -114,6 +112,7 @@ export const useConvertSellMarketArgs = ({
     pool,
     totalToTake: convertedAmount,
     isAmountOut,
+    price: highestPrice,
   };
 };
 
