@@ -24,6 +24,7 @@ import { appConfig } from "Config";
 import { fixPrecision } from "utility/convertors";
 import TransactionResponse from "./TransactionResponse";
 import LabelChip from "./LabelChip";
+import RowContainer from "./RowContainer";
 
 interface Props {
   finalValues: MarketFinalValues;
@@ -142,30 +143,3 @@ const MarketSellConfirmation: React.FC<Props> = ({
 };
 
 export default MarketSellConfirmation;
-
-interface RowContainerProps {
-  isLoading: boolean;
-  children: React.ReactNode;
-  title: string;
-  label?: string;
-}
-
-function RowContainer({
-  isLoading,
-  children,
-  title,
-  label,
-}: RowContainerProps) {
-  return (
-    <div className={styles.row}>
-      <span>{title}</span>
-      {isLoading ? (
-        <Skeleton height={20} />
-      ) : (
-        <span>
-          {children} {label && <LabelChip label={label} />}
-        </span>
-      )}
-    </div>
-  );
-}
