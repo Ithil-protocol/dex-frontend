@@ -7,6 +7,7 @@ import fs from "fs";
 import { rawFactoryABI } from "../store/abi-raw.mjs";
 
 import addresses from "../../pairs.json" assert { type: "json" };
+import { factoryAddress } from "../Config/factory.mjs";
 
 console.log("creating pairs...");
 
@@ -29,14 +30,14 @@ createClient({
   const addressesLength = addresses.length;
 
   const sellPoolAddressesContracts = newPools.map((item) => ({
-    address: "0x247B707Ac8b1f58fc4Ef0610Eb5d716211A9EEF4",
+    address: factoryAddress,
     args: [item.underlying.address, item.accounting.address],
     abi: rawFactoryABI,
     functionName: "pools",
   }));
 
   const buyPoolAddressesContracts = newPools.map((item) => ({
-    address: "0x247B707Ac8b1f58fc4Ef0610Eb5d716211A9EEF4",
+    address: factoryAddress,
     args: [item.accounting.address, item.underlying.address],
     abi: rawFactoryABI,
     functionName: "pools",

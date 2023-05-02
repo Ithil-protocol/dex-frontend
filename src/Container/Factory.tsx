@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, CircularProgress, TextField } from "@mui/material";
+import { factoryAddress } from "Config/factory.mjs";
 import TransactionToast from "components/Common/Toast/TransactionToast";
 import { factorySchema } from "data/forms";
 import {
@@ -25,7 +26,7 @@ const Factory: React.FC<Props> = () => {
     resolver: yupResolver(factorySchema),
   });
   const { data } = useFactoryPools({
-    address: "0xAe404dFBF0659C4dDD6b6d151f561B7F030C93c3",
+    address: factoryAddress,
     args: [
       getValues("underlyingAddress") as `0x${string}`,
       getValues("accountingAddress") as `0x${string}`,
@@ -34,7 +35,7 @@ const Factory: React.FC<Props> = () => {
     watch: true,
   });
   const { config } = usePrepareFactoryCreatePool({
-    address: "0xAe404dFBF0659C4dDD6b6d151f561B7F030C93c3",
+    address: factoryAddress,
     args: [
       getValues("underlyingAddress") as `0x${string}`,
       getValues("accountingAddress") as `0x${string}`,
