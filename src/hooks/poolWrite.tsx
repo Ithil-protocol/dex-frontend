@@ -1,4 +1,4 @@
-import { utils, BigNumber } from "ethers";
+import { utils, BigNumber, constants } from "ethers";
 import { useLayoutEffect, useState } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import {
@@ -99,11 +99,16 @@ export const useCreateOrder = ({
           if (!prev) return;
           if (!previewData) return;
 
+          console.log(
+            "converting position to index:",
+            previewData.position.add(constants.One)
+          );
+
           return [
             {
               address: address as `0x${string}`,
               amount: converters[side].amount(amount, price),
-              index: previewData.position,
+              index: previewData.position.add(constants.One),
               price: converters[side].price(previewData.actualPrice),
               rawAmount: amount,
               rawPrice: previewData.actualPrice,
@@ -223,7 +228,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
 
 interface CancelOrderProps {
   hash: string;
-  index: BigNumber | -1;
+  index: BigNumber;
   pool: Pool;
   price: BigNumber;
 }
