@@ -60,13 +60,7 @@ const LimitConfirmation: React.FC<Props> = ({
           ) : (
             <span>
               {converters.priceConverter(preview!.actualPrice)}{" "}
-              <Chip
-                label={pair.accountingLabel}
-                variant="filled"
-                size="small"
-                color="secondary"
-                sx={{ fontSize: 10 }}
-              />
+              <LabelChip label={pair.accountingLabel} />
             </span>
           )}
         </div>
@@ -80,13 +74,18 @@ const LimitConfirmation: React.FC<Props> = ({
                 finalValues.amount,
                 preview!.actualPrice
               )}{" "}
-              <Chip
-                label={pair.underlyingLabel}
-                variant="filled"
-                size="small"
-                color="secondary"
-                sx={{ fontSize: 10 }}
-              />
+              <LabelChip label={pair.underlyingLabel} />
+            </span>
+          )}
+        </div>
+        <div className={styles.row}>
+          <span>Staked (Boost)</span>
+          {previewLoading ? (
+            <Skeleton height={20} />
+          ) : (
+            <span>
+              {converters.stakedConverter(finalValues.boost)}{" "}
+              <LabelChip label={"ETH"} />
             </span>
           )}
         </div>
@@ -108,13 +107,7 @@ const LimitConfirmation: React.FC<Props> = ({
                 preview!.cumulativeUndAmount,
                 preview!.actualPrice
               )}{" "}
-              <Chip
-                label={pair.underlyingLabel}
-                variant="filled"
-                size="small"
-                color="secondary"
-                sx={{ fontSize: 10 }}
-              />
+              <LabelChip label={pair.underlyingLabel} />
             </span>
           )}
         </div>
@@ -150,3 +143,18 @@ const LimitConfirmation: React.FC<Props> = ({
 };
 
 export default LimitConfirmation;
+
+interface LabelChipProps {
+  label: string;
+}
+function LabelChip({ label }: LabelChipProps) {
+  return (
+    <Chip
+      label={label}
+      variant="filled"
+      size="small"
+      color="secondary"
+      sx={{ fontSize: 10, fontWeight: 600, marginTop: -0.2 }}
+    />
+  );
+}
