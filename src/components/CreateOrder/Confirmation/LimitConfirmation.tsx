@@ -14,6 +14,7 @@ import styles from "./LimitConfirmation.module.scss";
 import { useGetConvertersBySide } from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
+import { constants } from "ethers";
 interface Props {
   finalValues: LimitFinalValues;
   write: (() => void) | undefined;
@@ -77,7 +78,7 @@ const LimitConfirmation: React.FC<Props> = ({
           )}
         </div>
         <div className={styles.row}>
-          <span>Position</span>
+          <span>Orders before you</span>
           {previewLoading ? (
             <Skeleton height={20} />
           ) : (
