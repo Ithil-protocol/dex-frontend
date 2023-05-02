@@ -100,7 +100,13 @@ const LimitConfirmation: React.FC<Props> = ({
         </RowContainer>
 
         <div className={styles.response}>
-          {createLoading ? <div>hi</div> : waitedStatus && <div>bye</div>}
+          {createLoading ? (
+            <div>
+              <CircularProgress size={50} color="success" />
+            </div>
+          ) : (
+            waitedStatus && <div></div>
+          )}
         </div>
 
         <div className={styles.buttons}>
