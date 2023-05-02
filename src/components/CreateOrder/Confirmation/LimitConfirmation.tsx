@@ -53,64 +53,41 @@ const LimitConfirmation: React.FC<Props> = ({
         Limit order confirmation
       </DialogTitle>
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
-        <div className={styles.row}>
-          <span>Actual Price</span>
-          {previewLoading ? (
-            <Skeleton height={20} />
-          ) : (
-            <span>
-              {converters.priceConverter(preview!.actualPrice)}{" "}
-              <LabelChip label={pair.accountingLabel} />
-            </span>
+        <RowContainer
+          label={pair.accountingLabel}
+          isLoading={previewLoading}
+          title="Actual Price"
+        >
+          {converters.priceConverter(preview!.actualPrice)}
+        </RowContainer>
+        <RowContainer
+          label={pair.underlyingLabel}
+          isLoading={previewLoading}
+          title="Amount"
+        >
+          {converters.amountConverter(finalValues.amount, preview!.actualPrice)}
+        </RowContainer>
+        <RowContainer
+          label={"ETH"}
+          isLoading={previewLoading}
+          title="Staked (Boost)"
+        >
+          {converters.stakedConverter(finalValues.boost)}
+        </RowContainer>
+        <RowContainer isLoading={previewLoading} title="Orders before you">
+          {preview!.position.toNumber()}
+        </RowContainer>
+        <RowContainer
+          label={pair.underlyingLabel}
+          isLoading={previewLoading}
+          title="Volume before you"
+        >
+          {converters.amountConverter(
+            preview!.cumulativeUndAmount,
+            preview!.actualPrice
           )}
-        </div>
-        <div className={styles.row}>
-          <span>Amount</span>
-          {previewLoading ? (
-            <Skeleton height={20} />
-          ) : (
-            <span>
-              {converters.amountConverter(
-                finalValues.amount,
-                preview!.actualPrice
-              )}{" "}
-              <LabelChip label={pair.underlyingLabel} />
-            </span>
-          )}
-        </div>
-        <div className={styles.row}>
-          <span>Staked (Boost)</span>
-          {previewLoading ? (
-            <Skeleton height={20} />
-          ) : (
-            <span>
-              {converters.stakedConverter(finalValues.boost)}{" "}
-              <LabelChip label={"ETH"} />
-            </span>
-          )}
-        </div>
-        <div className={styles.row}>
-          <span>Orders before you</span>
-          {previewLoading ? (
-            <Skeleton height={20} />
-          ) : (
-            <span>{preview!.position.toNumber()}</span>
-          )}
-        </div>
-        <div className={styles.row}>
-          <span>Volume before you</span>
-          {previewLoading ? (
-            <Skeleton height={20} />
-          ) : (
-            <span>
-              {converters.amountConverter(
-                preview!.cumulativeUndAmount,
-                preview!.actualPrice
-              )}{" "}
-              <LabelChip label={pair.underlyingLabel} />
-            </span>
-          )}
-        </div>
+        </RowContainer>
+
         <div className={styles.buttons}>
           <Button
             onClick={closeHandler}
@@ -143,6 +120,33 @@ const LimitConfirmation: React.FC<Props> = ({
 };
 
 export default LimitConfirmation;
+
+interface RowContainerProps {
+  isLoading: boolean;
+  children: React.ReactNode;
+  title: string;
+  label?: string;
+}
+
+function RowContainer({
+  isLoading,
+  children,
+  title,
+  label,
+}: RowContainerProps) {
+  return (
+    <div className={styles.row}>
+      <span>{title}</span>
+      {isLoading ? (
+        <Skeleton height={20} />
+      ) : (
+        <span>
+          {children} {label && <LabelChip label={label} />}
+        </span>
+      )}
+    </div>
+  );
+}
 
 interface LabelChipProps {
   label: string;
