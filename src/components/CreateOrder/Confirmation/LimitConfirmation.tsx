@@ -103,34 +103,12 @@ const LimitConfirmation: React.FC<Props> = ({
             )}
         </RowContainer>
 
-        <div className={styles.response}>
-          {createLoading ? (
-            <div className={styles.response}>
-              <CircularProgress size={148} color="success" />
-            </div>
-          ) : (
-            (waitedError || waitedSuccess) && (
-              <div className={styles.response}>
-                {waitedSuccess && (
-                  <CheckIcon sx={{ fontSize: 100 }} color="success" />
-                )}
-                {waitedError && <CancelIcon color="error" />}
-                <Chip
-                  label={"Check on Etherscan"}
-                  size="medium"
-                  onClick={() =>
-                    window.open(
-                      `https://goerli.etherscan.io/tx/${waitedData?.transactionHash}`
-                    )
-                  }
-                  variant="filled"
-                  color={waitedSuccess ? "success" : "error"}
-                  sx={(theme) => ({ color: theme.palette.info.main })}
-                />
-              </div>
-            )
-          )}
-        </div>
+        <TransactionResponse
+          createLoading={createLoading}
+          waitedError={waitedError}
+          waitedSuccess={waitedSuccess}
+          waitedData={waitedData}
+        />
 
         <div className={styles.buttons}>
           <Button
@@ -208,5 +186,50 @@ function LabelChip({ label }: LabelChipProps) {
       color="secondary"
       sx={{ fontSize: 10, fontWeight: 600, marginTop: -0.2 }}
     />
+  );
+}
+
+interface TransactionResponseProps {
+  createLoading: boolean;
+  waitedData: providers.TransactionReceipt | undefined;
+  waitedError: boolean;
+  waitedSuccess: boolean;
+}
+
+function TransactionResponse({
+  createLoading,
+  waitedError,
+  waitedSuccess,
+  waitedData,
+}: TransactionResponseProps) {
+  return (
+    <div className={styles.response}>
+      {createLoading ? (
+        <div className={styles.response}>
+          <CircularProgress size={148} color="success" />
+        </div>
+      ) : (
+        (waitedError || waitedSuccess) && (
+          <div className={styles.response}>
+            {waitedSuccess && (
+              <CheckIcon sx={{ fontSize: 100 }} color="success" />
+            )}
+            {waitedError && <CancelIcon color="error" />}
+            <Chip
+              label={"Check on Etherscan"}
+              size="medium"
+              onClick={() =>
+                window.open(
+                  `https://goerli.etherscan.io/tx/${waitedData?.transactionHash}`
+                )
+              }
+              variant="filled"
+              color={waitedSuccess ? "success" : "error"}
+              sx={(theme) => ({ color: theme.palette.info.main })}
+            />
+          </div>
+        )
+      )}
+    </div>
   );
 }
