@@ -1,12 +1,11 @@
 import {
   Box,
+  Button,
+  CircularProgress,
   Dialog,
   DialogTitle,
   Skeleton,
-  Button,
-  CircularProgress,
 } from "@mui/material";
-import { BigNumber } from "ethers";
 import { usePoolPreviewOrder } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "store";
@@ -48,7 +47,9 @@ const LimitConfirmation: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onClose={closeHandler} fullWidth maxWidth={"xs"}>
-      <DialogTitle align="center">Limit order confirmation</DialogTitle>
+      <DialogTitle fontWeight={800} align="center">
+        Limit order confirmation
+      </DialogTitle>
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
         <div className={styles.row}>
           <span>Actual Price</span>
@@ -113,6 +114,10 @@ const LimitConfirmation: React.FC<Props> = ({
             loading={isLoading}
             onClick={() => write?.()}
             disabled={true}
+            sx={(theme) => ({
+              color: theme.palette.text.primary,
+              ":disabled": { color: theme.palette.text.disabled },
+            })}
             fullWidth
             color={side === "buy" ? "success" : "error"}
           >
@@ -125,5 +130,3 @@ const LimitConfirmation: React.FC<Props> = ({
 };
 
 export default LimitConfirmation;
-
-console.log("YAY!");
