@@ -106,7 +106,7 @@ const LimitConfirmation: React.FC<Props> = ({
         <div className={styles.response}>
           {createLoading ? (
             <div className={styles.response}>
-              <CircularProgress size={50} color="success" />
+              <CircularProgress size={148} color="success" />
             </div>
           ) : (
             (waitedError || waitedSuccess) && (
