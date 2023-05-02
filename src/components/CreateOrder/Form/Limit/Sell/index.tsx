@@ -129,6 +129,7 @@ const LimitSell: React.FC<Props> = () => {
         open={open}
         setOpen={setOpen}
         write={write}
+        isLoading={createLoading || gasLoading}
       />
     </>
   );

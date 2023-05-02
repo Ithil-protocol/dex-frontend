@@ -12,6 +12,7 @@ interface Props {
   write: (() => void) | undefined;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  isLoading: boolean;
 }
 
 const LimitConfirmation: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const LimitConfirmation: React.FC<Props> = ({
   open,
   setOpen,
   write,
+  isLoading,
 }) => {
   const [side, pool, pair] = usePoolStore((state) => [
     state.side,
@@ -27,7 +29,7 @@ const LimitConfirmation: React.FC<Props> = ({
   ]);
 
   const converters = useGetConvertersBySide(side);
-  const { data: preview, isLoading } = usePoolPreviewOrder({
+  const { data: preview, isLoading: previewLoading } = usePoolPreviewOrder({
     address: pool.address,
     args: [finalValues.price, finalValues.boost],
   });
@@ -42,7 +44,7 @@ const LimitConfirmation: React.FC<Props> = ({
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
         <div className={styles.row}>
           <span>Actual Price</span>
-          {isLoading ? (
+          {previewLoading ? (
             <Skeleton height={20} />
           ) : (
             <span>
@@ -53,7 +55,7 @@ const LimitConfirmation: React.FC<Props> = ({
         </div>
         <div className={styles.row}>
           <span>Amount</span>
-          {isLoading ? (
+          {previewLoading ? (
             <Skeleton height={20} />
           ) : (
             <span>
@@ -67,7 +69,7 @@ const LimitConfirmation: React.FC<Props> = ({
         </div>
         <div className={styles.row}>
           <span>Position</span>
-          {isLoading ? (
+          {previewLoading ? (
             <Skeleton height={20} />
           ) : (
             <span>{preview!.position.toNumber()}</span>
@@ -75,7 +77,7 @@ const LimitConfirmation: React.FC<Props> = ({
         </div>
         <div className={styles.row}>
           <span>Volume before you</span>
-          {isLoading ? (
+          {previewLoading ? (
             <Skeleton height={20} />
           ) : (
             <span>
@@ -98,6 +100,7 @@ const LimitConfirmation: React.FC<Props> = ({
           </Button>
           <Button
             onClick={() => write?.()}
+            disabled={isLoading}
             fullWidth
             variant="contained"
             color={side === "buy" ? "success" : "error"}
