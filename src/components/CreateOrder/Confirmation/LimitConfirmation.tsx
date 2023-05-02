@@ -125,6 +125,7 @@ const LimitConfirmation: React.FC<Props> = ({
                   }
                   variant="filled"
                   color={waitedSuccess ? "success" : "error"}
+                  sx={(theme) => ({ color: theme.palette.info.main })}
                 />
               </div>
             )
