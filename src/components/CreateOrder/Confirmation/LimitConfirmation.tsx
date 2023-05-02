@@ -125,3 +125,5 @@ const LimitConfirmation: React.FC<Props> = ({
 };
 
 export default LimitConfirmation;
+
+console.log("YAY!");
