@@ -12,9 +12,10 @@ const Orders = () => {
   return (
     <div className={styles.orders}>
       <div className={styles.header}>
-        <span>price ({pair.underlyingLabel})</span>
-        <span>amount ({pair.accountingLabel})</span>
+        <span>Price ({pair.accountingLabel})</span>
+        <span>Amount ({pair.underlyingLabel})</span>
       </div>
+      <hr className={styles.divider} />
       <Buy />
       {isLoading ? (
         <Skeleton height={90} />
