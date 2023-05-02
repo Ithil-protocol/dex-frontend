@@ -7,10 +7,10 @@ import {
   DialogTitle,
   Skeleton,
 } from "@mui/material";
-import { usePoolPreviewOrder, usePoolPreviewTake } from "hooks/contracts/pool";
+import { usePoolPreviewTake } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "store";
-import { LimitFinalValues } from "types";
+import { MarketFinalValues } from "types";
 import styles from "./LimitConfirmation.module.scss";
 import { useGetConvertersBySide } from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
@@ -20,7 +20,7 @@ import CheckIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 interface Props {
-  finalValues: LimitFinalValues;
+  finalValues: MarketFinalValues;
   write: (() => void) | undefined;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;

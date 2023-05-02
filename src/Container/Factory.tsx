@@ -25,7 +25,7 @@ const Factory: React.FC<Props> = () => {
     resolver: yupResolver(factorySchema),
   });
   const { data } = useFactoryPools({
-    address: "0x247B707Ac8b1f58fc4Ef0610Eb5d716211A9EEF4",
+    address: "0xAe404dFBF0659C4dDD6b6d151f561B7F030C93c3",
     args: [
       getValues("underlyingAddress") as `0x${string}`,
       getValues("accountingAddress") as `0x${string}`,
@@ -34,7 +34,7 @@ const Factory: React.FC<Props> = () => {
     watch: true,
   });
   const { config } = usePrepareFactoryCreatePool({
-    address: "0x247B707Ac8b1f58fc4Ef0610Eb5d716211A9EEF4",
+    address: "0xAe404dFBF0659C4dDD6b6d151f561B7F030C93c3",
     args: [
       getValues("underlyingAddress") as `0x${string}`,
       getValues("accountingAddress") as `0x${string}`,
