@@ -13,6 +13,7 @@ import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback } from "react";
 import Info from "components/Common/Info";
 import { fixPrecision } from "utility/convertors";
+import { constants, utils } from "ethers";
 
 interface Props {}
 
@@ -79,7 +80,7 @@ const MarketSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
-  const total = totalToTake.toFixed(buyPool.underlying.decimals);
+  const total = utils.formatUnits(totalToTake, buyPool.underlying.decimals);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>

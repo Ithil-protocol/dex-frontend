@@ -77,7 +77,14 @@ const MarketConfirmation: React.FC<Props> = ({
           isLoading={previewLoading}
           title="You sell (max)"
         >
-          {preview && converters.priceConverter(finalValues.amount)}
+          {preview && finalValues.inputAmount}
+        </RowContainer>
+        <RowContainer
+          label={pair.accountingLabel}
+          isLoading={previewLoading}
+          title="You sell (min)"
+        >
+          {preview && finalValues.inputAmount}
         </RowContainer>
 
         <TransactionResponse

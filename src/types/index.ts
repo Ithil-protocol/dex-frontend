@@ -192,4 +192,5 @@ export interface MarketFinalValues {
   pool: Pool;
   totalToTake: number;
   isAmountOut: boolean;
+  inputAmount: string;
 }

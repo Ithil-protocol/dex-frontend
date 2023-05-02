@@ -88,9 +88,10 @@ export const useConvertSellMarketArgs = ({
     args: [finalAmount],
   });
   const accountingToPay = previewTake ? previewTake[0] : zeroBigNumber;
-  const amountOut = previewTake ? previewTake[1] : zeroBigNumber;
+  const totalToTake = previewTake ? previewTake[1] : zeroBigNumber;
   const isAmountOut =
-    Number(utils.formatUnits(amountOut, underlyingDecimals)) < convertedAmount;
+    Number(utils.formatUnits(totalToTake, underlyingDecimals)) <
+    convertedAmount;
 
   const minReceived = utils.parseUnits(
     (convertedAmount * (1 - appConfig.SLIPPAGE)).toFixed(underlyingDecimals),
@@ -110,9 +111,10 @@ export const useConvertSellMarketArgs = ({
     minReceived,
     maxPaid: finalMaxPaid,
     pool,
-    totalToTake: convertedAmount,
+    totalToTake,
     isAmountOut,
     price: highestPrice,
+    inputAmount: amount,
   };
 };
 
