@@ -89,7 +89,7 @@ const LimitBuy: React.FC<Props> = () => {
       approve();
       return;
     }
-    write?.();
+    setOpen(true);
   };
 
   return (
