@@ -42,9 +42,11 @@ const LimitConfirmation: React.FC<Props> = ({
   ]);
 
   const converters = useGetConvertersBySide(side);
+
   const { data: preview, isLoading: previewLoading } = usePoolPreviewOrder({
     address: pool.address,
     args: [finalValues.price, finalValues.boost],
+    watch: true,
   });
 
   const closeHandler = () => {
@@ -62,14 +64,15 @@ const LimitConfirmation: React.FC<Props> = ({
           isLoading={previewLoading}
           title="Actual Price"
         >
-          {converters.priceConverter(preview!.actualPrice)}
+          {preview && converters.priceConverter(preview.actualPrice)}
         </RowContainer>
         <RowContainer
           label={pair.underlyingLabel}
           isLoading={previewLoading}
           title="Amount"
         >
-          {converters.amountConverter(finalValues.amount, preview!.actualPrice)}
+          {preview &&
+            converters.amountConverter(finalValues.amount, preview.actualPrice)}
         </RowContainer>
         <RowContainer
           label={"ETH"}
@@ -79,17 +82,18 @@ const LimitConfirmation: React.FC<Props> = ({
           {converters.stakedConverter(finalValues.boost)}
         </RowContainer>
         <RowContainer isLoading={previewLoading} title="Orders before you">
-          {preview!.position.toNumber()}
+          {preview && preview.position.toNumber()}
         </RowContainer>
         <RowContainer
           label={pair.underlyingLabel}
           isLoading={previewLoading}
           title="Volume before you"
         >
-          {converters.amountConverter(
-            preview!.cumulativeUndAmount,
-            preview!.actualPrice
-          )}
+          {preview &&
+            converters.amountConverter(
+              preview.cumulativeUndAmount,
+              preview.actualPrice
+            )}
         </RowContainer>
 
         <div className={styles.buttons}>
