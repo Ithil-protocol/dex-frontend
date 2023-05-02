@@ -25,6 +25,7 @@ interface Props {
   createLoading: boolean;
   gasLoading: boolean;
   waitedData: providers.TransactionReceipt | undefined;
+  waitedStatus: boolean;
 }
 
 const LimitConfirmation: React.FC<Props> = ({
@@ -34,6 +35,8 @@ const LimitConfirmation: React.FC<Props> = ({
   write,
   gasLoading,
   createLoading,
+  waitedData,
+  waitedStatus,
 }) => {
   const [side, pool, pair] = usePoolStore((state) => [
     state.side,
@@ -95,6 +98,10 @@ const LimitConfirmation: React.FC<Props> = ({
               preview.actualPrice
             )}
         </RowContainer>
+
+        <div className={styles.response}>
+          {createLoading ? <div>hi</div> : waitedStatus && <div>bye</div>}
+        </div>
 
         <div className={styles.buttons}>
           <Button

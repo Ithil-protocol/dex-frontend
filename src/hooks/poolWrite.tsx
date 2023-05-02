@@ -1,4 +1,4 @@
-import { utils, BigNumber, constants } from "ethers";
+import { utils, BigNumber, constants, providers } from "ethers";
 import { useLayoutEffect, useState } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import {
@@ -126,7 +126,12 @@ export const useCreateOrder = ({
     },
   });
 
-  const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({
+  const {
+    data: waitedData,
+    isLoading: waitLoading,
+    isError,
+    isSuccess,
+  } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -142,7 +147,11 @@ export const useCreateOrder = ({
   });
 
   return {
-    waitedData,
+    waitedData: {
+      ...waitedData,
+      transactionHash: writeData?.hash ?? constants.HashZero,
+    } as providers.TransactionReceipt,
+    waitedStatus: isError || isSuccess,
     write,
     isLoading: writeLoading || waitLoading,
     gasLoading,
