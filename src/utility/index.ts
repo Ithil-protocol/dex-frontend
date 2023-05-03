@@ -47,7 +47,7 @@ export const formatBigNumber = (value: number) => {
   }).format(value);
 };
 
-export function truncateString(str: string, num: number) {
+export function truncate(str: string, num: number) {
   if (str.length > num) {
     return str.slice(0, num) + "...";
   } else {
@@ -74,8 +74,6 @@ export const formatDateToTime = (date: number) => {
 export const formatDateToFullDate = (date: number) => {
   return format(new Date(date), "HH:mm:ss dd/MM/yy");
 };
-
-export const zeroBigNumber = utils.parseUnits("0", 0);
 
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
