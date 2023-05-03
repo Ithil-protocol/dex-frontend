@@ -4,7 +4,6 @@ import {
   usePoolGetNextPriceLevel,
   usePoolPreviewTake,
 } from "@/hooks/contracts/pool";
-import { localConstants } from "@/variables";
 import { appConfig } from "@/config";
 
 interface ConvertLimitArgsProps {

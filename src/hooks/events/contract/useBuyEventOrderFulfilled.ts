@@ -1,11 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Event } from "ethers";
-import { localConstants } from "@/variables";
 import { useGetConvertersBySide } from "@/hooks/converters";
 import { usePoolStore } from "@/store";
 import { contractABI } from "@/store/abi";
 import { HistoryEvent, MarketEvent, OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
+import { buy_volume } from "@/data/constants";
 
 export const useBuyEventOrderFulfilled = () => {
   const { address } = useAccount();
@@ -26,7 +26,7 @@ export const useBuyEventOrderFulfilled = () => {
       const price = rest[4];
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
-        [localConstants.buy_volume, buyPool.address],
+        [buy_volume, buyPool.address],
         (prev) => {
           if (!prev) return;
           return prev.map((item) => {

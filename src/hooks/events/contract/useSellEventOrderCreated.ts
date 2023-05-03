@@ -1,10 +1,10 @@
 import { contractABI } from "@/store/abi";
-import { localConstants } from "@/variables";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePoolStore } from "@/store";
 import { OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
 import { updateOrderFromPendingToOpen } from "./helpers";
+import { sell_volume } from "@/data/constants";
 
 export const useSellEventOrderCreated = () => {
   const { address } = useAccount();
@@ -22,7 +22,7 @@ export const useSellEventOrderCreated = () => {
       const price = rest[1];
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
-        [localConstants.sell_volume, sellPool.address],
+        [sell_volume, sellPool.address],
         (prev) => {
           if (!prev) return;
           const index = prev.findIndex((item) => item.value.eq(price));
