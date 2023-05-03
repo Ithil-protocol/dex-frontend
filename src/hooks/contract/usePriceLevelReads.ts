@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { localConstants } from "@/variables";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, constants, utils } from "ethers";
 import { contractABI } from "@/store/abi";
 import { readContracts } from "wagmi";
 
@@ -9,7 +8,7 @@ export const usePriceLevelReads = () => {
     const highestPrice = await readContracts({
       contracts: [
         {
-          address: localConstants.address,
+          address: constants.AddressZero,
           abi: contractABI,
           functionName: "getNextPriceLevel",
           args: [utils.parseUnits("0", 0)],
@@ -23,7 +22,7 @@ export const usePriceLevelReads = () => {
       const price = await readContracts({
         contracts: [
           {
-            address: localConstants.address,
+            address: constants.AddressZero,
             abi: contractABI,
             functionName: "getNextPriceLevel",
             args: [next],

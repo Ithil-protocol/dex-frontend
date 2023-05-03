@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber, constants, ethers } from "ethers";
 import { contractABI } from "@/store/abi";
 import { CustomContractConfig } from "@/types";
 import { readContracts } from "wagmi";
 import { usePriceLevelReads } from "./usePriceLevelReads";
 import { useIdReads } from "./useIdReads";
-import { localConstants } from "@/variables";
 
 export const useOrderReads = () => {
   const { data: priceLevels } = usePriceLevelReads();
@@ -25,7 +24,7 @@ export const useOrderReads = () => {
       for (let j = 1; j <= id; j++) {
         contracts.push({
           abi: contractABI,
-          address: localConstants.address,
+          address: constants.AddressZero,
           functionName: "getOrder",
           args: [priceLevels[i], j],
         });

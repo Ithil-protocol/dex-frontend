@@ -11,7 +11,7 @@ import { useConvertBuyMarketArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import { usePoolGetNextPriceLevel } from "@/hooks/contracts/pool";
 import { localConstants } from "@/variables";
-import { utils } from "ethers";
+import { constants, utils } from "ethers";
 import Total from "@/components/CreateOrder/Inputs/Total";
 import Submit from "@/components/CreateOrder/Inputs/Submit";
 import Info from "@/components/Common/Info";
@@ -60,7 +60,7 @@ const MarketBuy: React.FC<Props> = () => {
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
     address: sellPool.address,
-    args: [localConstants.zeroBigNumber],
+    args: [constants.Zero],
     watch: true,
   });
 
