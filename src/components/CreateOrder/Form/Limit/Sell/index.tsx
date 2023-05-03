@@ -88,6 +88,11 @@ const LimitSell: React.FC<Props> = () => {
     Number(formValues.amount) * Number(formValues.price) || 0
   ).toFixed(sellPool.accounting.decimals);
 
+  const modalCloseHandler = () => {
+    setOpen(false);
+    resetCreate();
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -131,14 +136,13 @@ const LimitSell: React.FC<Props> = () => {
       <LimitConfirmation
         finalValues={finalValues}
         open={open}
-        setOpen={setOpen}
         write={write}
         createLoading={createLoading}
         gasLoading={gasLoading}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
-        resetCreate={resetCreate}
+        modalCloseHandler={modalCloseHandler}
       />
     </>
   );

@@ -8,7 +8,6 @@ import {
   Skeleton,
 } from "@mui/material";
 import { usePoolPreviewOrder } from "@/hooks/contracts/pool";
-import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "@/store";
 import { LimitFinalValues } from "@/types";
 import styles from "./LimitConfirmation.module.scss";
@@ -23,26 +22,24 @@ interface Props {
   finalValues: LimitFinalValues;
   write: (() => void) | undefined;
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
   createLoading: boolean;
   gasLoading: boolean;
   waitedData: providers.TransactionReceipt | undefined;
   waitedError: boolean;
   waitedSuccess: boolean;
-  resetCreate: () => void;
+  modalCloseHandler: () => void;
 }
 
 const LimitConfirmation: React.FC<Props> = ({
   finalValues,
   open,
-  setOpen,
   write,
   gasLoading,
   createLoading,
   waitedData,
   waitedError,
   waitedSuccess,
-  resetCreate,
+  modalCloseHandler,
 }) => {
   const [side, pool, pair] = usePoolStore((state) => [
     state.side,
@@ -58,13 +55,8 @@ const LimitConfirmation: React.FC<Props> = ({
     watch: true,
   });
 
-  const closeHandler = () => {
-    setOpen(false);
-    resetCreate();
-  };
-
   return (
-    <Dialog open={open} onClose={closeHandler} fullWidth maxWidth={"xs"}>
+    <Dialog open={open} onClose={modalCloseHandler} fullWidth maxWidth={"xs"}>
       <DialogTitle fontWeight={800} align="center">
         Limit order confirmation
       </DialogTitle>
@@ -115,7 +107,7 @@ const LimitConfirmation: React.FC<Props> = ({
 
         <div className={styles.buttons}>
           <Button
-            onClick={closeHandler}
+            onClick={modalCloseHandler}
             fullWidth
             variant="outlined"
             color="info"

@@ -94,6 +94,11 @@ const LimitBuy: React.FC<Props> = () => {
     resetCreate();
   };
 
+  const modalCloseHandler = () => {
+    setOpen(false);
+    resetCreate();
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -137,14 +142,13 @@ const LimitBuy: React.FC<Props> = () => {
       <LimitConfirmation
         finalValues={finalValues}
         open={open}
-        setOpen={setOpen}
         write={write}
         createLoading={createLoading}
         gasLoading={gasLoading}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
-        resetCreate={resetCreate}
+        modalCloseHandler={modalCloseHandler}
       />
     </>
   );
