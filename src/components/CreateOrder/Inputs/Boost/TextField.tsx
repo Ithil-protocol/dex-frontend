@@ -1,5 +1,5 @@
 import { Button, InputAdornment, TextField } from "@mui/material";
-import { decimalRegex } from "data/regex";
+import { decimalRegex } from "@/data/regex";
 
 import { useController } from "react-hook-form";
 
@@ -39,8 +39,8 @@ const BoostTextField: React.FC<Props> = ({
       }}
       autoComplete="off"
       id="boost"
-      placeholder="0"
       size="small"
+      placeholder="0"
       variant="outlined"
       InputProps={{
         endAdornment: (

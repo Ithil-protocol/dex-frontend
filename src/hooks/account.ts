@@ -9,6 +9,7 @@ export const useTokenBalance = ({ tokenAddress }: TokenBalanceProps) => {
   const { data } = useBalance({
     address,
     token: tokenAddress,
+    watch: true,
   });
   if (data) return Number(data.formatted);
   return 0;

@@ -1,21 +1,25 @@
 import { useForm, useWatch } from "react-hook-form";
-import { usePoolStore } from "store";
-import Submit from "../../../Inputs/Submit";
-import Total from "../../../Inputs/Total";
+import { usePoolStore } from "@/store";
+import Submit from "@/components/CreateOrder/Inputs/Submit";
+import Total from "@/components/CreateOrder/Inputs/Total";
 
-import { useTokenBalance } from "hooks/account";
-import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import MarketAmount from "../../../Inputs/Amount";
-import { MarketInputs } from "types";
-import { marketSchema } from "data/forms";
+import { useTokenBalance } from "@/hooks/account";
+import { useAllowance, useFulfillOrder } from "@/hooks/poolWrite";
+import MarketAmount from "@/components/CreateOrder/Inputs/Amount";
+import { MarketInputs } from "@/types";
+import { marketSchema } from "@/data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
-import { useCallback } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { useConvertSellMarketArgs } from "@/components/CreateOrder/utils";
+import { useCallback, useState } from "react";
+import Info from "@/components/Common/Info";
+import { fixPrecision } from "@/utility/converters";
+import MarketSellConfirmation from "@/components/CreateOrder/Confirmation/MarketSellConfirmation";
 
 interface Props {}
 
 const MarketSell: React.FC<Props> = () => {
+  const [open, setOpen] = useState(false);
+
   const {
     control,
     formState: { isSubmitting },
@@ -34,22 +38,31 @@ const MarketSell: React.FC<Props> = () => {
   const available = useTokenBalance({
     tokenAddress: buyPool.accounting.address,
   });
-  const availableLabel = `${available} ${pair.underlyingLabel}`;
+  const availableLabel = `${fixPrecision(
+    available,
+    buyPool.accounting.displayPrecision
+  )} ${pair.underlyingLabel}`;
 
-  const { totalToTake, ...finalValues } = useConvertSellMarketArgs({
-    amount: formValues.amount,
-    pool: buyPool,
-  });
+  const { totalToTake, isAmountOut, ...finalValues } = useConvertSellMarketArgs(
+    {
+      amount: formValues.amount,
+      pool: buyPool,
+    }
+  );
 
   const {
     write,
     isLoading: fulfillLoading,
     gasLoading,
+    waitedData,
+    waitedError,
+    waitedSuccess,
   } = useFulfillOrder(finalValues);
   const {
     write: approve,
     isLoading: approveLoading,
     isApproved,
+    currentAllowance,
   } = useAllowance({
     amount: formValues.amount,
     pool: buyPool,
@@ -61,7 +74,7 @@ const MarketSell: React.FC<Props> = () => {
       approve();
       return;
     }
-    write?.();
+    setOpen(true);
   };
 
   const groupButtonHandler = useCallback(
@@ -72,48 +85,61 @@ const MarketSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
-  const total = totalToTake.toFixed(buyPool.underlying.decimals);
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 5,
-          padding: "5px",
-        }}
-      >
-        <MarketAmount
-          availableLabel={availableLabel}
-          control={control}
-          groupButtonDisabled={groupButtonDisabled}
-          groupButtonHandler={groupButtonHandler}
-        />
+    <>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 5,
+            padding: "5px",
+          }}
+        >
+          <MarketAmount
+            availableLabel={availableLabel}
+            control={control}
+            groupButtonDisabled={groupButtonDisabled}
+            groupButtonHandler={groupButtonHandler}
+          />
 
-        <Total total={total} label={pair.accountingLabel} />
+          <Total total={`${totalToTake}`} label={pair.accountingLabel} />
+          <Info
+            isRendered={isAmountOut}
+            text="The amount is higher than the pool's assets!"
+          />
+          <Info
+            isRendered={!isApproved}
+            color="warning"
+            text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+          />
 
-        <Submit
-          submitContent={
-            !isApproved ? "Approve first" : `Sell ${pair.underlyingLabel}`
-          }
-          isApproved={isApproved}
-          control={control}
-          isLoading={isSubmitting || approveLoading || fulfillLoading}
-          isMarket={true}
-          side={side}
-          write={write}
-        />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
-      </div>
-    </form>
+          <Submit
+            submitContent={`Sell ${pair.underlyingLabel}`}
+            isApproved={isApproved}
+            control={control}
+            isLoading={isSubmitting || approveLoading || fulfillLoading}
+            isMarket={true}
+            side={side}
+            write={write}
+          />
+
+          <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
+        </div>
+      </form>
+      <MarketSellConfirmation
+        fulfillLoading={fulfillLoading}
+        finalValues={{ ...finalValues, totalToTake }}
+        gasLoading={gasLoading}
+        open={open}
+        setOpen={setOpen}
+        waitedData={waitedData}
+        waitedError={waitedError}
+        waitedSuccess={waitedSuccess}
+        write={write}
+      />
+    </>
   );
 };
 

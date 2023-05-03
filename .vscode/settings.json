@@ -32,7 +32,9 @@
     "lib": false,
     "pairs.json": false,
     ".json": false,
-    "wagmi.config.ts": false
+    "wagmi.config.ts": false,
+    "icons.ts": false,
+    "notes": false
   },
   "prettier.configPath": ".prettierrc.json",
   "prettier.endOfLine": "crlf",

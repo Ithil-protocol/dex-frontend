@@ -1,9 +1,6 @@
 import { format } from "date-fns";
-import { Order, OrderObj } from "types";
-import { utils } from "ethers";
-// export const addOrderToOrderObj = (order: Order, orderObj: OrderObj) => {
-//   if(orderObj[])
-// };
+import { Order, OrderObj } from "@/types";
+import { fixPrecision } from "./converters";
 
 export const convertOrdersArrayToUniqueObj = (orders: Order[]) => {
   const obj: OrderObj = {};
@@ -28,15 +25,15 @@ export const computeOrders = (orders: Order[]) => {
   return sortOrderObj(uniqueObj);
 };
 
-export const briefing = (number: number) => {
+export const briefing = (number: number, precision: number) => {
   if (number > 999 && number < 1000000) {
-    return (number / 1000).toFixed(0) + "K"; // convert to K for number from > 1000 < 1 million
+    return fixPrecision(number / 1000, precision) + "K";
   } else if (number > 1000000) {
-    return (number / 1000000).toFixed(0) + "M"; // convert to M for number from > 1 million
+    return fixPrecision(number / 1000000, precision) + "M";
   } else if (number > 1000000000) {
-    return (number / 1000000).toFixed(0) + "B"; // convert to M for number from > 1 million
+    return fixPrecision(number / 1000000, precision) + "B";
   } else {
-    return number.toString(); // if value < 1000, nothing to do
+    return number.toString();
   }
 };
 
@@ -47,7 +44,7 @@ export const formatBigNumber = (value: number) => {
   }).format(value);
 };
 
-export function truncateString(str: string, num: number) {
+export function truncate(str: string, num: number) {
   if (str.length > num) {
     return str.slice(0, num) + "...";
   } else {
@@ -68,11 +65,13 @@ export function shuffleArray<T>(array: T[]) {
 }
 
 export const formatDateToTime = (date: number) => {
-  return format(new Date(date), "KK:mm:ss");
+  return format(new Date(date), "HH:mm:ss");
 };
 
 export const formatDateToFullDate = (date: number) => {
-  return format(new Date(date), "KK:mm:ss dd/MM/yy");
+  return format(new Date(date), "HH:mm:ss dd/MM/yy");
 };
 
-export const zeroBigNumber = utils.parseUnits("0", 0);
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

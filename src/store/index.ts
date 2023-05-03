@@ -1,5 +1,5 @@
-import { pairs } from "data/pools";
-import { PoolState } from "types";
+import { pairs } from "@/data/pools";
+import { PoolState } from "@/types";
 import { create } from "zustand";
 
 const typeObj = {
@@ -27,10 +27,12 @@ export const usePoolStore = create<PoolState>((set) => ({
     });
   },
   updatePair: (pair) => {
-    set((state) => ({
+    set(() => ({
       pair,
       pairValue: pair.value,
-      default: pairs[pair.value][typeObj[state.type + "-" + state.side]],
+      default: pairs[pair.value]["sell"],
+      sellPool: pairs[pair.value]["sell"],
+      buyPool: pairs[pair.value]["buy"],
     }));
   },
   updateType: (type) => {

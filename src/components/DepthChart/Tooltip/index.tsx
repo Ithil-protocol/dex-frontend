@@ -4,7 +4,7 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { TooltipProps } from "recharts/types/component/Tooltip";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 import styles from "./Tooltip.module.scss";
 
 const WrapperTooltip = ({
@@ -32,13 +32,16 @@ const WrapperTooltip = ({
       })}
     >
       <p>
-        value :{" "}
+        price :{" "}
         <b>
           {payload[0].payload.x} {pair.accountingLabel}
         </b>
       </p>
       <p>
-        volume :<b>{payload[0].payload.y}</b>
+        volume :
+        <b>
+          {payload[0].payload.y} {pair.underlyingLabel}
+        </b>
       </p>
     </Box>
   );

@@ -2,14 +2,12 @@ import { configureChains, createClient, goerli, erc20ABI } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
-import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { readContracts } from "wagmi";
 import fs from "fs";
-import { rawContractABI } from "../store/abi-raw.mjs";
+import { rawFactoryABI } from "../store/abi-raw.mjs";
 
 import addresses from "../../pairs.json" assert { type: "json" };
-
-console.log("creating pairs...");
+import { factoryAddress } from "../config/factory.mjs";
 
 const { provider } = configureChains(
   [goerli],
@@ -29,50 +27,38 @@ createClient({
   let newPools = [...addresses];
   const addressesLength = addresses.length;
 
-  const underlyingContracts = addresses.flatMap((item) => [
-    {
-      abi: rawContractABI,
-      functionName: "underlying",
-      address: item.sell.address,
-    },
-    {
-      abi: rawContractABI,
-      functionName: "underlying",
-      address: item.buy.address,
-    },
-  ]);
-
-  const accountingContracts = addresses.flatMap((item) => [
-    {
-      abi: rawContractABI,
-      functionName: "accounting",
-      address: item.sell.address,
-    },
-    {
-      abi: rawContractABI,
-      functionName: "accounting",
-      address: item.buy.address,
-    },
-  ]);
-
-  const underlyingPromise = await readContracts({
-    contracts: underlyingContracts,
-  });
-
-  const accountingPromise = await readContracts({
-    contracts: accountingContracts,
-  });
-
-  const underlyingTokensContracts = underlyingPromise.map((item) => ({
-    abi: erc20ABI,
-    functionName: "decimals",
-    address: item,
+  const sellPoolAddressesContracts = newPools.map((item) => ({
+    address: factoryAddress,
+    args: [item.underlying.address, item.accounting.address],
+    abi: rawFactoryABI,
+    functionName: "pools",
   }));
 
-  const accountingTokensContracts = accountingPromise.map((item) => ({
+  const buyPoolAddressesContracts = newPools.map((item) => ({
+    address: factoryAddress,
+    args: [item.accounting.address, item.underlying.address],
+    abi: rawFactoryABI,
+    functionName: "pools",
+  }));
+
+  const sellPoolAddresses = await readContracts({
+    contracts: sellPoolAddressesContracts,
+  });
+
+  const buyPoolAddresses = await readContracts({
+    contracts: buyPoolAddressesContracts,
+  });
+
+  const underlyingTokensContracts = newPools.map((item) => ({
     abi: erc20ABI,
     functionName: "decimals",
-    address: item,
+    address: item.underlying.address,
+  }));
+
+  const accountingTokensContracts = newPools.map((item) => ({
+    abi: erc20ABI,
+    functionName: "decimals",
+    address: item.accounting.address,
   }));
 
   const underlyingTokensDecimals = await readContracts({
@@ -83,25 +69,41 @@ createClient({
     contracts: accountingTokensContracts,
   });
 
-  for (let i = 0; i < addressesLength; i++) {
-    const sellIndex = i * 2;
-    const buyIndex = i * 2 + 1;
+  const newData = [...Array(addressesLength)].map((_) => ({
+    sell: {
+      underlying: {},
+      accounting: {},
+    },
+    buy: {
+      underlying: {},
+      accounting: {},
+    },
+  }));
 
-    newPools[i].sell.underlying = {};
-    newPools[i].sell.accounting = {};
-    newPools[i].buy.underlying = {};
-    newPools[i].buy.accounting = {};
-    newPools[i].sell.underlying.address = underlyingPromise[sellIndex];
-    newPools[i].buy.underlying.address = underlyingPromise[buyIndex];
-    newPools[i].sell.accounting.address = accountingPromise[sellIndex];
-    newPools[i].buy.accounting.address = accountingPromise[buyIndex];
-    newPools[i].sell.underlying.decimals = underlyingTokensDecimals[sellIndex];
-    newPools[i].buy.underlying.decimals = underlyingTokensDecimals[buyIndex];
-    newPools[i].sell.accounting.decimals = accountingTokensDecimals[sellIndex];
-    newPools[i].buy.accounting.decimals = accountingTokensDecimals[buyIndex];
+  for (let i = 0; i < addressesLength; i++) {
+    newData[i].base = newPools[i].base;
+    newData[i].tick = newPools[i].tick;
+    newData[i].underlyingLabel = newPools[i].underlying.label;
+    newData[i].accountingLabel = newPools[i].accounting.label;
+    newData[i].sell.address = sellPoolAddresses[i];
+    newData[i].buy.address = buyPoolAddresses[i];
+    newData[i].sell.underlying.displayPrecision =
+      newPools[i].underlying.displayPrecision;
+    newData[i].buy.underlying.displayPrecision =
+      newPools[i].accounting.displayPrecision;
+    newData[i].sell.accounting.displayPrecision =
+      newPools[i].accounting.displayPrecision;
+    newData[i].buy.accounting.displayPrecision =
+      newPools[i].underlying.displayPrecision;
+    newData[i].sell.underlying.address = newPools[i].underlying.address;
+    newData[i].buy.underlying.address = newPools[i].accounting.address;
+    newData[i].sell.accounting.address = newPools[i].accounting.address;
+    newData[i].buy.accounting.address = newPools[i].underlying.address;
+    newData[i].sell.underlying.decimals = underlyingTokensDecimals[i];
+    newData[i].buy.underlying.decimals = accountingTokensDecimals[i];
+    newData[i].sell.accounting.decimals = accountingTokensDecimals[i];
+    newData[i].buy.accounting.decimals = underlyingTokensDecimals[i];
   }
 
-  fs.writeFileSync("./src/data/pools.json", JSON.stringify(newPools));
-
-  console.log("pairs created");
+  fs.writeFileSync("./src/data/pools.json", JSON.stringify(newData));
 })();

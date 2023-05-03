@@ -1,17 +1,14 @@
 import { TableCell, TableRow } from "@mui/material";
-import LightTooltip from "components/Common/LightTooltip";
-import { useGetBlock } from "hooks/contract";
-import { MarketEvent } from "types";
-import { formatDateToTime, truncateString } from "utility";
+import PreciseNumber from "@/components/Common/PreciseNumber";
+import { MarketEvent } from "@/types";
+import { formatDateToTime } from "@/utility";
 
 interface Props {
   data: MarketEvent;
 }
 
 const EachTrade = ({ data }: Props) => {
-  const block = useGetBlock(data);
-
-  const fullDate = formatDateToTime(block.timestamp * 1000);
+  const fullDate = formatDateToTime(data.timestamp);
 
   return (
     <TableRow>
@@ -21,24 +18,23 @@ const EachTrade = ({ data }: Props) => {
           fontWeight: 900,
         }}
       >
-        <LightTooltip placeholder="top" title={data.amount}>
-          <span>{truncateString(data.amount, 9)}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.amount} isPrice={false} />
+        </span>
       </TableCell>
       <TableCell
         sx={(theme) => ({
           fontWeight: 900,
           color:
-            // data.type === "taker"
-            // ?
-            theme.palette.success.main,
-          // : theme.palette.error.main,
+            data.side === "buy"
+              ? theme.palette.success.main
+              : theme.palette.error.main,
           fontSize: 14,
         })}
       >
-        <LightTooltip placeholder="top" title={data.price}>
-          <span>{truncateString(data.price, 9)}</span>
-        </LightTooltip>
+        <span>
+          <PreciseNumber num={data.price} isPrice={true} />
+        </span>
       </TableCell>
 
       <TableCell

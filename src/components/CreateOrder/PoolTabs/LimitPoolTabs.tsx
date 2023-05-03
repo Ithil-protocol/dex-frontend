@@ -1,10 +1,10 @@
-import WrapperTab from "../../Common/WrapperTab";
+import WrapperTab from "@/components/Common/WrapperTab";
 import { useTheme } from "@mui/material";
-import { usePoolStore } from "store";
-import { Side } from "types";
+import { usePoolStore } from "@/store";
+import { Side } from "@/types";
 import Tabs from "@mui/material/Tabs";
-import LimitBuy from "../Form/Limit/Buy";
-import LimitSell from "../Form/Limit/Sell";
+import LimitBuy from "@/components/CreateOrder/Form/Limit/Buy";
+import LimitSell from "@/components/CreateOrder/Form/Limit/Sell";
 
 interface Props {}
 

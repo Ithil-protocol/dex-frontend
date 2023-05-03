@@ -1,22 +1,25 @@
-.option {
-  // background-color: $color-background-light;
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.underlying_label {
+.pair {
+  display: flex;
+  align-items: center;
 }
 
 .underlying_icon {
   z-index: 10;
+  margin-top: 6px;
 }
 
 .accounting_icon {
   margin-left: -16px;
   margin-right: 16px;
+  margin-top: 6px;
 }
 
 .accounting_label {
   color: rgb(174, 174, 174);
-}
-
-.slash {
 }

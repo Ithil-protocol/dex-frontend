@@ -1,4 +1,4 @@
-import { Chip, InputLabel } from "@mui/material";
+import { InputLabel } from "@mui/material";
 import InfoTooltip from "./InfoTooltip";
 
 interface Props {

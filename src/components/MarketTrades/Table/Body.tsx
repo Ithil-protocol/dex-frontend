@@ -1,27 +1,23 @@
 import { TableBody } from "@mui/material";
-import EachTrade from "../EachTrade";
-import { MarketEvent } from "types";
-import TableLoader from "components/Common/TableLoader";
+import EachTrade from "@/components/MarketTrades/EachTrade";
+import TableLoader from "@/components/Common/TableLoader";
+import { useAllOrderFulfilledEvents } from "@/hooks/events";
 
 interface Props {
-  trades: MarketEvent[];
-  isLoading: boolean;
   headsLength: number;
 }
 
-const TradesTableBody: React.FC<Props> = ({
-  trades,
-  isLoading,
-  headsLength,
-}) => {
+const TradesTableBody: React.FC<Props> = ({ headsLength }) => {
+  const { data: trades, isLoading } = useAllOrderFulfilledEvents();
+  const MAX_ROWS = 50;
+
   return (
     <TableBody>
       {isLoading ? (
         <TableLoader cellsNumber={headsLength} rowsNum={10} />
       ) : (
-        trades
-          .slice(-15)
-          .reverse()
+        (trades || [])
+          .slice(-MAX_ROWS)
           .map((item, i) => <EachTrade key={i} data={item} />)
       )}
     </TableBody>

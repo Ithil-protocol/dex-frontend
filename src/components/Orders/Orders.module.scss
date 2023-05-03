@@ -2,17 +2,19 @@
   padding: 8px;
 }
 
-.last {
-  color: $color-green;
-  margin: 30px 0;
-  font-size: 24px;
-  font-weight: 700;
-  text-align: right;
-  padding-right: 8px;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.divider {
+  margin-bottom: 10px;
 }
 
 .buy {
-  height: 320px;
+  height: 328px;
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;

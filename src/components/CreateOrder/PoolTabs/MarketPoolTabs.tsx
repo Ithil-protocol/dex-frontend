@@ -1,10 +1,10 @@
-import WrapperTab from "../../Common/WrapperTab";
+import WrapperTab from "@/components/Common/WrapperTab";
 import { useTheme } from "@mui/material";
-import { usePoolStore } from "store";
-import { Side } from "types";
+import { usePoolStore } from "@/store";
+import { Side } from "@/types";
 import Tabs from "@mui/material/Tabs";
-import MarketBuy from "../Form/Market/Buy";
-import MarketSell from "../Form/Market/Sell";
+import MarketBuy from "@/components/CreateOrder/Form/Market/Buy";
+import MarketSell from "@/components/CreateOrder/Form/Market/Sell";
 
 interface Props {}
 
