@@ -17,22 +17,32 @@ export const updateOrderFromPendingToOpen = (
 
       if (offerer !== address) return prev;
 
-      const foundOrderIndex = prev.findIndex((i) => {
-        return i.rawPrice.eq(price) && i.status === "pending";
+      return prev.map((item) => {
+        if (item.rawPrice.eq(price) && item.status === "pending") {
+          return {
+            ...item,
+            status: "open",
+            index: orderIndex,
+          };
+        } else return item;
       });
 
-      if (foundOrderIndex !== -1) {
-        const order: OpenOrderEvent = {
-          ...prev[foundOrderIndex],
-          status: "open",
-          index: orderIndex,
-        };
-        const copyOrders = [...prev];
-        copyOrders[foundOrderIndex] = order;
-        return copyOrders;
-      }
+      // const foundOrderIndex = prev.findIndex((i) => {
+      //   return i.rawPrice.eq(price) && i.status === "pending";
+      // });
 
-      return prev;
+      // if (foundOrderIndex !== -1) {
+      //   const order: OpenOrderEvent = {
+      //     ...prev[foundOrderIndex],
+      //     status: "open",
+      //     index: orderIndex,
+      //   };
+      //   const copyOrders = [...prev];
+      //   copyOrders[foundOrderIndex] = order;
+      //   return copyOrders;
+      // }
+
+      // return prev;
     }
   );
 };
