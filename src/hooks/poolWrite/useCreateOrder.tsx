@@ -12,6 +12,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useGetConverters } from "../converters";
 import { usePoolStore } from "store";
 import { useReadPreviewOrder } from "store/web3Store";
+import { useRef } from "react";
+import { useChangeOrderStatus } from "./useChangeOrderStatus";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -20,6 +22,7 @@ interface CreateOrderProps {
   price: BigNumber;
   side: Side;
 }
+
 export const useCreateOrder = ({
   amount,
   boost,
@@ -28,9 +31,8 @@ export const useCreateOrder = ({
   side,
 }: CreateOrderProps) => {
   const time = useDeadline();
-
+  const transactionHash = useRef("");
   const { address } = useAccount();
-  const previewData = useReadPreviewOrder(pool.address, price, boost);
 
   const { config, isLoading: gasLoading } = usePreparePoolCreateOrder({
     address: pool.address,
@@ -50,15 +52,19 @@ export const useCreateOrder = ({
     // onSuccess(...args) {},
   });
 
-  const { address: poolAddress } = usePoolStore((state) => state.default);
-  const queryClient = useQueryClient();
-  const {
-    buyAmountConverter,
-    buyPriceConverter,
-    sellAmountConverter,
-    sellPriceConverter,
-    stakedConverter,
-  } = useGetConverters();
+  const createPendingOrder = useCreatePendingOrder({
+    price,
+    amount,
+    boost,
+    address: address as string,
+    side,
+  });
+  const changeOrderStatus = useChangeOrderStatus(
+    address as string,
+    pool.address,
+    transactionHash.current
+  );
+
   const {
     data: writeData,
     write,
@@ -68,50 +74,9 @@ export const useCreateOrder = ({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: async (...args) => {
-      const converters = {
-        buy: {
-          amount: buyAmountConverter,
-          price: buyPriceConverter,
-          stake: stakedConverter,
-        },
-        sell: {
-          amount: sellAmountConverter,
-          price: sellPriceConverter,
-          stake: stakedConverter,
-        },
-      };
-
-      queryClient.setQueryData<OpenOrderEvent[]>(
-        ["userOrderCreatedEvent", address, poolAddress],
-        (prev) => {
-          if (!prev) return;
-          if (!previewData) return;
-
-          console.log(
-            "converting position to index:",
-            previewData.position.add(constants.One)
-          );
-
-          return [
-            {
-              address: address as `0x${string}`,
-              amount: converters[side].amount(amount, price),
-              index: previewData.position.add(constants.One),
-              price: converters[side].price(previewData.actualPrice),
-              rawAmount: amount,
-              rawPrice: previewData.actualPrice,
-              rawStaked: boost,
-              side,
-              staked: converters[side].stake(boost),
-              status: "pending",
-              timestamp: Date.now(),
-              transactionHash: args[0].hash,
-            },
-            ...prev,
-          ];
-        }
-      );
+    onSuccess: (...args) => {
+      transactionHash.current = args[0].hash;
+      createPendingOrder(transactionHash.current);
     },
   });
 
@@ -132,6 +97,7 @@ export const useCreateOrder = ({
     },
     onError: (error) => {
       toast.error(error.message);
+      changeOrderStatus("error");
     },
   });
 
@@ -145,5 +111,73 @@ export const useCreateOrder = ({
     write,
     isLoading: writeLoading || waitLoading,
     gasLoading,
+  };
+};
+
+interface CreatePendingOrderArgs {
+  address: string;
+  amount: BigNumber;
+  boost: BigNumber;
+  price: BigNumber;
+  side: Side;
+}
+
+const useCreatePendingOrder = ({
+  address,
+  amount,
+  boost,
+  price,
+  side,
+}: CreatePendingOrderArgs) => {
+  const { address: poolAddress } = usePoolStore((state) => state.default);
+  const previewData = useReadPreviewOrder(poolAddress, price, boost);
+  const queryClient = useQueryClient();
+  const {
+    buyAmountConverter,
+    buyPriceConverter,
+    sellAmountConverter,
+    sellPriceConverter,
+    stakedConverter,
+  } = useGetConverters();
+
+  const converters = {
+    buy: {
+      amount: buyAmountConverter,
+      price: buyPriceConverter,
+      stake: stakedConverter,
+    },
+    sell: {
+      amount: sellAmountConverter,
+      price: sellPriceConverter,
+      stake: stakedConverter,
+    },
+  };
+
+  return (transactionHash: string) => {
+    queryClient.setQueryData<OpenOrderEvent[]>(
+      ["userOrderCreatedEvent", address, poolAddress],
+      (prev) => {
+        if (!prev) return;
+        if (!previewData) return;
+
+        return [
+          {
+            address: address as `0x${string}`,
+            amount: converters[side].amount(amount, price),
+            index: previewData.position.add(constants.One),
+            price: converters[side].price(previewData.actualPrice),
+            rawAmount: amount,
+            rawPrice: previewData.actualPrice,
+            rawStaked: boost,
+            side,
+            staked: converters[side].stake(boost),
+            status: "pending",
+            timestamp: Date.now(),
+            transactionHash,
+          },
+          ...prev,
+        ];
+      }
+    );
   };
 };
