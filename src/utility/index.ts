@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { Order, OrderObj } from "@/types";
+import { fixPrecision } from "./converters";
 
 export const convertOrdersArrayToUniqueObj = (orders: Order[]) => {
   const obj: OrderObj = {};
@@ -24,13 +25,13 @@ export const computeOrders = (orders: Order[]) => {
   return sortOrderObj(uniqueObj);
 };
 
-export const briefing = (number: number) => {
+export const briefing = (number: number, precision: number) => {
   if (number > 999 && number < 1000000) {
-    return (number / 1000).toFixed(0) + "K";
+    return fixPrecision(number / 1000, precision) + "K";
   } else if (number > 1000000) {
-    return (number / 1000000).toFixed(0) + "M";
+    return fixPrecision(number / 1000000, precision) + "M";
   } else if (number > 1000000000) {
-    return (number / 1000000).toFixed(0) + "B";
+    return fixPrecision(number / 1000000, precision) + "B";
   } else {
     return number.toString();
   }

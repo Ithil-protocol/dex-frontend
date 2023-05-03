@@ -17,12 +17,15 @@ const DepthChart = () => {
   const { data: buyData } = useFormatBuyData();
   const { data: sellData } = useFormatSellData();
 
-  const pair = usePoolStore((store) => store.pair);
+  const [pair, defaultPool] = usePoolStore((store) => [
+    store.pair,
+    store.default,
+  ]);
 
   if (!buyData || !sellData) return null;
 
   const data = [
-    ...sellData.map((item) => ({
+    ...sellData.reverse().map((item) => ({
       x: item.value,
       ySell: item.volume,
       y: item.volume,
@@ -68,7 +71,9 @@ const DepthChart = () => {
             <XAxis
               dataKey="x"
               tickFormatter={(value, index) =>
-                index % 2 === 0 ? "" : briefing(value)
+                index % 2 === 0
+                  ? ""
+                  : briefing(value, defaultPool.accounting.displayPrecision)
               }
               allowDecimals={false}
               tick={{ fill: "white" }}
@@ -82,7 +87,11 @@ const DepthChart = () => {
               tickLine={false}
               orientation="right"
               type="number"
-              tickFormatter={(value) => (value === 0 ? "" : briefing(value))}
+              tickFormatter={(value) =>
+                value === 0
+                  ? ""
+                  : briefing(value, defaultPool.underlying.displayPrecision)
+              }
               // tickMargin={-10}
               fontSize={12}
               fontWeight={300}
@@ -104,8 +113,8 @@ const DepthChart = () => {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <div className={styles.underlying}>{pair.underlyingLabel}</div>
-      <div className={styles.accounting}>{pair.accountingLabel}</div>
+      <div className={styles.underlying}>Volume</div>
+      <div className={styles.accounting}>Price</div>
     </div>
   );
 };

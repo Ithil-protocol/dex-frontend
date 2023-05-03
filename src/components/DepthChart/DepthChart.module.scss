@@ -19,10 +19,12 @@
   align-self: center;
   justify-self: start;
   transform: rotate(90deg);
+  backface-visibility: hidden;
 }
 
 .accounting {
   grid-area: accounting;
   align-self: start;
   justify-self: center;
+  backface-visibility: hidden;
 }
