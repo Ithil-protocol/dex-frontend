@@ -6,24 +6,23 @@ import {
 } from "../contracts/pool";
 import { toast } from "react-toastify";
 import TransactionToast from "components/Common/Toast/TransactionToast";
-import { HistoryEvent, Pool } from "types";
-import { useQueryClient } from "@tanstack/react-query";
+import { Pool } from "types";
 import { usePoolStore } from "store";
+import { useChangeOrderStatus } from "./useChangeOrderStatus";
 
 interface CancelOrderProps {
-  hash: string;
+  transactionHash: string;
   index: BigNumber;
   pool: Pool;
   price: BigNumber;
 }
 
 export const useCancelOrder = ({
-  hash,
+  transactionHash,
   index,
   pool,
   price,
 }: CancelOrderProps) => {
-  const queryClient = useQueryClient();
   const { address } = useAccount();
   const { address: poolAddress } = usePoolStore((state) => state.default);
 
@@ -32,33 +31,18 @@ export const useCancelOrder = ({
     args: [index as BigNumber, price],
   });
 
+  const changeOrderStatus = useChangeOrderStatus(
+    address as string,
+    poolAddress,
+    transactionHash
+  );
+
   const { write: cancel, data: writeData } = usePoolCancelOrder({
     ...config,
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess() {
-      queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderCreatedEvent", address, poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          const index = prev.findIndex((i) => i.transactionHash === hash);
-
-          if (index > -1) {
-            const order = { ...prev[index] };
-            const copyOrders = [...prev];
-            copyOrders.splice(index, 1, {
-              ...order,
-              status: "canceling",
-            });
-            return copyOrders;
-          }
-
-          return prev;
-        }
-      );
-    },
+    onSuccess: () => changeOrderStatus("canceling"),
   });
 
   // const { data: waitedData } =
@@ -72,24 +56,7 @@ export const useCancelOrder = ({
         />
       );
     },
-    onError() {
-      queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderCreatedEvent", address, poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          const index = prev.findIndex((i) => i.transactionHash === hash);
-
-          if (index > -1) {
-            const copyOrders = [...prev];
-            copyOrders.splice(index, 1);
-            return copyOrders;
-          }
-
-          return prev;
-        }
-      );
-    },
+    onError: () => changeOrderStatus("error"),
   });
   return { cancel };
 };
