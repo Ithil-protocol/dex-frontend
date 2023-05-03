@@ -43,7 +43,6 @@ export const useBuyEventOrderCancelled = () => {
         }
       );
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       const data = rest[4]! as Event;
       const { value: rawStaked } = await data.getTransaction();
