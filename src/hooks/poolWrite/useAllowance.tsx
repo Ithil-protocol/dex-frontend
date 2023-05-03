@@ -1,4 +1,4 @@
-import { utils } from "ethers";
+import { constants, utils } from "ethers";
 import { useLayoutEffect, useState } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import { toast } from "react-toastify";
@@ -38,13 +38,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
 
   const { config } = usePrepareTokenApprove({
     address: token.address,
-    args: [
-      pool.address,
-      utils.parseUnits(Number(amount).toFixed(token.decimals), token.decimals),
-    ],
-    overrides: {
-      gasLimit: utils.parseUnits("200000", 0),
-    },
+    args: [pool.address, constants.MaxUint256],
     enabled: needAllowance,
     cacheTime: 0,
   });
