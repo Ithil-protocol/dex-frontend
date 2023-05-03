@@ -15,7 +15,7 @@ import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
 import { providers } from "ethers";
 
-import { fixPrecision } from "utility/convertors";
+import { fixPrecision } from "utility/converters";
 import TransactionResponse from "./TransactionResponse";
 import RowContainer from "./RowContainer";
 

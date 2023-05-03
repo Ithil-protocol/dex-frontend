@@ -3,7 +3,7 @@ import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { HistoryEvent } from "types";
 import PreciseNumber from "components/Common/PreciseNumber";
-import { fixPrecision } from "utility/convertors";
+import { fixPrecision } from "utility/converters";
 
 interface Props {
   data: HistoryEvent;

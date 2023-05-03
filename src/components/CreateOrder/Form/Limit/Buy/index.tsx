@@ -14,7 +14,7 @@ import { useCallback, useState } from "react";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import Info from "components/Common/Info";
-import { fixPrecision } from "utility/convertors";
+import { fixPrecision } from "utility/converters";
 import LimitConfirmation from "components/CreateOrder/Confirmation/LimitConfirmation";
 
 interface Props {}

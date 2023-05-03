@@ -15,7 +15,7 @@ import { utils } from "ethers";
 import Total from "components/CreateOrder/Inputs/Total";
 import Submit from "components/CreateOrder/Inputs/Submit";
 import Info from "components/Common/Info";
-import { fixPrecision } from "utility/convertors";
+import { fixPrecision } from "utility/converters";
 import MarketBuyConfirmation from "components/CreateOrder/Confirmation/MarketBuyConfirmation";
 
 interface Props {}

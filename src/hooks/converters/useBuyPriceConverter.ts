@@ -1,6 +1,6 @@
 import { usePoolStore } from "store";
 import { BigNumber, utils } from "ethers";
-import { fixPrecision } from "utility/convertors";
+import { fixPrecision } from "utility/converters";
 
 export const useBuyPriceConverter = () => {
   const buyPool = usePoolStore((store) => store.buyPool);

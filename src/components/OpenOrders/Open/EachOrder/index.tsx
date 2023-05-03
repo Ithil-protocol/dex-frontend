@@ -4,7 +4,7 @@ import { formatDateToFullDate } from "utility";
 import { usePoolStore } from "store";
 import { OpenOrderEvent } from "types";
 import PreciseNumber from "components/Common/PreciseNumber";
-import { fixPrecision } from "utility/convertors";
+import { fixPrecision } from "utility/converters";
 import { LoadingButton } from "@mui/lab";
 
 interface Props {

@@ -12,7 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Info from "components/Common/Info";
-import { fixPrecision } from "utility/convertors";
+import { fixPrecision } from "utility/converters";
 import MarketSellConfirmation from "components/CreateOrder/Confirmation/MarketSellConfirmation";
 
 interface Props {}
