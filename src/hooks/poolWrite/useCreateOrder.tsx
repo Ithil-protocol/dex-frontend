@@ -167,7 +167,7 @@ const useCreatePendingOrder = ({
           {
             address: address as `0x${string}`,
             amount: converters[side].amount(amount, price),
-            index: previewData.position.add(constants.One),
+            index: constants.NegativeOne,
             price: converters[side].price(previewData.actualPrice),
             rawAmount: amount,
             rawPrice: previewData.actualPrice,

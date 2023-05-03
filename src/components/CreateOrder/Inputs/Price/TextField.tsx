@@ -30,7 +30,6 @@ const PriceTextField: React.FC<Props> = (props) => {
           ) ||
           value === ""
         ) {
-          console.log(Number(value));
           onChange(value);
         }
       }}

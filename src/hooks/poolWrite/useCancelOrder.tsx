@@ -29,6 +29,7 @@ export const useCancelOrder = ({
   const { config } = usePreparePoolCancelOrder({
     address: pool.address as `0x${string}`,
     args: [index as BigNumber, price],
+    cacheTime: 0,
   });
 
   const changeOrderStatus = useChangeOrderStatus(

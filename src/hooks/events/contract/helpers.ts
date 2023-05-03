@@ -17,17 +17,18 @@ export const updateOrderFromPendingToOpen = (
 
       if (offerer !== address) return prev;
 
-      const index = prev.findIndex((i) => {
-        return i.rawPrice.eq(price) && orderIndex.gte(i.index);
+      const foundOrderIndex = prev.findIndex((i) => {
+        return i.rawPrice.eq(price) && i.status === "pending";
       });
 
-      if (index !== -1) {
-        const order = { ...prev[index] };
-        order.status = "open";
-        order.index = orderIndex;
-
+      if (foundOrderIndex !== -1) {
+        const order: OpenOrderEvent = {
+          ...prev[foundOrderIndex],
+          status: "open",
+          index: orderIndex,
+        };
         const copyOrders = [...prev];
-        copyOrders.splice(index, 1, order);
+        copyOrders[foundOrderIndex] = order;
         return copyOrders;
       }
 
