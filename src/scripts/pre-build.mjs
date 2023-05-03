@@ -7,7 +7,7 @@ import fs from "fs";
 import { rawFactoryABI } from "../store/abi-raw.mjs";
 
 import addresses from "../../pairs.json" assert { type: "json" };
-import { factoryAddress } from "../Config/factory.mjs";
+import { factoryAddress } from "../config/factory.mjs";
 
 const { provider } = configureChains(
   [goerli],

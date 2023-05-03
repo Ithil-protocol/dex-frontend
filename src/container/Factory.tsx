@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, CircularProgress, TextField } from "@mui/material";
-import { factoryAddress } from "@/Config/factory.mjs";
+import { factoryAddress } from "@/config/factory.mjs";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { factorySchema } from "@/data/forms";
 import {

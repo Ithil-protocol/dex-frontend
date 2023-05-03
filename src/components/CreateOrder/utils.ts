@@ -5,7 +5,7 @@ import {
   usePoolPreviewTake,
 } from "@/hooks/contracts/pool";
 import { localConstants } from "@/variables";
-import { appConfig } from "@/Config";
+import { appConfig } from "@/config";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;

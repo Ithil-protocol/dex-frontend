@@ -34,6 +34,6 @@
     "**/*.tsx",
     "src/scripts/pre-build.mjs",
     "src/data/pools.tsx",
-    "src/Config/factory.mjs"
+    "src/config/factory.mjs"
   ]
 }
