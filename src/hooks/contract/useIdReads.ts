@@ -1,7 +1,7 @@
-import { CustomContractConfig } from "types";
+import { CustomContractConfig } from "@/types";
 import { usePriceLevelReads } from "./usePriceLevelReads";
-import { contractABI } from "store/abi";
-import { localConstants } from "variables";
+import { contractABI } from "@/store/abi";
+import { localConstants } from "@/variables";
 import { useQuery } from "@tanstack/react-query";
 import { readContracts } from "wagmi";
 

@@ -1,5 +1,5 @@
-import { usePoolStore } from "store";
-import { contractABI } from "store/abi";
+import { usePoolStore } from "@/store";
+import { contractABI } from "@/store/abi";
 import { useContract, useProvider } from "wagmi";
 
 export const useBuyContract = () => {

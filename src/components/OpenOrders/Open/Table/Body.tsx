@@ -1,7 +1,7 @@
 import { TableBody } from "@mui/material";
-import EachOrder from "../EachOrder";
-import { OpenOrderEvent } from "types";
-import TableLoader from "../../../Common/TableLoader";
+import EachOrder from "@/components/OpenOrders/Open/EachOrder";
+import { OpenOrderEvent } from "@/types";
+import TableLoader from "@/components/Common/TableLoader";
 
 interface Props {
   orders: OpenOrderEvent[];

@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Order, OrderObj } from "types";
+import { Order, OrderObj } from "@/types";
 import { utils } from "ethers";
 // export const addOrderToOrderObj = (order: Order, orderObj: OrderObj) => {
 //   if(orderObj[])

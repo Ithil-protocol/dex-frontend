@@ -8,7 +8,7 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
-import createEmotionCache from "styles/createEmotionCache";
+import createEmotionCache from "@/styles/createEmotionCache";
 import { MyAppProps } from "./_app";
 import { useTheme } from "@mui/material";
 

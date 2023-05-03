@@ -1,8 +1,8 @@
-import { contractABI } from "store/abi";
-import { localConstants } from "variables";
+import { contractABI } from "@/store/abi";
+import { localConstants } from "@/variables";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePoolStore } from "store";
-import { OrderBook } from "types";
+import { usePoolStore } from "@/store";
+import { OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
 import { updateOrderFromPendingToOpen } from "./helpers";
 

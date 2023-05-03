@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@mui/material";
-import PreciseNumber from "components/Common/PreciseNumber";
-import { MarketEvent } from "types";
-import { formatDateToTime } from "utility";
+import PreciseNumber from "@/components/Common/PreciseNumber";
+import { MarketEvent } from "@/types";
+import { formatDateToTime } from "@/utility";
 
 interface Props {
   data: MarketEvent;

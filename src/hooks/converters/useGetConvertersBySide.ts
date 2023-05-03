@@ -1,4 +1,4 @@
-import { Side } from "types";
+import { Side } from "@/types";
 import { useGetConverters } from "./useGetConverters";
 
 export const useGetConvertersBySide = (side: Side) => {

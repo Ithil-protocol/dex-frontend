@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { utils } from "ethers";
-import { usePoolStore } from "store";
-import { contractABI } from "store/abi";
-import { OrderBook } from "types";
-import { localConstants } from "variables";
+import { usePoolStore } from "@/store";
+import { contractABI } from "@/store/abi";
+import { OrderBook } from "@/types";
+import { localConstants } from "@/variables";
 import { readContracts } from "wagmi";
 
 export const useSellVolumes = () => {

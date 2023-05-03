@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
-import { OpenOrderEvent } from "types";
+import { OpenOrderEvent } from "@/types";
 
 export const updateOrderFromPendingToOpen = (
   queryClient: QueryClient,

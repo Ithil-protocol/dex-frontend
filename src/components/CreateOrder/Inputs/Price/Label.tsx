@@ -1,5 +1,5 @@
-import WrapperInputLabel from "components/Common/WrapperInputLabel";
-import { usePoolStore } from "store";
+import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
+import { usePoolStore } from "@/store";
 import styles from "./Label.module.scss";
 
 const PriceLabel = () => {

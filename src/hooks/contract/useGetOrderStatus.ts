@@ -1,6 +1,6 @@
 import { BigNumber, BigNumberish, utils } from "ethers";
-import { Status } from "types";
-import { usePoolGetOrder } from "../contracts/pool";
+import { Status } from "@/types";
+import { usePoolGetOrder } from "@/hooks/contracts/pool";
 
 export const useGetOrderStatus = (
   address: `0x${string}`,

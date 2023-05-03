@@ -1,4 +1,4 @@
-import PoolsSelect from "components/PoolsSelect";
+import PoolsSelect from "@/components/PoolsSelect";
 import styles from "./Navbar.module.scss";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 

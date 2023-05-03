@@ -7,7 +7,7 @@ import {
   Narrow,
 } from "abitype";
 import { BigNumber } from "ethers";
-import { poolABI } from "hooks/contracts/pool";
+import { poolABI } from "@/hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
   HTMLTextAreaElement | HTMLInputElement

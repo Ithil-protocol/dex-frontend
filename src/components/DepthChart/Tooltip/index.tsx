@@ -4,7 +4,7 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { TooltipProps } from "recharts/types/component/Tooltip";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 import styles from "./Tooltip.module.scss";
 
 const WrapperTooltip = ({

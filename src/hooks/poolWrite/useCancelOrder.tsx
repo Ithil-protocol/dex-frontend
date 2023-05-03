@@ -3,11 +3,11 @@ import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCancelOrder,
   usePreparePoolCancelOrder,
-} from "../contracts/pool";
+} from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
-import TransactionToast from "components/Common/Toast/TransactionToast";
-import { Pool } from "types";
-import { usePoolStore } from "store";
+import TransactionToast from "@/components/Common/Toast/TransactionToast";
+import { Pool } from "@/types";
+import { usePoolStore } from "@/store";
 import { useChangeOrderStatus } from "./useChangeOrderStatus";
 
 interface CancelOrderProps {

@@ -1,11 +1,11 @@
-import { Pool } from "types";
+import { Pool } from "@/types";
 import { BigNumber, constants, utils } from "ethers";
 import {
   usePoolGetNextPriceLevel,
   usePoolPreviewTake,
-} from "hooks/contracts/pool";
-import { zeroBigNumber } from "utility";
-import { appConfig } from "Config";
+} from "@/hooks/contracts/pool";
+import { zeroBigNumber } from "@/utility";
+import { appConfig } from "@/Config";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;

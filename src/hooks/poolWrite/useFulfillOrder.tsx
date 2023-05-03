@@ -3,11 +3,11 @@ import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolFulfillOrder,
   usePreparePoolFulfillOrder,
-} from "../contracts/pool";
+} from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
-import TransactionToast from "components/Common/Toast/TransactionToast";
-import { Pool } from "types";
-import { useDeadline } from "../useDeadline";
+import TransactionToast from "@/components/Common/Toast/TransactionToast";
+import { Pool } from "@/types";
+import { useDeadline } from "@/hooks/useDeadline";
 
 interface FulfillOrderProps {
   amount: BigNumber;

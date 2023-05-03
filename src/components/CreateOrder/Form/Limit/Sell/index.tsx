@@ -1,21 +1,21 @@
 import { useForm, useWatch } from "react-hook-form";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useTokenBalance } from "hooks/account";
-import { useAllowance, useCreateOrder } from "hooks/poolWrite";
-import { LimitInputs } from "types";
-import { limitSchema } from "data/forms";
-import { convertSellLimitArgs } from "components/CreateOrder/utils";
+import { useTokenBalance } from "@/hooks/account";
+import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
+import { LimitInputs } from "@/types";
+import { limitSchema } from "@/data/forms";
+import { convertSellLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
-import Price from "components/CreateOrder/Inputs/Price";
-import Boost from "components/CreateOrder/Inputs/Boost";
-import Total from "components/CreateOrder/Inputs/Total";
-import Submit from "components/CreateOrder/Inputs/Submit";
-import LimitAmount from "components/CreateOrder/Inputs/Amount";
-import Info from "components/Common/Info";
-import { fixPrecision } from "utility/converters";
-import LimitConfirmation from "components/CreateOrder/Confirmation/LimitConfirmation";
+import Price from "@/components/CreateOrder/Inputs/Price";
+import Boost from "@/components/CreateOrder/Inputs/Boost";
+import Total from "@/components/CreateOrder/Inputs/Total";
+import Submit from "@/components/CreateOrder/Inputs/Submit";
+import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
+import Info from "@/components/Common/Info";
+import { fixPrecision } from "@/utility/converters";
+import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
 
 interface Props {}
 

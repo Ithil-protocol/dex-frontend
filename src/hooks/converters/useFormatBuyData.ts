@@ -1,5 +1,5 @@
-import { FormattedOrderBook } from "types";
-import { useBuyVolumes } from "../contract";
+import { FormattedOrderBook } from "@/types";
+import { useBuyVolumes } from "@/hooks/contract";
 import { useBuyPriceConverter } from "./useBuyPriceConverter";
 import { useBuyAmountConverter } from "./useBuyAmountConverter";
 

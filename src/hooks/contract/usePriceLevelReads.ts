@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { localConstants } from "variables";
+import { localConstants } from "@/variables";
 import { BigNumber, utils } from "ethers";
-import { contractABI } from "store/abi";
+import { contractABI } from "@/store/abi";
 import { readContracts } from "wagmi";
 
 export const usePriceLevelReads = () => {

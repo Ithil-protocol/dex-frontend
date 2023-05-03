@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
-import { ThemeColor } from "types";
+import { ThemeColor } from "@/types";
 
 interface Props {
   isRendered: boolean;

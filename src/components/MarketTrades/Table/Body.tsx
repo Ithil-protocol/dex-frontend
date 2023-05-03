@@ -1,7 +1,7 @@
 import { TableBody } from "@mui/material";
-import EachTrade from "../EachTrade";
-import TableLoader from "components/Common/TableLoader";
-import { useAllOrderFulfilledEvents } from "hooks/events";
+import EachTrade from "@/components/MarketTrades/EachTrade";
+import TableLoader from "@/components/Common/TableLoader";
+import { useAllOrderFulfilledEvents } from "@/hooks/events";
 
 interface Props {
   headsLength: number;

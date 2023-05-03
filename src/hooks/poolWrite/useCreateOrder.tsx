@@ -3,15 +3,15 @@ import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCreateOrder,
   usePreparePoolCreateOrder,
-} from "../contracts/pool";
+} from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
-import TransactionToast from "components/Common/Toast/TransactionToast";
-import { OpenOrderEvent, Pool, Side } from "types";
-import { useDeadline } from "../useDeadline";
+import TransactionToast from "@/components/Common/Toast/TransactionToast";
+import { OpenOrderEvent, Pool, Side } from "@/types";
+import { useDeadline } from "@/hooks/useDeadline";
 import { useQueryClient } from "@tanstack/react-query";
-import { useGetConverters } from "../converters";
-import { usePoolStore } from "store";
-import { useReadPreviewOrder } from "store/web3Store";
+import { useGetConverters } from "@/hooks/converters";
+import { usePoolStore } from "@/store";
+import { useReadPreviewOrder } from "@/store/web3Store";
 import { useRef } from "react";
 import { useChangeOrderStatus } from "./useChangeOrderStatus";
 

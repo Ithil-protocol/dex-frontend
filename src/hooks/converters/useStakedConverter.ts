@@ -1,5 +1,5 @@
 import { BigNumber, utils } from "ethers";
-import { fixPrecision } from "utility/converters";
+import { fixPrecision } from "@/utility/converters";
 
 export const useStakedConverter = () => {
   return (stake: BigNumber) => {

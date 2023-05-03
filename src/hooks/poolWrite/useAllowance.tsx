@@ -6,9 +6,9 @@ import {
   usePrepareTokenApprove,
   useTokenAllowance,
   useTokenApprove,
-} from "../contracts/token";
-import TransactionToast from "components/Common/Toast/TransactionToast";
-import { Pool, Token } from "types";
+} from "@/hooks/contracts/token";
+import TransactionToast from "@/components/Common/Toast/TransactionToast";
+import { Pool, Token } from "@/types";
 
 interface AllowanceProps {
   amount: string | undefined;

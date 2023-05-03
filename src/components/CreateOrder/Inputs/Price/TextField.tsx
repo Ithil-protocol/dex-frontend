@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { decimalRegex } from "data/regex";
+import { decimalRegex } from "@/data/regex";
 import { Control, useController } from "react-hook-form";
 
 interface Props {

@@ -3,7 +3,7 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TradesTableBody from "./Body";
 import TradesTableHead from "./Head";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 
 interface Props {}
 

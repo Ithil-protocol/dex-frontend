@@ -1,4 +1,4 @@
-import { useUserOrderCreatedEvents } from "hooks/events";
+import { useUserOrderCreatedEvents } from "@/hooks/events";
 import OpenOrdersTable from "./Table";
 
 const OpenOrders = () => {

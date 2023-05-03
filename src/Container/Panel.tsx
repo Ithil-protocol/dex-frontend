@@ -1,10 +1,10 @@
-import { CandlestickChart } from "components/CandlestickChart";
-import CreateOrder from "components/CreateOrder";
-import DepthChart from "components/DepthChart";
-import MarketTrades from "components/MarketTrades";
-import Navbar from "components/Navbar";
-import { OpenOrders } from "components/OpenOrders";
-import Orders from "components/Orders";
+import { CandlestickChart } from "@/components/CandlestickChart";
+import CreateOrder from "@/components/CreateOrder";
+import DepthChart from "@/components/DepthChart";
+import MarketTrades from "@/components/MarketTrades";
+import Navbar from "@/components/Navbar";
+import { OpenOrders } from "@/components/OpenOrders";
+import Orders from "@/components/Orders";
 import {
   useBuyEventOrderCancelled,
   useBuyEventOrderCreated,
@@ -12,9 +12,9 @@ import {
   useSellEventOrderCancelled,
   useSellEventOrderCreated,
   useSellEventOrderFulfilled,
-} from "hooks/events/contract";
+} from "@/hooks/events/contract";
 
-import styles from "styles/panel.module.scss";
+import styles from "@/styles/panel.module.scss";
 
 const Panel = () => {
   useSellEventOrderCreated();

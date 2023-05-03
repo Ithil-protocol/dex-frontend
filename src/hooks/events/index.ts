@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { readContracts, useAccount } from "wagmi";
-import { useBuyContract, useSellContract } from "../contract";
-import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "types";
-import { useGetConverters } from "../converters";
-import { contractABI } from "store/abi";
-import { usePoolStore } from "store";
+import { useBuyContract, useSellContract } from "@/hooks/contract";
+import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "@/types";
+import { useGetConverters } from "@/hooks/converters";
+import { contractABI } from "@/store/abi";
+import { usePoolStore } from "@/store";
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);

@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers } from "ethers";
-import { contractABI } from "store/abi";
-import { CustomContractConfig } from "types";
+import { contractABI } from "@/store/abi";
+import { CustomContractConfig } from "@/types";
 import { readContracts } from "wagmi";
 import { usePriceLevelReads } from "./usePriceLevelReads";
 import { useIdReads } from "./useIdReads";
-import { localConstants } from "variables";
+import { localConstants } from "@/variables";
 
 export const useOrderReads = () => {
   const { data: priceLevels } = usePriceLevelReads();

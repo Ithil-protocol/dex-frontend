@@ -1,10 +1,10 @@
 import { TableCell, TableRow, Chip, CircularProgress } from "@mui/material";
-import { useCancelOrder } from "hooks/poolWrite";
-import { formatDateToFullDate } from "utility";
-import { usePoolStore } from "store";
-import { OpenOrderEvent } from "types";
-import PreciseNumber from "components/Common/PreciseNumber";
-import { fixPrecision } from "utility/converters";
+import { useCancelOrder } from "@/hooks/poolWrite";
+import { formatDateToFullDate } from "@/utility";
+import { usePoolStore } from "@/store";
+import { OpenOrderEvent } from "@/types";
+import PreciseNumber from "@/components/Common/PreciseNumber";
+import { fixPrecision } from "@/utility/converters";
 import { LoadingButton } from "@mui/lab";
 
 interface Props {

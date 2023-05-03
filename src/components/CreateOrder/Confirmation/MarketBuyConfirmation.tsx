@@ -5,17 +5,17 @@ import {
   Dialog,
   DialogTitle,
 } from "@mui/material";
-import { usePoolPreviewTake } from "hooks/contracts/pool";
+import { usePoolPreviewTake } from "@/hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
-import { usePoolStore } from "store";
-import { MarketBuyFinalValues } from "types";
+import { usePoolStore } from "@/store";
+import { MarketBuyFinalValues } from "@/types";
 import styles from "./LimitConfirmation.module.scss";
-import { useSellAmountConverter } from "hooks/converters";
-import { capitalizeFirstLetter } from "utility";
+import { useSellAmountConverter } from "@/hooks/converters";
+import { capitalizeFirstLetter } from "@/utility";
 import { LoadingButton } from "@mui/lab";
 import { providers, utils } from "ethers";
 
-import { fixPrecision } from "utility/converters";
+import { fixPrecision } from "@/utility/converters";
 import TransactionResponse from "./TransactionResponse";
 import RowContainer from "./RowContainer";
 

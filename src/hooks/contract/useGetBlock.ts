@@ -12,7 +12,6 @@ export const useGetBlock = (event) => {
     };
 
     fn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event]);
 
   return block;

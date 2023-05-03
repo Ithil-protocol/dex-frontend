@@ -1,10 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Event } from "ethers";
-import { localConstants } from "variables";
-import { useGetConvertersBySide } from "hooks/converters";
-import { usePoolStore } from "store";
-import { contractABI } from "store/abi";
-import { HistoryEvent, MarketEvent, OrderBook } from "types";
+import { localConstants } from "@/variables";
+import { useGetConvertersBySide } from "@/hooks/converters";
+import { usePoolStore } from "@/store";
+import { contractABI } from "@/store/abi";
+import { HistoryEvent, MarketEvent, OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
 
 export const useBuyEventOrderFulfilled = () => {

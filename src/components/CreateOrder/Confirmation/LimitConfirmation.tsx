@@ -7,13 +7,13 @@ import {
   DialogTitle,
   Skeleton,
 } from "@mui/material";
-import { usePoolPreviewOrder } from "hooks/contracts/pool";
+import { usePoolPreviewOrder } from "@/hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
-import { usePoolStore } from "store";
-import { LimitFinalValues } from "types";
+import { usePoolStore } from "@/store";
+import { LimitFinalValues } from "@/types";
 import styles from "./LimitConfirmation.module.scss";
-import { useGetConvertersBySide } from "hooks/converters";
-import { capitalizeFirstLetter } from "utility";
+import { useGetConvertersBySide } from "@/hooks/converters";
+import { capitalizeFirstLetter } from "@/utility";
 import { LoadingButton } from "@mui/lab";
 import { providers } from "ethers";
 import CheckIcon from "@mui/icons-material/CheckCircle";

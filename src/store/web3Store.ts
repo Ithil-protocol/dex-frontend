@@ -1,5 +1,5 @@
-import { Order } from "types";
-import { computeOrders } from "utility";
+import { Order } from "@/types";
+import { computeOrders } from "@/utility";
 import { useContractRead } from "wagmi";
 import { contractABI } from "./abi";
 import { BigNumber } from "ethers";
