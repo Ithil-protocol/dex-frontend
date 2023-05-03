@@ -1,10 +1,11 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { Event } from "ethers";
 import { buy_volume } from "hooks/contract";
 import { useGetConvertersBySide } from "hooks/converters";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { HistoryEvent, MarketEvent, OrderBook } from "types";
-import { useAccount, useContractEvent, useQueryClient } from "wagmi";
+import { useAccount, useContractEvent } from "wagmi";
 
 export const useBuyEventOrderFulfilled = () => {
   const { address } = useAccount();
