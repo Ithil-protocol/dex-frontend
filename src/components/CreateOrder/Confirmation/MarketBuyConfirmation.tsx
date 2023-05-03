@@ -6,7 +6,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { usePoolPreviewTake } from "@/hooks/contracts/pool";
-import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "@/store";
 import { MarketBuyFinalValues } from "@/types";
 import styles from "./LimitConfirmation.module.scss";
@@ -24,24 +23,24 @@ interface Props {
   finalValues: MarketBuyFinalValues;
   write: (() => void) | undefined;
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
   fulfillLoading: boolean;
   gasLoading: boolean;
   waitedData: providers.TransactionReceipt | undefined;
   waitedError: boolean;
   waitedSuccess: boolean;
+  modalCloseHandler: () => void;
 }
 
 const MarketBuyConfirmation: React.FC<Props> = ({
   finalValues,
   open,
-  setOpen,
   write,
   gasLoading,
   fulfillLoading,
   waitedData,
   waitedError,
   waitedSuccess,
+  modalCloseHandler,
 }) => {
   const [side, pair] = usePoolStore((state) => [state.side, state.pair]);
 
@@ -53,12 +52,8 @@ const MarketBuyConfirmation: React.FC<Props> = ({
     watch: true,
   });
 
-  const closeHandler = () => {
-    setOpen(false);
-  };
-
   return (
-    <Dialog open={open} onClose={closeHandler} fullWidth maxWidth={"xs"}>
+    <Dialog open={open} onClose={modalCloseHandler} fullWidth maxWidth={"xs"}>
       <DialogTitle fontWeight={800} align="center">
         market order confirmation
       </DialogTitle>
@@ -109,7 +104,7 @@ const MarketBuyConfirmation: React.FC<Props> = ({
 
         <div className={styles.buttons}>
           <Button
-            onClick={closeHandler}
+            onClick={modalCloseHandler}
             fullWidth
             variant="outlined"
             color="info"
