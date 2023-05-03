@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Event } from "ethers";
-import { sell_volume } from "hooks/contract";
+import { localConstants } from "variables";
 import { useGetConvertersBySide } from "hooks/converters";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
@@ -28,7 +28,7 @@ export const useSellEventOrderCancelled = () => {
       const [index, offerer, price, amount] = rest;
 
       queryClient.setQueryData<OrderBook[]>(
-        [sell_volume, sellPool.address],
+        [localConstants.sell_volume, sellPool.address],
         (prev) => {
           if (!prev) return;
 
