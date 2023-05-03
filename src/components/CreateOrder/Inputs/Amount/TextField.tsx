@@ -1,5 +1,5 @@
 import { InputAdornment, TextField } from "@mui/material";
-import { decimalRegex } from "@/data/regex";
+import { decimalRegex, getDecimalRegex } from "@/data/regex";
 import { useController } from "react-hook-form";
 import { usePoolStore } from "@/store";
 
@@ -23,7 +23,10 @@ const LimitAmountTextField: React.FC<Props> = (props) => {
       {...inputProps}
       onChange={(event) => {
         const { value } = event.target;
-        if (decimalRegex.test(value) || value === "") {
+        if (
+          getDecimalRegex(pair.sell.underlying.displayPrecision).test(value) ||
+          value === ""
+        ) {
           onChange(value);
         }
       }}
