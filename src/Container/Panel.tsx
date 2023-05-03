@@ -5,447 +5,24 @@ import MarketTrades from "components/MarketTrades";
 import Navbar from "components/Navbar";
 import { OpenOrders } from "components/OpenOrders";
 import Orders from "components/Orders";
+import {
+  useBuyEventOrderCancelled,
+  useBuyEventOrderCreated,
+  useBuyEventOrderFulfilled,
+  useSellEventOrderCancelled,
+  useSellEventOrderCreated,
+  useSellEventOrderFulfilled,
+} from "hooks/events/contract";
 
-import { contractABI } from "store/abi";
 import styles from "styles/panel.module.scss";
-import { useAccount, useContractEvent } from "wagmi";
-import { usePoolStore } from "store";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { HistoryEvent, MarketEvent, OpenOrderEvent, OrderBook } from "types";
-import { buy_volume, sell_volume } from "hooks/contract";
-import { useGetConverters } from "hooks/converters";
-import { BigNumber, Event } from "ethers";
 
 const Panel = () => {
-  const { address } = useAccount();
-
-  const [sellPool, buyPool, { address: poolAddress }] = usePoolStore(
-    (state) => [state.sellPool, state.buyPool, state.default]
-  );
-  const {
-    buyAmountConverter,
-    buyPriceConverter,
-    buyStakeConverter,
-    sellAmountConverter,
-    sellPriceConverter,
-    sellStakeConverter,
-  } = useGetConverters();
-
-  const queryClient = useQueryClient();
-
-  useContractEvent({
-    address: sellPool.address,
-    abi: contractABI,
-    eventName: "OrderCreated",
-    listener(...rest) {
-      const price = rest[1];
-      const amount = rest[3];
-      queryClient.setQueryData<OrderBook[]>(
-        [sell_volume, sellPool.address],
-        (prev) => {
-          if (!prev) return;
-          const index = prev.findIndex((item) => item.value.eq(price));
-          const newArray = [...prev];
-          if (index > -1) {
-            newArray[index] = {
-              ...newArray[index],
-              volume: newArray[index].volume.add(amount),
-            };
-          } else {
-            newArray.push({
-              value: price,
-              volume: amount,
-              type: "sell" as const,
-            });
-            newArray.sort((a, b) => {
-              if (b.value.gt(a.value)) return 1;
-              else if (b.value.lt(a.value)) return -1;
-              else return 0;
-            });
-          }
-
-          return newArray;
-        }
-      );
-
-      updateOrderFromPendingToOpen(
-        queryClient,
-        address as string,
-        poolAddress,
-        rest
-      );
-    },
-  });
-
-  useContractEvent({
-    address: buyPool.address,
-    abi: contractABI,
-    eventName: "OrderCreated",
-    listener(...rest) {
-      const price = rest[1];
-      const amount = rest[3];
-      queryClient.setQueryData<OrderBook[]>(
-        [buy_volume, buyPool.address],
-        (prev) => {
-          if (!prev) return;
-          const index = prev.findIndex((item) => item.value.eq(price));
-          const newArray = [...prev];
-          if (index > -1) {
-            newArray[index] = {
-              ...newArray[index],
-              volume: newArray[index].volume.add(amount),
-            };
-          } else {
-            newArray.push({
-              value: price,
-              volume: amount,
-              type: "buy" as const,
-            });
-            newArray.sort((a, b) => {
-              if (b.value.gt(a.value)) return 1;
-              else if (b.value.lt(a.value)) return -1;
-              else return 0;
-            });
-          }
-
-          return newArray;
-        }
-      );
-
-      updateOrderFromPendingToOpen(
-        queryClient,
-        address as string,
-        poolAddress,
-        rest
-      );
-    },
-  });
-
-  useContractEvent({
-    address: sellPool.address,
-    abi: contractABI,
-    eventName: "OrderFulfilled",
-    async listener(...rest) {
-      const price = rest[4];
-      const amount = rest[3];
-      queryClient.setQueryData<OrderBook[]>(
-        [sell_volume, sellPool.address],
-        (prev) => {
-          if (!prev) return;
-          return prev.map((item) => {
-            if (item.value.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume.sub(amount),
-              };
-            }
-            return item;
-          });
-        }
-      );
-
-      queryClient.setQueryData<MarketEvent[]>(
-        ["allOrderFulfilledEvents", poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          return [
-            {
-              amount: sellAmountConverter(amount),
-              price: sellPriceConverter(price),
-              side: "sell",
-              timestamp: Date.now(),
-            },
-            ...prev,
-          ];
-        }
-      );
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      const data = rest[6]! as Event;
-      const { value: rawStaked } = await data.getTransaction();
-
-      queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderFulfilledEvents", address, poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          const [, offerer, fulfiller, rawAmount, rawPrice] = rest;
-
-          if (offerer === address || fulfiller === address) {
-            return [
-              {
-                amount: sellAmountConverter(rawAmount),
-                price: sellPriceConverter(rawPrice),
-                rawAmount,
-                rawPrice,
-                rawStaked,
-                side: "sell",
-                staked: sellStakeConverter(rawStaked),
-                status: "fulfilled",
-                timestamp: Date.now(),
-                transactionHash: data.transactionHash,
-              },
-              ...prev,
-            ];
-          }
-
-          return prev;
-        }
-      );
-    },
-  });
-
-  useContractEvent({
-    address: buyPool.address,
-    abi: contractABI,
-    eventName: "OrderFulfilled",
-    async listener(...rest) {
-      const price = rest[4];
-      const amount = rest[3];
-      queryClient.setQueryData<OrderBook[]>(
-        [buy_volume, buyPool.address],
-        (prev) => {
-          if (!prev) return;
-          return prev.map((item) => {
-            if (item.value.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume.sub(amount),
-              };
-            }
-            return item;
-          });
-        }
-      );
-
-      queryClient.setQueryData<MarketEvent[]>(
-        ["allOrderFulfilledEvents", poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          return [
-            {
-              amount: buyAmountConverter(amount, price),
-              price: buyPriceConverter(price),
-              side: "buy",
-              timestamp: Date.now(),
-            },
-            ...prev,
-          ];
-        }
-      );
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      const data = rest[6]! as Event;
-      const { value: rawStaked } = await data.getTransaction();
-
-      queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderFulfilledEvents", address, poolAddress],
-        (prev) => {
-          if (!prev) return;
-
-          const [, offerer, fulfiller, rawAmount, rawPrice] = rest;
-
-          if (offerer === address || fulfiller === address) {
-            return [
-              {
-                amount: buyAmountConverter(rawAmount, rawPrice),
-                price: buyPriceConverter(rawPrice),
-                rawAmount,
-                rawPrice,
-                rawStaked,
-                side: "buy",
-                staked: buyStakeConverter(rawStaked),
-                status: "fulfilled",
-                timestamp: Date.now(),
-                transactionHash: data.transactionHash,
-              },
-              ...prev,
-            ];
-          }
-
-          return prev;
-        }
-      );
-    },
-  });
-
-  useContractEvent({
-    address: sellPool.address,
-    abi: contractABI,
-    eventName: "OrderCancelled",
-    async listener(...rest) {
-      const [index, offerer, price, amount] = rest;
-
-      queryClient.setQueryData<OrderBook[]>(
-        [sell_volume, sellPool.address],
-        (prev) => {
-          if (!prev) return;
-
-          return prev.map((item) => {
-            if (item.value.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume.sub(amount),
-              };
-            }
-            return item;
-          });
-        }
-      );
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      const data = rest[4]! as Event;
-      const { value: rawStaked } = await data.getTransaction();
-
-      queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderCancelledEvents", address, poolAddress],
-        (prev) => {
-          if (!prev) return;
-          if (offerer !== address) return prev;
-
-          const newOrders: HistoryEvent[] = [
-            {
-              status: "canceled",
-              timestamp: Date.now(),
-              amount: sellAmountConverter(amount),
-              price: sellPriceConverter(price),
-              rawAmount: amount,
-              rawPrice: price,
-              rawStaked,
-              side: "sell",
-              staked: sellStakeConverter(rawStaked),
-              transactionHash: data.transactionHash,
-            },
-            ...prev,
-          ];
-
-          return newOrders;
-        }
-      );
-
-      removeCanceledOrder(
-        queryClient,
-        address as string,
-        poolAddress,
-        price,
-        index
-      );
-    },
-  });
-
-  useContractEvent({
-    address: buyPool.address,
-    abi: contractABI,
-    eventName: "OrderCancelled",
-    async listener(...rest) {
-      const [index, offerer, price, amount] = rest;
-
-      queryClient.setQueryData<OrderBook[]>(
-        [buy_volume, buyPool.address],
-        (prev) => {
-          if (!prev) return;
-          return prev.map((item) => {
-            if (item.value.eq(price)) {
-              return {
-                ...item,
-                volume: item.volume.sub(amount),
-              };
-            }
-            return item;
-          });
-        }
-      );
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      const data = rest[4]! as Event;
-      const { value: rawStaked } = await data.getTransaction();
-
-      queryClient.setQueryData<HistoryEvent[]>(
-        ["userOrderCancelledEvents", address, poolAddress],
-        (prev) => {
-          if (!prev) return;
-          if (offerer !== address) return prev;
-
-          const newOrders: HistoryEvent[] = [
-            {
-              status: "canceled",
-              timestamp: Date.now(),
-              amount: buyAmountConverter(amount, price),
-              price: buyPriceConverter(price),
-              rawAmount: amount,
-              rawPrice: price,
-              rawStaked,
-              side: "buy",
-              staked: buyStakeConverter(rawStaked),
-              transactionHash: data.transactionHash,
-            },
-            ...prev,
-          ];
-
-          return newOrders;
-        }
-      );
-
-      removeCanceledOrder(
-        queryClient,
-        address as string,
-        poolAddress,
-        price,
-        index
-      );
-    },
-  });
-
-  // const { data: buyOrders } = usePoolVolumes({
-  //   address: buyPool.address,
-  //   args: [
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("10", 0),
-  //   ],
-  // });
-  // buyOrders &&
-  //   buyOrders.forEach((e, i) => {
-  //       i,
-  //       "buy price: ",
-  //       Number(utils.formatUnits(e.price, 6)),
-  //       "volume: ",
-  //       Number(utils.formatUnits(e.volume, 6)) /
-  //         Number(utils.formatUnits(e.price, 6))
-  //     );
-  //   });
-  // const { data: sellOrders } = usePoolVolumes({
-  //   address: sellPool.address,
-  //   args: [
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("0", 0),
-  //     utils.parseUnits("10", 0),
-  //   ],
-  // });
-  // sellOrders &&
-  //   sellOrders.forEach((e, i) => {
-  //       i,
-  //       "sell price: ",
-  //       1 / Number(utils.formatUnits(e.price, 18)),
-  //       "volume: ",
-  //       Number(utils.formatUnits(e.volume, 18))
-  //     );
-  //   });
-  // const { data: highestPrice } = usePoolGetNextPriceLevel({
-  //   address: buyPool.address,
-  //   args: [utils.parseUnits("0", 0)],
-  // });
-  // const { data } = usePoolPreviewTake({
-  //   address: buyPool.address,
-  //   args: [highestPrice?.toNumber()*0.00041],
-  //   enabled:!!highestPrice
-  // });
+  useSellEventOrderCreated();
+  useBuyEventOrderCreated();
+  useBuyEventOrderFulfilled();
+  useSellEventOrderFulfilled();
+  useSellEventOrderCancelled();
+  useBuyEventOrderCancelled();
 
   return (
     <div className={styles.layout}>
@@ -476,64 +53,47 @@ const Panel = () => {
 
 export default Panel;
 
-const updateOrderFromPendingToOpen = (
-  queryClient: QueryClient,
-  address: string,
-  poolAddress: string,
-  rest: [string, ...BigNumber[]]
-) => {
-  queryClient.setQueryData<OpenOrderEvent[]>(
-    ["userOrderCreatedEvent", address, poolAddress],
-    (prev) => {
-      if (!prev) return;
-
-      const [offerer, price, orderIndex] = rest;
-
-      if (offerer !== address) return prev;
-
-      const index = prev.findIndex((i) => {
-        return i.rawPrice.eq(price) && orderIndex.gte(i.index);
-      });
-
-      if (index !== -1) {
-        const order = { ...prev[index] };
-        order.status = "open";
-        order.index = orderIndex;
-
-        const copyOrders = [...prev];
-        copyOrders.splice(index, 1, order);
-        return copyOrders;
-      }
-
-      return prev;
-    }
-  );
-};
-
-const removeCanceledOrder = (
-  queryClient: QueryClient,
-  address: string,
-  poolAddress: string,
-  price: BigNumber,
-  index: BigNumber
-) => {
-  queryClient.setQueryData<OpenOrderEvent[]>(
-    ["userOrderCreatedEvent", address, poolAddress],
-    (prev) => {
-      if (!prev) return;
-
-      const canceledOrder = prev.find(
-        (i) => i.rawPrice.eq(price) && i.index.eq(index)
-      );
-
-      if (canceledOrder) {
-        const copyOrders = [...prev];
-        copyOrders.splice(copyOrders.indexOf(canceledOrder), 1);
-
-        return copyOrders;
-      }
-
-      return prev;
-    }
-  );
-};
+// const { data: buyOrders } = usePoolVolumes({
+//   address: buyPool.address,
+//   args: [
+//     utils.parseUnits("0", 0),
+//     utils.parseUnits("0", 0),
+//     utils.parseUnits("10", 0),
+//   ],
+// });
+// buyOrders &&
+//   buyOrders.forEach((e, i) => {
+//       i,
+//       "buy price: ",
+//       Number(utils.formatUnits(e.price, 6)),
+//       "volume: ",
+//       Number(utils.formatUnits(e.volume, 6)) /
+//         Number(utils.formatUnits(e.price, 6))
+//     );
+//   });
+// const { data: sellOrders } = usePoolVolumes({
+//   address: sellPool.address,
+//   args: [
+//     utils.parseUnits("0", 0),
+//     utils.parseUnits("0", 0),
+//     utils.parseUnits("10", 0),
+//   ],
+// });
+// sellOrders &&
+//   sellOrders.forEach((e, i) => {
+//       i,
+//       "sell price: ",
+//       1 / Number(utils.formatUnits(e.price, 18)),
+//       "volume: ",
+//       Number(utils.formatUnits(e.volume, 18))
+//     );
+//   });
+// const { data: highestPrice } = usePoolGetNextPriceLevel({
+//   address: buyPool.address,
+//   args: [utils.parseUnits("0", 0)],
+// });
+// const { data } = usePoolPreviewTake({
+//   address: buyPool.address,
+//   args: [highestPrice?.toNumber()*0.00041],
+//   enabled:!!highestPrice
+// });
