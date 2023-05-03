@@ -4,8 +4,23 @@ import styles from "./Orders.module.scss";
 import { usePoolStore } from "@/store";
 import { useLatestTrade } from "@/hooks/events";
 import { Skeleton, Typography } from "@mui/material";
+import {
+  useBuyEventOrderCancelled,
+  useBuyEventOrderCreated,
+  useBuyEventOrderFulfilled,
+  useSellEventOrderCancelled,
+  useSellEventOrderCreated,
+  useSellEventOrderFulfilled,
+} from "@/hooks/events/contract";
 
 const Orders = () => {
+  useSellEventOrderCreated();
+  useBuyEventOrderCreated();
+  useBuyEventOrderFulfilled();
+  useSellEventOrderFulfilled();
+  useSellEventOrderCancelled();
+  useBuyEventOrderCancelled();
+
   const pair = usePoolStore((store) => store.pair);
 
   const { latestPrice, isLoading } = useLatestTrade();

@@ -5,25 +5,9 @@ import MarketTrades from "@/components/MarketTrades";
 import Navbar from "@/components/Navbar";
 import { OpenOrders } from "@/components/OpenOrders";
 import Orders from "@/components/Orders";
-import {
-  useBuyEventOrderCancelled,
-  useBuyEventOrderCreated,
-  useBuyEventOrderFulfilled,
-  useSellEventOrderCancelled,
-  useSellEventOrderCreated,
-  useSellEventOrderFulfilled,
-} from "@/hooks/events/contract";
-
 import styles from "@/styles/panel.module.scss";
 
 const Panel = () => {
-  useSellEventOrderCreated();
-  useBuyEventOrderCreated();
-  useBuyEventOrderFulfilled();
-  useSellEventOrderFulfilled();
-  useSellEventOrderCancelled();
-  useBuyEventOrderCancelled();
-
   return (
     <div className={styles.layout}>
       <div className={styles.navbar}>
