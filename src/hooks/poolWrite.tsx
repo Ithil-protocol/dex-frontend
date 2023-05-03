@@ -298,6 +298,24 @@ export const useCancelOrder = ({
         />
       );
     },
+    onError() {
+      queryClient.setQueryData<HistoryEvent[]>(
+        ["userOrderCreatedEvent", address, poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          const index = prev.findIndex((i) => i.transactionHash === hash);
+
+          if (index > -1) {
+            const copyOrders = [...prev];
+            copyOrders.splice(index, 1);
+            return copyOrders;
+          }
+
+          return prev;
+        }
+      );
+    },
   });
   return { cancel };
 };

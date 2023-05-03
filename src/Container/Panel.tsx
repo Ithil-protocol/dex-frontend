@@ -531,21 +531,21 @@ const removeCanceledOrder = (
 ) => {
   queryClient.setQueryData<OpenOrderEvent[]>(
     ["userOrderCreatedEvent", address, poolAddress],
-    (orders) => {
-      if (!orders) return;
+    (prev) => {
+      if (!prev) return;
 
-      const canceledOrder = orders.find(
+      const canceledOrder = prev.find(
         (i) => i.rawPrice.eq(price) && i.index.eq(index)
       );
 
       if (canceledOrder) {
-        const copyOrders = [...orders];
+        const copyOrders = [...prev];
         copyOrders.splice(copyOrders.indexOf(canceledOrder), 1);
 
         return copyOrders;
       }
 
-      return orders;
+      return prev;
     }
   );
 };
