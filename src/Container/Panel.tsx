@@ -37,9 +37,7 @@ const Panel = () => {
     address: sellPool.address,
     abi: contractABI,
     eventName: "OrderCreated",
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     listener(...rest) {
-      console.log("rest", rest);
       const price = rest[1];
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
@@ -49,12 +47,10 @@ const Panel = () => {
           const index = prev.findIndex((item) => item.value.eq(price));
           const newArray = [...prev];
           if (index > -1) {
-            console.log("prevArray", newArray);
             newArray[index] = {
               ...newArray[index],
               volume: newArray[index].volume.add(amount),
             };
-            console.log("newArray", newArray);
           } else {
             newArray.push({
               value: price,
@@ -72,7 +68,7 @@ const Panel = () => {
         }
       );
 
-      updateOrderFromPendingToCreate(
+      updateOrderFromPendingToOpen(
         queryClient,
         address as string,
         poolAddress,
@@ -85,9 +81,7 @@ const Panel = () => {
     address: buyPool.address,
     abi: contractABI,
     eventName: "OrderCreated",
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     listener(...rest) {
-      console.log("rest", rest);
       const price = rest[1];
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
@@ -118,7 +112,7 @@ const Panel = () => {
         }
       );
 
-      updateOrderFromPendingToCreate(
+      updateOrderFromPendingToOpen(
         queryClient,
         address as string,
         poolAddress,
@@ -132,7 +126,6 @@ const Panel = () => {
     abi: contractABI,
     eventName: "OrderFulfilled",
     async listener(...rest) {
-      console.log("rest", rest);
       const price = rest[4];
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
@@ -209,7 +202,6 @@ const Panel = () => {
     abi: contractABI,
     eventName: "OrderFulfilled",
     async listener(...rest) {
-      console.log("rest", rest);
       const price = rest[4];
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
@@ -420,7 +412,6 @@ const Panel = () => {
   // });
   // buyOrders &&
   //   buyOrders.forEach((e, i) => {
-  //     console.log(
   //       i,
   //       "buy price: ",
   //       Number(utils.formatUnits(e.price, 6)),
@@ -439,7 +430,6 @@ const Panel = () => {
   // });
   // sellOrders &&
   //   sellOrders.forEach((e, i) => {
-  //     console.log(
   //       i,
   //       "sell price: ",
   //       1 / Number(utils.formatUnits(e.price, 18)),
@@ -451,13 +441,11 @@ const Panel = () => {
   //   address: buyPool.address,
   //   args: [utils.parseUnits("0", 0)],
   // });
-  // highestPrice && console.log("hi",Number(utils.formatUnits(highestPrice,6))*0.00041);
   // const { data } = usePoolPreviewTake({
   //   address: buyPool.address,
   //   args: [highestPrice?.toNumber()*0.00041],
   //   enabled:!!highestPrice
   // });
-  // data && console.log(utils.formatUnits(data[0], 18));
 
   return (
     <div className={styles.layout}>
@@ -488,7 +476,7 @@ const Panel = () => {
 
 export default Panel;
 
-const updateOrderFromPendingToCreate = (
+const updateOrderFromPendingToOpen = (
   queryClient: QueryClient,
   address: string,
   poolAddress: string,
