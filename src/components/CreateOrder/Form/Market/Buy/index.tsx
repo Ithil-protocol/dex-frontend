@@ -55,6 +55,7 @@ const MarketBuy: React.FC<Props> = () => {
     waitedData,
     waitedError,
     waitedSuccess,
+    resetFulfill,
   } = useFulfillOrder(finalValues);
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
@@ -96,6 +97,11 @@ const MarketBuy: React.FC<Props> = () => {
       return;
     }
     setOpen(true);
+  };
+
+  const modalCloseHandler = () => {
+    setOpen(false);
+    resetFulfill();
   };
 
   return (
@@ -143,11 +149,11 @@ const MarketBuy: React.FC<Props> = () => {
         fulfillLoading={fulfillLoading}
         gasLoading={gasLoading}
         open={open}
-        setOpen={setOpen}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
         write={write}
+        modalCloseHandler={modalCloseHandler}
       />
     </>
   );

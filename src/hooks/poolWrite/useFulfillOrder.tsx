@@ -44,6 +44,7 @@ export const useFulfillOrder = ({
     isLoading: writeLoading,
     isError,
     isSuccess,
+    reset: resetFulfill,
   } = usePoolFulfillOrder({
     ...config,
     onError: (error) => {
@@ -73,5 +74,6 @@ export const useFulfillOrder = ({
     write,
     isLoading: writeLoading || waitLoading,
     gasLoading,
+    resetFulfill,
   };
 };

@@ -55,6 +55,7 @@ const LimitBuy: React.FC<Props> = () => {
     waitedData,
     waitedError,
     waitedSuccess,
+    resetCreate,
   } = useCreateOrder({ ...finalValues, side: "buy" });
 
   const groupButtonHandler = useCallback(
@@ -90,6 +91,12 @@ const LimitBuy: React.FC<Props> = () => {
       return;
     }
     setOpen(true);
+    resetCreate();
+  };
+
+  const modalCloseHandler = () => {
+    setOpen(false);
+    resetCreate();
   };
 
   return (
@@ -135,13 +142,13 @@ const LimitBuy: React.FC<Props> = () => {
       <LimitConfirmation
         finalValues={finalValues}
         open={open}
-        setOpen={setOpen}
         write={write}
         createLoading={createLoading}
         gasLoading={gasLoading}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
+        modalCloseHandler={modalCloseHandler}
       />
     </>
   );

@@ -54,6 +54,7 @@ const LimitSell: React.FC<Props> = () => {
     waitedData,
     waitedError,
     waitedSuccess,
+    resetCreate,
   } = useCreateOrder({ ...finalValues, side: "sell" });
 
   const {
@@ -86,6 +87,11 @@ const LimitSell: React.FC<Props> = () => {
   const total = (
     Number(formValues.amount) * Number(formValues.price) || 0
   ).toFixed(sellPool.accounting.decimals);
+
+  const modalCloseHandler = () => {
+    setOpen(false);
+    resetCreate();
+  };
 
   return (
     <>
@@ -130,13 +136,13 @@ const LimitSell: React.FC<Props> = () => {
       <LimitConfirmation
         finalValues={finalValues}
         open={open}
-        setOpen={setOpen}
         write={write}
         createLoading={createLoading}
         gasLoading={gasLoading}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
+        modalCloseHandler={modalCloseHandler}
       />
     </>
   );
