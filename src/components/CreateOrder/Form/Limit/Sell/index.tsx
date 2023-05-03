@@ -54,6 +54,7 @@ const LimitSell: React.FC<Props> = () => {
     waitedData,
     waitedError,
     waitedSuccess,
+    resetCreate,
   } = useCreateOrder({ ...finalValues, side: "sell" });
 
   const {
@@ -137,6 +138,7 @@ const LimitSell: React.FC<Props> = () => {
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
+        resetCreate={resetCreate}
       />
     </>
   );

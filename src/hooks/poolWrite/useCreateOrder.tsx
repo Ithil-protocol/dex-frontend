@@ -69,6 +69,7 @@ export const useCreateOrder = ({
     data: writeData,
     write,
     isLoading: writeLoading,
+    reset: resetCreate,
   } = usePoolCreateOrder({
     ...config,
     onError: (error) => {
@@ -111,6 +112,7 @@ export const useCreateOrder = ({
     write,
     isLoading: writeLoading || waitLoading,
     gasLoading,
+    resetCreate,
   };
 };
 

@@ -29,6 +29,7 @@ interface Props {
   waitedData: providers.TransactionReceipt | undefined;
   waitedError: boolean;
   waitedSuccess: boolean;
+  resetCreate: () => void;
 }
 
 const LimitConfirmation: React.FC<Props> = ({
@@ -41,6 +42,7 @@ const LimitConfirmation: React.FC<Props> = ({
   waitedData,
   waitedError,
   waitedSuccess,
+  resetCreate,
 }) => {
   const [side, pool, pair] = usePoolStore((state) => [
     state.side,
@@ -58,6 +60,7 @@ const LimitConfirmation: React.FC<Props> = ({
 
   const closeHandler = () => {
     setOpen(false);
+    resetCreate();
   };
 
   return (
