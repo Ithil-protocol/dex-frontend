@@ -57,6 +57,7 @@ const MarketSell: React.FC<Props> = () => {
     waitedData,
     waitedError,
     waitedSuccess,
+    resetFulfill,
   } = useFulfillOrder(finalValues);
   const {
     write: approve,
@@ -85,6 +86,11 @@ const MarketSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
+
+  const modalCloseHandler = () => {
+    setOpen(false);
+    resetFulfill();
+  };
 
   return (
     <>
@@ -133,11 +139,11 @@ const MarketSell: React.FC<Props> = () => {
         finalValues={{ ...finalValues, totalToTake }}
         gasLoading={gasLoading}
         open={open}
-        setOpen={setOpen}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
         write={write}
+        modalCloseHandler={modalCloseHandler}
       />
     </>
   );
