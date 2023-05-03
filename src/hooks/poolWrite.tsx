@@ -65,10 +65,9 @@ export const useCreateOrder = ({
   const {
     buyAmountConverter,
     buyPriceConverter,
-    buyStakeConverter,
     sellAmountConverter,
     sellPriceConverter,
-    sellStakeConverter,
+    stakedConverter,
   } = useGetConverters();
   const {
     data: writeData,
@@ -84,12 +83,12 @@ export const useCreateOrder = ({
         buy: {
           amount: buyAmountConverter,
           price: buyPriceConverter,
-          stake: buyStakeConverter,
+          stake: stakedConverter,
         },
         sell: {
           amount: sellAmountConverter,
           price: sellPriceConverter,
-          stake: sellStakeConverter,
+          stake: stakedConverter,
         },
       };
 

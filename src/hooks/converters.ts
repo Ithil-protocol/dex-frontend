@@ -42,26 +42,10 @@ export const useSellPriceConverter = () => {
   };
 };
 
-export const useBuyStakeConverter = () => {
-  const buyPool = usePoolStore((store) => store.buyPool);
-  return (stake: BigNumber) => {
-    const value = Number(utils.formatUnits(stake, buyPool.underlying.decimals));
-    return fixPrecision(value, buyPool.underlying.displayPrecision);
-  };
-};
 export const useStakedConverter = () => {
   return (stake: BigNumber) => {
     const value = Number(utils.formatUnits(stake, 18));
     return fixPrecision(value, 6);
-  };
-};
-export const useSellStakeConverter = () => {
-  const sellPool = usePoolStore((store) => store.sellPool);
-  return (stake: BigNumber) => {
-    const value = Number(
-      utils.formatUnits(stake, sellPool.underlying.decimals)
-    );
-    return fixPrecision(value, sellPool.underlying.displayPrecision);
   };
 };
 
@@ -69,10 +53,9 @@ export const useGetConverters = () => {
   return {
     buyAmountConverter: useBuyAmountConverter(),
     buyPriceConverter: useBuyPriceConverter(),
-    buyStakeConverter: useBuyStakeConverter(),
     sellAmountConverter: useSellAmountConverter(),
     sellPriceConverter: useSellPriceConverter(),
-    sellStakeConverter: useSellStakeConverter(),
+    stakedConverter: useStakedConverter(),
   };
 };
 
@@ -83,18 +66,20 @@ export const useGetConvertersBySide = (side: Side) => {
   const sellAmountConverter = useSellAmountConverter();
   const sellPriceConverter = useSellPriceConverter();
 
-  if (side === "buy") {
-    return {
+  const converters = {
+    buy: {
       amountConverter: buyAmountConverter,
       priceConverter: buyPriceConverter,
       stakedConverter,
-    };
-  }
-  return {
-    amountConverter: sellAmountConverter,
-    priceConverter: sellPriceConverter,
-    stakedConverter,
+    },
+    sell: {
+      amountConverter: sellAmountConverter,
+      priceConverter: sellPriceConverter,
+      stakedConverter,
+    },
   };
+
+  return converters[side];
 };
 
 export const useFormatSellData = () => {

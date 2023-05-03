@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Event } from "ethers";
 import { sell_volume } from "hooks/contract";
-import { useGetConverters } from "hooks/converters";
+import { useGetConvertersBySide } from "hooks/converters";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { HistoryEvent, MarketEvent, OrderBook } from "types";
@@ -14,8 +14,8 @@ export const useSellEventOrderFulfilled = () => {
     state.sellPool,
     state.default,
   ]);
-  const { sellAmountConverter, sellPriceConverter, sellStakeConverter } =
-    useGetConverters();
+  const { amountConverter, priceConverter, stakedConverter } =
+    useGetConvertersBySide("sell");
 
   const queryClient = useQueryClient();
 
@@ -49,8 +49,8 @@ export const useSellEventOrderFulfilled = () => {
 
           return [
             {
-              amount: sellAmountConverter(amount),
-              price: sellPriceConverter(price),
+              amount: amountConverter(amount, price),
+              price: priceConverter(price),
               side: "sell",
               timestamp: Date.now(),
             },
@@ -74,13 +74,13 @@ export const useSellEventOrderFulfilled = () => {
           if (offerer === address || fulfiller === address) {
             return [
               {
-                amount: sellAmountConverter(rawAmount),
-                price: sellPriceConverter(rawPrice),
+                amount: amountConverter(rawAmount, rawPrice),
+                price: priceConverter(rawPrice),
                 rawAmount,
                 rawPrice,
                 rawStaked,
                 side: "sell",
-                staked: sellStakeConverter(rawStaked),
+                staked: stakedConverter(rawStaked),
                 status: "fulfilled",
                 timestamp: Date.now(),
                 transactionHash: data.transactionHash,

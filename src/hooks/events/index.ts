@@ -12,10 +12,9 @@ export const useUserOrderCreatedEvents = () => {
   const {
     buyAmountConverter,
     buyPriceConverter,
-    buyStakeConverter,
     sellAmountConverter,
     sellPriceConverter,
-    sellStakeConverter,
+    stakedConverter,
   } = useGetConverters();
   const { address } = useAccount();
   const sellContract = useSellContract();
@@ -94,7 +93,7 @@ export const useUserOrderCreatedEvents = () => {
           rawPrice,
           rawStaked,
           side: "sell",
-          staked: buyStakeConverter(rawStaked),
+          staked: stakedConverter(rawStaked),
           status,
           timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
@@ -148,7 +147,7 @@ export const useUserOrderCreatedEvents = () => {
           rawPrice,
           rawStaked,
           side: "buy",
-          staked: sellStakeConverter(rawStaked),
+          staked: stakedConverter(rawStaked),
           status,
           timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
@@ -188,10 +187,9 @@ export const useUserOrderCancelledEvents = () => {
   const {
     buyAmountConverter,
     buyPriceConverter,
-    buyStakeConverter,
     sellAmountConverter,
     sellPriceConverter,
-    sellStakeConverter,
+    stakedConverter,
   } = useGetConverters();
   const { address } = useAccount();
   const buyContract = useBuyContract();
@@ -232,7 +230,7 @@ export const useUserOrderCancelledEvents = () => {
           rawPrice,
           rawStaked,
           side: "sell",
-          staked: sellStakeConverter(rawStaked),
+          staked: stakedConverter(rawStaked),
           status: "canceled",
           timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
@@ -257,7 +255,7 @@ export const useUserOrderCancelledEvents = () => {
           rawPrice,
           rawStaked,
           side: "buy",
-          staked: buyStakeConverter(rawStaked),
+          staked: stakedConverter(rawStaked),
           status: "canceled",
           timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
@@ -334,10 +332,9 @@ export const useUserOrderFulfilledEvents = () => {
   const {
     buyAmountConverter,
     buyPriceConverter,
-    buyStakeConverter,
     sellAmountConverter,
     sellPriceConverter,
-    sellStakeConverter,
+    stakedConverter,
   } = useGetConverters();
   const { address } = useAccount();
   const buyContract = useBuyContract();
@@ -406,7 +403,7 @@ export const useUserOrderFulfilledEvents = () => {
           rawPrice,
           rawStaked,
           side: "buy",
-          staked: buyStakeConverter(rawStaked),
+          staked: stakedConverter(rawStaked),
           status: "fulfilled",
           timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
@@ -429,7 +426,7 @@ export const useUserOrderFulfilledEvents = () => {
           rawPrice,
           rawStaked,
           side: "sell",
-          staked: sellStakeConverter(rawStaked),
+          staked: stakedConverter(rawStaked),
           status: "fulfilled",
           timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,

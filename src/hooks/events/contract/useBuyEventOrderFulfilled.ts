@@ -1,6 +1,6 @@
 import { Event } from "ethers";
 import { buy_volume } from "hooks/contract";
-import { useGetConverters } from "hooks/converters";
+import { useGetConvertersBySide } from "hooks/converters";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { HistoryEvent, MarketEvent, OrderBook } from "types";
@@ -14,8 +14,8 @@ export const useBuyEventOrderFulfilled = () => {
     state.buyPool,
     state.default,
   ]);
-  const { buyAmountConverter, buyPriceConverter, buyStakeConverter } =
-    useGetConverters();
+  const { amountConverter, priceConverter, stakedConverter } =
+    useGetConvertersBySide("buy");
 
   useContractEvent({
     address: buyPool.address,
@@ -47,8 +47,8 @@ export const useBuyEventOrderFulfilled = () => {
 
           return [
             {
-              amount: buyAmountConverter(amount, price),
-              price: buyPriceConverter(price),
+              amount: amountConverter(amount, price),
+              price: priceConverter(price),
               side: "buy",
               timestamp: Date.now(),
             },
@@ -72,13 +72,13 @@ export const useBuyEventOrderFulfilled = () => {
           if (offerer === address || fulfiller === address) {
             return [
               {
-                amount: buyAmountConverter(rawAmount, rawPrice),
-                price: buyPriceConverter(rawPrice),
+                amount: amountConverter(rawAmount, rawPrice),
+                price: priceConverter(rawPrice),
                 rawAmount,
                 rawPrice,
                 rawStaked,
                 side: "buy",
-                staked: buyStakeConverter(rawStaked),
+                staked: stakedConverter(rawStaked),
                 status: "fulfilled",
                 timestamp: Date.now(),
                 transactionHash: data.transactionHash,

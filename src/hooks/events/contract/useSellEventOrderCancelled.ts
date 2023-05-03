@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Event } from "ethers";
 import { sell_volume } from "hooks/contract";
-import { useGetConverters } from "hooks/converters";
+import { useGetConvertersBySide } from "hooks/converters";
 import { usePoolStore } from "store";
 import { contractABI } from "store/abi";
 import { HistoryEvent, OrderBook } from "types";
@@ -15,8 +15,8 @@ export const useSellEventOrderCancelled = () => {
     state.sellPool,
     state.default,
   ]);
-  const { sellAmountConverter, sellPriceConverter, sellStakeConverter } =
-    useGetConverters();
+  const { amountConverter, priceConverter, stakedConverter } =
+    useGetConvertersBySide("sell");
 
   const queryClient = useQueryClient();
 
@@ -59,13 +59,13 @@ export const useSellEventOrderCancelled = () => {
             {
               status: "canceled",
               timestamp: Date.now(),
-              amount: sellAmountConverter(amount),
-              price: sellPriceConverter(price),
+              amount: amountConverter(amount, price),
+              price: priceConverter(price),
               rawAmount: amount,
               rawPrice: price,
               rawStaked,
               side: "sell",
-              staked: sellStakeConverter(rawStaked),
+              staked: stakedConverter(rawStaked),
               transactionHash: data.transactionHash,
             },
             ...prev,
