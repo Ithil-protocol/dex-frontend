@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { readContracts, useAccount } from "wagmi";
-import { useBuyContract, useSellContract } from "./contract";
+import { useBuyContract, useSellContract } from "../contract";
 import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "types";
-import { useGetConverters } from "./converters";
+import { useGetConverters } from "../converters";
 import { contractABI } from "store/abi";
 import { usePoolStore } from "store";
 
