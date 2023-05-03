@@ -6,7 +6,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { usePoolPreviewTake } from "@/hooks/contracts/pool";
-import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "@/store";
 import { MarketBuyFinalValues } from "@/types";
 import styles from "./LimitConfirmation.module.scss";
