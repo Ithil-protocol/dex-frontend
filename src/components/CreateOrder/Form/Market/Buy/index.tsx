@@ -1,24 +1,26 @@
 import { useForm, useWatch } from "react-hook-form";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 
-import { useTokenBalance } from "hooks/account";
-import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import MarketAmount from "components/CreateOrder/Inputs/Amount";
-import { MarketInputs } from "types";
-import { marketSchema } from "data/forms";
+import { useTokenBalance } from "@/hooks/account";
+import { useAllowance, useFulfillOrder } from "@/hooks/poolWrite";
+import MarketAmount from "@/components/CreateOrder/Inputs/Amount";
+import { MarketInputs } from "@/types";
+import { marketSchema } from "@/data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useConvertBuyMarketArgs } from "components/CreateOrder/utils";
-import { useCallback } from "react";
-import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
-import { zeroBigNumber } from "utility";
-import { utils } from "ethers";
-import { Box, CircularProgress, Typography } from "@mui/material";
-import Total from "components/CreateOrder/Inputs/Total";
-import Submit from "components/CreateOrder/Inputs/Submit";
+import { useConvertBuyMarketArgs } from "@/components/CreateOrder/utils";
+import { useCallback, useState } from "react";
+import { usePoolGetNextPriceLevel } from "@/hooks/contracts/pool";
+import { constants, utils } from "ethers";
+import Total from "@/components/CreateOrder/Inputs/Total";
+import Submit from "@/components/CreateOrder/Inputs/Submit";
+import Info from "@/components/Common/Info";
+import { fixPrecision } from "@/utility/converters";
+import MarketBuyConfirmation from "@/components/CreateOrder/Confirmation/MarketBuyConfirmation";
 
 interface Props {}
 
 const MarketBuy: React.FC<Props> = () => {
+  const [open, setOpen] = useState(false);
   const {
     control,
     formState: { isSubmitting },
@@ -37,7 +39,10 @@ const MarketBuy: React.FC<Props> = () => {
   const available = useTokenBalance({
     tokenAddress: sellPool.accounting.address,
   });
-  const availableLabel = `${available} ${pair.accountingLabel}`;
+  const availableLabel = `${fixPrecision(
+    available,
+    sellPool.accounting.displayPrecision
+  )} ${pair.accountingLabel}`;
   const { totalToPay, isAmountOut, ...finalValues } = useConvertBuyMarketArgs({
     amount: formValues.amount,
     pool: sellPool,
@@ -47,11 +52,14 @@ const MarketBuy: React.FC<Props> = () => {
     write,
     isLoading: fulfillLoading,
     gasLoading,
+    waitedData,
+    waitedError,
+    waitedSuccess,
   } = useFulfillOrder(finalValues);
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
     address: sellPool.address,
-    args: [zeroBigNumber],
+    args: [constants.Zero],
     watch: true,
   });
 
@@ -75,6 +83,7 @@ const MarketBuy: React.FC<Props> = () => {
     write: approve,
     isLoading: approveLoading,
     isApproved,
+    currentAllowance,
   } = useAllowance({
     amount: total,
     pool: sellPool,
@@ -86,57 +95,61 @@ const MarketBuy: React.FC<Props> = () => {
       approve();
       return;
     }
-    write?.();
+    setOpen(true);
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 5,
-          padding: "5px",
-        }}
-      >
-        <MarketAmount
-          groupButtonHandler={groupButtonHandler}
-          control={control}
-          groupButtonDisabled={groupButtonDisabled}
-          availableLabel={availableLabel}
-        />
+    <>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 5,
+            padding: "5px",
+          }}
+        >
+          <MarketAmount
+            groupButtonHandler={groupButtonHandler}
+            control={control}
+            groupButtonDisabled={groupButtonDisabled}
+            availableLabel={availableLabel}
+          />
 
-        <Total total={total} label={pair.accountingLabel} />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {isAmountOut && (
-            <>
-              <Typography color={"yellow"} fontSize={12}>
-                The amount is higher than the pool&apos;s assets!
-              </Typography>
-            </>
-          )}
-        </Box>
-        <Submit
-          side={side}
-          isLoading={isSubmitting || approveLoading || fulfillLoading}
-          control={control}
-          submitContent={
-            !isApproved ? "Approve first" : `Buy ${pair?.underlyingLabel}`
-          }
-          write={write}
-          isApproved={isApproved}
-          isMarket={true}
-        />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
-      </div>
-    </form>
+          <Total total={total} label={pair.accountingLabel} />
+          <Info
+            isRendered={isAmountOut}
+            text="The amount is higher than the pool's assets!"
+          />
+          <Info
+            isRendered={!isApproved}
+            color="warning"
+            text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
+          />
+          <Submit
+            side={side}
+            isLoading={isSubmitting || approveLoading || fulfillLoading}
+            control={control}
+            submitContent={`Buy ${pair?.underlyingLabel}`}
+            write={write}
+            isApproved={isApproved}
+            isMarket={true}
+          />
+          <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
+        </div>
+      </form>
+      <MarketBuyConfirmation
+        finalValues={{ ...finalValues, totalToPay }}
+        fulfillLoading={fulfillLoading}
+        gasLoading={gasLoading}
+        open={open}
+        setOpen={setOpen}
+        waitedData={waitedData}
+        waitedError={waitedError}
+        waitedSuccess={waitedSuccess}
+        write={write}
+      />
+    </>
   );
 };
 

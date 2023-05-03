@@ -1,6 +1,7 @@
-import { InputAdornment, TextField } from "@mui/material";
-import { decimalRegex } from "data/regex";
+import { TextField } from "@mui/material";
+import { decimalRegex, getDecimalRegex } from "@/data/regex";
 import { Control, useController } from "react-hook-form";
+import { usePoolStore } from "@/store";
 
 interface Props {
   endLabel: string;
@@ -17,12 +18,18 @@ const PriceTextField: React.FC<Props> = (props) => {
     name: "price",
   });
 
+  const defaultPool = usePoolStore((state) => state.default);
   return (
     <TextField
       {...inputProps}
       onChange={(event) => {
         const { value } = event.target;
-        if (decimalRegex.test(value) || value === "") {
+        if (
+          getDecimalRegex(defaultPool.accounting.displayPrecision).test(
+            value
+          ) ||
+          value === ""
+        ) {
           onChange(value);
         }
       }}

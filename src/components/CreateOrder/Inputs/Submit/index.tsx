@@ -3,7 +3,7 @@ import { LoadingButton } from "@mui/lab";
 import { CircularProgress, Theme } from "@mui/material";
 
 import { Control, useWatch } from "react-hook-form";
-import { Side } from "types";
+import { Side } from "@/types";
 
 interface Props {
   control: Control<any, any>;
@@ -66,7 +66,7 @@ const Submit: React.FC<Props> = ({
       })}
       type="submit"
     >
-      {submitContent}
+      {!isApproved ? "Approve first" : submitContent}
     </LoadingButton>
   );
 };

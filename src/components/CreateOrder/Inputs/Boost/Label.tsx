@@ -1,4 +1,4 @@
-import WrapperInputLabel from "components/Common/WrapperInputLabel";
+import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
 
 interface Props {
   boost: number;

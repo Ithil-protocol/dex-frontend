@@ -1,23 +1,26 @@
 import { useForm, useWatch } from "react-hook-form";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useTokenBalance } from "hooks/account";
-import { useAllowance, useCreateOrder } from "hooks/poolWrite";
-import { LimitInputs } from "types";
-import { limitSchema } from "data/forms";
-import { convertSellLimitArgs } from "components/CreateOrder/utils";
-import { Box, CircularProgress, Typography } from "@mui/material";
-import { useCallback } from "react";
-import Price from "components/CreateOrder/Inputs/Price";
-import Boost from "components/CreateOrder/Inputs/Boost";
-import Total from "components/CreateOrder/Inputs/Total";
-import Submit from "components/CreateOrder/Inputs/Submit";
-import LimitAmount from "components/CreateOrder/Inputs/Amount";
+import { useTokenBalance } from "@/hooks/account";
+import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
+import { LimitInputs } from "@/types";
+import { limitSchema } from "@/data/forms";
+import { convertSellLimitArgs } from "@/components/CreateOrder/utils";
+import { useCallback, useState } from "react";
+import Price from "@/components/CreateOrder/Inputs/Price";
+import Boost from "@/components/CreateOrder/Inputs/Boost";
+import Total from "@/components/CreateOrder/Inputs/Total";
+import Submit from "@/components/CreateOrder/Inputs/Submit";
+import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
+import Info from "@/components/Common/Info";
+import { fixPrecision } from "@/utility/converters";
+import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
 
 interface Props {}
 
 const LimitSell: React.FC<Props> = () => {
+  const [open, setOpen] = useState(false);
   const { control, handleSubmit, setValue } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),
     mode: "onChange",
@@ -39,18 +42,25 @@ const LimitSell: React.FC<Props> = () => {
   const available = useTokenBalance({
     tokenAddress: sellPool.underlying.address,
   });
-  const availableLabel = `${available} ${pair.underlyingLabel}`;
+  const availableLabel = `${fixPrecision(
+    available,
+    sellPool.underlying.displayPrecision
+  )} ${pair.underlyingLabel}`;
 
   const {
     write,
     isLoading: createLoading,
     gasLoading,
-  } = useCreateOrder(finalValues);
+    waitedData,
+    waitedError,
+    waitedSuccess,
+  } = useCreateOrder({ ...finalValues, side: "sell" });
 
   const {
     write: approve,
     isApproved,
     isLoading: approveLoading,
+    currentAllowance,
   } = useAllowance({
     amount: formValues.amount,
     pool: sellPool,
@@ -62,7 +72,7 @@ const LimitSell: React.FC<Props> = () => {
       approve();
       return;
     }
-    write?.();
+    setOpen(true);
   };
 
   const groupButtonHandler = useCallback(
@@ -78,48 +88,57 @@ const LimitSell: React.FC<Props> = () => {
   ).toFixed(sellPool.accounting.decimals);
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 7,
-          padding: "5px",
-        }}
-      >
-        <LimitAmount
-          control={control}
-          availableLabel={availableLabel}
-          groupButtonHandler={groupButtonHandler}
-          groupButtonDisabled={groupButtonDisabled}
-        />
+    <>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 7,
+            padding: "5px",
+          }}
+        >
+          <LimitAmount
+            control={control}
+            availableLabel={availableLabel}
+            groupButtonHandler={groupButtonHandler}
+            groupButtonDisabled={groupButtonDisabled}
+          />
+          <Info
+            isRendered={!isApproved}
+            color="warning"
+            text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+          />
 
-        <Price control={control} endLabel={pair.accountingLabel} />
+          <Price control={control} endLabel={pair.accountingLabel} />
 
-        <Boost control={control} />
+          <Boost control={control} />
 
-        <Total total={total} label={pair.accountingLabel} />
+          <Total total={total} label={pair.accountingLabel} />
 
-        <Submit
-          submitContent={
-            !isApproved ? "Approve first" : `Sell ${pair.underlyingLabel}`
-          }
-          side={side}
-          isLoading={createLoading || approveLoading}
-          control={control}
-          write={write}
-          isApproved={isApproved}
-        />
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", height: 20 }}>
-          {gasLoading && (
-            <>
-              <CircularProgress size={12} color="info" />
-              <Typography fontSize={12}>Estimating Gas...</Typography>
-            </>
-          )}
-        </Box>
-      </div>
-    </form>
+          <Submit
+            submitContent={`Sell ${pair.underlyingLabel}`}
+            side={side}
+            isLoading={createLoading || approveLoading}
+            control={control}
+            write={write}
+            isApproved={isApproved}
+          />
+          <Info hasLoading isRendered={gasLoading} text="Estimating Gas..." />
+        </div>
+      </form>
+      <LimitConfirmation
+        finalValues={finalValues}
+        open={open}
+        setOpen={setOpen}
+        write={write}
+        createLoading={createLoading}
+        gasLoading={gasLoading}
+        waitedData={waitedData}
+        waitedError={waitedError}
+        waitedSuccess={waitedSuccess}
+      />
+    </>
   );
 };
 

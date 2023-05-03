@@ -3,15 +3,11 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TradesTableBody from "./Body";
 import TradesTableHead from "./Head";
-import { MarketEvent } from "types";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 
-interface Props {
-  trades: MarketEvent[];
-  isLoading: boolean;
-}
+interface Props {}
 
-const Trades: React.FC<Props> = ({ trades, isLoading }) => {
+const MarketTradesTable: React.FC<Props> = () => {
   const pair = usePoolStore((state) => state.pair);
 
   const heads = [
@@ -25,6 +21,7 @@ const Trades: React.FC<Props> = ({ trades, isLoading }) => {
       sx={{ maxHeight: "400px" }}
       component={(props) => (
         <Paper
+          elevation={0}
           {...props}
           sx={{
             height: "100%",
@@ -36,14 +33,10 @@ const Trades: React.FC<Props> = ({ trades, isLoading }) => {
     >
       <Table size="small">
         <TradesTableHead heads={heads} />
-        <TradesTableBody
-          headsLength={heads.length}
-          trades={trades}
-          isLoading={isLoading}
-        />
+        <TradesTableBody headsLength={heads.length} />
       </Table>
     </TableContainer>
   );
 };
 
-export default Trades;
+export default MarketTradesTable;

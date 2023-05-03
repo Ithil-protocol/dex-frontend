@@ -7,50 +7,53 @@ import {
   Narrow,
 } from "abitype";
 import { BigNumber } from "ethers";
-import { poolABI } from "hooks/contracts/pool";
+import { poolABI } from "@/hooks/contracts/pool";
 
 export type CustomInputEvent = React.ChangeEvent<
   HTMLTextAreaElement | HTMLInputElement
 >;
 
-export type Status = "open" | "fulfilled" | "canceled";
+export type Status =
+  | "canceled"
+  | "canceling"
+  | "error"
+  | "fulfilled"
+  | "open"
+  | "pending";
 
 export interface HistoryEvent {
-  amount: string;
-  getBlock: any;
-  pool: Pool;
-  price: string;
+  amount: number;
+  price: number;
   rawAmount: BigNumber;
   rawPrice: BigNumber;
   rawStaked: BigNumber;
   side: Side;
-  staked: string;
+  staked: number;
   status: Status;
   transactionHash: string;
+  timestamp: number;
 }
 
 export interface OpenOrderEvent {
   address: string;
-  amount: string;
-  getBlock: any;
+  amount: number;
   index: BigNumber;
-  pool: Pool;
-  price: string;
+  price: number;
   rawAmount: BigNumber;
   rawPrice: BigNumber;
   rawStaked: BigNumber;
   side: Side;
-  staked: string;
+  staked: number;
   transactionHash: string;
+  timestamp: number;
+  status: Status;
 }
 
 export interface MarketEvent {
-  amount: string;
-  getBlock: any;
-  pool: Pool;
-  price: string;
-  rawAmount: BigNumber;
-  rawPrice: BigNumber;
+  price: number;
+  amount: number;
+  side: Side;
+  timestamp: number;
 }
 
 export interface StringMap {
@@ -58,9 +61,10 @@ export interface StringMap {
 }
 
 export interface Token {
-  icon: JSX.Element;
+  icon: any;
   address: `0x${string}`;
   decimals: number;
+  displayPrecision: number;
 }
 
 export interface Pool {
@@ -78,6 +82,8 @@ export interface Pair {
   sell: Pool;
   buy: Pool;
   value: number;
+  tick: number;
+  base: number;
 }
 
 export interface PoolState {
@@ -95,7 +101,13 @@ export interface PoolState {
 }
 
 export interface OrderBook {
-  originalPrice: BigNumber;
+  // originalPrice: BigNumber;
+  value: BigNumber;
+  volume: BigNumber;
+  type: "buy" | "sell";
+}
+
+export interface FormattedOrderBook {
   value: number;
   volume: number;
   type: "buy" | "sell";
@@ -154,4 +166,37 @@ export interface FactoryInputs {
 
 export interface MarketInputs {
   amount: string;
+}
+
+export type ThemeColor =
+  | "error"
+  | "success"
+  | "inherit"
+  | "info"
+  | "primary"
+  | "secondary"
+  | "warning";
+
+export interface LimitFinalValues {
+  amount: BigNumber;
+  price: BigNumber;
+  boost: BigNumber;
+  pool: Pool;
+}
+
+export interface MarketSellFinalValues {
+  amount: BigNumber;
+  price: BigNumber;
+  minReceived: BigNumber;
+  maxPaid: BigNumber;
+  pool: Pool;
+  totalToTake: number;
+  inputAmount: number;
+}
+export interface MarketBuyFinalValues {
+  amount: BigNumber;
+  minReceived: BigNumber;
+  maxPaid: BigNumber;
+  pool: Pool;
+  totalToPay: number;
 }

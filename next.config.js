@@ -11,7 +11,7 @@ const nextConfig = {
 
   sassOptions: {
     includePaths: [path.join(__dirname)],
-    prependData: "@use 'sass' as *;",
+    prependData: "@use 'src/sass' as *;",
   },
 
   webpack(config) {
