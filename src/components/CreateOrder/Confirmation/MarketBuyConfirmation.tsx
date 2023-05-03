@@ -18,6 +18,7 @@ import { providers, utils } from "ethers";
 import { fixPrecision } from "@/utility/converters";
 import TransactionResponse from "./TransactionResponse";
 import RowContainer from "./RowContainer";
+import { appConfig } from "@/config";
 
 interface Props {
   finalValues: MarketBuyFinalValues;
@@ -85,16 +86,7 @@ const MarketBuyConfirmation: React.FC<Props> = ({
           isLoading={previewLoading}
           title="Max slippage"
         >
-          {preview &&
-            fixPrecision(
-              Number(
-                utils.formatUnits(
-                  finalValues.maxPaid,
-                  finalValues.pool.accounting.decimals
-                )
-              ),
-              finalValues.pool.accounting.displayPrecision
-            )}
+          {preview && appConfig.SLIPPAGE * 100 + "%"}
         </RowContainer>
         <RowContainer
           label={pair.accountingLabel}
