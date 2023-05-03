@@ -13,7 +13,6 @@ import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Info from "components/Common/Info";
 import { fixPrecision } from "utility/convertors";
-import { constants, utils } from "ethers";
 import MarketSellConfirmation from "components/CreateOrder/Confirmation/MarketSellConfirmation";
 
 interface Props {}

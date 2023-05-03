@@ -14,7 +14,6 @@ const address = "0x3ff417dACBA7F0bb7673F8c6B3eE68D483548e37";
 
 export const usePriceLevelReads = () => {
   const getPrices = async () => {
-    console.time();
     const highestPrice = await readContracts({
       contracts: [
         {
@@ -42,7 +41,6 @@ export const usePriceLevelReads = () => {
       data.push(price[0]);
       next = price[0];
     }
-    console.timeEnd();
     return data;
   };
 

@@ -1,29 +1,22 @@
 import {
   Box,
   Button,
-  Chip,
   CircularProgress,
   Dialog,
   DialogTitle,
-  Skeleton,
 } from "@mui/material";
 import { usePoolPreviewTake } from "hooks/contracts/pool";
 import { Dispatch, SetStateAction } from "react";
 import { usePoolStore } from "store";
 import { MarketSellFinalValues } from "types";
 import styles from "./LimitConfirmation.module.scss";
-import {
-  useBuyAmountConverter,
-  useGetConvertersBySide,
-} from "hooks/converters";
+import { useBuyAmountConverter } from "hooks/converters";
 import { capitalizeFirstLetter } from "utility";
 import { LoadingButton } from "@mui/lab";
-import { providers, utils } from "ethers";
+import { providers } from "ethers";
 
-import { appConfig } from "Config";
 import { fixPrecision } from "utility/convertors";
 import TransactionResponse from "./TransactionResponse";
-import LabelChip from "./LabelChip";
 import RowContainer from "./RowContainer";
 
 interface Props {

@@ -18,7 +18,7 @@ const Order: React.FC<Props> = ({ data }) => {
   ]);
 
   const { cancel } = useCancelOrder({
-    hash: data.transactionHash,
+    transactionHash: data.transactionHash,
     index: data.index,
     pool,
     price: data.rawPrice,
