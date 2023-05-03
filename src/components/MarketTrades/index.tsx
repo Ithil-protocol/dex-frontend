@@ -1,5 +1,5 @@
 import MarketTradesTable from "./Table";
-import InfoTooltip from "components/Common/InfoTooltip";
+import InfoTooltip from "@/components/Common/InfoTooltip";
 import { Box } from "@mui/material";
 
 const MarketTrades = () => {

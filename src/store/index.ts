@@ -1,5 +1,5 @@
-import { pairs } from "data/pools";
-import { PoolState } from "types";
+import { pairs } from "@/data/pools";
+import { PoolState } from "@/types";
 import { create } from "zustand";
 
 const typeObj = {

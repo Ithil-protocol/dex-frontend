@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { cormorant, raleway } from "assets/font";
+import { cormorant, raleway } from "@/assets/font";
 
 let theme = createTheme({
   palette: {

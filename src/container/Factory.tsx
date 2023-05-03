@@ -1,17 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, CircularProgress, TextField } from "@mui/material";
-import { factoryAddress } from "Config/factory.mjs";
-import TransactionToast from "components/Common/Toast/TransactionToast";
-import { factorySchema } from "data/forms";
+import { factoryAddress } from "@/config/factory.mjs";
+import TransactionToast from "@/components/Common/Toast/TransactionToast";
+import { factorySchema } from "@/data/forms";
 import {
   useFactoryCreatePool,
   useFactoryPools,
   usePrepareFactoryCreatePool,
-} from "hooks/contracts/factory";
+} from "@/hooks/contracts/factory";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { FactoryInputs } from "types";
+import { FactoryInputs } from "@/types";
 import { useWaitForTransaction } from "wagmi";
 
 interface Props {}

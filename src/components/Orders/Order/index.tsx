@@ -1,8 +1,8 @@
 import { Skeleton } from "@mui/material";
 import styles from "./Order.module.scss";
-import { FormattedOrderBook } from "types";
-import { usePoolStore } from "store";
-import PreciseNumber from "components/Common/PreciseNumber";
+import { FormattedOrderBook } from "@/types";
+import { usePoolStore } from "@/store";
+import PreciseNumber from "@/components/Common/PreciseNumber";
 
 interface Props {
   data?: FormattedOrderBook;

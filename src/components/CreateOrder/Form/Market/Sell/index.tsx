@@ -1,20 +1,19 @@
 import { useForm, useWatch } from "react-hook-form";
-import { usePoolStore } from "store";
-import Submit from "../../../Inputs/Submit";
-import Total from "../../../Inputs/Total";
+import { usePoolStore } from "@/store";
+import Submit from "@/components/CreateOrder/Inputs/Submit";
+import Total from "@/components/CreateOrder/Inputs/Total";
 
-import { useTokenBalance } from "hooks/account";
-import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import MarketAmount from "../../../Inputs/Amount";
-import { MarketInputs } from "types";
-import { marketSchema } from "data/forms";
+import { useTokenBalance } from "@/hooks/account";
+import { useAllowance, useFulfillOrder } from "@/hooks/poolWrite";
+import MarketAmount from "@/components/CreateOrder/Inputs/Amount";
+import { MarketInputs } from "@/types";
+import { marketSchema } from "@/data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useConvertSellMarketArgs } from "components/CreateOrder/utils";
+import { useConvertSellMarketArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
-import Info from "components/Common/Info";
-import { fixPrecision } from "utility/convertors";
-import { constants, utils } from "ethers";
-import MarketSellConfirmation from "components/CreateOrder/Confirmation/MarketSellConfirmation";
+import Info from "@/components/Common/Info";
+import { fixPrecision } from "@/utility/converters";
+import MarketSellConfirmation from "@/components/CreateOrder/Confirmation/MarketSellConfirmation";
 
 interface Props {}
 

@@ -2,7 +2,7 @@ import { Box, FormGroup } from "@mui/material";
 import { Control } from "react-hook-form";
 import LimitAmountGroupButton from "./GroupButton";
 import LimitAmountTextField from "./TextField";
-import WrapperInputLabel from "components/Common/WrapperInputLabel";
+import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
 
 interface Props {
   control: Control<any, any>;

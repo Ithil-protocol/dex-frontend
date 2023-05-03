@@ -1,10 +1,10 @@
-import WrapperTab from "components/Common/WrapperTab";
+import WrapperTab from "@/components/Common/WrapperTab";
 import { Box } from "@mui/material";
-import { LimitMarket } from "types";
+import { LimitMarket } from "@/types";
 import Tabs from "@mui/material/Tabs";
 import LimitPoolTabs from "./PoolTabs/LimitPoolTabs";
 import MarketPoolTabs from "./PoolTabs/MarketPoolTabs";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 
 const CreateOrder = () => {
   const [type, updateType] = usePoolStore((store) => [

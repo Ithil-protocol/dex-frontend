@@ -1,10 +1,10 @@
 import { TableCell, TableRow, Chip, CircularProgress } from "@mui/material";
-import { useCancelOrder } from "hooks/poolWrite";
-import { formatDateToFullDate } from "utility";
-import { usePoolStore } from "store";
-import { OpenOrderEvent } from "types";
-import PreciseNumber from "components/Common/PreciseNumber";
-import { fixPrecision } from "utility/convertors";
+import { useCancelOrder } from "@/hooks/poolWrite";
+import { formatDateToFullDate } from "@/utility";
+import { usePoolStore } from "@/store";
+import { OpenOrderEvent } from "@/types";
+import PreciseNumber from "@/components/Common/PreciseNumber";
+import { fixPrecision } from "@/utility/converters";
 import { LoadingButton } from "@mui/lab";
 
 interface Props {
@@ -18,7 +18,7 @@ const Order: React.FC<Props> = ({ data }) => {
   ]);
 
   const { cancel } = useCancelOrder({
-    hash: data.transactionHash,
+    transactionHash: data.transactionHash,
     index: data.index,
     pool,
     price: data.rawPrice,

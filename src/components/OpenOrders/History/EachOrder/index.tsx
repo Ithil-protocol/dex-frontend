@@ -1,9 +1,9 @@
 import { Chip, TableCell, TableRow } from "@mui/material";
-import { formatDateToFullDate } from "utility";
-import { usePoolStore } from "store";
-import { HistoryEvent } from "types";
-import PreciseNumber from "components/Common/PreciseNumber";
-import { fixPrecision } from "utility/convertors";
+import { formatDateToFullDate } from "@/utility";
+import { usePoolStore } from "@/store";
+import { HistoryEvent } from "@/types";
+import PreciseNumber from "@/components/Common/PreciseNumber";
+import { fixPrecision } from "@/utility/converters";
 
 interface Props {
   data: HistoryEvent;

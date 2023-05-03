@@ -1,4 +1,4 @@
-import { FactoryInputs, LimitInputs, MarketInputs } from "types";
+import { FactoryInputs, LimitInputs, MarketInputs } from "@/types";
 import { object, string, ObjectSchema } from "yup";
 
 export const limitSchema: ObjectSchema<LimitInputs> = object()

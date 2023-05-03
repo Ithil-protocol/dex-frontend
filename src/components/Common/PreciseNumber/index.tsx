@@ -1,4 +1,4 @@
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 
 interface Props {
   num: number | undefined;

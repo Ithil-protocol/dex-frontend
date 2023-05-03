@@ -1,22 +1,22 @@
 import { useForm, useWatch } from "react-hook-form";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 
-import { useTokenBalance } from "hooks/account";
-import { useAllowance, useFulfillOrder } from "hooks/poolWrite";
-import MarketAmount from "components/CreateOrder/Inputs/Amount";
-import { MarketInputs } from "types";
-import { marketSchema } from "data/forms";
+import { useTokenBalance } from "@/hooks/account";
+import { useAllowance, useFulfillOrder } from "@/hooks/poolWrite";
+import MarketAmount from "@/components/CreateOrder/Inputs/Amount";
+import { MarketInputs } from "@/types";
+import { marketSchema } from "@/data/forms";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useConvertBuyMarketArgs } from "components/CreateOrder/utils";
+import { useConvertBuyMarketArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
-import { usePoolGetNextPriceLevel } from "hooks/contracts/pool";
-import { zeroBigNumber } from "utility";
+import { usePoolGetNextPriceLevel } from "@/hooks/contracts/pool";
+import { localConstants } from "@/variables";
 import { utils } from "ethers";
-import Total from "components/CreateOrder/Inputs/Total";
-import Submit from "components/CreateOrder/Inputs/Submit";
-import Info from "components/Common/Info";
-import { fixPrecision } from "utility/convertors";
-import MarketBuyConfirmation from "components/CreateOrder/Confirmation/MarketBuyConfirmation";
+import Total from "@/components/CreateOrder/Inputs/Total";
+import Submit from "@/components/CreateOrder/Inputs/Submit";
+import Info from "@/components/Common/Info";
+import { fixPrecision } from "@/utility/converters";
+import MarketBuyConfirmation from "@/components/CreateOrder/Confirmation/MarketBuyConfirmation";
 
 interface Props {}
 
@@ -60,7 +60,7 @@ const MarketBuy: React.FC<Props> = () => {
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
     address: sellPool.address,
-    args: [zeroBigNumber],
+    args: [localConstants.zeroBigNumber],
     watch: true,
   });
 

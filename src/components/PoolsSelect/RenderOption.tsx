@@ -1,5 +1,5 @@
 import { ListItemButton } from "@mui/material";
-import { Pair } from "types";
+import { Pair } from "@/types";
 import styles from "./PoolsSelect.module.scss";
 
 const RenderOption = (props: object, option: Pair) => {

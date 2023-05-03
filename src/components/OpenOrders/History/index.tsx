@@ -1,7 +1,7 @@
 import {
   useUserOrderCancelledEvents,
   useUserOrderFulfilledEvents,
-} from "hooks/events";
+} from "@/hooks/events";
 
 import OrderHistoryTable from "./Table";
 import { useMemo } from "react";

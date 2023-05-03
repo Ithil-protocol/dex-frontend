@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material";
-import { decimalRegex } from "data/regex";
+import { decimalRegex } from "@/data/regex";
 import { useController } from "react-hook-form";
-import { usePoolStore } from "store";
+import { usePoolStore } from "@/store";
 
 interface Props {
   control: any;

@@ -1,11 +1,11 @@
-import { Pool } from "types";
+import { Pool } from "@/types";
 import { BigNumber, constants, utils } from "ethers";
 import {
   usePoolGetNextPriceLevel,
   usePoolPreviewTake,
-} from "hooks/contracts/pool";
-import { zeroBigNumber } from "utility";
-import { appConfig } from "Config";
+} from "@/hooks/contracts/pool";
+import { localConstants } from "@/variables";
+import { appConfig } from "@/config";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -67,7 +67,7 @@ export const useConvertSellMarketArgs = ({
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
     address: pool.address,
-    args: [zeroBigNumber],
+    args: [localConstants.zeroBigNumber],
     watch: true,
   });
 
@@ -87,7 +87,9 @@ export const useConvertSellMarketArgs = ({
     address: pool.address,
     args: [finalAmount],
   });
-  const accountingToPay = previewTake ? previewTake[0] : zeroBigNumber;
+  const accountingToPay = previewTake
+    ? previewTake[0]
+    : localConstants.zeroBigNumber;
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
@@ -137,8 +139,10 @@ export const useConvertBuyMarketArgs = ({
     args: [finalAmount],
   });
 
-  const accountingToPay = previewTake ? previewTake[0] : zeroBigNumber;
-  const amountOut = previewTake ? previewTake[1] : zeroBigNumber;
+  const accountingToPay = previewTake
+    ? previewTake[0]
+    : localConstants.zeroBigNumber;
+  const amountOut = previewTake ? previewTake[1] : localConstants.zeroBigNumber;
   const isAmountOut =
     Number(utils.formatUnits(amountOut, underlyingDecimals)) < Number(amount);
 

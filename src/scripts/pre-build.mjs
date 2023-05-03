@@ -7,9 +7,7 @@ import fs from "fs";
 import { rawFactoryABI } from "../store/abi-raw.mjs";
 
 import addresses from "../../pairs.json" assert { type: "json" };
-import { factoryAddress } from "../Config/factory.mjs";
-
-console.log("creating pairs...");
+import { factoryAddress } from "../config/factory.mjs";
 
 const { provider } = configureChains(
   [goerli],
@@ -108,6 +106,4 @@ createClient({
   }
 
   fs.writeFileSync("./src/data/pools.json", JSON.stringify(newData));
-
-  console.log("pairs created");
 })();

@@ -9,9 +9,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import WrapperTooltip from "./Tooltip";
-import { briefing } from "utility";
-import { useFormatBuyData, useFormatSellData } from "hooks/converters";
-import { usePoolStore } from "store";
+import { briefing } from "@/utility";
+import { useFormatBuyData, useFormatSellData } from "@/hooks/converters";
+import { usePoolStore } from "@/store";
 
 const DepthChart = () => {
   const { data: buyData } = useFormatBuyData();

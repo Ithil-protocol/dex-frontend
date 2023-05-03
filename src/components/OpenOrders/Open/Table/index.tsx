@@ -1,8 +1,8 @@
 import { Table, TableContainer } from "@mui/material";
 import OrdersTableHead from "./Head";
 import OrdersTableBody from "./Body";
-import { OpenOrderEvent } from "types";
-import { usePoolStore } from "store";
+import { OpenOrderEvent } from "@/types";
+import { usePoolStore } from "@/store";
 
 interface Props {
   orders: OpenOrderEvent[];

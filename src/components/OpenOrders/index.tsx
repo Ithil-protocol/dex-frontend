@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import WrapperTab from "components/Common/WrapperTab";
+import WrapperTab from "@/components/Common/WrapperTab";
 import { useState } from "react";
 
 import Tabs from "@mui/material/Tabs";
