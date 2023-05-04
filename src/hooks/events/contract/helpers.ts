@@ -19,12 +19,17 @@ export const updateOrderFromPendingToOpen = (
 
       return prev.map((item) => {
         if (item.rawPrice.eq(price) && item.status === "pending") {
+          console.log("order found");
+
           return {
             ...item,
             status: "open",
             index: orderIndex,
           };
-        } else return item;
+        } else {
+          console.log("order not found");
+          return item;
+        }
       });
 
       // const foundOrderIndex = prev.findIndex((i) => {
@@ -32,6 +37,8 @@ export const updateOrderFromPendingToOpen = (
       // });
 
       // if (foundOrderIndex !== -1) {
+      //   console.log("order found");
+
       //   const order: OpenOrderEvent = {
       //     ...prev[foundOrderIndex],
       //     status: "open",
@@ -41,6 +48,8 @@ export const updateOrderFromPendingToOpen = (
       //   copyOrders[foundOrderIndex] = order;
       //   return copyOrders;
       // }
+
+      //     console.log("order not found");
 
       // return prev;
     }
