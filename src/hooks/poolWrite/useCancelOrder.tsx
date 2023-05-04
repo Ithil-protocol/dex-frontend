@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { Pool } from "@/types";
 import { usePoolStore } from "@/store";
-import { useChangeOrderStatus } from "./useChangeOrderStatus";
+import { useChangeOrderStatus } from "../utils/useChangeOrderStatus";
 
 interface CancelOrderProps {
   transactionHash: string;
