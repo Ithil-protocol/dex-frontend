@@ -33,7 +33,7 @@
   }
 
   @include media("<sm") {
-    // grid-template-columns: minmax(1fr,220px);
+    grid-template-columns: 1fr;
     grid-template-areas:
       "navbar"
       "form"
