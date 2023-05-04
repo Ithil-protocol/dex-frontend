@@ -2,18 +2,15 @@ import { utils, BigNumber, constants, providers } from "ethers";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import {
   usePoolCreateOrder,
-  usePoolPreviewOrder,
   usePreparePoolCreateOrder,
 } from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
-import { OpenOrderEvent, Pool, Side } from "@/types";
+import { Pool, Side } from "@/types";
 import { useDeadline } from "@/hooks/useDeadline";
-import { useQueryClient } from "@tanstack/react-query";
-import { useGetConverters } from "@/hooks/converters";
-import { usePoolStore } from "@/store";
 import { useRef } from "react";
-import { useChangeOrderStatus } from "./useChangeOrderStatus";
+import { useChangeOrderStatus } from "@/hooks/utils/useChangeOrderStatus";
+import { useCreatePendingOrder } from "@/hooks/utils/useCreatePendingOrder";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -113,76 +110,5 @@ export const useCreateOrder = ({
     isLoading: writeLoading || waitLoading,
     gasLoading,
     resetCreate,
-  };
-};
-
-interface CreatePendingOrderArgs {
-  address: string;
-  amount: BigNumber;
-  boost: BigNumber;
-  price: BigNumber;
-  side: Side;
-}
-
-const useCreatePendingOrder = ({
-  address,
-  amount,
-  boost,
-  price,
-  side,
-}: CreatePendingOrderArgs) => {
-  const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: previewData } = usePoolPreviewOrder({
-    address: poolAddress,
-    args: [price, boost],
-  });
-  const queryClient = useQueryClient();
-  const {
-    buyAmountConverter,
-    buyPriceConverter,
-    sellAmountConverter,
-    sellPriceConverter,
-    stakedConverter,
-  } = useGetConverters();
-
-  const converters = {
-    buy: {
-      amount: buyAmountConverter,
-      price: buyPriceConverter,
-      stake: stakedConverter,
-    },
-    sell: {
-      amount: sellAmountConverter,
-      price: sellPriceConverter,
-      stake: stakedConverter,
-    },
-  };
-
-  return (transactionHash: string) => {
-    queryClient.setQueryData<OpenOrderEvent[]>(
-      ["userOrderCreatedEvent", address, poolAddress],
-      (prev) => {
-        if (!prev) return;
-        if (!previewData) return;
-
-        return [
-          {
-            address: address as `0x${string}`,
-            amount: converters[side].amount(amount, price),
-            index: constants.NegativeOne,
-            price: converters[side].price(previewData.actualPrice),
-            rawAmount: amount,
-            rawPrice: previewData.actualPrice,
-            rawStaked: boost,
-            side,
-            staked: converters[side].stake(boost),
-            status: "pending",
-            timestamp: Date.now(),
-            transactionHash,
-          },
-          ...prev,
-        ];
-      }
-    );
   };
 };
