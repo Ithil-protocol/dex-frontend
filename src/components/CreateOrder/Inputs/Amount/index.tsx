@@ -22,7 +22,7 @@ const LimitAmount: React.FC<Props> = ({
       <WrapperInputLabel
         endLabel={`(${availableLabel})`}
         label="Amount"
-        tooltip="Amount"
+        tooltip="How much you are selling or buying"
         htmlFor="amount"
       />
       <Box
