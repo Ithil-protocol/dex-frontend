@@ -23,7 +23,7 @@ export const CandlestickChart = () => {
         symbol={"UNISWAP3ARBITRUM:" + symbol}
         copyrightStyles={{ parent: { display: "none" } }}
       />
-      <Typography
+      {/* <Typography
         variant="caption"
         className={styles.copyright}
         fontSize="10px"
@@ -37,7 +37,7 @@ export const CandlestickChart = () => {
           {symbol} Chart
         </Link>
         <p>by TradingView</p>
-      </Typography>
+      </Typography> */}
     </Box>
   );
 };
