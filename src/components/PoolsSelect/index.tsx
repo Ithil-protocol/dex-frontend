@@ -23,7 +23,7 @@ function PoolsSelect() {
       sx={(theme) => ({
         borderBottom: `1px solid ${theme.palette.text.primary} `,
         "& .MuiSvgIcon-root": { fill: theme.palette.text.primary },
-        width: 350,
+        width: 200,
       })}
       value={pairs.find((option) => option.value === pairValue)}
       onChange={handleChange}
