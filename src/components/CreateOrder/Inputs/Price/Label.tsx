@@ -11,7 +11,7 @@ const PriceLabel = () => {
   return (
     <WrapperInputLabel
       label="Price"
-      tooltip="Price"
+      tooltip="The desired settlement price"
       htmlFor="price"
       Currency={ChipComponent}
     />

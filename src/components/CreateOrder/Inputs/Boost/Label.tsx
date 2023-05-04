@@ -9,7 +9,7 @@ const BoostLabel: React.FC<Props> = ({ boost }) => {
     <WrapperInputLabel
       endLabel={`${boost} ETH`}
       label="Boost"
-      tooltip="Boost"
+      tooltip="Gain priority on the execution queue by adding an ETH stake to the order"
       htmlFor="boost"
     />
   );
