@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  scrollbar-color: #556cd6 transparent;
+  scrollbar-color: #4E5F71 transparent;
   scrollbar-width: thin;
 }
 
@@ -21,17 +21,17 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  border-radius: 10px;
-  background-color: #2c374d;
+  border-radius: 4px;
+  background-color: rgba(78, 95, 113, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #556cd6;
+  background: #4E5F71;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #18294b;
+  background: #6c839c;
 }
 
 ::-webkit-scrollbar-corner {
