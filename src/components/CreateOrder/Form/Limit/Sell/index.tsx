@@ -6,7 +6,7 @@ import { useTokenBalance } from "@/hooks/account";
 import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
 import { LimitInputs } from "@/types";
 import { limitSchema } from "@/data/forms";
-import { convertSellLimitArgs } from "@/components/CreateOrder/utils";
+import { useConvertSellLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Price from "@/components/CreateOrder/Inputs/Price";
 import Boost from "@/components/CreateOrder/Inputs/Boost";
@@ -33,7 +33,7 @@ const LimitSell: React.FC<Props> = () => {
     state.sellPool,
   ]);
 
-  const finalValues = convertSellLimitArgs({
+  const finalValues = useConvertSellLimitArgs({
     amount: formValues.amount,
     price: formValues.price,
     boost: formValues.boost,

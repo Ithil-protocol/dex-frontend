@@ -9,7 +9,7 @@ import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
 import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
 import { LimitInputs } from "@/types";
 import { limitSchema } from "@/data/forms";
-import { convertBuyLimitArgs } from "@/components/CreateOrder/utils";
+import { useConvertBuyLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Total from "@/components/CreateOrder/Inputs/Total";
 import Submit from "@/components/CreateOrder/Inputs/Submit";
@@ -33,7 +33,7 @@ const LimitBuy: React.FC<Props> = () => {
     state.buyPool,
   ]);
 
-  const finalValues = convertBuyLimitArgs({
+  const finalValues = useConvertBuyLimitArgs({
     amount: formValues.amount,
     price: formValues.price,
     boost: formValues.boost,

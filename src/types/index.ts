@@ -182,6 +182,9 @@ export interface LimitFinalValues {
   price: BigNumber;
   boost: BigNumber;
   pool: Pool;
+  actualPrice: BigNumber;
+  position: BigNumber;
+  cumulativeUndAmount: BigNumber;
 }
 
 export interface MarketSellFinalValues {
