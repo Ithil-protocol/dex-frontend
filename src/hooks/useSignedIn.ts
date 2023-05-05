@@ -1,3 +1,6 @@
+import { useAccount } from "wagmi";
+
 export const useSignedIn = () => {
-  return;
+  const { isConnected } = useAccount();
+  return isConnected;
 };

@@ -1,3 +1,4 @@
+import { useSignedIn } from "@/hooks/useSignedIn";
 import dynamic from "next/dynamic";
 
 const Panel = dynamic(
@@ -7,6 +8,7 @@ const Panel = dynamic(
   }
 );
 
-export default function home() {
+export default function Home() {
+  const isConnected = useSignedIn();
   return <Panel />;
 }
