@@ -1,14 +1,9 @@
-import { useSignedIn } from "@/hooks/useSignedIn";
 import dynamic from "next/dynamic";
 
-const Panel = dynamic(
-  () => import("@/container/Panel").then((w) => w.default),
-  {
-    ssr: false,
-  }
-);
+const Home = dynamic(() => import("@/container/Home").then((c) => c.default), {
+  ssr: false,
+});
 
-export default function Home() {
-  const isConnected = useSignedIn();
-  return <Panel />;
+export default function home() {
+  return <Home />;
 }
