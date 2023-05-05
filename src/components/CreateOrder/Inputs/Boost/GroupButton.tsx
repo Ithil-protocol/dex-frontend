@@ -22,6 +22,9 @@ const BoostGroupButton: React.FC<Props> = ({
       }}
     >
       {buttons.map((item, i) => {
+        const isFirstEl = i === 0;
+        const isLastEl = i === buttons.length - 1;
+        const isBeforeLastEl = i < buttons.length - 1;
         return (
           <Button
             variant="contained"
@@ -30,20 +33,18 @@ const BoostGroupButton: React.FC<Props> = ({
             key={i}
             disableElevation
             sx={(theme) => ({
-              borderRadius: 0,
-              fontSize: 10,
+              borderRadius: `${isFirstEl ? "5px" : 0} ${isLastEl ? "5px" : 0} ${
+                isLastEl ? "5px" : 0
+              } ${isFirstEl ? "5px" : 0}`,
               backgroundColor: theme.palette.background.default,
-              borderRight:
-                i < buttons.length - 1
-                  ? `1px solid ${theme.palette.background.paper}`
-                  : 0,
+              borderRight: isBeforeLastEl
+                ? `1px solid ${theme.palette.background.paper}`
+                : 0,
               "&:hover": {
                 backgroundColor: theme.palette.background.default,
               },
               padding: "5px",
               width: "100%",
-              borderEndEndRadius: i === buttons.length - 1 ? "5px" : 0,
-              borderEndStartRadius: i === 0 ? "5px" : 0,
             })}
             size="small"
           >
