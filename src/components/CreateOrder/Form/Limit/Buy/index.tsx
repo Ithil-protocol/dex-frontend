@@ -16,6 +16,7 @@ import Submit from "@/components/CreateOrder/Inputs/Submit";
 import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
+import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
 
 interface Props {}
 
@@ -99,6 +100,11 @@ const LimitBuy: React.FC<Props> = () => {
     resetCreate();
   };
 
+  const { maxBoost, isLoading: maxBoostLoading } = useGetMaxBoost({
+    actualPrice: finalValues.actualPrice,
+    poolAddress: finalValues.pool.address,
+  });
+
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -118,7 +124,11 @@ const LimitBuy: React.FC<Props> = () => {
           />
           <Price control={control} endLabel={pair.accountingLabel} />
 
-          <Boost control={control} />
+          <Boost
+            control={control}
+            maxBoost={maxBoost}
+            maxBoostLoading={maxBoostLoading}
+          />
 
           <Total total={total} label={pair.accountingLabel} />
 

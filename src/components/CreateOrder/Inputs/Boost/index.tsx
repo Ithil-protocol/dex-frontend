@@ -6,10 +6,17 @@ import { FormGroup } from "@mui/material";
 
 interface Props {
   control: Control<any, any>;
+  maxBoost: number;
+  maxBoostLoading: boolean;
 }
 
-const Boost: React.FC<Props> = ({ control }) => {
+const Boost: React.FC<Props> = ({ control, maxBoost, maxBoostLoading }) => {
   const [boost, setBoost] = useState(0);
+  const maxBoostHandler = !maxBoostLoading
+    ? () => {
+        setBoost(maxBoost);
+      }
+    : undefined;
 
   return (
     <FormGroup>
