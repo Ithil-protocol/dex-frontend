@@ -14,7 +14,7 @@ interface Props {
 const Amount: React.FC<Props> = ({
   availableLabel,
   control,
-  groupButtonDisabled: disabled,
+  groupButtonDisabled,
   groupButtonHandler,
 }) => {
   return (
@@ -32,11 +32,12 @@ const Amount: React.FC<Props> = ({
           },
           border: "2px solid transparent",
           borderRadius: "5px",
+          backgroundColor: theme.palette.background.default,
         })}
       >
         <AmountTextField control={control} />
         <AmountGroupButton
-          disabled={disabled}
+          disabled={groupButtonDisabled}
           groupButtonHandler={groupButtonHandler}
         />
       </Box>
