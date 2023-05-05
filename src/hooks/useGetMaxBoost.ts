@@ -1,15 +1,26 @@
 import { BigNumber } from "ethers";
-import { usePoolId } from "./contracts/pool";
+import { usePoolGetOrder } from "./contracts/pool";
+import { constants } from "ethers";
 
 interface GetMaxBoostProps {
   poolAddress: `0x${string}`;
-  price: BigNumber;
+  actualPrice: BigNumber;
 }
 
-export const useGetMaxBoost = ({ poolAddress, price }: GetMaxBoostProps) => {
-  const { data } = usePoolId({
+export const useGetMaxBoost = ({
+  poolAddress,
+  actualPrice,
+}: GetMaxBoostProps) => {
+  const { data: orderZero } = usePoolGetOrder({
     address: poolAddress,
-    args: [price],
+    args: [actualPrice, constants.Zero],
   });
-  return data;
+  const { data: firstOrder, isLoading } = usePoolGetOrder({
+    address: poolAddress,
+    args: [actualPrice, orderZero!.next],
+    enabled: !!orderZero,
+  });
+  const maxBoost = firstOrder?.staked ?? constants.Zero;
+
+  return { maxBoost, isLoading };
 };
