@@ -47,7 +47,11 @@ const BoostTextField: React.FC<Props> = ({
       size="small"
       placeholder="0"
       variant="outlined"
+      sx={{ "& fieldset": { border: "none" } }}
       InputProps={{
+        sx: {
+          borderRadius: "5px 5px 0px 0px",
+        },
         endAdornment: (
           <InputAdornment position="end">
             <Button
