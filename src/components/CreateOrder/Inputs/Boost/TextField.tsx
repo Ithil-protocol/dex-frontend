@@ -2,17 +2,22 @@ import { Button, InputAdornment, TextField } from "@mui/material";
 import { decimalRegex } from "@/data/regex";
 
 import { useController } from "react-hook-form";
+import { Dispatch, SetStateAction } from "react";
 
 interface Props {
   onBoostChange: (...args: any[]) => void;
   control: any;
-  onMaxClick: (...args: any[]) => void;
+  maxBoost: number;
+  maxBoostLoading: boolean;
+  setBoost: Dispatch<SetStateAction<number>>;
 }
 
 const BoostTextField: React.FC<Props> = ({
   control,
   onBoostChange,
-  onMaxClick,
+  maxBoost,
+  maxBoostLoading,
+  setBoost,
 }) => {
   const {
     field: { onChange, ...inputProps },
@@ -23,8 +28,8 @@ const BoostTextField: React.FC<Props> = ({
   });
 
   const handleMaxClick = () => {
-    onMaxClick();
-    onChange(0.1);
+    setBoost(maxBoost);
+    onChange(maxBoost);
   };
 
   return (
@@ -46,6 +51,7 @@ const BoostTextField: React.FC<Props> = ({
         endAdornment: (
           <InputAdornment position="end">
             <Button
+              disabled={maxBoostLoading}
               variant="contained"
               onClick={handleMaxClick}
               size="small"

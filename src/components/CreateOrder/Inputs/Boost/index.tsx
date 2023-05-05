@@ -12,24 +12,19 @@ interface Props {
 
 const Boost: React.FC<Props> = ({ control, maxBoost, maxBoostLoading }) => {
   const [boost, setBoost] = useState(0);
-  const maxBoostHandler = !maxBoostLoading
-    ? () => {
-        setBoost(maxBoost);
-      }
-    : undefined;
 
   return (
     <FormGroup>
       <BoostLabel boost={boost} />
 
       <BoostTextField
-        onMaxClick={() => {
-          setBoost(0.1);
-        }}
+        maxBoost={maxBoost}
+        maxBoostLoading={maxBoostLoading}
         control={control}
         onBoostChange={(event: any) => {
           setBoost(event.target.value);
         }}
+        setBoost={setBoost}
       />
     </FormGroup>
   );
