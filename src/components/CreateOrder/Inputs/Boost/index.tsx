@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Control } from "react-hook-form";
 import BoostLabel from "./Label";
-import BoostTextField from "./TextField";
+// import BoostTextField from "./TextField";
 import { Box, FormGroup } from "@mui/material";
 import BoostGroupButton from "./GroupButton";
 import { BoostName } from "@/types";
@@ -26,7 +26,7 @@ const Boost: React.FC<Props> = ({
   return (
     <FormGroup>
       <BoostLabel boost={boost} />
-      <Box
+      {/* <Box
         sx={(theme) => ({
           "&:focus-within": {
             border: `2px solid ${theme.palette.primary.main}`,
@@ -35,8 +35,8 @@ const Boost: React.FC<Props> = ({
           borderRadius: "5px",
           backgroundColor: theme.palette.background.default,
         })}
-      >
-        <BoostTextField
+      > */}
+      {/* <BoostTextField
           maxBoost={maxBoost}
           maxBoostLoading={maxBoostLoading}
           control={control}
@@ -44,12 +44,12 @@ const Boost: React.FC<Props> = ({
             setBoost(event.target.value);
           }}
           setBoost={setBoost}
-        />
-        <BoostGroupButton
-          disabled={groupButtonDisabled}
-          groupButtonHandler={groupButtonHandler}
-        />
-      </Box>
+        /> */}
+      <BoostGroupButton
+        disabled={groupButtonDisabled}
+        groupButtonHandler={groupButtonHandler}
+      />
+      {/* </Box> */}
     </FormGroup>
   );
 };
