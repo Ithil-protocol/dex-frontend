@@ -9,6 +9,8 @@ const AmountGroupButton: React.FC<Props> = ({
   disabled,
   groupButtonHandler,
 }) => {
+  const buttons = [25, 50, 75, 100];
+
   return (
     <div
       style={{
@@ -16,7 +18,7 @@ const AmountGroupButton: React.FC<Props> = ({
         borderRadius: "0px 0px 5px 5px",
       }}
     >
-      {[25, 50, 75, 100].map((item, i) => {
+      {buttons.map((item, i) => {
         return (
           <Button
             variant="contained"
@@ -27,12 +29,17 @@ const AmountGroupButton: React.FC<Props> = ({
             sx={(theme) => ({
               borderRadius: 0,
               backgroundColor: theme.palette.background.default,
-              borderRight: `1px solid ${theme.palette.background.paper}`,
+              borderRight:
+                i < buttons.length - 1
+                  ? `1px solid ${theme.palette.background.paper}`
+                  : 0,
               "&:hover": {
                 backgroundColor: theme.palette.background.default,
               },
               padding: "5px",
               width: "100%",
+              borderEndEndRadius: i === buttons.length - 1 ? "5px" : 0,
+              borderEndStartRadius: i === 0 ? "5px" : 0,
             })}
             size="small"
           >
