@@ -21,6 +21,8 @@ export type Status =
   | "open"
   | "pending";
 
+export type BoostName = "no boost" | "slow" | "normal" | "fast";
+
 export interface HistoryEvent {
   amount: number;
   price: number;
