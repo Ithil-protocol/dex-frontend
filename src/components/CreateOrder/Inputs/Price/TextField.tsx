@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { decimalRegex, getDecimalRegex } from "@/data/regex";
+import { getDecimalRegex } from "@/data/regex";
 import { Control, useController } from "react-hook-form";
 import { usePoolStore } from "@/store";
 
