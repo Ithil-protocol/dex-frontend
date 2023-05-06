@@ -110,7 +110,6 @@ const LimitBuy: React.FC<Props> = () => {
     (factor: number) => {
       const boost = factor * maxBoost;
       setValue("boost", boost.toString());
-      console.log(boost);
     },
     [setValue, maxBoost]
   );
