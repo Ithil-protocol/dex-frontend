@@ -9,14 +9,14 @@ import { BoostName } from "@/types";
 interface Props {
   groupButtonHandler: (item: number) => void;
   groupButtonDisabled: boolean;
+  boost: number;
 }
 
 const Boost: React.FC<Props> = ({
   groupButtonDisabled,
   groupButtonHandler,
+  boost,
 }) => {
-  const [boost, setBoost] = useState(0);
-
   return (
     <FormGroup>
       <BoostLabel boost={boost} />
