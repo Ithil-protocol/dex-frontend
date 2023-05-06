@@ -142,7 +142,6 @@ const LimitBuy: React.FC<Props> = () => {
           <Price control={control} endLabel={pair.accountingLabel} />
 
           <Boost
-            price={formValues.price || ""}
             groupButtonDisabled={maxBoostLoading}
             groupButtonHandler={boostGroupButtonHandler}
             boost={Number(formValues.boost || 0)}

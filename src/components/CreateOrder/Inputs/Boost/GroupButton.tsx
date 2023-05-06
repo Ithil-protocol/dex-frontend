@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 interface Props {
   disabled: boolean;
   groupButtonHandler: (item: BoostFactor) => void;
-  price: string;
 }
 
 const boosts: readonly Boost[] = [
@@ -18,7 +17,6 @@ const boosts: readonly Boost[] = [
 const BoostGroupButton: React.FC<Props> = ({
   disabled,
   groupButtonHandler,
-  price,
 }) => {
   const [active, setActive] = useState<Boost>(boosts[0]);
   const theme = useTheme();
@@ -28,7 +26,7 @@ const BoostGroupButton: React.FC<Props> = ({
     groupButtonHandler(0);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [price]);
+  }, [disabled]);
 
   return (
     <div
