@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 interface Props {
   label: string;
-  total: string;
+  total: number;
 }
 
 const Total: React.FC<Props> = ({ label, total }) => {

@@ -85,9 +85,10 @@ const LimitSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
-  const total = (
-    Number(formValues.amount) * Number(formValues.price) || 0
-  ).toFixed(sellPool.accounting.decimals);
+  const total = fixPrecision(
+    Number(formValues.amount) * Number(formValues.price) || 0,
+    sellPool.accounting.displayPrecision
+  );
 
   const modalCloseHandler = () => {
     setOpen(false);

@@ -50,6 +50,8 @@ const MarketSell: React.FC<Props> = () => {
     }
   );
 
+  const total = fixPrecision(totalToTake, buyPool.underlying.displayPrecision);
+
   const {
     write,
     isLoading: fulfillLoading,
@@ -110,7 +112,7 @@ const MarketSell: React.FC<Props> = () => {
             groupButtonHandler={groupButtonHandler}
           />
 
-          <Total total={`${totalToTake}`} label={pair.accountingLabel} />
+          <Total total={total} label={pair.accountingLabel} />
           {/* <Info
             isRendered={isAmountOut}
             text="The amount is higher than the pool's assets!"

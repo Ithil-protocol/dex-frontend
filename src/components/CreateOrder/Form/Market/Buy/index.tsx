@@ -78,7 +78,9 @@ const MarketBuy: React.FC<Props> = () => {
   const groupButtonDisabled =
     available === 0 || Number(highestPrice || 0) === 0;
 
-  const total = totalToPay.toFixed(sellPool.accounting.decimals);
+  const total = fixPrecision(totalToPay, sellPool.accounting.displayPrecision);
+
+  const totalAmount = totalToPay.toFixed(sellPool.accounting.decimals);
 
   const {
     write: approve,
@@ -86,7 +88,7 @@ const MarketBuy: React.FC<Props> = () => {
     isApproved,
     currentAllowance,
   } = useAllowance({
-    amount: total,
+    amount: totalAmount,
     pool: sellPool,
     token: sellPool.accounting,
   });

@@ -71,7 +71,12 @@ const LimitBuy: React.FC<Props> = () => {
   const groupButtonDisabled =
     Number(formValues.price || 0) === 0 || available === 0;
 
-  const total = (
+  const total = fixPrecision(
+    Number(formValues.amount) * Number(formValues.price) || 0,
+    buyPool.underlying.displayPrecision
+  );
+
+  const totalAmount = (
     Number(formValues.amount) * Number(formValues.price) || 0
   ).toFixed(buyPool.underlying.decimals);
 
@@ -81,7 +86,7 @@ const LimitBuy: React.FC<Props> = () => {
     isApproved,
     currentAllowance,
   } = useAllowance({
-    amount: total,
+    amount: totalAmount,
     pool: buyPool,
     token: buyPool.underlying,
   });
