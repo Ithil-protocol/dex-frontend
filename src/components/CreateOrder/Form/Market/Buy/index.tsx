@@ -43,11 +43,14 @@ const MarketBuy: React.FC<Props> = () => {
     available,
     sellPool.accounting.displayPrecision
   )} ${pair.accountingLabel}`;
+  
   const { totalToPay, isAmountOut, ...finalValues } = useConvertBuyMarketArgs({
     amount: formValues.amount,
     pool: sellPool,
   });
-
+  
+  const isInsufficientFunds = available < totalToPay;
+  
   const {
     write,
     isLoading: fulfillLoading,
@@ -133,6 +136,11 @@ const MarketBuy: React.FC<Props> = () => {
             isRendered={!isApproved}
             color="warning"
             text={`Current Allowance: ${currentAllowance} ${pair.accountingLabel}`}
+          />
+                    <Info
+            isRendered={isInsufficientFunds}
+            color="error"
+            text="insufficient funds..."
           />
           <Submit
             side={side}
