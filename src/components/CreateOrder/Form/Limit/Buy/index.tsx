@@ -106,8 +106,8 @@ const LimitBuy: React.FC<Props> = () => {
   });
 
   const boostGroupButtonHandler = useCallback(
-    (item: number) => {
-      const boost = item * maxBoost;
+    (factor: number) => {
+      const boost = factor * maxBoost;
       setValue("boost", boost.toString());
     },
     [setValue, maxBoost]
