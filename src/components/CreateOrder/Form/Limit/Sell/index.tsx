@@ -136,8 +136,6 @@ const LimitSell: React.FC<Props> = () => {
           <Boost
             groupButtonDisabled={maxBoostLoading}
             groupButtonHandler={boostGroupButtonHandler}
-            control={control}
-            maxBoost={maxBoost}
           />
 
           <Total total={total} label={pair.accountingLabel} />

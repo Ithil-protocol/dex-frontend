@@ -7,17 +7,13 @@ import BoostGroupButton from "./GroupButton";
 import { BoostName } from "@/types";
 
 interface Props {
-  control: Control<any, any>;
-  maxBoost: number;
   groupButtonHandler: (item: number) => void;
   groupButtonDisabled: boolean;
 }
 
 const Boost: React.FC<Props> = ({
-  control,
   groupButtonDisabled,
   groupButtonHandler,
-  maxBoost,
 }) => {
   const [boost, setBoost] = useState(0);
 
