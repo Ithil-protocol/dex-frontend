@@ -43,6 +43,8 @@ const MarketSell: React.FC<Props> = () => {
     buyPool.accounting.displayPrecision
   )} ${pair.underlyingLabel}`;
 
+  const isInsufficientFunds = available < Number(formValues.amount || 0);
+
   const { totalToTake, isAmountOut, ...finalValues } = useConvertSellMarketArgs(
     {
       amount: formValues.amount,
@@ -121,6 +123,11 @@ const MarketSell: React.FC<Props> = () => {
             isRendered={!isApproved}
             color="warning"
             text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
+          />
+          <Info
+            isRendered={isInsufficientFunds}
+            color="error"
+            text="insufficient funds..."
           />
 
           <Submit
