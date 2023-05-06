@@ -1,4 +1,4 @@
-import { BoostName } from "@/types";
+import { Boost } from "@/types";
 import { Button } from "@mui/material";
 import { useEffect } from "react";
 
@@ -7,17 +7,17 @@ interface Props {
   groupButtonHandler: (item: number) => void;
 }
 
+const buttons: Boost[] = [
+  { text: "no boost", factor: 0 },
+  { text: "slow", factor: 0.4 },
+  { text: "normal", factor: 0.7 },
+  { text: "fast", factor: 1 },
+];
+
 const BoostGroupButton: React.FC<Props> = ({
   disabled,
   groupButtonHandler,
 }) => {
-  const buttons: BoostName[] = [
-    { text: "no boost", factor: 0 },
-    { text: "slow", factor: 0.4 },
-    { text: "normal", factor: 0.7 },
-    { text: "fast", factor: 1 },
-  ];
-
   useEffect(() => {
     if (disabled === false) {
       // setActive(0)
@@ -30,7 +30,7 @@ const BoostGroupButton: React.FC<Props> = ({
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "start",
         borderRadius: "0px 0px 5px 5px",
       }}
     >

@@ -21,7 +21,7 @@ export type Status =
   | "open"
   | "pending";
 
-export interface BoostName {
+export interface Boost {
   text: "no boost" | "slow" | "normal" | "fast";
   factor: 0 | 0.4 | 0.7 | 1;
 }

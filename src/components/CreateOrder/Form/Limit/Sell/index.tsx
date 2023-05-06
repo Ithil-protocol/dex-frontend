@@ -9,7 +9,6 @@ import { limitSchema } from "@/data/forms";
 import { useConvertSellLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Price from "@/components/CreateOrder/Inputs/Price";
-import Boost from "@/components/CreateOrder/Inputs/Boost";
 import Total from "@/components/CreateOrder/Inputs/Total";
 import Submit from "@/components/CreateOrder/Inputs/Submit";
 import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
@@ -17,6 +16,7 @@ import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
 import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
+import Boost from "@/components/CreateOrder/Inputs/Boost";
 
 interface Props {}
 
@@ -102,6 +102,8 @@ const LimitSell: React.FC<Props> = () => {
 
   const boostGroupButtonHandler = useCallback(
     (factor: number) => {
+      console.log("factor:", factor);
+
       const boost = factor * maxBoost;
       setValue("boost", boost.toString());
     },

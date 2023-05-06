@@ -1,10 +1,6 @@
-import { useState } from "react";
-import { Control } from "react-hook-form";
 import BoostLabel from "./Label";
-// import BoostTextField from "./TextField";
-import { Box, FormGroup } from "@mui/material";
+import { FormGroup } from "@mui/material";
 import BoostGroupButton from "./GroupButton";
-import { BoostName } from "@/types";
 
 interface Props {
   groupButtonHandler: (item: number) => void;

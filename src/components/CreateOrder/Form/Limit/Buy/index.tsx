@@ -1,6 +1,5 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "@/store";
-import Boost from "@/components/CreateOrder/Inputs/Boost";
 import Price from "@/components/CreateOrder/Inputs/Price";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -17,6 +16,7 @@ import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
 import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
+import Boost from "@/components/CreateOrder/Inputs/Boost";
 
 interface Props {}
 
