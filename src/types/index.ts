@@ -21,9 +21,11 @@ export type Status =
   | "open"
   | "pending";
 
-export interface BoostName {
-  text: "no boost" | "slow" | "normal" | "fast";
-  factor: 0 | 0.4 | 0.7 | 1;
+export type BoostFactor = 0 | 0.4 | 0.7 | 1;
+export type BoostName = "no boost" | "slow" | "normal" | "fast";
+export interface Boost {
+  text: BoostName;
+  factor: BoostFactor;
 }
 
 export interface HistoryEvent {

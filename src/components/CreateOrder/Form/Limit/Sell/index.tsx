@@ -4,12 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "@/hooks/account";
 import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
-import { LimitInputs } from "@/types";
+import { BoostFactor, LimitInputs } from "@/types";
 import { limitSchema } from "@/data/forms";
 import { useConvertSellLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Price from "@/components/CreateOrder/Inputs/Price";
-import Boost from "@/components/CreateOrder/Inputs/Boost";
 import Total from "@/components/CreateOrder/Inputs/Total";
 import Submit from "@/components/CreateOrder/Inputs/Submit";
 import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
@@ -17,6 +16,7 @@ import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
 import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
+import Boost from "@/components/CreateOrder/Inputs/Boost";
 
 interface Props {}
 
@@ -104,12 +104,14 @@ const LimitSell: React.FC<Props> = () => {
   });
 
   const boostGroupButtonHandler = useCallback(
-    (factor: number) => {
+    (factor: BoostFactor) => {
       const boost = factor * maxBoost;
       setValue("boost", boost.toString());
     },
     [setValue, maxBoost]
   );
+
+  console.log("form.factor", formValues.boost);
 
   return (
     <>
@@ -137,6 +139,12 @@ const LimitSell: React.FC<Props> = () => {
           <Price control={control} endLabel={pair.accountingLabel} />
 
           <Boost
+            factor={
+              formValues.boost
+                ? ((Number(formValues.boost) / maxBoost) as BoostFactor)
+                : 0
+            }
+            price={formValues.price || ""}
             groupButtonDisabled={maxBoostLoading}
             groupButtonHandler={boostGroupButtonHandler}
             boost={Number(formValues.boost || 0)}
@@ -161,15 +169,15 @@ const LimitSell: React.FC<Props> = () => {
         </div>
       </form>
       <LimitConfirmation
-        finalValues={finalValues}
-        open={open}
-        write={write}
         createLoading={createLoading}
+        finalValues={finalValues}
         gasLoading={gasLoading}
+        modalCloseHandler={modalCloseHandler}
+        open={open}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
-        modalCloseHandler={modalCloseHandler}
+        write={write}
       />
     </>
   );

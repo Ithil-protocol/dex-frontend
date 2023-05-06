@@ -1,43 +1,64 @@
-import { BoostName } from "@/types";
-import { Button } from "@mui/material";
-import { useEffect } from "react";
+import { Boost, BoostFactor } from "@/types";
+import { Button, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
 
 interface Props {
   disabled: boolean;
-  groupButtonHandler: (item: number) => void;
+  groupButtonHandler: (item: BoostFactor) => void;
+  price: string;
+  factor: BoostFactor;
 }
+
+const boosts: readonly Boost[] = [
+  { text: "no boost", factor: 0 },
+  { text: "slow", factor: 0.4 },
+  { text: "normal", factor: 0.7 },
+  { text: "fast", factor: 1 },
+];
 
 const BoostGroupButton: React.FC<Props> = ({
   disabled,
+  factor,
   groupButtonHandler,
+  price,
 }) => {
-  const buttons: BoostName[] = [
-    { text: "no boost", factor: 0 },
-    { text: "slow", factor: 0.4 },
-    { text: "normal", factor: 0.7 },
-    { text: "fast", factor: 1 },
-  ];
+  const [active, setActive] = useState<Boost>(boosts[0]);
+  const theme = useTheme();
 
   useEffect(() => {
-    if (disabled === false) {
-      // setActive(0)
-      groupButtonHandler(0);
-    }
-  }, [disabled]);
+    setActive(boosts[0]);
+    groupButtonHandler(0);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price]);
+
+  useEffect(() => {
+    const boost = boosts.find((item) => item.factor === factor);
+    if (boost) setActive(boost);
+  }, [factor]);
 
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "start",
         borderRadius: "0px 0px 5px 5px",
       }}
     >
-      {buttons.map((item, i) => {
+      {boosts.map((item, i) => {
         const isFirstEl = i === 0;
-        const isLastEl = i === buttons.length - 1;
-        const isBeforeLastEl = i < buttons.length - 1;
+        const isLastEl = i === boosts.length - 1;
+        const isBeforeLastEl = i < boosts.length - 1;
+        const isActive = active.factor === item.factor;
+        const isNoBoost = active.factor === boosts[0].factor;
+
+        const backgroundColor = isActive
+          ? isNoBoost
+            ? theme.palette.error.main
+            : theme.palette.success.main
+          : theme.palette.background.default;
+
         return (
           <Button
             variant="contained"
@@ -49,12 +70,12 @@ const BoostGroupButton: React.FC<Props> = ({
               borderRadius: `${isFirstEl ? "5px" : 0} ${isLastEl ? "5px" : 0} ${
                 isLastEl ? "5px" : 0
               } ${isFirstEl ? "5px" : 0}`,
-              backgroundColor: theme.palette.background.default,
+              backgroundColor,
               borderRight: isBeforeLastEl
                 ? `1px solid ${theme.palette.background.paper}`
                 : 0,
               "&:hover": {
-                backgroundColor: theme.palette.background.default,
+                backgroundColor,
               },
               padding: "5px",
               width: "100%",
