@@ -25,7 +25,10 @@ export const useGetMaxBoost = ({
     enabled: !!orderZero,
   });
   const maxBoost = firstOrder
-    ? fixPrecision(stakedConverter(firstOrder.staked) * 1.01, 6)
+    ? Math.max(
+        fixPrecision(stakedConverter(firstOrder.staked) * 1.01, 6),
+        0.001
+      )
     : 0;
 
   return { maxBoost, isLoading };
