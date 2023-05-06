@@ -12,7 +12,7 @@ const AdvancedRealTimeChartNoSSR = dynamic(
 
 export const CandlestickChart = () => {
   const pair = usePoolStore((store) => store.pair);
-  const symbol = pair ? pair.underlyingLabel + pair.accountingLabel : "BTCUSDT";
+  const symbol = pair.underlyingLabel + pair.accountingLabel;
 
   return (
     <Box height={"100%"}>
