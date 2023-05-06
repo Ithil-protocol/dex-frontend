@@ -3,6 +3,7 @@ import { usePoolGetOrder } from "./contracts/pool";
 import { constants } from "ethers";
 import { useStakedConverter } from "./converters";
 import { fixPrecision } from "@/utility/converters";
+import { useEffect, useState } from "react";
 
 interface GetMaxBoostProps {
   poolAddress: `0x${string}`;
@@ -19,18 +20,27 @@ export const useGetMaxBoost = ({
   actualPrice,
   price,
 }: GetMaxBoostProps) => {
-  const { data: orderZero, isLoading: zeroLoading } = usePoolGetOrder({
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(true);
+    console.log("2");
+  }, [price.toString(), setIsLoading]);
+  const { data: orderZero } = usePoolGetOrder({
     address: poolAddress,
     args: [actualPrice, constants.Zero],
   });
-  const { data: firstOrder, isLoading: firstLoading } = usePoolGetOrder({
+  const { data: firstOrder } = usePoolGetOrder({
     address: poolAddress,
     args: [actualPrice, orderZero?.next as BigNumber],
     enabled: !!orderZero,
+    onSuccess: () => {
+      console.log("1");
+      setIsLoading(false);
+    },
   });
   const maxBoost = firstOrder
     ? Math.max(_stakedConverter(firstOrder.staked), 0.001)
     : 0;
 
-  return { maxBoost, isLoading: zeroLoading || firstLoading || price.isZero() };
+  return { maxBoost, isLoading: isLoading || price.isZero() };
 };
