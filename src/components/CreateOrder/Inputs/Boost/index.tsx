@@ -11,7 +11,6 @@ interface Props {
   maxBoost: number;
   groupButtonHandler: (item: number) => void;
   groupButtonDisabled: boolean;
-  maxBoostLoading: boolean;
 }
 
 const Boost: React.FC<Props> = ({
@@ -19,7 +18,6 @@ const Boost: React.FC<Props> = ({
   groupButtonDisabled,
   groupButtonHandler,
   maxBoost,
-  maxBoostLoading,
 }) => {
   const [boost, setBoost] = useState(0);
 

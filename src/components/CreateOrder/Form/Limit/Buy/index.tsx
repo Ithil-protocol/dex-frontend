@@ -103,6 +103,7 @@ const LimitBuy: React.FC<Props> = () => {
   const { maxBoost, isLoading: maxBoostLoading } = useGetMaxBoost({
     actualPrice: finalValues.actualPrice,
     poolAddress: finalValues.pool.address,
+    price: finalValues.price,
   });
 
   const boostGroupButtonHandler = useCallback(
@@ -134,11 +135,10 @@ const LimitBuy: React.FC<Props> = () => {
           <Price control={control} endLabel={pair.accountingLabel} />
 
           <Boost
-            groupButtonDisabled={false}
+            groupButtonDisabled={maxBoostLoading}
             groupButtonHandler={boostGroupButtonHandler}
             control={control}
             maxBoost={maxBoost}
-            maxBoostLoading={maxBoostLoading}
           />
 
           <Total total={total} label={pair.accountingLabel} />
