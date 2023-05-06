@@ -49,6 +49,9 @@ const LimitBuy: React.FC<Props> = () => {
     buyPool.underlying.displayPrecision
   )} ${pair.accountingLabel}`;
 
+  const isInsufficientFunds =
+    available < Number(formValues.amount || 0) * Number(formValues.price || 0);
+
   const {
     write,
     isLoading: createLoading,
@@ -145,6 +148,11 @@ const LimitBuy: React.FC<Props> = () => {
           />
 
           <Total total={total} label={pair.accountingLabel} />
+          <Info
+            isRendered={isInsufficientFunds}
+            color="error"
+            text="insufficient funds..."
+          />
 
           <Info
             isRendered={!isApproved}
