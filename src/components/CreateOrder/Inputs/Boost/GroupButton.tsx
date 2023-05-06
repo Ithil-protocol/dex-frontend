@@ -1,5 +1,6 @@
 import { BoostName } from "@/types";
 import { Button } from "@mui/material";
+import { useEffect } from "react";
 
 interface Props {
   disabled: boolean;
@@ -16,6 +17,13 @@ const BoostGroupButton: React.FC<Props> = ({
     { text: "normal", factor: 0.7 },
     { text: "fast", factor: 1 },
   ];
+
+  useEffect(() => {
+    if (disabled === false) {
+      // setActive(0)
+      groupButtonHandler(0);
+    }
+  }, [disabled]);
 
   return (
     <div
