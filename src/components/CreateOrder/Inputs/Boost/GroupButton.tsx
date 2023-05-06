@@ -6,7 +6,6 @@ interface Props {
   disabled: boolean;
   groupButtonHandler: (item: BoostFactor) => void;
   price: string;
-  factor: BoostFactor;
 }
 
 const boosts: readonly Boost[] = [
@@ -18,7 +17,6 @@ const boosts: readonly Boost[] = [
 
 const BoostGroupButton: React.FC<Props> = ({
   disabled,
-  factor,
   groupButtonHandler,
   price,
 }) => {
@@ -31,11 +29,6 @@ const BoostGroupButton: React.FC<Props> = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [price]);
-
-  useEffect(() => {
-    const boost = boosts.find((item) => item.factor === factor);
-    if (boost) setActive(boost);
-  }, [factor]);
 
   return (
     <div
@@ -62,7 +55,10 @@ const BoostGroupButton: React.FC<Props> = ({
         return (
           <Button
             variant="contained"
-            onClick={() => groupButtonHandler(item.factor)}
+            onClick={() => {
+              setActive(item);
+              groupButtonHandler(item.factor);
+            }}
             disabled={disabled}
             key={i}
             disableElevation

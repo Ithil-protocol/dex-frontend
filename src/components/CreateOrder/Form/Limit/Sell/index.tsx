@@ -139,11 +139,6 @@ const LimitSell: React.FC<Props> = () => {
           <Price control={control} endLabel={pair.accountingLabel} />
 
           <Boost
-            factor={
-              formValues.boost
-                ? ((Number(formValues.boost) / maxBoost) as BoostFactor)
-                : 0
-            }
             price={formValues.price || ""}
             groupButtonDisabled={maxBoostLoading}
             groupButtonHandler={boostGroupButtonHandler}
