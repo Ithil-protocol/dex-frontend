@@ -48,6 +48,8 @@ const LimitSell: React.FC<Props> = () => {
     sellPool.underlying.displayPrecision
   )} ${pair.underlyingLabel}`;
 
+  const isInsufficientFunds = available < Number(formValues.amount || 0);
+
   const {
     write,
     isLoading: createLoading,
@@ -142,6 +144,11 @@ const LimitSell: React.FC<Props> = () => {
 
           <Total total={total} label={pair.accountingLabel} />
 
+          <Info
+            isRendered={isInsufficientFunds}
+            color="error"
+            text="insufficient funds..."
+          />
           <Submit
             submitContent={`Sell ${pair.underlyingLabel}`}
             side={side}
