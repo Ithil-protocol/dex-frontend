@@ -24,30 +24,10 @@ const Boost: React.FC<Props> = ({
   return (
     <FormGroup>
       <BoostLabel boost={boost} />
-      {/* <Box
-        sx={(theme) => ({
-          "&:focus-within": {
-            border: `2px solid ${theme.palette.primary.main}`,
-          },
-          border: "2px solid transparent",
-          borderRadius: "5px",
-          backgroundColor: theme.palette.background.default,
-        })}
-      > */}
-      {/* <BoostTextField
-          maxBoost={maxBoost}
-          maxBoostLoading={maxBoostLoading}
-          control={control}
-          onBoostChange={(event: any) => {
-            setBoost(event.target.value);
-          }}
-          setBoost={setBoost}
-        /> */}
       <BoostGroupButton
         disabled={groupButtonDisabled}
         groupButtonHandler={groupButtonHandler}
       />
-      {/* </Box> */}
     </FormGroup>
   );
 };
