@@ -117,7 +117,7 @@ const MarketSell: React.FC<Props> = () => {
           <Total total={total} label={pair.accountingLabel} />
           {/* <Info
             isRendered={isAmountOut}
-            text="The amount is higher than the pool's assets!"
+            text="Slippage is too high!"
           /> */}
           <Info
             isRendered={!isApproved}
