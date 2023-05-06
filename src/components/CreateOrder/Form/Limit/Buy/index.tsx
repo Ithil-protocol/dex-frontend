@@ -105,6 +105,14 @@ const LimitBuy: React.FC<Props> = () => {
     poolAddress: finalValues.pool.address,
   });
 
+  const boostGroupButtonHandler = useCallback(
+    (item: number) => {
+      const boost = item * maxBoost;
+      setValue("boost", boost.toString());
+    },
+    [setValue, maxBoost]
+  );
+
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -126,7 +134,7 @@ const LimitBuy: React.FC<Props> = () => {
 
           <Boost
             groupButtonDisabled={false}
-            groupButtonHandler={console.log}
+            groupButtonHandler={boostGroupButtonHandler}
             control={control}
             maxBoost={maxBoost}
             maxBoostLoading={maxBoostLoading}

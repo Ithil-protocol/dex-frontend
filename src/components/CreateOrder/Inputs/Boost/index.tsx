@@ -9,7 +9,7 @@ import { BoostName } from "@/types";
 interface Props {
   control: Control<any, any>;
   maxBoost: number;
-  groupButtonHandler: (item: BoostName) => void;
+  groupButtonHandler: (item: number) => void;
   groupButtonDisabled: boolean;
   maxBoostLoading: boolean;
 }

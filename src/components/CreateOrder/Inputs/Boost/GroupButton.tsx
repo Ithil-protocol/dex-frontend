@@ -3,14 +3,19 @@ import { Button } from "@mui/material";
 
 interface Props {
   disabled: boolean;
-  groupButtonHandler: (item: BoostName) => void;
+  groupButtonHandler: (item: number) => void;
 }
 
 const BoostGroupButton: React.FC<Props> = ({
   disabled,
   groupButtonHandler,
 }) => {
-  const buttons: BoostName[] = ["no boost", "slow", "normal", "fast"];
+  const buttons: BoostName[] = [
+    { text: "no boost", factor: 0 },
+    { text: "slow", factor: 0.4 },
+    { text: "normal", factor: 0.7 },
+    { text: "fast", factor: 1 },
+  ];
 
   return (
     <div
@@ -28,7 +33,7 @@ const BoostGroupButton: React.FC<Props> = ({
         return (
           <Button
             variant="contained"
-            onClick={() => groupButtonHandler(item)}
+            onClick={() => groupButtonHandler(item.factor)}
             disabled={disabled}
             key={i}
             disableElevation
@@ -48,7 +53,7 @@ const BoostGroupButton: React.FC<Props> = ({
             })}
             size="small"
           >
-            {item}
+            {item.text}
           </Button>
         );
       })}
