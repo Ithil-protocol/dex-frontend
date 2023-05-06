@@ -23,7 +23,7 @@ const BoostGroupButton: React.FC<Props> = ({
 
   useEffect(() => {
     setActive(boosts[0]);
-    groupButtonHandler(0);
+    groupButtonHandler(boosts[0].factor);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled]);
