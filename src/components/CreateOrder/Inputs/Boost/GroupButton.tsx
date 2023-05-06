@@ -1,13 +1,15 @@
-import { Boost } from "@/types";
+import { Boost, BoostFactor } from "@/types";
 import { Button } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   disabled: boolean;
-  groupButtonHandler: (item: number) => void;
+  groupButtonHandler: (item: BoostFactor) => void;
+  price: string;
+  factor: BoostFactor;
 }
 
-const buttons: Boost[] = [
+const boosts: readonly Boost[] = [
   { text: "no boost", factor: 0 },
   { text: "slow", factor: 0.4 },
   { text: "normal", factor: 0.7 },
@@ -16,14 +18,23 @@ const buttons: Boost[] = [
 
 const BoostGroupButton: React.FC<Props> = ({
   disabled,
+  factor,
   groupButtonHandler,
+  price,
 }) => {
+  const [active, setActive] = useState<Boost>(boosts[0]);
+
   useEffect(() => {
-    if (disabled === false) {
-      // setActive(0)
-      groupButtonHandler(0);
-    }
-  }, [disabled]);
+    setActive(boosts[0]);
+    groupButtonHandler(0);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price]);
+
+  useEffect(() => {
+    const boost = boosts.find((item) => item.factor === factor);
+    if (boost) setActive(boost);
+  }, [factor]);
 
   return (
     <div
@@ -34,10 +45,12 @@ const BoostGroupButton: React.FC<Props> = ({
         borderRadius: "0px 0px 5px 5px",
       }}
     >
-      {buttons.map((item, i) => {
+      {boosts.map((item, i) => {
         const isFirstEl = i === 0;
-        const isLastEl = i === buttons.length - 1;
-        const isBeforeLastEl = i < buttons.length - 1;
+        const isLastEl = i === boosts.length - 1;
+        const isBeforeLastEl = i < boosts.length - 1;
+        const isActive = active.factor === item.factor;
+
         return (
           <Button
             variant="contained"
@@ -49,12 +62,16 @@ const BoostGroupButton: React.FC<Props> = ({
               borderRadius: `${isFirstEl ? "5px" : 0} ${isLastEl ? "5px" : 0} ${
                 isLastEl ? "5px" : 0
               } ${isFirstEl ? "5px" : 0}`,
-              backgroundColor: theme.palette.background.default,
+              backgroundColor: isActive
+                ? theme.palette.success.main
+                : theme.palette.background.default,
               borderRight: isBeforeLastEl
                 ? `1px solid ${theme.palette.background.paper}`
                 : 0,
               "&:hover": {
-                backgroundColor: theme.palette.background.default,
+                backgroundColor: isActive
+                  ? theme.palette.success.main
+                  : theme.palette.background.default,
               },
               padding: "5px",
               width: "100%",

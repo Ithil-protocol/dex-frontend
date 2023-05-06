@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useTokenBalance } from "@/hooks/account";
 import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
 import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
-import { LimitInputs } from "@/types";
+import { BoostFactor, LimitInputs } from "@/types";
 import { limitSchema } from "@/data/forms";
 import { useConvertBuyLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
@@ -134,6 +134,12 @@ const LimitBuy: React.FC<Props> = () => {
           <Price control={control} endLabel={pair.accountingLabel} />
 
           <Boost
+            factor={
+              formValues.boost
+                ? ((Number(formValues.boost) / maxBoost) as BoostFactor)
+                : 0
+            }
+            price={formValues.price || ""}
             groupButtonDisabled={maxBoostLoading}
             groupButtonHandler={boostGroupButtonHandler}
             boost={Number(formValues.boost || 0)}
