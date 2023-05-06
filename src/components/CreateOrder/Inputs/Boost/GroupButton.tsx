@@ -1,5 +1,5 @@
 import { Boost, BoostFactor } from "@/types";
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -23,6 +23,7 @@ const BoostGroupButton: React.FC<Props> = ({
   price,
 }) => {
   const [active, setActive] = useState<Boost>(boosts[0]);
+  const theme = useTheme();
 
   useEffect(() => {
     setActive(boosts[0]);
@@ -50,6 +51,13 @@ const BoostGroupButton: React.FC<Props> = ({
         const isLastEl = i === boosts.length - 1;
         const isBeforeLastEl = i < boosts.length - 1;
         const isActive = active.factor === item.factor;
+        const isNoBoost = active.factor === boosts[0].factor;
+
+        const backgroundColor = isActive
+          ? isNoBoost
+            ? theme.palette.error.main
+            : theme.palette.success.main
+          : theme.palette.background.default;
 
         return (
           <Button
@@ -62,16 +70,12 @@ const BoostGroupButton: React.FC<Props> = ({
               borderRadius: `${isFirstEl ? "5px" : 0} ${isLastEl ? "5px" : 0} ${
                 isLastEl ? "5px" : 0
               } ${isFirstEl ? "5px" : 0}`,
-              backgroundColor: isActive
-                ? theme.palette.success.main
-                : theme.palette.background.default,
+              backgroundColor,
               borderRight: isBeforeLastEl
                 ? `1px solid ${theme.palette.background.paper}`
                 : 0,
               "&:hover": {
-                backgroundColor: isActive
-                  ? theme.palette.success.main
-                  : theme.palette.background.default,
+                backgroundColor,
               },
               padding: "5px",
               width: "100%",
