@@ -9,6 +9,7 @@ import {
 } from "@/hooks/contracts/token";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { Pool, Token } from "@/types";
+import { fixPrecision } from "@/utility/converters";
 
 interface AllowanceProps {
   amount: string | undefined;
@@ -31,10 +32,10 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   //     Number(utils.formatUnits(allowanceValue, token.decimals))
   //   );
   const currentAllowance = allowanceValue
-    ? utils.formatUnits(allowanceValue, token.decimals)
-    : "0";
+    ? Number(utils.formatUnits(allowanceValue, token.decimals))
+    : 0;
 
-  const needAllowance = Number(currentAllowance) < Number(amount);
+  const needAllowance = currentAllowance < Number(amount);
 
   const { config } = usePrepareTokenApprove({
     address: token.address,
@@ -77,6 +78,6 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     write,
     isApproved,
     isLoading: writeLoading || waitLoading,
-    currentAllowance,
+    currentAllowance: fixPrecision(currentAllowance, token.displayPrecision),
   };
 };
