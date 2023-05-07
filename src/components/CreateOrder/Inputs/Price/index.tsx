@@ -1,7 +1,7 @@
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import { Control } from "react-hook-form";
-import PriceLabel from "./Label";
-import PriceTextField from "./TextField";
+import Label from "./Label";
+import TextField from "./TextField";
 
 interface Props {
   endLabel: string;
@@ -11,8 +11,8 @@ interface Props {
 const Price: React.FC<Props> = (props) => {
   return (
     <FormGroup>
-      <PriceLabel />
-      <PriceTextField control={props.control} endLabel={props.endLabel} />
+      <Label />
+      <TextField control={props.control} endLabel={props.endLabel} />
     </FormGroup>
   );
 };

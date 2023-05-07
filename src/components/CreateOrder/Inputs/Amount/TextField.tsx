@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { InputAdornment, TextField as MuiTextField } from "@mui/material";
 import { getDecimalRegex } from "@/data/regex";
 import { useController } from "react-hook-form";
 import { usePoolStore } from "@/store";
@@ -7,7 +7,7 @@ interface Props {
   control: any;
 }
 
-const AmountTextField: React.FC<Props> = (props) => {
+const TextField: React.FC<Props> = (props) => {
   const {
     field: { ref, onChange, ...inputProps },
     fieldState: { error },
@@ -19,7 +19,7 @@ const AmountTextField: React.FC<Props> = (props) => {
   const pair = usePoolStore((state) => state.pair);
 
   return (
-    <TextField
+    <MuiTextField
       {...inputProps}
       onChange={(event) => {
         const { value } = event.target;
@@ -55,4 +55,4 @@ const AmountTextField: React.FC<Props> = (props) => {
   );
 };
 
-export default AmountTextField;
+export default TextField;

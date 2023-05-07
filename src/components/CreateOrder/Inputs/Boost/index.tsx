@@ -1,6 +1,6 @@
-import BoostLabel from "./Label";
+import Label from "./Label";
 import { FormGroup } from "@mui/material";
-import BoostGroupButton from "./GroupButton";
+import GroupButton from "./GroupButton";
 import { BoostFactor } from "@/types";
 
 interface Props {
@@ -16,8 +16,8 @@ const Boost: React.FC<Props> = ({
 }) => {
   return (
     <FormGroup>
-      <BoostLabel boost={boost} />
-      <BoostGroupButton
+      <Label boost={boost} />
+      <GroupButton
         disabled={groupButtonDisabled}
         groupButtonHandler={groupButtonHandler}
       />

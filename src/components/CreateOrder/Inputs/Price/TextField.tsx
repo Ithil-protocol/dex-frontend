@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField as MuiTextField } from "@mui/material";
 import { getDecimalRegex } from "@/data/regex";
 import { Control, useController } from "react-hook-form";
 import { usePoolStore } from "@/store";
@@ -8,7 +8,7 @@ interface Props {
   control: Control<any, any>;
 }
 
-const PriceTextField: React.FC<Props> = (props) => {
+const TextField: React.FC<Props> = (props) => {
   const {
     field: { ref, onChange, ...inputProps },
     fieldState: { error },
@@ -20,7 +20,7 @@ const PriceTextField: React.FC<Props> = (props) => {
 
   const defaultPool = usePoolStore((state) => state.default);
   return (
-    <TextField
+    <MuiTextField
       {...inputProps}
       onChange={(event) => {
         const { value } = event.target;
@@ -47,4 +47,4 @@ const PriceTextField: React.FC<Props> = (props) => {
   );
 };
 
-export default PriceTextField;
+export default TextField;

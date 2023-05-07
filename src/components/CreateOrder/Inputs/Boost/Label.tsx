@@ -5,7 +5,7 @@ interface Props {
   boost: number;
 }
 
-const BoostLabel: React.FC<Props> = ({ boost }) => {
+const Label: React.FC<Props> = ({ boost }) => {
   return (
     <WrapperInputLabel
       endLabel={`${fixPrecision(boost, 6)} ETH`}
@@ -16,4 +16,4 @@ const BoostLabel: React.FC<Props> = ({ boost }) => {
   );
 };
 
-export default BoostLabel;
+export default Label;

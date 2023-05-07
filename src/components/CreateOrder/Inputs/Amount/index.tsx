@@ -1,7 +1,7 @@
 import { Box, FormGroup } from "@mui/material";
 import { Control } from "react-hook-form";
-import AmountGroupButton from "./GroupButton";
-import AmountTextField from "./TextField";
+import GroupButton from "./GroupButton";
+import TextField from "./TextField";
 import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
 
 interface Props {
@@ -35,8 +35,8 @@ const Amount: React.FC<Props> = ({
           backgroundColor: theme.palette.background.default,
         })}
       >
-        <AmountTextField control={control} />
-        <AmountGroupButton
+        <TextField control={control} />
+        <GroupButton
           disabled={groupButtonDisabled}
           groupButtonHandler={groupButtonHandler}
         />
