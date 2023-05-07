@@ -1,4 +1,4 @@
-import MarketTradesTable from "./Table";
+import Table from "./Table";
 import InfoTooltip from "@/components/Common/InfoTooltip";
 import { Box } from "@mui/material";
 
@@ -26,7 +26,7 @@ const MarketTrades = () => {
         <InfoTooltip title="All the trades happening" />
       </div>
 
-      <MarketTradesTable />
+      <Table />
     </Box>
   );
 };
