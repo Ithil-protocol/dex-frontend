@@ -45,7 +45,7 @@ function PoolsSelect() {
           inputProps={{
             ...params.inputProps,
             style: { color: theme.palette.text.primary },
-            autoComplete: "new-password", // disable autocomplete and autofill
+            autoComplete: "new-password",
           }}
         />
       )}

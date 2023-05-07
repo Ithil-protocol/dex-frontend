@@ -103,7 +103,6 @@ export const useConvertSellMarketArgs = ({
     watch: true,
   });
 
-  // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
   const convertedAmount = highestPrice
     ? Number(utils.formatUnits(highestPrice, underlyingDecimals)) *
       Number(amount) *
@@ -156,8 +155,6 @@ export const useConvertBuyMarketArgs = ({
 }: ConvertMarketArgsProps) => {
   const underlyingDecimals = pool.underlying.decimals;
   const accountingDecimals = pool.accounting.decimals;
-
-  //here final amount is equal to inputAmount with respected decimals (underlying decimals)
 
   const finalAmount = utils.parseUnits(
     Number(amount).toFixed(underlyingDecimals),

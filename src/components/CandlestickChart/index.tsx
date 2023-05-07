@@ -1,7 +1,6 @@
-import { Box, Link, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
 import { usePoolStore } from "@/store";
-import styles from "./CandlestickChart.module.scss";
 const AdvancedRealTimeChartNoSSR = dynamic(
   () =>
     import("react-ts-tradingview-widgets").then((w) => w.AdvancedRealTimeChart),

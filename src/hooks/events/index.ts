@@ -161,26 +161,6 @@ export const useUserOrderCreatedEvents = () => {
   return useQuery(["userOrderCreatedEvent", address, poolAddress], getEvents);
 };
 
-// export const useAllOrderCreatedEvents = () => {
-
-//   const {address:poolAddress} = usePoolStore(state=>state.default);
-
-//   const buyContract = useBuyContract();
-//   const sellContract = useSellContract();
-
-//   const getEvents = async () => {
-//     let results: Event[] = [];
-//     if (buyContract && sellContract) {
-//       const sellEvents = await sellContract.queryFilter("OrderCreated");
-//       const buyEvents = await buyContract.queryFilter("OrderCreated");
-//       results = [...sellEvents, ...buyEvents];
-//     }
-//     return results;
-//   };
-
-//   return useQuery(["allOrderCreatedEvent",poolAddress], getEvents);
-// };
-
 export const useUserOrderCancelledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
 

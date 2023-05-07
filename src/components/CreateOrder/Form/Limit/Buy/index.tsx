@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useTokenBalance } from "@/hooks/account";
 import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
 import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
-import { BoostFactor, LimitInputs } from "@/types";
+import { LimitInputs } from "@/types";
 import { limitSchema } from "@/data/forms";
 import { useConvertBuyLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";

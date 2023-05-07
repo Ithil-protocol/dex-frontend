@@ -46,7 +46,6 @@ export const useCancelOrder = ({
     onSuccess: () => changeOrderStatus("canceling"),
   });
 
-  // const { data: waitedData } =
   useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {

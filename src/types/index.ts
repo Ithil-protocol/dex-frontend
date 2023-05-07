@@ -108,7 +108,6 @@ export interface PoolState {
 }
 
 export interface OrderBook {
-  // originalPrice: BigNumber;
   value: BigNumber;
   volume: BigNumber;
   type: "buy" | "sell";
@@ -158,8 +157,6 @@ export type CustomContractConfig = ({
 } & {
   chainId?: number | undefined;
 })[];
-
-// Form Type
 
 export interface LimitInputs {
   price: string;

@@ -25,12 +25,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
     enabled: !!address,
     watch: true,
   });
-  // allowanceValue &&
-  //   console.log(
-  //     "allowance:",
-  //     token.address,
-  //     Number(utils.formatUnits(allowanceValue, token.decimals))
-  //   );
+
   const currentAllowance = allowanceValue
     ? Number(utils.formatUnits(allowanceValue, token.decimals))
     : 0;

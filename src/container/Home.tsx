@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import styles from "@/styles/home.module.scss";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSignedIn } from "@/hooks/useSignedIn";

@@ -45,7 +45,8 @@ const Factory: React.FC<Props> = () => {
   const { data: writeData, write } = useFactoryCreatePool({
     ...config,
   });
-  const { data: waitedData } = useWaitForTransaction({
+
+  useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -56,7 +57,6 @@ const Factory: React.FC<Props> = () => {
       );
     },
   });
-  console.log("create", waitedData);
 
   const handleFormSubmit = (e) => {
     console.log(e);

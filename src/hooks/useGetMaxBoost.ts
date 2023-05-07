@@ -1,8 +1,6 @@
 import { BigNumber, utils } from "ethers";
 import { usePoolGetOrder } from "./contracts/pool";
 import { constants } from "ethers";
-import { useStakedConverter } from "./converters";
-import { fixPrecision } from "@/utility/converters";
 import { useEffect, useState } from "react";
 
 interface GetMaxBoostProps {
@@ -21,10 +19,11 @@ export const useGetMaxBoost = ({
   price,
 }: GetMaxBoostProps) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const priceInString = price.toString();
   useEffect(() => {
     setIsLoading(true);
-    console.log("2");
-  }, [price.toString(), setIsLoading]);
+  }, [priceInString, setIsLoading]);
   const { data: orderZero } = usePoolGetOrder({
     address: poolAddress,
     args: [actualPrice, constants.Zero],
@@ -34,7 +33,6 @@ export const useGetMaxBoost = ({
     args: [actualPrice, orderZero?.next as BigNumber],
     enabled: !!orderZero,
     onSuccess: () => {
-      console.log("1");
       setIsLoading(false);
     },
   });

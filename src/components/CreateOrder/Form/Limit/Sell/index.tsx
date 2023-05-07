@@ -111,8 +111,6 @@ const LimitSell: React.FC<Props> = () => {
     [setValue, maxBoost]
   );
 
-  console.log("form.factor", formValues.boost);
-
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>

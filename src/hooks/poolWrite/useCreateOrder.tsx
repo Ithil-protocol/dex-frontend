@@ -43,10 +43,6 @@ export const useCreateOrder = ({
       value: boost,
     },
     enabled: !amount.isZero() && !price.isZero() && !!address,
-    onError: (_error) => {
-      // toast.error(error.message.substring(0, 200));
-    },
-    // onSuccess(...args) {},
   });
 
   const createPendingOrder = useCreatePendingOrder({
