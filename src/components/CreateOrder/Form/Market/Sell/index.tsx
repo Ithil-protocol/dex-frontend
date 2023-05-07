@@ -15,9 +15,7 @@ import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import MarketSellConfirmation from "@/components/CreateOrder/Confirmation/MarketSellConfirmation";
 
-interface Props {}
-
-const MarketSell: React.FC<Props> = () => {
+const MarketSell = () => {
   const [open, setOpen] = useState(false);
 
   const {
@@ -107,7 +105,7 @@ const MarketSell: React.FC<Props> = () => {
             padding: "5px",
           }}
         >
-          <MarketAmount
+          <MarketAmount<MarketInputs>
             availableLabel={availableLabel}
             control={control}
             groupButtonDisabled={groupButtonDisabled}
@@ -115,10 +113,7 @@ const MarketSell: React.FC<Props> = () => {
           />
 
           <Total total={total} label={pair.accountingLabel} />
-          {/* <Info
-            isRendered={isAmountOut}
-            text="Slippage is too high!"
-          /> */}
+
           <Info
             isRendered={!isApproved}
             color="warning"

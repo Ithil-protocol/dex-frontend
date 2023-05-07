@@ -6,7 +6,7 @@ import {
 } from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
-import { Pool } from "@/types";
+import { BigNumberValue, Pool } from "@/types";
 import { usePoolStore } from "@/store";
 import { useChangeOrderStatus } from "../utils/useChangeOrderStatus";
 
@@ -27,13 +27,13 @@ export const useCancelOrder = ({
   const { address: poolAddress } = usePoolStore((state) => state.default);
 
   const { config } = usePreparePoolCancelOrder({
-    address: pool.address as `0x${string}`,
-    args: [index as BigNumber, price],
+    address: pool.address,
+    args: [index, price],
     cacheTime: 0,
   });
 
   const changeOrderStatus = useChangeOrderStatus(
-    address as string,
+    address as BigNumberValue,
     poolAddress,
     transactionHash
   );

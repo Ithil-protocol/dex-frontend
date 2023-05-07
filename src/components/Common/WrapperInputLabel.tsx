@@ -6,7 +6,6 @@ interface Props {
   label: string;
   endLabel?: string;
   tooltip: string;
-  [prop: string]: any;
   Currency?: React.ReactNode;
 }
 

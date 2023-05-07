@@ -1,21 +1,27 @@
 import { TextField as MuiTextField } from "@mui/material";
 import { getDecimalRegex } from "@/data/regex";
-import { Control, useController } from "react-hook-form";
+import {
+  Control,
+  FieldValues,
+  Path,
+  PathValue,
+  useController,
+} from "react-hook-form";
 import { usePoolStore } from "@/store";
 
-interface Props {
+interface Props<T extends FieldValues> {
   endLabel: string;
-  control: Control<any, any>;
+  control: Control<T>;
 }
 
-const TextField: React.FC<Props> = (props) => {
+function TextField<FieldValue extends FieldValues>(props: Props<FieldValue>) {
   const {
     field: { ref, onChange, ...inputProps },
     fieldState: { error },
   } = useController({
     control: props.control,
-    defaultValue: "",
-    name: "price",
+    defaultValue: "" as PathValue<FieldValue, Path<FieldValue>>,
+    name: "price" as Path<FieldValue>,
   });
 
   const defaultPool = usePoolStore((state) => state.default);
@@ -45,6 +51,6 @@ const TextField: React.FC<Props> = (props) => {
       required
     />
   );
-};
+}
 
 export default TextField;

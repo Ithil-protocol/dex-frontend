@@ -8,6 +8,7 @@ import {
 } from "abitype";
 import { BigNumber } from "ethers";
 import { poolABI } from "@/hooks/contracts/pool";
+import theme from "@/styles/theme";
 
 export type CustomInputEvent = React.ChangeEvent<
   HTMLTextAreaElement | HTMLInputElement
@@ -61,10 +62,6 @@ export interface MarketEvent {
   amount: number;
   side: Side;
   timestamp: number;
-}
-
-export interface StringMap {
-  [prop: string]: any;
 }
 
 export interface Token {
@@ -172,14 +169,12 @@ export interface MarketInputs {
   amount: string;
 }
 
-export type ThemeColor =
-  | "error"
-  | "success"
-  | "inherit"
-  | "info"
-  | "primary"
-  | "secondary"
-  | "warning";
+export type ThemeColor = Extract<
+  PaletteKey,
+  "error" | "success" | "inherit" | "info" | "primary" | "secondary" | "warning"
+>;
+
+export type PaletteKey = keyof typeof theme.palette;
 
 export interface LimitFinalValues {
   amount: BigNumber;
@@ -207,3 +202,5 @@ export interface MarketBuyFinalValues {
   pool: Pool;
   totalToPay: number;
 }
+
+export type BigNumberValue = `0x${string}`;

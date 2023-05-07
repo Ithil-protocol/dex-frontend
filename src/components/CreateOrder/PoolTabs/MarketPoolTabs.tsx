@@ -6,9 +6,7 @@ import Tabs from "@mui/material/Tabs";
 import MarketBuy from "@/components/CreateOrder/Form/Market/Buy";
 import MarketSell from "@/components/CreateOrder/Form/Market/Sell";
 
-interface Props {}
-
-const MarketPoolTabs: React.FC<Props> = () => {
+const MarketPoolTabs = () => {
   const theme = useTheme();
 
   const [side, updateSide, type] = usePoolStore((store) => [

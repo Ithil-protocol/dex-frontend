@@ -2,28 +2,28 @@
 import { LoadingButton } from "@mui/lab";
 import { CircularProgress, Theme } from "@mui/material";
 
-import { Control, useWatch } from "react-hook-form";
+import { Control, FieldValues, useWatch } from "react-hook-form";
 import { Side } from "@/types";
 
-interface Props {
-  control: Control<any, any>;
-  write: (() => void) | undefined;
+interface Props<T extends FieldValues> {
+  control: Control<T>;
+  isApproved: boolean;
   isLoading: boolean;
   isMarket?: boolean;
   side: Side;
-  isApproved: boolean;
   submitContent: string;
+  write: (() => void) | undefined;
 }
 
-const Submit: React.FC<Props> = ({
+function Submit<FieldValue extends FieldValues>({
   control,
-  write,
+  isApproved,
   isLoading,
   isMarket = false,
   side,
-  isApproved,
   submitContent,
-}) => {
+  write,
+}: Props<FieldValue>) {
   const formValues = useWatch({ control });
   const approved = () => {
     if (!!write === false && isApproved === false) {
@@ -69,6 +69,6 @@ const Submit: React.FC<Props> = ({
       {!isApproved ? "Approve first" : submitContent}
     </LoadingButton>
   );
-};
+}
 
 export default Submit;

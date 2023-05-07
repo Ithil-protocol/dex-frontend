@@ -18,9 +18,7 @@ import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfir
 import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
 import Boost from "@/components/CreateOrder/Inputs/Boost";
 
-interface Props {}
-
-const LimitBuy: React.FC<Props> = () => {
+const LimitBuy = () => {
   const [open, setOpen] = useState(false);
   const { control, handleSubmit, setValue } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),

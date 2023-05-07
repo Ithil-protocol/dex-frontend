@@ -1,22 +1,22 @@
 import { Box, FormGroup } from "@mui/material";
-import { Control } from "react-hook-form";
+import { Control, FieldValues } from "react-hook-form";
 import GroupButton from "./GroupButton";
 import TextField from "./TextField";
 import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
 
-interface Props {
-  control: Control<any, any>;
+interface Props<T extends FieldValues> {
+  control: Control<T>;
   groupButtonHandler: (item: number) => void;
   groupButtonDisabled: boolean;
   availableLabel: string;
 }
 
-const Amount: React.FC<Props> = ({
+function Amount<FieldValue extends FieldValues>({
   availableLabel,
   control,
   groupButtonDisabled,
   groupButtonHandler,
-}) => {
+}: Props<FieldValue>) {
   return (
     <FormGroup>
       <WrapperInputLabel
@@ -43,6 +43,6 @@ const Amount: React.FC<Props> = ({
       </Box>
     </FormGroup>
   );
-};
+}
 
 export default Amount;

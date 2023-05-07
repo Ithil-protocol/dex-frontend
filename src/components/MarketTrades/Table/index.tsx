@@ -5,9 +5,7 @@ import Body from "./Body";
 import Head from "./Head";
 import { usePoolStore } from "@/store";
 
-interface Props {}
-
-const Table: React.FC<Props> = () => {
+const Table = () => {
   const pair = usePoolStore((state) => state.pair);
 
   const heads = [
