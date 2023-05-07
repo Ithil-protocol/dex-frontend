@@ -66,7 +66,7 @@ export interface MarketEvent {
 
 export interface Token {
   icon: any;
-  address: `0x${string}`;
+  address: BigNumberValue;
   decimals: number;
   displayPrecision: number;
 }
@@ -74,7 +74,7 @@ export interface Token {
 export interface Pool {
   underlying: Token;
   accounting: Token;
-  address: `0x${string}`;
+  address: BigNumberValue;
 }
 
 export type Side = "sell" | "buy";
@@ -134,7 +134,7 @@ export type ContractInputs =
                 AbiFunction | AbiEvent | AbiError | AbiConstructor
               >[]
             | undefined;
-          address?: `0x${string}` | undefined;
+          address?: BigNumberValue | undefined;
           functionName?: string | undefined;
           args?: readonly unknown[] | undefined;
           chainId?: number | undefined;
@@ -147,7 +147,7 @@ type FuncName = Extract<(typeof poolABI)[number], { type: "function" }>["name"];
 
 export type CustomContractConfig = ({
   abi: typeof poolABI;
-  address: `0x${string}`;
+  address: BigNumberValue;
   functionName: FuncName;
 } & {
   args?: readonly unknown[] | undefined;

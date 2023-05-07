@@ -2,9 +2,10 @@ import { BigNumber, utils } from "ethers";
 import { usePoolGetOrder } from "./contracts/pool";
 import { constants } from "ethers";
 import { useEffect, useState } from "react";
+import { BigNumberValue } from "@/types";
 
 interface GetMaxBoostProps {
-  poolAddress: `0x${string}`;
+  poolAddress: BigNumberValue;
   actualPrice: BigNumber;
   price: BigNumber;
 }
