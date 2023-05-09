@@ -2,6 +2,7 @@ import { Pool } from "@/types";
 import { BigNumber, constants, utils } from "ethers";
 import {
   usePoolGetNextPriceLevel,
+  usePoolPreviewOrder,
   usePoolPreviewTake,
 } from "@/hooks/contracts/pool";
 import { appConfig } from "@/config";
@@ -12,7 +13,7 @@ interface ConvertLimitArgsProps {
   boost: string | undefined;
   pool: Pool;
 }
-export const convertBuyLimitArgs = ({
+export const useConvertBuyLimitArgs = ({
   amount = "0",
   price = "0",
   boost = "0",
@@ -29,10 +30,26 @@ export const convertBuyLimitArgs = ({
     decimals
   );
   const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
-  return { amount: finalAmount, price: finalPrice, boost: finalBoost, pool };
+  const { data: preview } = usePoolPreviewOrder({
+    address: pool.address,
+    args: [finalPrice, finalBoost],
+    watch: true,
+  });
+  const actualPrice = preview?.actualPrice ?? constants.Zero;
+  const position = preview?.position ?? constants.Zero;
+  const cumulativeUndAmount = preview?.cumulativeUndAmount ?? constants.Zero;
+  return {
+    amount: finalAmount,
+    price: finalPrice,
+    boost: finalBoost,
+    pool,
+    actualPrice,
+    position,
+    cumulativeUndAmount,
+  };
 };
 
-export const convertSellLimitArgs = ({
+export const useConvertSellLimitArgs = ({
   amount = "0",
   price = "0",
   boost = "0",
@@ -49,7 +66,23 @@ export const convertSellLimitArgs = ({
     decimals
   );
   const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
-  return { amount: finalAmount, price: finalPrice, boost: finalBoost, pool };
+  const { data: preview } = usePoolPreviewOrder({
+    address: pool.address,
+    args: [finalPrice, finalBoost],
+    watch: true,
+  });
+  const actualPrice = preview?.actualPrice ?? constants.Zero;
+  const position = preview?.position ?? constants.Zero;
+  const cumulativeUndAmount = preview?.cumulativeUndAmount ?? constants.Zero;
+  return {
+    amount: finalAmount,
+    price: finalPrice,
+    boost: finalBoost,
+    pool,
+    actualPrice,
+    position,
+    cumulativeUndAmount,
+  };
 };
 
 interface ConvertMarketArgsProps {

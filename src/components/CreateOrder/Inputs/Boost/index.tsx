@@ -1,28 +1,25 @@
-import { useState } from "react";
-import { Control } from "react-hook-form";
 import BoostLabel from "./Label";
-import BoostTextField from "./TextField";
 import { FormGroup } from "@mui/material";
+import BoostGroupButton from "./GroupButton";
+import { BoostFactor } from "@/types";
 
 interface Props {
-  control: Control<any, any>;
+  groupButtonHandler: (item: BoostFactor) => void;
+  groupButtonDisabled: boolean;
+  boost: number;
 }
 
-const Boost: React.FC<Props> = ({ control }) => {
-  const [boost, setBoost] = useState(0);
-
+const Boost: React.FC<Props> = ({
+  groupButtonDisabled,
+  groupButtonHandler,
+  boost,
+}) => {
   return (
     <FormGroup>
       <BoostLabel boost={boost} />
-
-      <BoostTextField
-        onMaxClick={() => {
-          setBoost(0.1);
-        }}
-        control={control}
-        onBoostChange={(event: any) => {
-          setBoost(event.target.value);
-        }}
+      <BoostGroupButton
+        disabled={groupButtonDisabled}
+        groupButtonHandler={groupButtonHandler}
       />
     </FormGroup>
   );

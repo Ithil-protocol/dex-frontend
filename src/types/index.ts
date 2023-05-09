@@ -21,6 +21,13 @@ export type Status =
   | "open"
   | "pending";
 
+export type BoostFactor = 0 | 0.4 | 0.7 | 1;
+export type BoostName = "no boost" | "slow" | "normal" | "fast";
+export interface Boost {
+  text: BoostName;
+  factor: BoostFactor;
+}
+
 export interface HistoryEvent {
   amount: number;
   price: number;
@@ -182,6 +189,9 @@ export interface LimitFinalValues {
   price: BigNumber;
   boost: BigNumber;
   pool: Pool;
+  actualPrice: BigNumber;
+  position: BigNumber;
+  cumulativeUndAmount: BigNumber;
 }
 
 export interface MarketSellFinalValues {

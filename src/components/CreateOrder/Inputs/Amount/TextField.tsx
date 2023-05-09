@@ -1,5 +1,5 @@
 import { InputAdornment, TextField } from "@mui/material";
-import { decimalRegex, getDecimalRegex } from "@/data/regex";
+import { getDecimalRegex } from "@/data/regex";
 import { useController } from "react-hook-form";
 import { usePoolStore } from "@/store";
 
@@ -7,7 +7,7 @@ interface Props {
   control: any;
 }
 
-const LimitAmountTextField: React.FC<Props> = (props) => {
+const AmountTextField: React.FC<Props> = (props) => {
   const {
     field: { ref, onChange, ...inputProps },
     fieldState: { error },
@@ -55,4 +55,4 @@ const LimitAmountTextField: React.FC<Props> = (props) => {
   );
 };
 
-export default LimitAmountTextField;
+export default AmountTextField;

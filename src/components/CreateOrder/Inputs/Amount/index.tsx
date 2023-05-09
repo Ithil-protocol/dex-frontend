@@ -1,7 +1,7 @@
 import { Box, FormGroup } from "@mui/material";
 import { Control } from "react-hook-form";
-import LimitAmountGroupButton from "./GroupButton";
-import LimitAmountTextField from "./TextField";
+import AmountGroupButton from "./GroupButton";
+import AmountTextField from "./TextField";
 import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
 
 interface Props {
@@ -11,10 +11,10 @@ interface Props {
   availableLabel: string;
 }
 
-const LimitAmount: React.FC<Props> = ({
+const Amount: React.FC<Props> = ({
   availableLabel,
   control,
-  groupButtonDisabled: disabled,
+  groupButtonDisabled,
   groupButtonHandler,
 }) => {
   return (
@@ -32,11 +32,12 @@ const LimitAmount: React.FC<Props> = ({
           },
           border: "2px solid transparent",
           borderRadius: "5px",
+          backgroundColor: theme.palette.background.default,
         })}
       >
-        <LimitAmountTextField control={control} />
-        <LimitAmountGroupButton
-          disabled={disabled}
+        <AmountTextField control={control} />
+        <AmountGroupButton
+          disabled={groupButtonDisabled}
           groupButtonHandler={groupButtonHandler}
         />
       </Box>
@@ -44,4 +45,4 @@ const LimitAmount: React.FC<Props> = ({
   );
 };
 
-export default LimitAmount;
+export default Amount;

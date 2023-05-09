@@ -1,21 +1,22 @@
 import { useForm, useWatch } from "react-hook-form";
 import { usePoolStore } from "@/store";
-import Boost from "@/components/CreateOrder/Inputs/Boost";
 import Price from "@/components/CreateOrder/Inputs/Price";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "@/hooks/account";
 import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
 import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
-import { LimitInputs } from "@/types";
+import { BoostFactor, LimitInputs } from "@/types";
 import { limitSchema } from "@/data/forms";
-import { convertBuyLimitArgs } from "@/components/CreateOrder/utils";
+import { useConvertBuyLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Total from "@/components/CreateOrder/Inputs/Total";
 import Submit from "@/components/CreateOrder/Inputs/Submit";
 import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
+import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
+import Boost from "@/components/CreateOrder/Inputs/Boost";
 
 interface Props {}
 
@@ -33,7 +34,7 @@ const LimitBuy: React.FC<Props> = () => {
     state.buyPool,
   ]);
 
-  const finalValues = convertBuyLimitArgs({
+  const finalValues = useConvertBuyLimitArgs({
     amount: formValues.amount,
     price: formValues.price,
     boost: formValues.boost,
@@ -47,6 +48,9 @@ const LimitBuy: React.FC<Props> = () => {
     available,
     buyPool.underlying.displayPrecision
   )} ${pair.accountingLabel}`;
+
+  const isInsufficientFunds =
+    available < Number(formValues.amount || 0) * Number(formValues.price || 0);
 
   const {
     write,
@@ -70,7 +74,12 @@ const LimitBuy: React.FC<Props> = () => {
   const groupButtonDisabled =
     Number(formValues.price || 0) === 0 || available === 0;
 
-  const total = (
+  const total = fixPrecision(
+    Number(formValues.amount) * Number(formValues.price) || 0,
+    buyPool.underlying.displayPrecision
+  );
+
+  const totalAmount = (
     Number(formValues.amount) * Number(formValues.price) || 0
   ).toFixed(buyPool.underlying.decimals);
 
@@ -80,7 +89,7 @@ const LimitBuy: React.FC<Props> = () => {
     isApproved,
     currentAllowance,
   } = useAllowance({
-    amount: total,
+    amount: totalAmount,
     pool: buyPool,
     token: buyPool.underlying,
   });
@@ -98,6 +107,20 @@ const LimitBuy: React.FC<Props> = () => {
     setOpen(false);
     resetCreate();
   };
+
+  const { maxBoost, isLoading: maxBoostLoading } = useGetMaxBoost({
+    actualPrice: finalValues.actualPrice,
+    poolAddress: finalValues.pool.address,
+    price: finalValues.price,
+  });
+
+  const boostGroupButtonHandler = useCallback(
+    (factor: number) => {
+      const boost = factor * maxBoost;
+      setValue("boost", boost.toString());
+    },
+    [setValue, maxBoost]
+  );
 
   return (
     <>
@@ -118,9 +141,18 @@ const LimitBuy: React.FC<Props> = () => {
           />
           <Price control={control} endLabel={pair.accountingLabel} />
 
-          <Boost control={control} />
+          <Boost
+            groupButtonDisabled={maxBoostLoading}
+            groupButtonHandler={boostGroupButtonHandler}
+            boost={Number(formValues.boost || 0)}
+          />
 
           <Total total={total} label={pair.accountingLabel} />
+          <Info
+            isRendered={isInsufficientFunds}
+            color="error"
+            text="insufficient funds..."
+          />
 
           <Info
             isRendered={!isApproved}

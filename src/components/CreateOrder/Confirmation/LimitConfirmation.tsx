@@ -49,12 +49,6 @@ const LimitConfirmation: React.FC<Props> = ({
 
   const converters = useGetConvertersBySide(side);
 
-  const { data: preview, isLoading: previewLoading } = usePoolPreviewOrder({
-    address: pool.address,
-    args: [finalValues.price, finalValues.boost],
-    watch: true,
-  });
-
   return (
     <Dialog open={open} onClose={modalCloseHandler} fullWidth maxWidth={"xs"}>
       <DialogTitle fontWeight={800} align="center">
@@ -63,39 +57,36 @@ const LimitConfirmation: React.FC<Props> = ({
       <Box display={"flex"} flexDirection={"column"} px={6} py={3} gap={1}>
         <RowContainer
           label={pair.accountingLabel}
-          isLoading={previewLoading}
+          isLoading={false}
           title="Actual Price"
         >
-          {preview && converters.priceConverter(preview.actualPrice)}
+          {converters.priceConverter(finalValues.actualPrice)}
         </RowContainer>
         <RowContainer
           label={pair.underlyingLabel}
-          isLoading={previewLoading}
+          isLoading={false}
           title="Amount"
         >
-          {preview &&
-            converters.amountConverter(finalValues.amount, preview.actualPrice)}
+          {converters.amountConverter(
+            finalValues.amount,
+            finalValues.actualPrice
+          )}
         </RowContainer>
-        <RowContainer
-          label={"ETH"}
-          isLoading={previewLoading}
-          title="Staked (Boost)"
-        >
+        <RowContainer label={"ETH"} isLoading={false} title="Staked (Boost)">
           {converters.stakedConverter(finalValues.boost)}
         </RowContainer>
-        <RowContainer isLoading={previewLoading} title="Orders before you">
-          {preview && preview.position.toNumber()}
+        <RowContainer isLoading={false} title="Orders before you">
+          {finalValues.position.toNumber()}
         </RowContainer>
         <RowContainer
           label={pair.underlyingLabel}
-          isLoading={previewLoading}
+          isLoading={false}
           title="Volume before you"
         >
-          {preview &&
-            converters.amountConverter(
-              preview.cumulativeUndAmount,
-              preview.actualPrice
-            )}
+          {converters.amountConverter(
+            finalValues.cumulativeUndAmount,
+            finalValues.actualPrice
+          )}
         </RowContainer>
 
         <TransactionResponse

@@ -1,6 +1,8 @@
 import { format } from "date-fns";
 import { Order, OrderObj } from "@/types";
 import { fixPrecision } from "./converters";
+import { icons } from "../../icons";
+import Generic from "cryptocurrency-icons/svg/icon/generic.svg";
 
 export const convertOrdersArrayToUniqueObj = (orders: Order[]) => {
   const obj: OrderObj = {};
@@ -74,4 +76,9 @@ export const formatDateToFullDate = (date: number) => {
 
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const getIcon = (key: string) => {
+  const icon = icons[key];
+  return icon || Generic;
 };
