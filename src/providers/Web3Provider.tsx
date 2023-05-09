@@ -23,6 +23,18 @@ const { chains, provider, webSocketProvider } = configureChains(
         webSocket: process.env.NEXT_PUBLIC_INFURA_WSS_ADDRESS as string,
       }),
     }),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_ALCHEMY_HTTP_ADDRESS as string,
+        webSocket: process.env.NEXT_PUBLIC_ALCHEMY_WSS_ADDRESS as string,
+      }),
+    }),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_BLOCKPI_HTTP_ADDRESS as string,
+        webSocket: process.env.NEXT_PUBLIC_BLOCKPI_WSS_ADDRESS as string,
+      }),
+    }),
   ]
 );
 

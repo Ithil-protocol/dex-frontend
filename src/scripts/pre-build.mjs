@@ -18,6 +18,16 @@ const { provider } = configureChains(
         http: process.env.NEXT_PUBLIC_INFURA_HTTP_ADDRESS
       }),
     }),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_ALCHEMY_HTTP_ADDRESS
+      }),
+    }),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_BLOCKPI_HTTP_ADDRESS
+      }),
+    }),
   ]
 );
 
