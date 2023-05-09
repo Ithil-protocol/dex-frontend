@@ -1,6 +1,6 @@
 import { Pair } from "@/types";
 import rawPools from "./pools.json";
-import { getIcon } from "@/../icons";
+import { getIcon } from "@/utility";
 
 export const pairs: Pair[] = rawPools.map((item, index) => ({
   ...item,

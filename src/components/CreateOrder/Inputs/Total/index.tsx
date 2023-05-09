@@ -2,15 +2,15 @@ import { Box } from "@mui/material";
 
 interface Props {
   label: string;
-  total: string;
+  total: number;
 }
 
 const Total: React.FC<Props> = ({ label, total }) => {
   return (
     <Box
       sx={(theme) => ({
-        borderRadius: "5px",
         backgroundColor: theme.palette.background.default,
+        borderRadius: "5px",
         display: "flex",
         gap: 1,
         justifyContent: "space-between",

@@ -1,7 +1,8 @@
-import { configureChains, createClient, goerli, erc20ABI } from "wagmi";
+import { configureChains, createClient, sepolia, erc20ABI } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { readContracts } from "wagmi";
 import fs from "fs";
 import { rawFactoryABI } from "../store/abi-raw.mjs";
@@ -10,11 +11,13 @@ import addresses from "../../pairs.json" assert { type: "json" };
 import { factoryAddress } from "../config/factory.mjs";
 
 const { provider } = configureChains(
-  [goerli],
+  [sepolia],
   [
-    alchemyProvider({ apiKey: "ZLR2ae9uziqXiA-4OM8RB13sqjuMRVHy" }),
-    infuraProvider({ apiKey: "40fc95ffa3e24163ab868f6f82e91969" }),
-    publicProvider(),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: "https://sepolia.infura.io/v3/4ea998a06d724fea9f24aac43c0aa7dc"
+      }),
+    }),
   ]
 );
 

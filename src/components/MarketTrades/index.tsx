@@ -11,6 +11,7 @@ const MarketTrades = () => {
         position: "sticky",
         top: 15,
         paddingBottom: "15px",
+        paddingInline: "5px",
       })}
     >
       <div

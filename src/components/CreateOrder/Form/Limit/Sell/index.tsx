@@ -4,18 +4,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTokenBalance } from "@/hooks/account";
 import { useAllowance, useCreateOrder } from "@/hooks/poolWrite";
-import { LimitInputs } from "@/types";
+import { BoostFactor, LimitInputs } from "@/types";
 import { limitSchema } from "@/data/forms";
-import { convertSellLimitArgs } from "@/components/CreateOrder/utils";
+import { useConvertSellLimitArgs } from "@/components/CreateOrder/utils";
 import { useCallback, useState } from "react";
 import Price from "@/components/CreateOrder/Inputs/Price";
-import Boost from "@/components/CreateOrder/Inputs/Boost";
 import Total from "@/components/CreateOrder/Inputs/Total";
 import Submit from "@/components/CreateOrder/Inputs/Submit";
 import LimitAmount from "@/components/CreateOrder/Inputs/Amount";
 import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfirmation";
+import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
+import Boost from "@/components/CreateOrder/Inputs/Boost";
 
 interface Props {}
 
@@ -33,7 +34,7 @@ const LimitSell: React.FC<Props> = () => {
     state.sellPool,
   ]);
 
-  const finalValues = convertSellLimitArgs({
+  const finalValues = useConvertSellLimitArgs({
     amount: formValues.amount,
     price: formValues.price,
     boost: formValues.boost,
@@ -46,6 +47,8 @@ const LimitSell: React.FC<Props> = () => {
     available,
     sellPool.underlying.displayPrecision
   )} ${pair.underlyingLabel}`;
+
+  const isInsufficientFunds = available < Number(formValues.amount || 0);
 
   const {
     write,
@@ -84,14 +87,31 @@ const LimitSell: React.FC<Props> = () => {
     [setValue, available]
   );
   const groupButtonDisabled = available === 0;
-  const total = (
-    Number(formValues.amount) * Number(formValues.price) || 0
-  ).toFixed(sellPool.accounting.decimals);
+  const total = fixPrecision(
+    Number(formValues.amount) * Number(formValues.price) || 0,
+    sellPool.accounting.displayPrecision
+  );
 
   const modalCloseHandler = () => {
     setOpen(false);
     resetCreate();
   };
+
+  const { maxBoost, isLoading: maxBoostLoading } = useGetMaxBoost({
+    actualPrice: finalValues.actualPrice,
+    poolAddress: finalValues.pool.address,
+    price: finalValues.price,
+  });
+
+  const boostGroupButtonHandler = useCallback(
+    (factor: BoostFactor) => {
+      const boost = factor * maxBoost;
+      setValue("boost", boost.toString());
+    },
+    [setValue, maxBoost]
+  );
+
+  console.log("form.factor", formValues.boost);
 
   return (
     <>
@@ -118,10 +138,19 @@ const LimitSell: React.FC<Props> = () => {
 
           <Price control={control} endLabel={pair.accountingLabel} />
 
-          <Boost control={control} />
+          <Boost
+            groupButtonDisabled={maxBoostLoading}
+            groupButtonHandler={boostGroupButtonHandler}
+            boost={Number(formValues.boost || 0)}
+          />
 
           <Total total={total} label={pair.accountingLabel} />
 
+          <Info
+            isRendered={isInsufficientFunds}
+            color="error"
+            text="insufficient funds..."
+          />
           <Submit
             submitContent={`Sell ${pair.underlyingLabel}`}
             side={side}
@@ -134,15 +163,15 @@ const LimitSell: React.FC<Props> = () => {
         </div>
       </form>
       <LimitConfirmation
-        finalValues={finalValues}
-        open={open}
-        write={write}
         createLoading={createLoading}
+        finalValues={finalValues}
         gasLoading={gasLoading}
+        modalCloseHandler={modalCloseHandler}
+        open={open}
         waitedData={waitedData}
         waitedError={waitedError}
         waitedSuccess={waitedSuccess}
-        modalCloseHandler={modalCloseHandler}
+        write={write}
       />
     </>
   );

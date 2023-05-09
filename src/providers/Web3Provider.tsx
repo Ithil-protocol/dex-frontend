@@ -4,7 +4,8 @@ import {
   midnightTheme,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { WagmiConfig, configureChains, createClient, goerli } from "wagmi";
+import { WagmiConfig, configureChains, createClient, sepolia } from "wagmi";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
@@ -14,11 +15,15 @@ interface Props {
 }
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [goerli],
+  [sepolia],
   [
-    alchemyProvider({ apiKey: "ZLR2ae9uziqXiA-4OM8RB13sqjuMRVHy" }),
-    infuraProvider({ apiKey: "40fc95ffa3e24163ab868f6f82e91969" }),
-    publicProvider(),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: "https://sepolia.infura.io/v3/4ea998a06d724fea9f24aac43c0aa7dc",
+        webSocket:
+          "wss://sepolia.infura.io/ws/v3/4ea998a06d724fea9f24aac43c0aa7dc",
+      }),
+    }),
   ]
 );
 

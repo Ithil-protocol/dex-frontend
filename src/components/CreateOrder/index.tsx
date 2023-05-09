@@ -24,7 +24,7 @@ const CreateOrder = () => {
       sx={(theme) => ({
         backgroundColor: theme.palette.background.paper,
         borderRadius: "5px",
-        height: 600,
+        height: 630,
         padding: "10px 5px 5px 5px",
         position: "sticky",
         top: 15,

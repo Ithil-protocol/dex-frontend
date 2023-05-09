@@ -1,4 +1,5 @@
 import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
+import { fixPrecision } from "@/utility/converters";
 
 interface Props {
   boost: number;
@@ -7,7 +8,7 @@ interface Props {
 const BoostLabel: React.FC<Props> = ({ boost }) => {
   return (
     <WrapperInputLabel
-      endLabel={`${boost} ETH`}
+      endLabel={`${fixPrecision(boost, 6)} ETH`}
       label="Boost"
       tooltip="Gain priority on the execution queue by adding an ETH stake to the order"
       htmlFor="boost"

@@ -60,7 +60,7 @@
 
 .candlestick {
   grid-area: candlestick;
-  min-height: 400px;
+  min-height: 470px;
   width: 100%;
 }
 
@@ -85,4 +85,6 @@
 
 .open {
   grid-area: open;
+  width: 100%;
+  overflow: hidden;
 }

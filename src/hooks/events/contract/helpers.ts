@@ -19,7 +19,7 @@ export const updateOrderFromPendingToOpen = (
 
       return prev.map((item) => {
         if (item.rawPrice.eq(price) && item.status === "pending") {
-          console.log("order found");
+          // console.log("order found");
 
           return {
             ...item,
@@ -27,7 +27,7 @@ export const updateOrderFromPendingToOpen = (
             index: orderIndex,
           };
         } else {
-          console.log("order not found");
+          // console.log("order not found");
           return item;
         }
       });

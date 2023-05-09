@@ -12,7 +12,7 @@ const AdvancedRealTimeChartNoSSR = dynamic(
 
 export const CandlestickChart = () => {
   const pair = usePoolStore((store) => store.pair);
-  const symbol = pair ? pair.underlyingLabel + pair.accountingLabel : "BTCUSDT";
+  const symbol = pair.underlyingLabel + pair.accountingLabel;
 
   return (
     <Box height={"100%"}>
@@ -23,6 +23,21 @@ export const CandlestickChart = () => {
         symbol={"UNISWAP3ARBITRUM:" + symbol}
         copyrightStyles={{ parent: { display: "none" } }}
       />
+      {/* <Typography
+        variant="caption"
+        className={styles.copyright}
+        fontSize="10px"
+      >
+        <Link
+          underline="none"
+          color={"#2196f3"}
+          href={`https://www.tradingview.com/symbols/UNISWAP3ARBITRUM:${symbol}`}
+          target={"_blank"}
+        >
+          {symbol} Chart
+        </Link>
+        <p>by TradingView</p>
+      </Typography> */}
     </Box>
   );
 };
