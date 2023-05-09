@@ -42,7 +42,7 @@
     "date-fns": "^2.30.0",
     "eslint-config-next": "13.3.4",
     "eslint-plugin-jsx-a11y": "^6.7.1",
-    "ethers": "^5",
+    "ethers": "5.7.2",
     "include-media": "^2.0.0",
     "lodash": "^4.17.21",
     "next": "13.3.4",
