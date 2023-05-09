@@ -14,17 +14,17 @@ const { provider } = configureChains(
   [sepolia],
   [
     jsonRpcProvider({
-      rpc: (chain) => ({
+      rpc: () => ({
         http: process.env.NEXT_PUBLIC_INFURA_HTTP_ADDRESS
       }),
     }),
     jsonRpcProvider({
-      rpc: (chain) => ({
+      rpc: () => ({
         http: process.env.NEXT_PUBLIC_ALCHEMY_HTTP_ADDRESS
       }),
     }),
     jsonRpcProvider({
-      rpc: (chain) => ({
+      rpc: () => ({
         http: process.env.NEXT_PUBLIC_BLOCKPI_HTTP_ADDRESS
       }),
     }),
