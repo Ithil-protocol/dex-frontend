@@ -15,7 +15,7 @@ const { provider } = configureChains(
   [
     jsonRpcProvider({
       rpc: (chain) => ({
-        http: "https://sepolia.infura.io/v3/4ea998a06d724fea9f24aac43c0aa7dc"
+        http: process.env.NEXT_PUBLIC_INFURA_HTTP_ADDRESS
       }),
     }),
   ]
