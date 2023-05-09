@@ -9,6 +9,11 @@ import { rawFactoryABI } from "../store/abi-raw.mjs";
 
 import addresses from "../../pairs.json" assert { type: "json" };
 import { factoryAddress } from "../config/factory.mjs";
+import nextEnv from '@next/env'
+
+const { loadEnvConfig } = nextEnv;
+
+loadEnvConfig(process.cwd())
 
 const { provider } = configureChains(
   [sepolia],
