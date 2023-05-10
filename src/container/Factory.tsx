@@ -56,11 +56,8 @@ const Factory: React.FC<Props> = () => {
       );
     },
   });
-  console.log("create", waitedData);
 
-  const handleFormSubmit = (e) => {
-    console.log(e);
-  };
+  const handleFormSubmit = (e) => undefined;
 
   return (
     <Box

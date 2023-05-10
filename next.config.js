@@ -6,6 +6,8 @@ const path = require("path");
  */
 
 const nextConfig = {
+  output: "export",
+  trailingSlash: true,
   productionBrowserSourceMaps: false,
   swcMinify: true,
 
@@ -42,9 +44,6 @@ const nextConfig = {
     return config;
   },
 
-  async redirects() {
-    return [];
-  },
 };
 
 module.exports = nextConfig;
