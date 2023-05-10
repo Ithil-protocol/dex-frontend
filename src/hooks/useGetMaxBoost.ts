@@ -23,7 +23,6 @@ export const useGetMaxBoost = ({
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
-    console.log("2");
   }, [price.toString(), setIsLoading]);
   const { data: orderZero } = usePoolGetOrder({
     address: poolAddress,
@@ -34,7 +33,6 @@ export const useGetMaxBoost = ({
     args: [actualPrice, orderZero?.next as BigNumber],
     enabled: !!orderZero,
     onSuccess: () => {
-      console.log("1");
       setIsLoading(false);
     },
   });

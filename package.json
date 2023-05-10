@@ -16,6 +16,7 @@
     "lint": "next lint",
     "prebuild": "node ./src/scripts/pre-build.mjs",
     "start": "next start",
+    "export": "next export",
     "wagmi:generate": "wagmi generate",
     "wagmi:init": "wagmi init"
   },
@@ -58,7 +59,8 @@
     "typescript": "^5.0.4",
     "wagmi": "^0.12.12",
     "yup": "^1.1.1",
-    "zustand": "^4.3.7"
+    "zustand": "^4.3.7",
+    "@next/env":"13.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",

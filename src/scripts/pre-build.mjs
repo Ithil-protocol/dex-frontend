@@ -9,13 +9,28 @@ import { rawFactoryABI } from "../store/abi-raw.mjs";
 
 import addresses from "../../pairs.json" assert { type: "json" };
 import { factoryAddress } from "../config/factory.mjs";
+import nextEnv from "@next/env";
+
+const { loadEnvConfig } = nextEnv;
+
+loadEnvConfig(process.cwd());
 
 const { provider } = configureChains(
   [sepolia],
   [
     jsonRpcProvider({
-      rpc: (chain) => ({
-        http: "https://sepolia.infura.io/v3/4ea998a06d724fea9f24aac43c0aa7dc"
+      rpc: () => ({
+        http: process.env.NEXT_PUBLIC_INFURA_HTTP_ADDRESS,
+      }),
+    }),
+    jsonRpcProvider({
+      rpc: () => ({
+        http: process.env.NEXT_PUBLIC_ALCHEMY_HTTP_ADDRESS,
+      }),
+    }),
+    jsonRpcProvider({
+      rpc: () => ({
+        http: process.env.NEXT_PUBLIC_BLOCKPI_HTTP_ADDRESS,
       }),
     }),
   ]

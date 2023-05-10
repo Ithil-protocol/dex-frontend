@@ -18,10 +18,21 @@ const { chains, provider, webSocketProvider } = configureChains(
   [sepolia],
   [
     jsonRpcProvider({
-      rpc: (chain) => ({
-        http: "https://sepolia.infura.io/v3/4ea998a06d724fea9f24aac43c0aa7dc",
-        webSocket:
-          "wss://sepolia.infura.io/ws/v3/4ea998a06d724fea9f24aac43c0aa7dc",
+      rpc: () => ({
+        http: process.env.NEXT_PUBLIC_INFURA_HTTP_ADDRESS as string,
+        webSocket: process.env.NEXT_PUBLIC_INFURA_WSS_ADDRESS as string,
+      }),
+    }),
+    jsonRpcProvider({
+      rpc: () => ({
+        http: process.env.NEXT_PUBLIC_ALCHEMY_HTTP_ADDRESS as string,
+        webSocket: process.env.NEXT_PUBLIC_ALCHEMY_WSS_ADDRESS as string,
+      }),
+    }),
+    jsonRpcProvider({
+      rpc: () => ({
+        http: process.env.NEXT_PUBLIC_BLOCKPI_HTTP_ADDRESS as string,
+        webSocket: process.env.NEXT_PUBLIC_BLOCKPI_WSS_ADDRESS as string,
       }),
     }),
   ]
