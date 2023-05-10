@@ -6,6 +6,8 @@ const path = require("path");
  */
 
 const nextConfig = {
+  output: "export",
+  trailingSlash: true,
   productionBrowserSourceMaps: false,
   swcMinify: true,
 
