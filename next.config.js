@@ -44,9 +44,6 @@ const nextConfig = {
     return config;
   },
 
-  async redirects() {
-    return [];
-  },
 };
 
 module.exports = nextConfig;
