@@ -1,4 +1,4 @@
-const SLIPPAGE = 0.001;
+import { SLIPPAGE } from "./constants";
 
 interface AppConfig {
   slippage: (tick: number) => number;
