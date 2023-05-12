@@ -101,6 +101,7 @@ createClient({
   for (let i = 0; i < addressesLength; i++) {
     newData[i].base = newPools[i].base;
     newData[i].tick = newPools[i].tick;
+    newData[i].chartUrl = newPools[i].chartUrl;
     newData[i].underlyingLabel = newPools[i].underlying.label;
     newData[i].accountingLabel = newPools[i].accounting.label;
     newData[i].sell.address = sellPoolAddresses[i];

@@ -12,7 +12,6 @@ const AdvancedRealTimeChartNoSSR = dynamic(
 
 export const CandlestickChart = () => {
   const pair = usePoolStore((store) => store.pair);
-  const symbol = pair.underlyingLabel + pair.accountingLabel;
 
   return (
     <Box height={"100%"}>
@@ -20,7 +19,7 @@ export const CandlestickChart = () => {
         height="100%"
         theme="dark"
         autosize
-        symbol={"UNISWAP3ARBITRUM:" + symbol}
+        symbol={pair.chartUrl}
         copyrightStyles={{ parent: { display: "none" } }}
       />
       {/* <Typography

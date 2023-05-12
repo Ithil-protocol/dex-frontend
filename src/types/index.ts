@@ -91,6 +91,7 @@ export interface Pair {
   value: number;
   tick: number;
   base: number;
+  chartUrl: string;
 }
 
 export interface PoolState {

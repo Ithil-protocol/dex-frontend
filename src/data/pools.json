@@ -28,6 +28,7 @@
     },
     "base": 10,
     "tick": 1,
+    "chartUrl": "UNISWAP3ARBITRUM:WETHDAI",
     "underlyingLabel": "WETH",
     "accountingLabel": "DAI"
   },
@@ -60,6 +61,7 @@
     },
     "base": 10,
     "tick": 5,
+    "chartUrl": "UNISWAP3POLYGON:WETHDAI",
     "underlyingLabel": "WBTC",
     "accountingLabel": "DAI"
   },
@@ -92,6 +94,7 @@
     },
     "base": 10,
     "tick": 10,
+    "chartUrl": "UNISWAP3POLYGON:WBTCWETH",
     "underlyingLabel": "WBTC",
     "accountingLabel": "WETH"
   }
