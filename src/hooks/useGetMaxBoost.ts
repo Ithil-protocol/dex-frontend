@@ -21,19 +21,22 @@ export const useGetMaxBoost = ({
   price,
 }: GetMaxBoostProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const inputPrice = price.toString();
   useEffect(() => {
     setIsLoading(true);
-  }, [price.toString(), setIsLoading]);
+  }, [inputPrice, setIsLoading]);
   const { data: orderZero } = usePoolGetOrder({
     address: poolAddress,
     args: [actualPrice, constants.Zero],
   });
-  const { data: firstOrder } = usePoolGetOrder({
+  const { data: firstOrder, isSuccess } = usePoolGetOrder({
     address: poolAddress,
     args: [actualPrice, orderZero?.next as BigNumber],
     enabled: !!orderZero,
     onSuccess: () => {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100);
     },
   });
   const maxBoost = firstOrder
