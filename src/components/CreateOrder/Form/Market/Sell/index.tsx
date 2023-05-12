@@ -45,12 +45,11 @@ const MarketSell: React.FC<Props> = () => {
 
   const isInsufficientFunds = available < Number(formValues.amount || 0);
 
-  const { totalToTake, isAmountOut, ...finalValues } = useConvertSellMarketArgs(
-    {
+  const { totalToTake, isTooMuchSlippage, isExceedsLiquidity, ...finalValues } =
+    useConvertSellMarketArgs({
       amount: formValues.amount,
       pool: buyPool,
-    }
-  );
+    });
 
   const total = fixPrecision(totalToTake, buyPool.underlying.displayPrecision);
 
@@ -115,10 +114,16 @@ const MarketSell: React.FC<Props> = () => {
           />
 
           <Total total={total} label={pair.accountingLabel} />
-          {/* <Info
-            isRendered={isAmountOut}
+          <Info
+            isRendered={isTooMuchSlippage}
             text="Slippage is too high!"
-          /> */}
+            color="error"
+          />
+          <Info
+            isRendered={isExceedsLiquidity}
+            text="Order exceeds dex liquidity!"
+            color="error"
+          />
           <Info
             isRendered={!isApproved}
             color="warning"
