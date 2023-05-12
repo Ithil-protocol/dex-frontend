@@ -6,7 +6,7 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { readContracts } from "wagmi";
 import fs from "fs";
 import { rawFactoryABI } from "../store/abi-raw.mjs";
-import { network } from "../config/network.js";
+import { network } from "../config/network.mjs";
 import addresses from "../../pairs.json" assert { type: "json" };
 import { factoryAddress } from "../config/factory.mjs";
 import nextEnv from "@next/env";

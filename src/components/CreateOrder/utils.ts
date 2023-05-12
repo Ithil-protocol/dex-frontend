@@ -6,6 +6,7 @@ import {
   usePoolPreviewTake,
 } from "@/hooks/contracts/pool";
 import { appConfig } from "@/config";
+import { usePoolStore } from "@/store";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -96,7 +97,7 @@ export const useConvertSellMarketArgs = ({
 }: ConvertMarketArgsProps) => {
   const underlyingDecimals = pool.underlying.decimals;
   const accountingDecimals = pool.accounting.decimals;
-
+  const pair = usePoolStore((state) => state.pair);
   const { data: highestPrice } = usePoolGetNextPriceLevel({
     address: pool.address,
     args: [constants.Zero],
@@ -107,7 +108,7 @@ export const useConvertSellMarketArgs = ({
   const convertedAmount = highestPrice
     ? Number(utils.formatUnits(highestPrice, underlyingDecimals)) *
       Number(amount) *
-      (1 - appConfig.SLIPPAGE)
+      (1 - appConfig.slippage(pair.tick))
     : 0;
 
   const finalAmount = utils.parseUnits(
@@ -126,13 +127,15 @@ export const useConvertSellMarketArgs = ({
   const isAmountOut = totalToTake < convertedAmount;
 
   const minReceived = utils.parseUnits(
-    (convertedAmount * (1 - appConfig.SLIPPAGE)).toFixed(underlyingDecimals),
+    (convertedAmount * (1 - appConfig.slippage(pair.tick))).toFixed(
+      underlyingDecimals
+    ),
     underlyingDecimals
   );
 
   const maxPaid =
     Number(utils.formatUnits(accountingToPay, accountingDecimals)) *
-    (1 + appConfig.SLIPPAGE);
+    (1 + appConfig.slippage(pair.tick));
   const finalMaxPaid = utils.parseUnits(
     maxPaid.toFixed(accountingDecimals),
     accountingDecimals
@@ -156,7 +159,7 @@ export const useConvertBuyMarketArgs = ({
 }: ConvertMarketArgsProps) => {
   const underlyingDecimals = pool.underlying.decimals;
   const accountingDecimals = pool.accounting.decimals;
-
+  const pair = usePoolStore((state) => state.pair);
   //here final amount is equal to inputAmount with respected decimals (underlying decimals)
 
   const finalAmount = utils.parseUnits(
@@ -184,7 +187,9 @@ export const useConvertBuyMarketArgs = ({
   );
 
   const maxPaid = utils.parseUnits(
-    (totalToPay * (appConfig.SLIPPAGE + 1)).toFixed(accountingDecimals),
+    (totalToPay * (appConfig.slippage(pair.tick) + 1)).toFixed(
+      accountingDecimals
+    ),
     accountingDecimals
   );
 
