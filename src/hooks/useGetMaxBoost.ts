@@ -29,7 +29,7 @@ export const useGetMaxBoost = ({
     address: poolAddress,
     args: [actualPrice, constants.Zero],
   });
-  const { data: firstOrder, isSuccess } = usePoolGetOrder({
+  const { data: firstOrder } = usePoolGetOrder({
     address: poolAddress,
     args: [actualPrice, orderZero?.next as BigNumber],
     enabled: !!orderZero,
