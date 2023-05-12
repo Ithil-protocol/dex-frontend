@@ -119,11 +119,13 @@ const MarketSell: React.FC<Props> = () => {
             text="Slippage is too high!"
             color="error"
           />
-          <Info
-            isRendered={isExceedsLiquidity}
-            text="Order exceeds dex liquidity!"
-            color="error"
-          />
+          {!isTooMuchSlippage && (
+            <Info
+              isRendered={isExceedsLiquidity}
+              text="Order exceeds dex liquidity!"
+              color="error"
+            />
+          )}
           <Info
             isRendered={!isApproved}
             color="warning"

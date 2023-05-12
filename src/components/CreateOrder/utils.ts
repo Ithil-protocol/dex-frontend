@@ -127,16 +127,13 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
-  console.log(
-    "preview[0]",
-    Number(utils.formatUnits(accountingToPay, accountingDecimals))
-  );
-  console.log("maxAmount", maxConvertedAmount);
 
   const isTooMuchSlippage =
     Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
     maxConvertedAmount;
-  const isExceedsLiquidity = totalToTake < minConvertedAmount;
+  const isExceedsLiquidity = previewTake
+    ? totalToTake < minConvertedAmount
+    : false;
 
   const minReceived = utils.parseUnits(
     minConvertedAmount.toFixed(underlyingDecimals),
