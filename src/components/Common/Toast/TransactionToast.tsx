@@ -1,3 +1,4 @@
+import { etherscanBaseUrl } from "@/config/blockExplorer";
 import { Link } from "@mui/material";
 
 interface Props {
@@ -10,7 +11,7 @@ const TransactionToast: React.FC<Props> = ({ text, hash }) => {
     <p>
       {text}
       <br />
-      <Link target="_blank" href={`https://goerli.etherscan.io/tx/${hash}`}>
+      <Link target="_blank" href={etherscanBaseUrl + hash}>
         Check on Etherscan!
       </Link>
     </p>
