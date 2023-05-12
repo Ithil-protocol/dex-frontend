@@ -127,6 +127,11 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
+  console.log(
+    "preview[0]",
+    Number(utils.formatUnits(accountingToPay, accountingDecimals))
+  );
+  console.log("maxAmount", maxConvertedAmount);
 
   const isTooMuchSlippage =
     Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
@@ -134,17 +139,12 @@ export const useConvertSellMarketArgs = ({
   const isExceedsLiquidity = totalToTake < minConvertedAmount;
 
   const minReceived = utils.parseUnits(
-    (minConvertedAmount * (1 - appConfig.slippage(pair.tick))).toFixed(
-      underlyingDecimals
-    ),
+    minConvertedAmount.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
-  const maxPaid =
-    Number(utils.formatUnits(accountingToPay, accountingDecimals)) *
-    (1 + appConfig.slippage(pair.tick));
   const finalMaxPaid = utils.parseUnits(
-    maxPaid.toFixed(accountingDecimals),
+    maxConvertedAmount.toFixed(accountingDecimals),
     accountingDecimals
   );
 
