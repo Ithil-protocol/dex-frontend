@@ -1,4 +1,4 @@
-import { configureChains, createClient, sepolia, erc20ABI } from "wagmi";
+import { configureChains, createClient, erc20ABI } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
@@ -6,7 +6,7 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { readContracts } from "wagmi";
 import fs from "fs";
 import { rawFactoryABI } from "../store/abi-raw.mjs";
-
+import { network } from "../config/network.js";
 import addresses from "../../pairs.json" assert { type: "json" };
 import { factoryAddress } from "../config/factory.mjs";
 import nextEnv from "@next/env";
@@ -16,7 +16,7 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
 const { provider } = configureChains(
-  [sepolia],
+  [network],
   [
     jsonRpcProvider({
       rpc: () => ({
