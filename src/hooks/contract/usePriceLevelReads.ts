@@ -11,14 +11,15 @@ export const usePriceLevelReads = () => {
           address: constants.AddressZero,
           abi: contractABI,
           functionName: "getNextPriceLevel",
-          args: [utils.parseUnits("0", 0)],
+          args: [constants.Zero],
         },
       ],
     });
 
     let next = highestPrice[0];
     const data: (BigNumber | undefined)[] = [highestPrice[0]];
-    while (Number(utils.formatUnits(next, 6))) {
+    while (Number(utils.formatUnits(next, 9889809))) {
+      //number should be decimals of price
       const price = await readContracts({
         contracts: [
           {
