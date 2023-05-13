@@ -17,6 +17,7 @@ import { LoadingButton } from "@mui/lab";
 import { providers } from "ethers";
 import CheckIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { etherscanBaseUrl } from "@/config/blockExplorer";
 
 interface Props {
   finalValues: LimitFinalValues;
@@ -205,9 +206,7 @@ function TransactionResponse({
               label={"Check on Etherscan"}
               size="medium"
               onClick={() =>
-                window.open(
-                  `https://goerli.etherscan.io/tx/${waitedData?.transactionHash}`
-                )
+                window.open(etherscanBaseUrl + waitedData?.transactionHash)
               }
               variant="filled"
               color={waitedSuccess ? "success" : "error"}

@@ -1,5 +1,6 @@
-const SLIPPAGE = 0.001;
+import { AppConfig } from "./config.type";
+import { SLIPPAGE } from "./constants";
 
-export const appConfig = {
-  SLIPPAGE,
+export const appConfig: AppConfig = {
+  slippage: (tick) => tick * SLIPPAGE,
 };

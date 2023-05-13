@@ -3,6 +3,7 @@ import styles from "./LimitConfirmation.module.scss";
 import { Chip, CircularProgress } from "@mui/material";
 import CheckIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { etherscanBaseUrl } from "@/config/blockExplorer";
 
 interface Props {
   fulfillLoading: boolean;
@@ -34,9 +35,7 @@ const TransactionResponse: React.FC<Props> = ({
               label={"Check on Etherscan"}
               size="medium"
               onClick={() =>
-                window.open(
-                  `https://goerli.etherscan.io/tx/${waitedData?.transactionHash}`
-                )
+                window.open(etherscanBaseUrl + waitedData?.transactionHash)
               }
               variant="filled"
               color={waitedSuccess ? "success" : "error"}

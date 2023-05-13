@@ -6,6 +6,7 @@ import { OpenOrderEvent } from "@/types";
 import PreciseNumber from "@/components/Common/PreciseNumber";
 import { fixPrecision } from "@/utility/converters";
 import { LoadingButton } from "@mui/lab";
+import { etherscanBaseUrl } from "@/config/blockExplorer";
 
 interface Props {
   data: OpenOrderEvent;
@@ -82,10 +83,7 @@ const Order: React.FC<Props> = ({ data }) => {
           onClick={
             data.status === "open"
               ? () =>
-                  window.open(
-                    `https://goerli.etherscan.io/tx/${data.transactionHash}`,
-                    "_blank"
-                  )
+                  window.open(etherscanBaseUrl + data.transactionHash, "_blank")
               : undefined
           }
         />

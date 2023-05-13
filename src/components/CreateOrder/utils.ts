@@ -6,6 +6,7 @@ import {
   usePoolPreviewTake,
 } from "@/hooks/contracts/pool";
 import { appConfig } from "@/config";
+import { usePoolStore } from "@/store";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -96,6 +97,7 @@ export const useConvertSellMarketArgs = ({
 }: ConvertMarketArgsProps) => {
   const underlyingDecimals = pool.underlying.decimals;
   const accountingDecimals = pool.accounting.decimals;
+  const pair = usePoolStore((state) => state.pair);
 
   const { data: highestPrice } = usePoolGetNextPriceLevel({
     address: pool.address,
@@ -104,14 +106,16 @@ export const useConvertSellMarketArgs = ({
   });
 
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
-  const convertedAmount = highestPrice
+  const minConvertedAmount = highestPrice
     ? Number(utils.formatUnits(highestPrice, underlyingDecimals)) *
       Number(amount) *
-      (1 - appConfig.SLIPPAGE)
+      (1 - appConfig.slippage(pair.tick))
     : 0;
 
+  const maxConvertedAmount = Number(amount);
+
   const finalAmount = utils.parseUnits(
-    convertedAmount.toFixed(underlyingDecimals),
+    minConvertedAmount.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
@@ -123,18 +127,21 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
-  const isAmountOut = totalToTake < convertedAmount;
+
+  const isTooMuchSlippage =
+    Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
+    maxConvertedAmount;
+  const isExceedsLiquidity = previewTake
+    ? totalToTake < minConvertedAmount
+    : false;
 
   const minReceived = utils.parseUnits(
-    (convertedAmount * (1 - appConfig.SLIPPAGE)).toFixed(underlyingDecimals),
+    minConvertedAmount.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
-  const maxPaid =
-    Number(utils.formatUnits(accountingToPay, accountingDecimals)) *
-    (1 + appConfig.SLIPPAGE);
   const finalMaxPaid = utils.parseUnits(
-    maxPaid.toFixed(accountingDecimals),
+    maxConvertedAmount.toFixed(accountingDecimals),
     accountingDecimals
   );
 
@@ -144,7 +151,8 @@ export const useConvertSellMarketArgs = ({
     maxPaid: finalMaxPaid,
     pool,
     totalToTake,
-    isAmountOut,
+    isTooMuchSlippage,
+    isExceedsLiquidity,
     price: highestPrice || constants.Zero,
     inputAmount: Number(amount),
   };
@@ -156,7 +164,7 @@ export const useConvertBuyMarketArgs = ({
 }: ConvertMarketArgsProps) => {
   const underlyingDecimals = pool.underlying.decimals;
   const accountingDecimals = pool.accounting.decimals;
-
+  const pair = usePoolStore((state) => state.pair);
   //here final amount is equal to inputAmount with respected decimals (underlying decimals)
 
   const finalAmount = utils.parseUnits(
@@ -184,7 +192,9 @@ export const useConvertBuyMarketArgs = ({
   );
 
   const maxPaid = utils.parseUnits(
-    (totalToPay * (appConfig.SLIPPAGE + 1)).toFixed(accountingDecimals),
+    (totalToPay * (appConfig.slippage(pair.tick) + 1)).toFixed(
+      accountingDecimals
+    ),
     accountingDecimals
   );
 
