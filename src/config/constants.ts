@@ -8,3 +8,5 @@ export const MIN_FAST_BOOST = 0.001;
 
 //this will multiply in maxBoost
 export const INCREASE_MAX_BOOST_FACTOR = 1.01;
+
+export const CREATE_ORDER_DEADLINE = 60; //seconds

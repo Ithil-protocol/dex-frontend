@@ -1,3 +1,4 @@
+import { CREATE_ORDER_DEADLINE } from "@/config/constants";
 import { useEffect, useState } from "react";
 
 export const useDeadline = () => {
@@ -5,7 +6,7 @@ export const useDeadline = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime(Math.round(Date.now() / 1000) + 60);
+      setTime(Math.round(Date.now() / 1000) + CREATE_ORDER_DEADLINE);
     }, 5000);
 
     return () => {
