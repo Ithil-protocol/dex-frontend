@@ -4,6 +4,7 @@ import { usePoolStore } from "@/store";
 import { HistoryEvent } from "@/types";
 import PreciseNumber from "@/components/Common/PreciseNumber";
 import { fixPrecision } from "@/utility/converters";
+import { etherscanBaseUrl } from "@/config/blockExplorer";
 
 interface Props {
   data: HistoryEvent;
@@ -56,10 +57,7 @@ const Order: React.FC<Props> = ({ data }) => {
           component={"a"}
           label={data.status}
           onClick={() =>
-            window.open(
-              `https://goerli.etherscan.io/tx/${data.transactionHash}`,
-              "_blank"
-            )
+            window.open(etherscanBaseUrl + data.transactionHash, "_blank")
           }
         />
       </TableCell>

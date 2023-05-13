@@ -81,7 +81,7 @@ const MarketBuyConfirmation: React.FC<Props> = ({
           isLoading={previewLoading}
           title="Max slippage"
         >
-          {preview && appConfig.SLIPPAGE * 100 + "%"}
+          {preview && appConfig.slippage(pair.tick) * 100 + "%"}
         </RowContainer>
         <RowContainer
           label={pair.accountingLabel}

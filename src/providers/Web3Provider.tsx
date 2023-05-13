@@ -9,13 +9,14 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
+import { network } from "@/config/network.mjs";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [sepolia],
+  [network],
   [
     jsonRpcProvider({
       rpc: () => ({
@@ -39,7 +40,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "ithil dex",
+  appName: "wizardex",
   chains,
 });
 
