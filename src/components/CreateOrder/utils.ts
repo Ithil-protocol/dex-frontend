@@ -7,6 +7,7 @@ import {
 } from "@/hooks/contracts/pool";
 import { appConfig } from "@/config";
 import { usePoolStore } from "@/store";
+import { STAKED_DECIMALS } from "@/config/constants";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -30,7 +31,10 @@ export const useConvertBuyLimitArgs = ({
     Number(price).toFixed(decimals),
     decimals
   );
-  const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
+  const finalBoost: BigNumber = utils.parseUnits(
+    Number(boost).toFixed(STAKED_DECIMALS),
+    STAKED_DECIMALS
+  );
   const { data: preview } = usePoolPreviewOrder({
     address: pool.address,
     args: [finalPrice, finalBoost],
@@ -66,7 +70,10 @@ export const useConvertSellLimitArgs = ({
     Number(amount).toFixed(decimals),
     decimals
   );
-  const finalBoost: BigNumber = utils.parseUnits(Number(boost).toFixed(18), 18);
+  const finalBoost: BigNumber = utils.parseUnits(
+    Number(boost).toFixed(STAKED_DECIMALS),
+    STAKED_DECIMALS
+  );
   const { data: preview } = usePoolPreviewOrder({
     address: pool.address,
     args: [finalPrice, finalBoost],
