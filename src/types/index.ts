@@ -170,6 +170,7 @@ export interface LimitInputs {
 export interface FactoryInputs {
   underlyingAddress: string;
   accountingAddress: string;
+  tick: string;
 }
 
 export interface MarketInputs {

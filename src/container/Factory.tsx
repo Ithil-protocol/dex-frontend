@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, CircularProgress, TextField } from "@mui/material";
-import { factoryAddress } from "@/config/factory.js";
+import { factoryAddress } from "@/config/factory";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { factorySchema } from "@/data/forms";
 import {
@@ -30,6 +30,7 @@ const Factory: React.FC<Props> = () => {
     args: [
       getValues("underlyingAddress") as `0x${string}`,
       getValues("accountingAddress") as `0x${string}`,
+      Number(getValues("tick")),
     ],
     cacheTime: 0,
     watch: true,
@@ -39,7 +40,7 @@ const Factory: React.FC<Props> = () => {
     args: [
       getValues("underlyingAddress") as `0x${string}`,
       getValues("accountingAddress") as `0x${string}`,
-      1,
+      Number(getValues("tick")),
     ],
   });
   const { data: writeData, write } = useFactoryCreatePool({
@@ -86,6 +87,12 @@ const Factory: React.FC<Props> = () => {
             color="secondary"
             {...register("accountingAddress")}
             label="accounting address"
+          />
+          <TextField
+            type="number"
+            color="secondary"
+            {...register("tick")}
+            label="tick"
           />
 
           <LoadingButton

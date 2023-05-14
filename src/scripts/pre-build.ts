@@ -7,7 +7,7 @@ import nextEnv from "@next/env";
 import { Pair } from "../types";
 import { network } from "../config/network.ts";
 import { factoryAddress } from "../config/factory.ts";
-import { factoryABI } from "../hooks/contracts/factory.ts";
+import { factoryABI } from "../store/abi.ts";
 
 const { loadEnvConfig } = nextEnv;
 
@@ -45,14 +45,14 @@ createClient({
 
   const sellPoolAddressesContracts = newPools.map((item) => ({
     address: factoryAddress as `0x${string}`,
-    args: [item.underlying.address, item.accounting.address],
+    args: [item.underlying.address, item.accounting.address, item.tick],
     abi: factoryABI,
     functionName: "pools",
   }));
 
   const buyPoolAddressesContracts = newPools.map((item) => ({
     address: factoryAddress as `0x${string}`,
-    args: [item.accounting.address, item.underlying.address],
+    args: [item.accounting.address, item.underlying.address, item.tick],
     abi: factoryABI,
     functionName: "pools",
   }));
