@@ -10,6 +10,7 @@ import { usePoolStore } from "@/store";
 import { STAKED_DECIMALS } from "@/config/constants";
 import { useBuyVolumes } from "@/hooks/contract";
 import { useBuyAmountConverter } from "@/hooks/converters";
+import { buyAmountConverter } from "@/utility/converters";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -95,6 +96,63 @@ export const useConvertSellLimitArgs = ({
   };
 };
 
+interface GetAmountInSellMarketProps {
+  list: OrderBook[] | undefined;
+  amount: string;
+  highestPrice: BigNumber | undefined;
+  pool: Pool;
+  underlyingDecimals: number;
+}
+const getAmountInSellMarket = ({
+  list,
+  amount,
+  highestPrice,
+  pool,
+  underlyingDecimals,
+}: GetAmountInSellMarketProps) => {
+  const inputAmount = Number(amount);
+  let residualAmount = inputAmount;
+  let totalToBuy = 0;
+
+  if (list && highestPrice) {
+    const filteredList = list.filter((el) => !el.volume.isZero());
+    // if the first row amount is enough to fill the order then we just use first row
+    const firstRowAmount = buyAmountConverter(
+      filteredList[0].volume,
+      filteredList[0].value,
+      pool
+    );
+    if (inputAmount < firstRowAmount) {
+      totalToBuy =
+        Number(utils.formatUnits(filteredList[0].volume, underlyingDecimals)) *
+        (inputAmount / firstRowAmount);
+      residualAmount = 0;
+      console.log(totalToBuy);
+      return totalToBuy;
+    }
+
+    // in every iteration we minus the row amount from inputAmount (or residualAmount) and add respected volume to totalToBuy
+    // if residualAmount is negative then we break the loop and return totalToBuy
+    for (const row of filteredList) {
+      if (residualAmount > 0 && !row.volume.isZero()) {
+        const rowAmount = buyAmountConverter(row.volume, row.value, pool);
+        const rowVolumeInNumber = Number(
+          utils.formatUnits(row.volume, underlyingDecimals)
+        );
+        if (residualAmount - rowAmount > 0) {
+          totalToBuy += rowVolumeInNumber;
+        } else {
+          totalToBuy += residualAmount * rowVolumeInNumber;
+        }
+        residualAmount -= rowAmount;
+      } else {
+        break;
+      }
+    }
+  }
+  return totalToBuy;
+};
+
 interface ConvertMarketArgsProps {
   amount: string | undefined;
   pool: Pool;
@@ -115,17 +173,14 @@ export const useConvertSellMarketArgs = ({
   });
 
   const { data } = useBuyVolumes();
-  const buyAmountConverter = useBuyAmountConverter();
 
-  const getAmount = (list: OrderBook[] | undefined) => {
-    if (list) {
-      const itemAmount = buyAmountConverter(list[0].volume, list[0].value);
-
-      console.log(itemAmount);
-    }
-  };
-
-  getAmount(data);
+  getAmountInSellMarket({
+    list: data,
+    amount,
+    highestPrice,
+    pool,
+    underlyingDecimals,
+  });
 
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
   const minConvertedAmount = highestPrice
