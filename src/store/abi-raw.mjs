@@ -724,12 +724,12 @@ export const rawFactoryABI = [
     inputs: [
       {
         internalType: "address",
-        name: "underlying",
+        name: "token0",
         type: "address",
       },
       {
         internalType: "address",
-        name: "accounting",
+        name: "token1",
         type: "address",
       },
       {
@@ -740,6 +740,11 @@ export const rawFactoryABI = [
     ],
     name: "createPool",
     outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
       {
         internalType: "address",
         name: "",
@@ -773,6 +778,11 @@ export const rawFactoryABI = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
       },
     ],
     name: "pools",
