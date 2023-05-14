@@ -1,4 +1,4 @@
-import { Pool } from "@/types";
+import { OrderBook, Pool } from "@/types";
 import { BigNumber, constants, utils } from "ethers";
 import {
   usePoolGetNextPriceLevel,
@@ -8,6 +8,8 @@ import {
 import { appConfig } from "@/config";
 import { usePoolStore } from "@/store";
 import { STAKED_DECIMALS } from "@/config/constants";
+import { useBuyVolumes } from "@/hooks/contract";
+import { useBuyAmountConverter } from "@/hooks/converters";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -111,6 +113,19 @@ export const useConvertSellMarketArgs = ({
     args: [constants.Zero],
     watch: true,
   });
+
+  const { data } = useBuyVolumes();
+  const buyAmountConverter = useBuyAmountConverter();
+
+  const getAmount = (list: OrderBook[] | undefined) => {
+    if (list) {
+      const itemAmount = buyAmountConverter(list[0].volume, list[0].value);
+
+      console.log(itemAmount);
+    }
+  };
+
+  getAmount(data);
 
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
   const minConvertedAmount = highestPrice
