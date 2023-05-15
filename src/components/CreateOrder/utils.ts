@@ -210,10 +210,11 @@ export const useConvertSellMarketArgs = ({
   // const isTooMuchSlippage =
   //   Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
   //   maxConvertedAmount;
-  const isExceedsLiquidity = previewTake ? totalToTake < totalToBuy : false;
+  const isExceedsLiquidity = false;
+  // const isExceedsLiquidity = previewTake ? totalToTake < totalToBuy : false;
 
   const minReceived = utils.parseUnits(
-    totalToBuy.toFixed(underlyingDecimals),
+    minAmount.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
@@ -233,9 +234,9 @@ export const useConvertSellMarketArgs = ({
     maxPaid: finalMaxPaid,
     pool,
     totalToTake,
+    accountingToPay,
     isTooMuchSlippage: isSlippageTooHigh,
     isExceedsLiquidity,
-    price: highestPrice || constants.Zero,
     inputAmount: Number(amount),
   };
 };
