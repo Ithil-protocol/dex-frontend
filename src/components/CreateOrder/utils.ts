@@ -113,7 +113,7 @@ const getAmountInSellMarket = ({
   const inputAmount = Number(amount);
   let residualAmount = inputAmount;
   let totalToBuy = 0;
-  let residualIteration = 1;
+  let residualIteration = 0;
   if (list && highestPrice) {
     const filteredList = list.filter((el) => !el.volume.isZero());
     // if the first row amount is enough to fill the order then we just use first row
@@ -132,7 +132,7 @@ const getAmountInSellMarket = ({
 
     // in every iteration we minus the row amount from inputAmount (or residualAmount) and add respected volume to totalToBuy
     // if residualAmount is negative then we break the loop and return totalToBuy
-    residualIteration = filteredList.length;
+
     for (const row of filteredList) {
       if (residualAmount > 0 && !row.volume.isZero()) {
         const rowAmount = buyAmountConverter(row.volume, row.value, pool);
@@ -142,18 +142,16 @@ const getAmountInSellMarket = ({
         if (residualAmount - rowAmount > 0) {
           totalToBuy += rowVolumeInNumber;
         } else {
-          console.log(residualAmount, rowVolumeInNumber);
           totalToBuy += (residualAmount / rowAmount) * rowVolumeInNumber;
         }
         residualAmount -= rowAmount;
       } else {
         break;
       }
-      residualIteration -= 1;
+      residualIteration += 1;
     }
   }
-
-  return { totalToBuy, isSlippageTooHigh: residualIteration === 0 };
+  return { totalToBuy, isSlippageTooHigh: residualIteration >= 8 };
 };
 
 interface ConvertMarketArgsProps {
@@ -184,7 +182,6 @@ export const useConvertSellMarketArgs = ({
     pool,
     underlyingDecimals,
   });
-  console.log(totalToBuy);
 
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
 
