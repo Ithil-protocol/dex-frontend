@@ -113,6 +113,7 @@ const getAmountInSellMarket = ({
   let residualAmount = inputAmount;
   let totalToBuy = 0;
   let residualIteration = 0;
+  let accountingAmount = 0;
   if (list) {
     const filteredList = list.filter((el) => !el.volume.isZero());
     // if the first row amount is enough to fill the order then we just use first row
@@ -126,7 +127,11 @@ const getAmountInSellMarket = ({
         Number(utils.formatUnits(filteredList[0].volume, underlyingDecimals)) *
         (inputAmount / firstRowAmount);
       residualAmount = 0;
-      return { totalToBuy, isSlippageTooHigh: false };
+      return {
+        totalToBuy,
+        isSlippageTooHigh: false,
+        accountingAmount: inputAmount,
+      };
     }
 
     // in every iteration we minus the row amount from inputAmount (or residualAmount) and add respected volume to totalToBuy
@@ -140,18 +145,23 @@ const getAmountInSellMarket = ({
         );
         if (residualAmount - rowAmount > 0) {
           totalToBuy += rowVolumeInNumber;
+          accountingAmount = inputAmount - (residualAmount - rowAmount);
         } else {
+          accountingAmount = inputAmount;
           totalToBuy += (residualAmount / rowAmount) * rowVolumeInNumber;
         }
         residualAmount -= rowAmount;
-        console.log(inputAmount - residualAmount);
       } else {
         break;
       }
       residualIteration += 1;
     }
   }
-  return { totalToBuy, isSlippageTooHigh: residualIteration >= 8 };
+  return {
+    totalToBuy,
+    isSlippageTooHigh: residualIteration >= 8,
+    accountingAmount,
+  };
 };
 
 interface ConvertMarketArgsProps {
@@ -175,17 +185,17 @@ export const useConvertSellMarketArgs = ({
 
   const { data: list } = useBuyVolumes();
 
-  const { isSlippageTooHigh, totalToBuy } = useMemo(
+  const { isSlippageTooHigh, totalToBuy, accountingAmount } = useMemo(
     () => getAmountInSellMarket({ list, amount, pool, underlyingDecimals }),
     [amount, pool, underlyingDecimals, list]
   );
 
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
 
-  const maxConvertedAmount = Number(amount);
+  const minAmount = totalToBuy * (1 - appConfig.slippage(pair.tick));
 
   const finalAmount = utils.parseUnits(
-    totalToBuy.toFixed(underlyingDecimals),
+    minAmount.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
@@ -197,11 +207,6 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
-  console.log(
-    "acc",
-    Number(utils.formatUnits(accountingToPay, accountingDecimals))
-  );
-
   // const isTooMuchSlippage =
   //   Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
   //   maxConvertedAmount;
@@ -212,8 +217,13 @@ export const useConvertSellMarketArgs = ({
     underlyingDecimals
   );
 
+  const accountingToPayWithSlippage =
+    Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) /
+    (1 - appConfig.slippage(pair.tick));
+  const maxPaid = Math.max(accountingAmount, accountingToPayWithSlippage);
+
   const finalMaxPaid = utils.parseUnits(
-    maxConvertedAmount.toFixed(accountingDecimals),
+    maxPaid.toFixed(accountingDecimals),
     accountingDecimals
   );
 
