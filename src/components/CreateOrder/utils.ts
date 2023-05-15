@@ -11,6 +11,7 @@ import { STAKED_DECIMALS } from "@/config/constants";
 import { useBuyVolumes } from "@/hooks/contract";
 import { useBuyAmountConverter } from "@/hooks/converters";
 import { buyAmountConverter } from "@/utility/converters";
+import { useMemo } from "react";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -99,14 +100,12 @@ export const useConvertSellLimitArgs = ({
 interface GetAmountInSellMarketProps {
   list: OrderBook[] | undefined;
   amount: string;
-  highestPrice: BigNumber | undefined;
   pool: Pool;
   underlyingDecimals: number;
 }
 const getAmountInSellMarket = ({
   list,
   amount,
-  highestPrice,
   pool,
   underlyingDecimals,
 }: GetAmountInSellMarketProps) => {
@@ -114,7 +113,7 @@ const getAmountInSellMarket = ({
   let residualAmount = inputAmount;
   let totalToBuy = 0;
   let residualIteration = 0;
-  if (list && highestPrice) {
+  if (list) {
     const filteredList = list.filter((el) => !el.volume.isZero());
     // if the first row amount is enough to fill the order then we just use first row
     const firstRowAmount = buyAmountConverter(
@@ -134,7 +133,7 @@ const getAmountInSellMarket = ({
     // if residualAmount is negative then we break the loop and return totalToBuy
 
     for (const row of filteredList) {
-      if (residualAmount > 0 && !row.volume.isZero()) {
+      if (residualAmount > 0) {
         const rowAmount = buyAmountConverter(row.volume, row.value, pool);
         const rowVolumeInNumber = Number(
           utils.formatUnits(row.volume, underlyingDecimals)
@@ -145,6 +144,7 @@ const getAmountInSellMarket = ({
           totalToBuy += (residualAmount / rowAmount) * rowVolumeInNumber;
         }
         residualAmount -= rowAmount;
+        console.log(inputAmount - residualAmount);
       } else {
         break;
       }
@@ -175,13 +175,10 @@ export const useConvertSellMarketArgs = ({
 
   const { data: list } = useBuyVolumes();
 
-  const { totalToBuy, isSlippageTooHigh } = getAmountInSellMarket({
-    list,
-    amount,
-    highestPrice,
-    pool,
-    underlyingDecimals,
-  });
+  const { isSlippageTooHigh, totalToBuy } = useMemo(
+    () => getAmountInSellMarket({ list, amount, pool, underlyingDecimals }),
+    [amount, pool, underlyingDecimals, list]
+  );
 
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
 
@@ -200,6 +197,10 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
+  console.log(
+    "acc",
+    Number(utils.formatUnits(accountingToPay, accountingDecimals))
+  );
 
   // const isTooMuchSlippage =
   //   Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
