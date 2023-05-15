@@ -113,7 +113,7 @@ const getAmountInSellMarket = ({
   const inputAmount = Number(amount);
   let residualAmount = inputAmount;
   let totalToBuy = 0;
-
+  let residualIteration = 1;
   if (list && highestPrice) {
     const filteredList = list.filter((el) => !el.volume.isZero());
     // if the first row amount is enough to fill the order then we just use first row
@@ -127,12 +127,12 @@ const getAmountInSellMarket = ({
         Number(utils.formatUnits(filteredList[0].volume, underlyingDecimals)) *
         (inputAmount / firstRowAmount);
       residualAmount = 0;
-      console.log(totalToBuy);
-      return totalToBuy;
+      return { totalToBuy, isSlippageTooHigh: false };
     }
 
     // in every iteration we minus the row amount from inputAmount (or residualAmount) and add respected volume to totalToBuy
     // if residualAmount is negative then we break the loop and return totalToBuy
+    residualIteration = filteredList.length;
     for (const row of filteredList) {
       if (residualAmount > 0 && !row.volume.isZero()) {
         const rowAmount = buyAmountConverter(row.volume, row.value, pool);
@@ -142,15 +142,18 @@ const getAmountInSellMarket = ({
         if (residualAmount - rowAmount > 0) {
           totalToBuy += rowVolumeInNumber;
         } else {
-          totalToBuy += residualAmount * rowVolumeInNumber;
+          console.log(residualAmount, rowVolumeInNumber);
+          totalToBuy += (residualAmount / rowAmount) * rowVolumeInNumber;
         }
         residualAmount -= rowAmount;
       } else {
         break;
       }
+      residualIteration -= 1;
     }
   }
-  return totalToBuy;
+
+  return { totalToBuy, isSlippageTooHigh: residualIteration === 0 };
 };
 
 interface ConvertMarketArgsProps {
@@ -172,27 +175,23 @@ export const useConvertSellMarketArgs = ({
     watch: true,
   });
 
-  const { data } = useBuyVolumes();
+  const { data: list } = useBuyVolumes();
 
-  getAmountInSellMarket({
-    list: data,
+  const { totalToBuy, isSlippageTooHigh } = getAmountInSellMarket({
+    list,
     amount,
     highestPrice,
     pool,
     underlyingDecimals,
   });
+  console.log(totalToBuy);
 
   // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
-  const minConvertedAmount = highestPrice
-    ? Number(utils.formatUnits(highestPrice, underlyingDecimals)) *
-      Number(amount) *
-      (1 - appConfig.slippage(pair.tick))
-    : 0;
 
   const maxConvertedAmount = Number(amount);
 
   const finalAmount = utils.parseUnits(
-    minConvertedAmount.toFixed(underlyingDecimals),
+    totalToBuy.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
@@ -205,15 +204,13 @@ export const useConvertSellMarketArgs = ({
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
 
-  const isTooMuchSlippage =
-    Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
-    maxConvertedAmount;
-  const isExceedsLiquidity = previewTake
-    ? totalToTake < minConvertedAmount
-    : false;
+  // const isTooMuchSlippage =
+  //   Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
+  //   maxConvertedAmount;
+  const isExceedsLiquidity = previewTake ? totalToTake < totalToBuy : false;
 
   const minReceived = utils.parseUnits(
-    minConvertedAmount.toFixed(underlyingDecimals),
+    totalToBuy.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
@@ -228,7 +225,7 @@ export const useConvertSellMarketArgs = ({
     maxPaid: finalMaxPaid,
     pool,
     totalToTake,
-    isTooMuchSlippage,
+    isTooMuchSlippage: isSlippageTooHigh,
     isExceedsLiquidity,
     price: highestPrice || constants.Zero,
     inputAmount: Number(amount),
