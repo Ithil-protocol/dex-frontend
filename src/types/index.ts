@@ -113,12 +113,14 @@ export interface OrderBook {
   value: BigNumber;
   volume: BigNumber;
   type: "buy" | "sell";
+  animated: boolean;
 }
 
 export interface FormattedOrderBook {
   value: number;
   volume: number;
   type: "buy" | "sell";
+  animated: boolean;
 }
 export interface Order {
   id: string;

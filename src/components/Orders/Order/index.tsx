@@ -11,26 +11,19 @@ interface Props {
 }
 
 const Order: React.FC<Props> = ({ data, isLoading }) => {
-  const firstRenderRef = useRef(true);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isLoading) return;
-    if (firstRenderRef.current) {
-      firstRenderRef.current = false;
-      return;
-    }
-    if (data?.volume) {
+    if (data?.animated === false) {
       ref.current?.classList.add(styles.winking);
 
-      const animationDuration = 200;
+      const animationDuration = 500;
       const timeoutId = setTimeout(() => {
         ref.current?.classList.remove(styles.winking);
       }, animationDuration);
-
       return () => clearTimeout(timeoutId);
     }
-  }, [data?.volume, isLoading]);
+  }, [data?.volume]);
 
   const pair = usePoolStore((state) => state.pair);
   const width =

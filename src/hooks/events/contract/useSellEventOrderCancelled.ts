@@ -37,6 +37,7 @@ export const useSellEventOrderCancelled = () => {
               return {
                 ...item,
                 volume: item.volume.sub(amount),
+                animated: false,
               };
             }
             return item;

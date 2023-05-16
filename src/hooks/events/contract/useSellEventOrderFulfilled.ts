@@ -35,6 +35,7 @@ export const useSellEventOrderFulfilled = () => {
               return {
                 ...item,
                 volume: item.volume.sub(amount),
+                animated: false,
               };
             }
             return item;

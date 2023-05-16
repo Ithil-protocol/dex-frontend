@@ -31,12 +31,14 @@ export const useSellEventOrderCreated = () => {
             newArray[index] = {
               ...newArray[index],
               volume: newArray[index].volume.add(amount),
+              animated: false,
             };
           } else {
             newArray.push({
               value: price,
               volume: amount,
               type: "sell" as const,
+              animated: false,
             });
             newArray.sort((a, b) => {
               if (b.value.gt(a.value)) return 1;
