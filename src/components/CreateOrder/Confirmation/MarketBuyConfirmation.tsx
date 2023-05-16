@@ -90,9 +90,9 @@ const MarketBuyConfirmation: React.FC<Props> = ({
         >
           {preview &&
             fixPrecision(
-              finalValues.totalToPay,
+              finalValues.totalToPay / sellAmountConverter(finalValues.amount),
               finalValues.pool.accounting.displayPrecision
-            ) / sellAmountConverter(finalValues.amount)}
+            )}
         </RowContainer>
 
         <TransactionResponse
