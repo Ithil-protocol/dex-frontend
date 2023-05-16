@@ -123,7 +123,7 @@ const MarketSell: React.FC<Props> = () => {
           />
           <Info
             isRendered={isTooMuchSlippage}
-            text={`Actual amount you sell: ${fixPrecision(
+            text={`Actual amount you can sell: ${fixPrecision(
               Number(
                 utils.formatUnits(
                   finalValues.accountingToPay,
