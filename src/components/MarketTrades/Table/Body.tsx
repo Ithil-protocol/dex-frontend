@@ -17,7 +17,7 @@ const TradesTableBody: React.FC<Props> = ({ headsLength }) => {
         <TableLoader cellsNumber={headsLength} rowsNum={10} />
       ) : (
         (trades || [])
-          .slice(-MAX_ROWS)
+          .slice(0, MAX_ROWS)
           .map((item, i) => <EachTrade key={i} data={item} />)
       )}
     </TableBody>
