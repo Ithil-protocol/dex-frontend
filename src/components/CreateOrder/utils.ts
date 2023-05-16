@@ -112,14 +112,15 @@ const getAmountInSellMarket = ({
   const inputAmount = Number(amount);
   let residualAmount = inputAmount;
   let totalToBuy = 0;
-  let residualIteration = 0;
   let accountingAmount = 0;
+
   if (list) {
     const filteredList = list.filter((el) => !el.volume.isZero());
+
     // if the first row amount is enough to fill the order then we just use first row
     const firstRowAmount = buyAmountConverter(
-      filteredList[0].volume,
-      filteredList[0].value,
+      list[0].volume,
+      list[0].value,
       pool
     );
     if (inputAmount < firstRowAmount) {
@@ -129,7 +130,7 @@ const getAmountInSellMarket = ({
       residualAmount = 0;
       return {
         totalToBuy,
-        isSlippageTooHigh: false,
+        isExceedDexLiquidity: false,
         accountingAmount: inputAmount,
       };
     }
@@ -154,12 +155,11 @@ const getAmountInSellMarket = ({
       } else {
         break;
       }
-      residualIteration += 1;
     }
   }
   return {
     totalToBuy,
-    isSlippageTooHigh: residualIteration >= 8,
+    isExceedDexLiquidity: inputAmount > accountingAmount,
     accountingAmount,
   };
 };
@@ -177,15 +177,9 @@ export const useConvertSellMarketArgs = ({
   const accountingDecimals = pool.accounting.decimals;
   const pair = usePoolStore((state) => state.pair);
 
-  const { data: highestPrice } = usePoolGetNextPriceLevel({
-    address: pool.address,
-    args: [constants.Zero],
-    watch: true,
-  });
-
   const { data: list } = useBuyVolumes();
 
-  const { isSlippageTooHigh, totalToBuy, accountingAmount } = useMemo(
+  const { isExceedDexLiquidity, totalToBuy, accountingAmount } = useMemo(
     () => getAmountInSellMarket({ list, amount, pool, underlyingDecimals }),
     [amount, pool, underlyingDecimals, list]
   );
@@ -207,11 +201,6 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
-  // const isTooMuchSlippage =
-  //   Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
-  //   maxConvertedAmount;
-  const isExceedsLiquidity = false;
-  // const isExceedsLiquidity = previewTake ? totalToTake < totalToBuy : false;
 
   const minReceived = utils.parseUnits(
     minAmount.toFixed(underlyingDecimals),
@@ -235,8 +224,7 @@ export const useConvertSellMarketArgs = ({
     pool,
     totalToTake,
     accountingToPay,
-    isTooMuchSlippage: isSlippageTooHigh,
-    isExceedsLiquidity,
+    isExceedDexLiquidity,
     inputAmount: Number(amount),
   };
 };

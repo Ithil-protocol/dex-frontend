@@ -273,8 +273,12 @@ export const useAllOrderFulfilledEvents = () => {
     const results: MarketEvent[] = [];
 
     if (buyContract && sellContract) {
-      const sellEvents = await sellContract.queryFilter("OrderFulfilled");
-      const buyEvents = await buyContract.queryFilter("OrderFulfilled");
+      const sellEvents = (await sellContract.queryFilter("OrderFulfilled"))
+        .reverse()
+        .slice(0, 25);
+      const buyEvents = (await buyContract.queryFilter("OrderFulfilled"))
+        .reverse()
+        .slice(0, 25);
 
       const buyBlocks = await Promise.all(
         buyEvents.map((item) => item.getBlock())

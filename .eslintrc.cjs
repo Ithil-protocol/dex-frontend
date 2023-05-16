@@ -65,6 +65,6 @@ module.exports = {
     quotes: ["warn", "double"],
     semi: ["warn", "always"],
     "sonarjs/no-duplicate-string": "warn",
-    "sonarjs/cognitive-complexity": ["warn", 15]
+    "sonarjs/cognitive-complexity": ["warn", 15],
   },
 };

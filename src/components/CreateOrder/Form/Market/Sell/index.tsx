@@ -14,6 +14,7 @@ import { useCallback, useState } from "react";
 import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import MarketSellConfirmation from "@/components/CreateOrder/Confirmation/MarketSellConfirmation";
+import { utils } from "ethers";
 
 const MarketSell = () => {
   const [open, setOpen] = useState(false);
@@ -43,7 +44,7 @@ const MarketSell = () => {
 
   const isInsufficientFunds = available < Number(formValues.amount || 0);
 
-  const { totalToTake, isTooMuchSlippage, isExceedsLiquidity, ...finalValues } =
+  const { totalToTake, isExceedDexLiquidity, ...finalValues } =
     useConvertSellMarketArgs({
       amount: formValues.amount,
       pool: buyPool,
@@ -112,18 +113,25 @@ const MarketSell = () => {
           />
 
           <Total total={total} label={pair.accountingLabel} />
+          {/* two Info component here are together*/}
           <Info
-            isRendered={isTooMuchSlippage}
-            text="Slippage is too high!"
-            color="error"
+            isRendered={isExceedDexLiquidity}
+            text={"Dex liquidity is insufficient to fill the order!"}
+            color="warning"
           />
-          {!isTooMuchSlippage && (
-            <Info
-              isRendered={isExceedsLiquidity}
-              text="Order exceeds dex liquidity!"
-              color="error"
-            />
-          )}
+          <Info
+            isRendered={isExceedDexLiquidity}
+            text={`Actual amount you can sell: ${fixPrecision(
+              Number(
+                utils.formatUnits(
+                  finalValues.maxPaid,
+                  finalValues.pool.accounting.decimals
+                ) || 0
+              ),
+              finalValues.pool.accounting.displayPrecision
+            )} ${pair.underlyingLabel}`}
+            color="warning"
+          />
           <Info
             isRendered={!isApproved}
             color="warning"

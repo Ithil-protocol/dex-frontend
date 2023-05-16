@@ -68,7 +68,7 @@ const LimitConfirmation: React.FC<Props> = ({
             finalValues.actualPrice
           )}
         </RowContainer>
-        <RowContainer label={"ETH"} isLoading={false} title="Staked (Boost)">
+        <RowContainer label={"ETH"} isLoading={false} title="Boost">
           {converters.stakedConverter(finalValues.boost)}
         </RowContainer>
         <RowContainer isLoading={false} title="Orders before you">

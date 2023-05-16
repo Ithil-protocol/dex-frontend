@@ -9,16 +9,13 @@ interface Props {
 
 const Body: React.FC<Props> = ({ headsLength }) => {
   const { data: trades, isLoading } = useAllOrderFulfilledEvents();
-  const MAX_ROWS = 50;
 
   return (
     <TableBody>
       {isLoading ? (
         <TableLoader cellsNumber={headsLength} rowsNum={10} />
       ) : (
-        (trades || [])
-          .slice(0, MAX_ROWS)
-          .map((item, i) => <EachTrade key={i} data={item} />)
+        (trades || []).map((item, i) => <EachTrade key={i} data={item} />)
       )}
     </TableBody>
   );
