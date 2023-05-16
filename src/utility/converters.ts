@@ -8,11 +8,11 @@ export const buyPriceConverter = (price: BigNumber, pool: Pool) => {
 export const buyAmountConverter = (
   amount: BigNumber,
   price: BigNumber,
-  pool: Pool
+  buyPool: Pool
 ) => {
   return (
-    Number(utils.formatUnits(amount, pool.underlying.decimals)) /
-    Number(utils.formatUnits(price, pool.underlying.decimals))
+    Number(utils.formatUnits(amount, buyPool.underlying.decimals)) /
+    Number(utils.formatUnits(price, buyPool.underlying.decimals))
   );
 };
 

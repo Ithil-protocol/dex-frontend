@@ -4,6 +4,11 @@ import { constants } from "ethers";
 import { useStakedConverter } from "./converters";
 import { fixPrecision } from "@/utility/converters";
 import { useEffect, useState } from "react";
+import {
+  INCREASE_MAX_BOOST_FACTOR,
+  MIN_FAST_BOOST,
+  STAKED_DECIMALS,
+} from "@/config/constants";
 
 interface GetMaxBoostProps {
   poolAddress: `0x${string}`;
@@ -12,7 +17,10 @@ interface GetMaxBoostProps {
 }
 
 const _stakedConverter = (stake: BigNumber) => {
-  return Number(utils.formatUnits(stake, 18)) * 1.01;
+  return (
+    Number(utils.formatUnits(stake, STAKED_DECIMALS)) *
+    INCREASE_MAX_BOOST_FACTOR
+  );
 };
 
 export const useGetMaxBoost = ({
@@ -40,7 +48,7 @@ export const useGetMaxBoost = ({
     },
   });
   const maxBoost = firstOrder
-    ? Math.max(_stakedConverter(firstOrder.staked), 0.001)
+    ? Math.max(_stakedConverter(firstOrder.staked), MIN_FAST_BOOST)
     : 0;
 
   return { maxBoost, isLoading: isLoading || price.isZero() };

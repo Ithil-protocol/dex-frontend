@@ -70,13 +70,19 @@ const MarketBuy: React.FC<Props> = () => {
   const groupButtonHandler = useCallback(
     (item: number) => {
       const balancePrice = highestPrice
-        ? 1 / Number(utils.formatUnits(highestPrice, 18))
+        ? 1 /
+          Number(
+            utils.formatUnits(
+              highestPrice,
+              finalValues.pool.underlying.decimals
+            )
+          )
         : 0;
       const balancePercent = (item / 100) * available;
       const amountPercent = balancePercent / balancePrice;
       setValue("amount", amountPercent.toString());
     },
-    [setValue, available, highestPrice]
+    [setValue, available, highestPrice, finalValues]
   );
   const groupButtonDisabled =
     available === 0 || Number(highestPrice || 0) === 0;
