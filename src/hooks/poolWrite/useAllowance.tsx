@@ -8,7 +8,7 @@ import {
   useTokenApprove,
 } from "@/hooks/contracts/token";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
-import { BigNumberValue, Pool, Token } from "@/types";
+import { Address0x, Pool, Token } from "@/types";
 import { fixPrecision } from "@/utility/converters";
 
 interface AllowanceProps {
@@ -21,7 +21,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   const { address } = useAccount();
   const { data: allowanceValue } = useTokenAllowance({
     address: token.address,
-    args: [address as BigNumberValue, pool.address],
+    args: [address as Address0x, pool.address],
     enabled: !!address,
     watch: true,
   });

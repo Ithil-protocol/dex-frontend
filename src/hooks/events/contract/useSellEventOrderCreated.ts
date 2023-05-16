@@ -1,7 +1,7 @@
 import { contractABI } from "@/store/abi";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePoolStore } from "@/store";
-import { BigNumberValue, OrderBook } from "@/types";
+import { Address0x, OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
 import { updateOrderFromPendingToOpen } from "./helpers";
 import { sell_volume } from "@/data/constants";
@@ -53,7 +53,7 @@ export const useSellEventOrderCreated = () => {
 
       updateOrderFromPendingToOpen(
         queryClient,
-        address as BigNumberValue,
+        address as Address0x,
         poolAddress,
         rest
       );

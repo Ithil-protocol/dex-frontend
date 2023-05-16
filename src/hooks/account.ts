@@ -1,8 +1,8 @@
-import { BigNumberValue } from "@/types";
+import { Address0x } from "@/types";
 import { useAccount, useBalance } from "wagmi";
 
 interface TokenBalanceProps {
-  tokenAddress: BigNumberValue | undefined;
+  tokenAddress: Address0x | undefined;
 }
 
 export const useTokenBalance = ({ tokenAddress }: TokenBalanceProps) => {

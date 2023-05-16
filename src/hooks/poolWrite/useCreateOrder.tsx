@@ -6,7 +6,7 @@ import {
 } from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
-import { BigNumberValue, Pool, Side } from "@/types";
+import { Address0x, Pool, Side } from "@/types";
 import { useDeadline } from "@/hooks/useDeadline";
 import { useRef } from "react";
 import { useChangeOrderStatus } from "@/hooks/utils/useChangeOrderStatus";
@@ -36,7 +36,7 @@ export const useCreateOrder = ({
     args: [
       amount,
       price,
-      address as BigNumberValue,
+      address as Address0x,
       utils.parseUnits(time.toString(), 0),
     ],
     overrides: {
@@ -49,11 +49,11 @@ export const useCreateOrder = ({
     price,
     amount,
     boost,
-    address: address as BigNumberValue,
+    address: address as Address0x,
     side,
   });
   const changeOrderStatus = useChangeOrderStatus(
-    address as BigNumberValue,
+    address as Address0x,
     pool.address,
     transactionHash.current
   );

@@ -1,10 +1,10 @@
 import { QueryClient } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
-import { BigNumberValue, OpenOrderEvent } from "@/types";
+import { Address0x, OpenOrderEvent } from "@/types";
 
 export const updateOrderFromPendingToOpen = (
   queryClient: QueryClient,
-  address: BigNumberValue,
+  address: Address0x,
   poolAddress: string,
   rest: [string, ...BigNumber[]]
 ) => {
@@ -34,7 +34,7 @@ export const updateOrderFromPendingToOpen = (
 
 export const removeCanceledOrder = (
   queryClient: QueryClient,
-  address: BigNumberValue,
+  address: Address0x,
   poolAddress: string,
   price: BigNumber,
   index: BigNumber

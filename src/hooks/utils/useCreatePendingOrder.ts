@@ -1,12 +1,12 @@
 import { BigNumber, constants } from "ethers";
 import { usePoolPreviewOrder } from "@/hooks/contracts/pool";
-import { BigNumberValue, OpenOrderEvent, Side } from "@/types";
+import { Address0x, OpenOrderEvent, Side } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetConverters } from "@/hooks/converters";
 import { usePoolStore } from "@/store";
 
 interface CreatePendingOrderArgs {
-  address: BigNumberValue;
+  address: Address0x;
   amount: BigNumber;
   boost: BigNumber;
   price: BigNumber;

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { readContracts, useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "@/hooks/contract";
 import {
-  BigNumberValue,
+  Address0x,
   HistoryEvent,
   MarketEvent,
   OpenOrderEvent,
@@ -62,7 +62,7 @@ export const useUserOrderCreatedEvents = () => {
             return readContracts({
               contracts: [
                 {
-                  address: item.address as BigNumberValue,
+                  address: item.address as Address0x,
                   args: [item.args!.price, item.args!.index],
                   abi: contractABI,
                   functionName: "getOrder",
@@ -116,7 +116,7 @@ export const useUserOrderCreatedEvents = () => {
             return readContracts({
               contracts: [
                 {
-                  address: item.address as BigNumberValue,
+                  address: item.address as Address0x,
                   args: [item.args!.price, item.args!.index],
                   abi: contractABI,
                   functionName: "getOrder",

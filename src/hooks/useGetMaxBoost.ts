@@ -7,10 +7,10 @@ import {
   MIN_FAST_BOOST,
   STAKED_DECIMALS,
 } from "@/config/constants";
-import { BigNumberValue } from "@/types";
+import { Address0x } from "@/types";
 
 interface GetMaxBoostProps {
-  poolAddress: BigNumberValue;
+  poolAddress: Address0x;
   actualPrice: BigNumber;
   price: BigNumber;
 }

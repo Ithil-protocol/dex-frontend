@@ -11,7 +11,7 @@ import {
 } from "@/hooks/contracts/factory";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { BigNumberValue, FactoryInputs } from "@/types";
+import { Address0x, FactoryInputs } from "@/types";
 import { useWaitForTransaction } from "wagmi";
 
 const Factory = () => {
@@ -26,8 +26,8 @@ const Factory = () => {
   const { data } = useFactoryPools({
     address: factoryAddress,
     args: [
-      getValues("underlyingAddress") as BigNumberValue,
-      getValues("accountingAddress") as BigNumberValue,
+      getValues("underlyingAddress") as Address0x,
+      getValues("accountingAddress") as Address0x,
       Number(getValues("tick")),
     ],
     cacheTime: 0,
@@ -36,8 +36,8 @@ const Factory = () => {
   const { config } = usePrepareFactoryCreatePool({
     address: factoryAddress,
     args: [
-      getValues("underlyingAddress") as BigNumberValue,
-      getValues("accountingAddress") as BigNumberValue,
+      getValues("underlyingAddress") as Address0x,
+      getValues("accountingAddress") as Address0x,
       Number(getValues("tick")),
     ],
   });
