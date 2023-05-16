@@ -177,12 +177,6 @@ export const useConvertSellMarketArgs = ({
   const accountingDecimals = pool.accounting.decimals;
   const pair = usePoolStore((state) => state.pair);
 
-  const { data: highestPrice } = usePoolGetNextPriceLevel({
-    address: pool.address,
-    args: [constants.Zero],
-    watch: true,
-  });
-
   const { data: list } = useBuyVolumes();
 
   const { isSlippageTooHigh, totalToBuy, accountingAmount } = useMemo(
@@ -207,11 +201,6 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
-  // const isTooMuchSlippage =
-  //   Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
-  //   maxConvertedAmount;
-  const isExceedsLiquidity = false;
-  // const isExceedsLiquidity = previewTake ? totalToTake < totalToBuy : false;
 
   const minReceived = utils.parseUnits(
     minAmount.toFixed(underlyingDecimals),
@@ -236,7 +225,6 @@ export const useConvertSellMarketArgs = ({
     totalToTake,
     accountingToPay,
     isTooMuchSlippage: isSlippageTooHigh,
-    isExceedsLiquidity,
     inputAmount: Number(amount),
   };
 };

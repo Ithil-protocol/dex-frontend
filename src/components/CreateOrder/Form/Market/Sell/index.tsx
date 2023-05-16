@@ -46,7 +46,7 @@ const MarketSell: React.FC<Props> = () => {
 
   const isInsufficientFunds = available < Number(formValues.amount || 0);
 
-  const { totalToTake, isTooMuchSlippage, isExceedsLiquidity, ...finalValues } =
+  const { totalToTake, isTooMuchSlippage, ...finalValues } =
     useConvertSellMarketArgs({
       amount: formValues.amount,
       pool: buyPool,
