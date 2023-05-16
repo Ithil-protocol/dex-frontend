@@ -3,6 +3,7 @@ import styles from "./Order.module.scss";
 import { FormattedOrderBook } from "@/types";
 import { usePoolStore } from "@/store";
 import PreciseNumber from "@/components/Common/PreciseNumber";
+import { useEffect, useRef } from "react";
 
 interface Props {
   data?: FormattedOrderBook;
@@ -10,6 +11,27 @@ interface Props {
 }
 
 const Order: React.FC<Props> = ({ data, isLoading }) => {
+  const firstRenderRef = useRef(true);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      return;
+    }
+    if (data?.volume) {
+      ref.current?.classList.add(styles.winking);
+
+      const animationDuration = 200;
+      const timeoutId = setTimeout(() => {
+        ref.current?.classList.remove(styles.winking);
+      }, animationDuration);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [data?.volume, isLoading]);
+
   const pair = usePoolStore((state) => state.pair);
   const width =
     pair.base !== 0
@@ -20,6 +42,7 @@ const Order: React.FC<Props> = ({ data, isLoading }) => {
     <Skeleton height={40} />
   ) : (
     <div className={styles.order} data-type={data?.type}>
+      <div ref={ref} className={styles.flick}></div>
       <div className={styles.background} style={{ width }}></div>
       <p className={styles.value}>
         <PreciseNumber num={data?.value} isPrice={true} />
