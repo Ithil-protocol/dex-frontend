@@ -134,13 +134,6 @@ const MarketSell: React.FC<Props> = () => {
             )} ${pair.underlyingLabel}`}
             color="warning"
           />
-          {/* {!isTooMuchSlippage && (
-            <Info
-              isRendered={isExceedsLiquidity}
-              text="Order exceeds dex liquidity!"
-              color="error"
-            />
-          )} */}
           <Info
             isRendered={!isApproved}
             color="warning"
