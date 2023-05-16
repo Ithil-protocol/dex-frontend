@@ -198,7 +198,7 @@ export interface LimitFinalValues {
 
 export interface MarketSellFinalValues {
   amount: BigNumber;
-  price: BigNumber;
+  accountingToPay: BigNumber;
   minReceived: BigNumber;
   maxPaid: BigNumber;
   pool: Pool;

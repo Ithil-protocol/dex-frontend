@@ -12,7 +12,7 @@ import styles from "./LimitConfirmation.module.scss";
 import { useBuyAmountConverter } from "@/hooks/converters";
 import { capitalizeFirstLetter } from "@/utility";
 import { LoadingButton } from "@mui/lab";
-import { providers } from "ethers";
+import { providers, utils } from "ethers";
 
 import { fixPrecision } from "@/utility/converters";
 import TransactionResponse from "./TransactionResponse";
@@ -42,8 +42,6 @@ const MarketSellConfirmation: React.FC<Props> = ({
   modalCloseHandler,
 }) => {
   const [side, pair] = usePoolStore((state) => [state.side, state.pair]);
-
-  const buyAmountConverter = useBuyAmountConverter();
 
   const { data: preview, isLoading: previewLoading } = usePoolPreviewTake({
     address: finalValues.pool.address,
@@ -76,7 +74,12 @@ const MarketSellConfirmation: React.FC<Props> = ({
         >
           {preview &&
             fixPrecision(
-              finalValues.inputAmount,
+              Number(
+                utils.formatUnits(
+                  finalValues.maxPaid,
+                  finalValues.pool.accounting.decimals
+                ) || 0
+              ),
               finalValues.pool.accounting.displayPrecision
             )}
         </RowContainer>
@@ -85,7 +88,17 @@ const MarketSellConfirmation: React.FC<Props> = ({
           isLoading={previewLoading}
           title="You sell (min)"
         >
-          {preview && buyAmountConverter(finalValues.amount, finalValues.price)}
+          {/* {preview && buyAmountConverter(finalValues.amount, finalValues.price)} */}
+          {preview &&
+            fixPrecision(
+              Number(
+                utils.formatUnits(
+                  finalValues.accountingToPay,
+                  finalValues.pool.accounting.decimals
+                ) || 0
+              ),
+              finalValues.pool.accounting.displayPrecision
+            )}
         </RowContainer>
 
         <TransactionResponse

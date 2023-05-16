@@ -1,4 +1,4 @@
-import { Pool } from "@/types";
+import { OrderBook, Pool } from "@/types";
 import { BigNumber, constants, utils } from "ethers";
 import {
   usePoolGetNextPriceLevel,
@@ -8,6 +8,10 @@ import {
 import { appConfig } from "@/config";
 import { usePoolStore } from "@/store";
 import { STAKED_DECIMALS } from "@/config/constants";
+import { useBuyVolumes } from "@/hooks/contract";
+import { useBuyAmountConverter } from "@/hooks/converters";
+import { buyAmountConverter } from "@/utility/converters";
+import { useMemo } from "react";
 
 interface ConvertLimitArgsProps {
   amount: string | undefined;
@@ -93,6 +97,73 @@ export const useConvertSellLimitArgs = ({
   };
 };
 
+interface GetAmountInSellMarketProps {
+  list: OrderBook[] | undefined;
+  amount: string;
+  pool: Pool;
+  underlyingDecimals: number;
+}
+const getAmountInSellMarket = ({
+  list,
+  amount,
+  pool,
+  underlyingDecimals,
+}: GetAmountInSellMarketProps) => {
+  const inputAmount = Number(amount);
+  let residualAmount = inputAmount;
+  let totalToBuy = 0;
+  let residualIteration = 0;
+  let accountingAmount = 0;
+  if (list) {
+    const filteredList = list.filter((el) => !el.volume.isZero());
+    // if the first row amount is enough to fill the order then we just use first row
+    const firstRowAmount = buyAmountConverter(
+      filteredList[0].volume,
+      filteredList[0].value,
+      pool
+    );
+    if (inputAmount < firstRowAmount) {
+      totalToBuy =
+        Number(utils.formatUnits(filteredList[0].volume, underlyingDecimals)) *
+        (inputAmount / firstRowAmount);
+      residualAmount = 0;
+      return {
+        totalToBuy,
+        isSlippageTooHigh: false,
+        accountingAmount: inputAmount,
+      };
+    }
+
+    // in every iteration we minus the row amount from inputAmount (or residualAmount) and add respected volume to totalToBuy
+    // if residualAmount is negative then we break the loop and return totalToBuy
+
+    for (const row of filteredList) {
+      if (residualAmount > 0) {
+        const rowAmount = buyAmountConverter(row.volume, row.value, pool);
+        const rowVolumeInNumber = Number(
+          utils.formatUnits(row.volume, underlyingDecimals)
+        );
+        if (residualAmount - rowAmount > 0) {
+          totalToBuy += rowVolumeInNumber;
+          accountingAmount = inputAmount - (residualAmount - rowAmount);
+        } else {
+          accountingAmount = inputAmount;
+          totalToBuy += (residualAmount / rowAmount) * rowVolumeInNumber;
+        }
+        residualAmount -= rowAmount;
+      } else {
+        break;
+      }
+      residualIteration += 1;
+    }
+  }
+  return {
+    totalToBuy,
+    isSlippageTooHigh: residualIteration >= 8,
+    accountingAmount,
+  };
+};
+
 interface ConvertMarketArgsProps {
   amount: string | undefined;
   pool: Pool;
@@ -112,17 +183,19 @@ export const useConvertSellMarketArgs = ({
     watch: true,
   });
 
-  // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
-  const minConvertedAmount = highestPrice
-    ? Number(utils.formatUnits(highestPrice, underlyingDecimals)) *
-      Number(amount) *
-      (1 - appConfig.slippage(pair.tick))
-    : 0;
+  const { data: list } = useBuyVolumes();
 
-  const maxConvertedAmount = Number(amount);
+  const { isSlippageTooHigh, totalToBuy, accountingAmount } = useMemo(
+    () => getAmountInSellMarket({ list, amount, pool, underlyingDecimals }),
+    [amount, pool, underlyingDecimals, list]
+  );
+
+  // if amount is 0.00041 WETH and highestPrice is 2672 then finalAmount will be 1.09552 USDC
+
+  const minAmount = totalToBuy * (1 - appConfig.slippage(pair.tick));
 
   const finalAmount = utils.parseUnits(
-    minConvertedAmount.toFixed(underlyingDecimals),
+    minAmount.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
@@ -134,21 +207,24 @@ export const useConvertSellMarketArgs = ({
   const totalToTake = previewTake
     ? Number(utils.formatUnits(previewTake[1], underlyingDecimals))
     : 0;
-
-  const isTooMuchSlippage =
-    Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
-    maxConvertedAmount;
-  const isExceedsLiquidity = previewTake
-    ? totalToTake < minConvertedAmount
-    : false;
+  // const isTooMuchSlippage =
+  //   Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) >
+  //   maxConvertedAmount;
+  const isExceedsLiquidity = false;
+  // const isExceedsLiquidity = previewTake ? totalToTake < totalToBuy : false;
 
   const minReceived = utils.parseUnits(
-    minConvertedAmount.toFixed(underlyingDecimals),
+    minAmount.toFixed(underlyingDecimals),
     underlyingDecimals
   );
 
+  const accountingToPayWithSlippage =
+    Number(utils.formatUnits(accountingToPay, accountingDecimals) || 0) /
+    (1 - appConfig.slippage(pair.tick));
+  const maxPaid = Math.max(accountingAmount, accountingToPayWithSlippage);
+
   const finalMaxPaid = utils.parseUnits(
-    maxConvertedAmount.toFixed(accountingDecimals),
+    maxPaid.toFixed(accountingDecimals),
     accountingDecimals
   );
 
@@ -158,9 +234,9 @@ export const useConvertSellMarketArgs = ({
     maxPaid: finalMaxPaid,
     pool,
     totalToTake,
-    isTooMuchSlippage,
+    accountingToPay,
+    isTooMuchSlippage: isSlippageTooHigh,
     isExceedsLiquidity,
-    price: highestPrice || constants.Zero,
     inputAmount: Number(amount),
   };
 };
