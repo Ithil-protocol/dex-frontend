@@ -59,7 +59,7 @@
     "wagmi": "^0.12.12",
     "yup": "^1.1.1",
     "zustand": "^4.3.7",
-    "@next/env":"13.3.4"
+    "@next/env": "13.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",

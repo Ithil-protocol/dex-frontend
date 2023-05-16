@@ -113,12 +113,14 @@ const getAmountInSellMarket = ({
   let residualAmount = inputAmount;
   let totalToBuy = 0;
   let accountingAmount = 0;
+
   if (list) {
     const filteredList = list.filter((el) => !el.volume.isZero());
+
     // if the first row amount is enough to fill the order then we just use first row
     const firstRowAmount = buyAmountConverter(
-      filteredList[0].volume,
-      filteredList[0].value,
+      list[0].volume,
+      list[0].value,
       pool
     );
     if (inputAmount < firstRowAmount) {

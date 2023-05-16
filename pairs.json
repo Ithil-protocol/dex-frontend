@@ -2,7 +2,7 @@
   {
     "tick": 1,
     "base": 10,
-    "chartUrl":"UNISWAP3ARBITRUM:WETHDAI",
+    "chartUrl": "UNISWAP3ARBITRUM:WETHDAI",
     "underlying": {
       "label": "WETH",
       "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
@@ -17,7 +17,7 @@
   {
     "tick": 5,
     "base": 10,
-    "chartUrl":"UNISWAP3POLYGON:WETHDAI",
+    "chartUrl": "UNISWAP3POLYGON:WETHDAI",
     "underlying": {
       "label": "WBTC",
       "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
@@ -32,7 +32,7 @@
   {
     "tick": 10,
     "base": 10,
-    "chartUrl":"UNISWAP3POLYGON:WBTCWETH",
+    "chartUrl": "UNISWAP3POLYGON:WBTCWETH",
     "underlying": {
       "label": "WBTC",
       "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",

@@ -67,9 +67,9 @@ export const useBuyEventOrderFulfilled = () => {
         (prev) => {
           if (!prev) return;
 
-          const [, offerer, fulfiller, rawAmount, rawPrice] = rest;
+          const [, offerer, fulfiller, rawAmount, rawPrice, totalFill] = rest;
 
-          if (offerer === address || fulfiller === address) {
+          if ((offerer === address || fulfiller === address) && totalFill) {
             return [
               {
                 amount: amountConverter(rawAmount, rawPrice),
