@@ -79,6 +79,6 @@ export const capitalizeFirstLetter = (string: string) => {
 };
 
 export const getIcon = (key: string) => {
-  const icon = icons[key];
+  const icon = icons[key as keyof typeof icons];
   return icon || Generic;
 };

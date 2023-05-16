@@ -8,6 +8,7 @@ import {
 } from "abitype";
 import { BigNumber } from "ethers";
 import { poolABI } from "@/hooks/contracts/pool";
+import theme from "@/styles/theme";
 
 export type CustomInputEvent = React.ChangeEvent<
   HTMLTextAreaElement | HTMLInputElement
@@ -63,13 +64,9 @@ export interface MarketEvent {
   timestamp: number;
 }
 
-export interface StringMap {
-  [prop: string]: any;
-}
-
 export interface Token {
   icon: any;
-  address: `0x${string}`;
+  address: BigNumberValue;
   decimals: number;
   displayPrecision: number;
 }
@@ -77,7 +74,7 @@ export interface Token {
 export interface Pool {
   underlying: Token;
   accounting: Token;
-  address: `0x${string}`;
+  address: BigNumberValue;
 }
 
 export type Side = "sell" | "buy";
@@ -109,7 +106,6 @@ export interface PoolState {
 }
 
 export interface OrderBook {
-  // originalPrice: BigNumber;
   value: BigNumber;
   volume: BigNumber;
   type: "buy" | "sell";
@@ -141,7 +137,7 @@ export type ContractInputs =
                 AbiFunction | AbiEvent | AbiError | AbiConstructor
               >[]
             | undefined;
-          address?: `0x${string}` | undefined;
+          address?: BigNumberValue | undefined;
           functionName?: string | undefined;
           args?: readonly unknown[] | undefined;
           chainId?: number | undefined;
@@ -154,15 +150,13 @@ type FuncName = Extract<(typeof poolABI)[number], { type: "function" }>["name"];
 
 export type CustomContractConfig = ({
   abi: typeof poolABI;
-  address: `0x${string}`;
+  address: BigNumberValue;
   functionName: FuncName;
 } & {
   args?: readonly unknown[] | undefined;
 } & {
   chainId?: number | undefined;
 })[];
-
-// Form Type
 
 export interface LimitInputs {
   price: string;
@@ -179,14 +173,12 @@ export interface MarketInputs {
   amount: string;
 }
 
-export type ThemeColor =
-  | "error"
-  | "success"
-  | "inherit"
-  | "info"
-  | "primary"
-  | "secondary"
-  | "warning";
+export type ThemeColor = Extract<
+  PaletteKey,
+  "error" | "success" | "inherit" | "info" | "primary" | "secondary" | "warning"
+>;
+
+export type PaletteKey = keyof typeof theme.palette;
 
 export interface LimitFinalValues {
   amount: BigNumber;
@@ -214,3 +206,5 @@ export interface MarketBuyFinalValues {
   pool: Pool;
   totalToPay: number;
 }
+
+export type BigNumberValue = `0x${string}`;

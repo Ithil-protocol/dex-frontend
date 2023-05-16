@@ -1,10 +1,10 @@
 import { QueryClient } from "@tanstack/react-query";
 import { BigNumber } from "ethers";
-import { OpenOrderEvent } from "@/types";
+import { BigNumberValue, OpenOrderEvent } from "@/types";
 
 export const updateOrderFromPendingToOpen = (
   queryClient: QueryClient,
-  address: string,
+  address: BigNumberValue,
   poolAddress: string,
   rest: [string, ...BigNumber[]]
 ) => {
@@ -19,46 +19,22 @@ export const updateOrderFromPendingToOpen = (
 
       return prev.map((item) => {
         if (item.rawPrice.eq(price) && item.status === "pending") {
-          // console.log("order found");
-
           return {
             ...item,
             status: "open",
             index: orderIndex,
           };
         } else {
-          // console.log("order not found");
           return item;
         }
       });
-
-      // const foundOrderIndex = prev.findIndex((i) => {
-      //   return i.rawPrice.eq(price) && i.status === "pending";
-      // });
-
-      // if (foundOrderIndex !== -1) {
-      //   console.log("order found");
-
-      //   const order: OpenOrderEvent = {
-      //     ...prev[foundOrderIndex],
-      //     status: "open",
-      //     index: orderIndex,
-      //   };
-      //   const copyOrders = [...prev];
-      //   copyOrders[foundOrderIndex] = order;
-      //   return copyOrders;
-      // }
-
-      //     console.log("order not found");
-
-      // return prev;
     }
   );
 };
 
 export const removeCanceledOrder = (
   queryClient: QueryClient,
-  address: string,
+  address: BigNumberValue,
   poolAddress: string,
   price: BigNumber,
   index: BigNumber

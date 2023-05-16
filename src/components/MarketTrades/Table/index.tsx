@@ -1,13 +1,11 @@
 import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
+import MuiTable from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import TradesTableBody from "./Body";
-import TradesTableHead from "./Head";
+import Body from "./Body";
+import Head from "./Head";
 import { usePoolStore } from "@/store";
 
-interface Props {}
-
-const MarketTradesTable: React.FC<Props> = () => {
+const Table = () => {
   const pair = usePoolStore((state) => state.pair);
 
   const heads = [
@@ -31,12 +29,12 @@ const MarketTradesTable: React.FC<Props> = () => {
         />
       )}
     >
-      <Table size="small">
-        <TradesTableHead heads={heads} />
-        <TradesTableBody headsLength={heads.length} />
-      </Table>
+      <MuiTable size="small">
+        <Head heads={heads} />
+        <Body headsLength={heads.length} />
+      </MuiTable>
     </TableContainer>
   );
 };
 
-export default MarketTradesTable;
+export default Table;

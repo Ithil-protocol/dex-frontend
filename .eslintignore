@@ -14,3 +14,4 @@ thunder-tests
 badge.svg
 tests.svg
 /lib
+/src/hooks/contracts/*

@@ -14,10 +14,7 @@ const boosts: readonly Boost[] = [
   { text: "fast", factor: 1 },
 ];
 
-const BoostGroupButton: React.FC<Props> = ({
-  disabled,
-  groupButtonHandler,
-}) => {
+const GroupButton: React.FC<Props> = ({ disabled, groupButtonHandler }) => {
   const [active, setActive] = useState<Boost>(boosts[0]);
   const theme = useTheme();
 
@@ -84,4 +81,4 @@ const BoostGroupButton: React.FC<Props> = ({
   );
 };
 
-export default BoostGroupButton;
+export default GroupButton;

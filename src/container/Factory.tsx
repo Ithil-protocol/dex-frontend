@@ -11,12 +11,10 @@ import {
 } from "@/hooks/contracts/factory";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { FactoryInputs } from "@/types";
+import { BigNumberValue, FactoryInputs } from "@/types";
 import { useWaitForTransaction } from "wagmi";
 
-interface Props {}
-
-const Factory: React.FC<Props> = () => {
+const Factory = () => {
   const {
     formState: { isSubmitting },
     handleSubmit,
@@ -28,8 +26,8 @@ const Factory: React.FC<Props> = () => {
   const { data } = useFactoryPools({
     address: factoryAddress,
     args: [
-      getValues("underlyingAddress") as `0x${string}`,
-      getValues("accountingAddress") as `0x${string}`,
+      getValues("underlyingAddress") as BigNumberValue,
+      getValues("accountingAddress") as BigNumberValue,
       Number(getValues("tick")),
     ],
     cacheTime: 0,
@@ -38,15 +36,16 @@ const Factory: React.FC<Props> = () => {
   const { config } = usePrepareFactoryCreatePool({
     address: factoryAddress,
     args: [
-      getValues("underlyingAddress") as `0x${string}`,
-      getValues("accountingAddress") as `0x${string}`,
+      getValues("underlyingAddress") as BigNumberValue,
+      getValues("accountingAddress") as BigNumberValue,
       Number(getValues("tick")),
     ],
   });
   const { data: writeData, write } = useFactoryCreatePool({
     ...config,
   });
-  const { data: waitedData } = useWaitForTransaction({
+
+  useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -58,7 +57,7 @@ const Factory: React.FC<Props> = () => {
     },
   });
 
-  const handleFormSubmit = (e) => undefined;
+  const handleFormSubmit = () => undefined;
 
   return (
     <Box

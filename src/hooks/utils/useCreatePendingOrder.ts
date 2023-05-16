@@ -1,12 +1,12 @@
 import { BigNumber, constants } from "ethers";
 import { usePoolPreviewOrder } from "@/hooks/contracts/pool";
-import { OpenOrderEvent, Side } from "@/types";
+import { BigNumberValue, OpenOrderEvent, Side } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetConverters } from "@/hooks/converters";
 import { usePoolStore } from "@/store";
 
 interface CreatePendingOrderArgs {
-  address: string;
+  address: BigNumberValue;
   amount: BigNumber;
   boost: BigNumber;
   price: BigNumber;
@@ -56,7 +56,7 @@ export const useCreatePendingOrder = ({
 
         return [
           {
-            address: address as `0x${string}`,
+            address,
             amount: converters[side].amount(amount, price),
             index: constants.NegativeOne,
             price: converters[side].price(previewData.actualPrice),

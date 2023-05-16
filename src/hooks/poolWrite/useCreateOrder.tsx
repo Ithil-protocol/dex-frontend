@@ -6,7 +6,7 @@ import {
 } from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
-import { Pool, Side } from "@/types";
+import { BigNumberValue, Pool, Side } from "@/types";
 import { useDeadline } from "@/hooks/useDeadline";
 import { useRef } from "react";
 import { useChangeOrderStatus } from "@/hooks/utils/useChangeOrderStatus";
@@ -36,28 +36,24 @@ export const useCreateOrder = ({
     args: [
       amount,
       price,
-      address as `0x${string}`,
+      address as BigNumberValue,
       utils.parseUnits(time.toString(), 0),
     ],
     overrides: {
       value: boost,
     },
     enabled: !amount.isZero() && !price.isZero() && !!address,
-    onError: (_error) => {
-      // toast.error(error.message.substring(0, 200));
-    },
-    // onSuccess(...args) {},
   });
 
   const createPendingOrder = useCreatePendingOrder({
     price,
     amount,
     boost,
-    address: address as string,
+    address: address as BigNumberValue,
     side,
   });
   const changeOrderStatus = useChangeOrderStatus(
-    address as string,
+    address as BigNumberValue,
     pool.address,
     transactionHash.current
   );

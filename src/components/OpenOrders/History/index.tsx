@@ -3,10 +3,10 @@ import {
   useUserOrderFulfilledEvents,
 } from "@/hooks/events";
 
-import OrderHistoryTable from "./Table";
+import Table from "./Table";
 import { useMemo } from "react";
 
-const OrderHistory = () => {
+const History = () => {
   const { data: fulfilledOrders, isLoading: isFulfillLoading } =
     useUserOrderFulfilledEvents();
   const { data: canceledOrders, isLoading: isCancelLoading } =
@@ -19,11 +19,8 @@ const OrderHistory = () => {
   }, [fulfilledOrders, canceledOrders]);
 
   return (
-    <OrderHistoryTable
-      isLoading={isFulfillLoading || isCancelLoading}
-      orders={orders}
-    />
+    <Table isLoading={isFulfillLoading || isCancelLoading} orders={orders} />
   );
 };
 
-export default OrderHistory;
+export default History;

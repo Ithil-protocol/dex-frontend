@@ -12,7 +12,6 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "noEmit": true,
-    "noImplicitAny": false,
     "outDir": "lib",
     "paths": {
       "@/*": ["./src/*"]

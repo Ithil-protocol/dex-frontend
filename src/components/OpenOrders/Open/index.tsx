@@ -1,10 +1,10 @@
 import { useUserOrderCreatedEvents } from "@/hooks/events";
-import OpenOrdersTable from "./Table";
+import Table from "./Table";
 
-const OpenOrders = () => {
+const Open = () => {
   const { data, isLoading } = useUserOrderCreatedEvents();
 
-  return <OpenOrdersTable orders={data || []} isLoading={isLoading} />;
+  return <Table orders={data || []} isLoading={isLoading} />;
 };
 
-export default OpenOrders;
+export default Open;

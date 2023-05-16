@@ -1,8 +1,13 @@
 import { pairs } from "@/data/pools";
-import { PoolState } from "@/types";
+import { LimitMarket, PoolState, Side } from "@/types";
 import { create } from "zustand";
 
-const typeObj = {
+type Key = `${LimitMarket}-${Side}`;
+type TypeObj = {
+  [P in Key]: Side;
+};
+
+const typeObj: TypeObj = {
   "limit-sell": "sell",
   "limit-buy": "buy",
   "market-sell": "buy",
@@ -20,9 +25,10 @@ export const usePoolStore = create<PoolState>((set) => ({
   buyPool: pairs[0]["buy"],
   updateSide: (side) => {
     set((state) => {
+      const key = (state.type + "-" + side) as Key;
       return {
         side,
-        pool: pairs[state.pairValue][typeObj[state.type + "-" + side]],
+        pool: pairs[state.pairValue][typeObj[key]],
       };
     });
   },
@@ -36,9 +42,12 @@ export const usePoolStore = create<PoolState>((set) => ({
     }));
   },
   updateType: (type) => {
-    set((state) => ({
-      type,
-      pool: pairs[state.pairValue][typeObj[type + "-" + state.side]],
-    }));
+    set((state) => {
+      const key = (type + "-" + state.side) as Key;
+      return {
+        type,
+        pool: pairs[state.pairValue][typeObj[key]],
+      };
+    });
   },
 }));
