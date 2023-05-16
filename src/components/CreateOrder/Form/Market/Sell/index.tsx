@@ -14,6 +14,7 @@ import { useCallback, useState } from "react";
 import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import MarketSellConfirmation from "@/components/CreateOrder/Confirmation/MarketSellConfirmation";
+import { utils } from "ethers";
 
 interface Props {}
 
@@ -114,18 +115,32 @@ const MarketSell: React.FC<Props> = () => {
           />
 
           <Total total={total} label={pair.accountingLabel} />
+          {/* two Info component here are together*/}
           <Info
             isRendered={isTooMuchSlippage}
-            text="Slippage is too high!"
-            color="error"
+            text={"Dex liquidity is insufficient to fill the order!"}
+            color="warning"
           />
-          {!isTooMuchSlippage && (
+          <Info
+            isRendered={isTooMuchSlippage}
+            text={`Actual amount you sell: ${fixPrecision(
+              Number(
+                utils.formatUnits(
+                  finalValues.accountingToPay,
+                  finalValues.pool.accounting.decimals
+                ) || 0
+              ),
+              finalValues.pool.accounting.displayPrecision
+            )} ${pair.underlyingLabel}`}
+            color="warning"
+          />
+          {/* {!isTooMuchSlippage && (
             <Info
               isRendered={isExceedsLiquidity}
               text="Order exceeds dex liquidity!"
               color="error"
             />
-          )}
+          )} */}
           <Info
             isRendered={!isApproved}
             color="warning"

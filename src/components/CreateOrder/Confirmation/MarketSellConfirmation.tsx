@@ -88,7 +88,6 @@ const MarketSellConfirmation: React.FC<Props> = ({
           isLoading={previewLoading}
           title="You sell (min)"
         >
-          {/* {preview && buyAmountConverter(finalValues.amount, finalValues.price)} */}
           {preview &&
             fixPrecision(
               Number(
