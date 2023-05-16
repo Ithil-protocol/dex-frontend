@@ -112,7 +112,6 @@ const getAmountInSellMarket = ({
   const inputAmount = Number(amount);
   let residualAmount = inputAmount;
   let totalToBuy = 0;
-  let residualIteration = 0;
   let accountingAmount = 0;
   if (list) {
     const filteredList = list.filter((el) => !el.volume.isZero());
@@ -154,12 +153,11 @@ const getAmountInSellMarket = ({
       } else {
         break;
       }
-      residualIteration += 1;
     }
   }
   return {
     totalToBuy,
-    isSlippageTooHigh: residualIteration >= 8,
+    isSlippageTooHigh: inputAmount > accountingAmount,
     accountingAmount,
   };
 };

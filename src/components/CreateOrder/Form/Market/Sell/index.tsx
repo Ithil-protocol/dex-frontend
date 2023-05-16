@@ -126,7 +126,7 @@ const MarketSell: React.FC<Props> = () => {
             text={`Actual amount you can sell: ${fixPrecision(
               Number(
                 utils.formatUnits(
-                  finalValues.accountingToPay,
+                  finalValues.maxPaid,
                   finalValues.pool.accounting.decimals
                 ) || 0
               ),
