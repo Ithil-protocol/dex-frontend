@@ -19,7 +19,7 @@ export const useBuyVolumes = () => {
           args: [
             utils.parseUnits("0", 0),
             utils.parseUnits("0", 0),
-            utils.parseUnits("10", 0),
+            utils.parseUnits("20", 0),
           ],
         },
       ],

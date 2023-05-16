@@ -20,7 +20,7 @@ const OrderHistoryTable: React.FC<Props> = ({ orders, isLoading }) => {
     `amount (${pair.underlyingLabel})`,
     `price (${pair.accountingLabel})`,
     `total (${pair.accountingLabel})`,
-    "staked (ETH)",
+    "boost (ETH)",
   ];
 
   return (
