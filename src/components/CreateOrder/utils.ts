@@ -128,7 +128,7 @@ const getAmountInSellMarket = ({
       residualAmount = 0;
       return {
         totalToBuy,
-        isSlippageTooHigh: false,
+        isExceedDexLiquidity: false,
         accountingAmount: inputAmount,
       };
     }
@@ -157,7 +157,7 @@ const getAmountInSellMarket = ({
   }
   return {
     totalToBuy,
-    isSlippageTooHigh: inputAmount > accountingAmount,
+    isExceedDexLiquidity: inputAmount > accountingAmount,
     accountingAmount,
   };
 };
@@ -177,7 +177,7 @@ export const useConvertSellMarketArgs = ({
 
   const { data: list } = useBuyVolumes();
 
-  const { isSlippageTooHigh, totalToBuy, accountingAmount } = useMemo(
+  const { isExceedDexLiquidity, totalToBuy, accountingAmount } = useMemo(
     () => getAmountInSellMarket({ list, amount, pool, underlyingDecimals }),
     [amount, pool, underlyingDecimals, list]
   );
@@ -222,7 +222,7 @@ export const useConvertSellMarketArgs = ({
     pool,
     totalToTake,
     accountingToPay,
-    isTooMuchSlippage: isSlippageTooHigh,
+    isExceedDexLiquidity,
     inputAmount: Number(amount),
   };
 };
