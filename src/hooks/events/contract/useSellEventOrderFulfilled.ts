@@ -3,9 +3,10 @@ import { Event } from "ethers";
 import { useGetConvertersBySide } from "@/hooks/converters";
 import { usePoolStore } from "@/store";
 import { contractABI } from "@/store/abi";
-import { HistoryEvent, MarketEvent, OrderBook } from "@/types";
+import { HistoryEvent, MarketEvent, OpenOrderEvent, OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
 import { sell_volume } from "@/data/constants";
+import { sellAmountConverter } from "@/utility/converters";
 
 export const useSellEventOrderFulfilled = () => {
   const { address } = useAccount();
@@ -24,6 +25,7 @@ export const useSellEventOrderFulfilled = () => {
     abi: contractABI,
     eventName: "OrderFulfilled",
     async listener(...rest) {
+      const orderIndex = rest[0];
       const price = rest[4];
       const amount = rest[3];
       queryClient.setQueryData<OrderBook[]>(
@@ -90,6 +92,28 @@ export const useSellEventOrderFulfilled = () => {
           }
 
           return prev;
+        }
+      );
+
+      queryClient.setQueryData<OpenOrderEvent[]>(
+        ["userOrderCreatedEvent", address, poolAddress],
+        (prev) => {
+          if (!prev) return;
+
+          return prev.map((order) => {
+            const isItemExist =
+              order.rawPrice.eq(price) && order.index.eq(orderIndex);
+
+            if (isItemExist) {
+              const newRawExecuted = order.rawExecuted.add(amount);
+              return {
+                ...order,
+                executed: sellAmountConverter(newRawExecuted, sellPool),
+                rawExecuted: newRawExecuted,
+              };
+            }
+            return order;
+          });
         }
       );
     },
