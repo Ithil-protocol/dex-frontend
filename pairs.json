@@ -15,7 +15,7 @@
     }
   },
   {
-    "tick": 5,
+    "tick": 1,
     "base": 10,
     "chartUrl": "UNISWAP3ARBITRUM:USDCWETH",
     "underlying": {
