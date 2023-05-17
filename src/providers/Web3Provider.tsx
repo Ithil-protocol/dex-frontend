@@ -10,6 +10,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import { network } from "@/config/network";
+import { allProviders } from "@/config/providers";
 
 interface Props {
   children: React.ReactNode;
@@ -17,26 +18,7 @@ interface Props {
 
 const { chains, provider, webSocketProvider } = configureChains(
   [network],
-  [
-    jsonRpcProvider({
-      rpc: () => ({
-        http: process.env.NEXT_PUBLIC_INFURA_HTTP_ADDRESS as string,
-        webSocket: process.env.NEXT_PUBLIC_INFURA_WSS_ADDRESS as string,
-      }),
-    }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: process.env.NEXT_PUBLIC_ALCHEMY_HTTP_ADDRESS as string,
-        webSocket: process.env.NEXT_PUBLIC_ALCHEMY_WSS_ADDRESS as string,
-      }),
-    }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: process.env.NEXT_PUBLIC_BLOCKPI_HTTP_ADDRESS as string,
-        webSocket: process.env.NEXT_PUBLIC_BLOCKPI_WSS_ADDRESS as string,
-      }),
-    }),
-  ]
+  allProviders
 );
 
 const { connectors } = getDefaultWallets({
