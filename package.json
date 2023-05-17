@@ -1,8 +1,8 @@
 {
-  "name": "ithildex",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
+  "name": "wizardex",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": false,
   "scripts": {
     "build": "next build",
     "check:format": "prettier --write --list-different ./",
@@ -14,7 +14,7 @@
     "dev": "next dev",
     "husky:install": "husky install",
     "lint": "next lint",
-    "prebuild": "ts-node --esm ./src/scripts/pre-build.ts",
+    "prebuild": "node ./src/scripts/pre-build.mjs",
     "start": "next start",
     "export": "next export",
     "wagmi:generate": "wagmi generate",
@@ -84,7 +84,6 @@
     "lint-staged": "^13.2.0",
     "module-alias": "^2.2.2",
     "prettier": "2.8.6",
-    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
     "tslib": "^2.5.0"
   },

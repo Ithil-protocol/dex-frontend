@@ -22,8 +22,22 @@ export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
   return (
     <Html lang="en">
       <Head>
-        <meta name="theme-color" content={theme.palette.primary.main} />
+        <title>WizarDex - by Ithil</title>
+        <meta
+          name="description"
+          content="A fully on-chain feeless orderbook dex"
+        />
+        <meta property="og:title" content="WizarDex - by Ithil" />
+        <meta property="og:site_name" content="WizarDex" />
+        <meta property="og:url" content="https://dex.ithil.fi" />
+        <meta
+          property="og:description"
+          content="A fully on-chain feeless orderbook dex"
+        />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" />
+        <meta name="theme-color" content={theme.palette.primary.main} />
         <meta name="emotion-insertion-point" content="" />
         {emotionStyleTags}
       </Head>
