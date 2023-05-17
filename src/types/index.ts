@@ -20,6 +20,7 @@ export type Status =
   | "error"
   | "fulfilled"
   | "open"
+  | "partially filled"
   | "pending";
 
 export type BoostFactor = 0 | 0.4 | 0.7 | 1;
