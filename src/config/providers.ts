@@ -5,8 +5,8 @@ import { publicProvider } from "wagmi/providers/public";
 import { network } from "./network.ts";
 import { ChainProviderFn } from "wagmi";
 
-const blockpiBaseHttpUrl = "https://ethereum-sepolia.blockpi.network/v1/rpc/";
-const blockpiBaseWssUrl = "wss://ethereum-sepolia.blockpi.network/v1/ws/";
+const blockpiBaseHttpUrl = "https://ethereum-arbitrum.blockpi.network/v1/rpc/";
+const blockpiBaseWssUrl = "wss://ethereum-arbitrum.blockpi.network/v1/ws/";
 
 export const allProviders: ChainProviderFn<typeof network>[] = [
   alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID! }),

@@ -1,5 +1,6 @@
 import { configureChains, createClient, erc20ABI } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { alchemyProvider } from "wagmi/providers/alchemy";
 import { readContracts } from "wagmi";
 import fs from "fs";
 import addresses from "../../pairs.json" assert { type: "json" };
@@ -8,14 +9,19 @@ import { Pair } from "../types";
 import { network } from "../config/network.ts";
 import { factoryAddress } from "../config/factory.ts";
 import { factoryABI } from "../store/abi.ts";
-import { allProviders } from "../config/providers.ts";
+import { publicProvider } from "wagmi/providers/public";
 
 const { loadEnvConfig } = nextEnv;
 
 loadEnvConfig(process.cwd());
 
-const { provider } = configureChains([network], allProviders);
-
+const { provider } = configureChains(
+  [network],
+  [
+    publicProvider(),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID! }),
+  ]
+);
 createClient({
   autoConnect: true,
   provider,
