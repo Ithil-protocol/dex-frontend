@@ -68,6 +68,7 @@ export const useCreatePendingOrder = ({
             status: "pending",
             timestamp: Date.now(),
             transactionHash,
+            executed: 0,
           },
           ...prev,
         ];

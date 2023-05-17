@@ -81,18 +81,17 @@ export const useUserOrderCreatedEvents = () => {
           index,
         } = item.args!;
 
-        const status: Status = sellOrders[i].underlyingAmount.isZero()
-          ? "fulfilled"
-          : "open";
-
+        const { underlyingAmount } = sellOrders[i];
+        const status: Status = underlyingAmount.isZero() ? "fulfilled" : "open";
         if (status !== "open") continue;
 
         const amount = sellAmountConverter(rawAmount);
-        if (rawAmount.isZero()) continue;
+        const rawExecuted = rawAmount.sub(underlyingAmount);
 
         results.push({
           address: item.address,
           amount,
+          executed: sellAmountConverter(rawExecuted),
           index,
           price: sellPriceConverter(rawPrice),
           rawAmount,
@@ -129,24 +128,23 @@ export const useUserOrderCreatedEvents = () => {
 
       for (const [i, item] of buyEvents.entries()) {
         const {
-          price: rawPrice,
-          underlyingAmount: rawAmount,
-          staked: rawStaked,
           index,
+          price: rawPrice,
+          staked: rawStaked,
+          underlyingAmount: rawAmount,
         } = item.args!;
 
-        const status: Status = buyOrders[i].underlyingAmount.isZero()
-          ? "fulfilled"
-          : "open";
-
+        const { underlyingAmount } = buyOrders[i];
+        const status: Status = underlyingAmount.isZero() ? "fulfilled" : "open";
         if (status !== "open") continue;
 
         const amount = buyAmountConverter(rawAmount, rawPrice);
-        if (rawAmount.isZero()) continue;
+        const rawExecuted = rawAmount.sub(underlyingAmount);
 
         results.push({
           address: item.address,
           amount,
+          executed: buyAmountConverter(rawExecuted, rawPrice),
           index,
           price: buyPriceConverter(rawPrice),
           rawAmount,

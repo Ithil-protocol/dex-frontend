@@ -39,13 +39,14 @@ export interface HistoryEvent {
   side: Side;
   staked: number;
   status: Status;
-  transactionHash: string;
   timestamp: number;
+  transactionHash: string;
 }
 
 export interface OpenOrderEvent {
   address: string;
   amount: number;
+  executed: number;
   index: BigNumber;
   price: number;
   rawAmount: BigNumber;
@@ -53,9 +54,9 @@ export interface OpenOrderEvent {
   rawStaked: BigNumber;
   side: Side;
   staked: number;
-  transactionHash: string;
-  timestamp: number;
   status: Status;
+  timestamp: number;
+  transactionHash: string;
 }
 
 export interface MarketEvent {

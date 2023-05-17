@@ -18,6 +18,8 @@ const Order: React.FC<Props> = ({ data }) => {
     data.side === "buy" ? state.buyPool : state.sellPool,
   ]);
 
+  console.log("data.executed:", data.executed);
+
   const { cancel } = useCancelOrder({
     transactionHash: data.transactionHash,
     index: data.index,
@@ -92,6 +94,12 @@ const Order: React.FC<Props> = ({ data }) => {
       <TableCell>
         <span>
           <PreciseNumber num={data.amount} isPrice={false} />
+        </span>
+      </TableCell>
+
+      <TableCell>
+        <span>
+          <PreciseNumber num={data.executed} isPrice={false} />
         </span>
       </TableCell>
 
