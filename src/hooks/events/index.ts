@@ -382,7 +382,12 @@ export const useUserOrderFulfilledEvents = () => {
       );
 
       for (const [i, item] of buyEvents.entries()) {
-        const { price: rawPrice, amount: rawAmount } = item.args!;
+        const {
+          amount: rawAmount,
+          offerer,
+          price: rawPrice,
+          totalFill,
+        } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
@@ -392,9 +397,9 @@ export const useUserOrderFulfilledEvents = () => {
           rawAmount,
           rawPrice,
           rawStaked,
-          side: "buy",
+          side: offerer === address ? "buy" : "sell",
           staked: stakedConverter(rawStaked),
-          status: "fulfilled",
+          status: totalFill ? "fulfilled" : "partially filled",
           timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });
@@ -405,7 +410,12 @@ export const useUserOrderFulfilledEvents = () => {
         sellEvents.map((item) => item.getBlock())
       );
       for (const [i, item] of sellEvents.entries()) {
-        const { price: rawPrice, amount: rawAmount } = item.args!;
+        const {
+          amount: rawAmount,
+          offerer,
+          price: rawPrice,
+          totalFill,
+        } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
@@ -415,9 +425,9 @@ export const useUserOrderFulfilledEvents = () => {
           rawAmount,
           rawPrice,
           rawStaked,
-          side: "sell",
+          side: offerer === address ? "buy" : "sell",
           staked: stakedConverter(rawStaked),
-          status: "fulfilled",
+          status: totalFill ? "fulfilled" : "partially filled",
           timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });

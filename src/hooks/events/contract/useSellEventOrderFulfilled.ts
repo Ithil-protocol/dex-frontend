@@ -71,7 +71,7 @@ export const useSellEventOrderFulfilled = () => {
 
           const [, offerer, fulfiller, rawAmount, rawPrice, totalFill] = rest;
 
-          if ((offerer === address || fulfiller === address) && totalFill) {
+          if (offerer === address || fulfiller === address) {
             return [
               {
                 amount: amountConverter(rawAmount, rawPrice),
@@ -81,7 +81,7 @@ export const useSellEventOrderFulfilled = () => {
                 rawStaked,
                 side: "sell",
                 staked: stakedConverter(rawStaked),
-                status: "fulfilled",
+                status: totalFill ? "fulfilled" : "partially filled",
                 timestamp: Date.now(),
                 transactionHash: data.transactionHash,
               },
