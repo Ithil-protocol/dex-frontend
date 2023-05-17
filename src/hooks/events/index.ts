@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { readContracts, useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "@/hooks/contract";
-import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "@/types";
+import {
+  Address0x,
+  HistoryEvent,
+  MarketEvent,
+  OpenOrderEvent,
+  Status,
+} from "@/types";
 import { useGetConverters } from "@/hooks/converters";
 import { contractABI } from "@/store/abi";
 import { usePoolStore } from "@/store";
@@ -56,7 +62,7 @@ export const useUserOrderCreatedEvents = () => {
             return readContracts({
               contracts: [
                 {
-                  address: item.address as `0x${string}`,
+                  address: item.address as Address0x,
                   args: [item.args!.price, item.args!.index],
                   abi: contractABI,
                   functionName: "getOrder",
@@ -110,7 +116,7 @@ export const useUserOrderCreatedEvents = () => {
             return readContracts({
               contracts: [
                 {
-                  address: item.address as `0x${string}`,
+                  address: item.address as Address0x,
                   args: [item.args!.price, item.args!.index],
                   abi: contractABI,
                   functionName: "getOrder",
@@ -160,26 +166,6 @@ export const useUserOrderCreatedEvents = () => {
 
   return useQuery(["userOrderCreatedEvent", address, poolAddress], getEvents);
 };
-
-// export const useAllOrderCreatedEvents = () => {
-
-//   const {address:poolAddress} = usePoolStore(state=>state.default);
-
-//   const buyContract = useBuyContract();
-//   const sellContract = useSellContract();
-
-//   const getEvents = async () => {
-//     let results: Event[] = [];
-//     if (buyContract && sellContract) {
-//       const sellEvents = await sellContract.queryFilter("OrderCreated");
-//       const buyEvents = await buyContract.queryFilter("OrderCreated");
-//       results = [...sellEvents, ...buyEvents];
-//     }
-//     return results;
-//   };
-
-//   return useQuery(["allOrderCreatedEvent",poolAddress], getEvents);
-// };
 
 export const useUserOrderCancelledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);

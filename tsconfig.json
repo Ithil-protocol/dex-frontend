@@ -12,7 +12,6 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "noEmit": true,
-    "noImplicitAny": false,
     "outDir": "lib",
     "paths": {
       "@/*": ["./src/*"]
@@ -25,15 +24,16 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es6"
+    "target": "es6",
+    "allowImportingTsExtensions":true
   },
   "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/scripts/pre-build.mjs",
+    "src/scripts/pre-build.ts",
     "src/data/pools.tsx",
-    "src/config/factory.mjs"
+    "src/config/factory.ts"
   ]
 }

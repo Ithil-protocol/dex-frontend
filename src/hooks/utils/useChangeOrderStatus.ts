@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { OpenOrderEvent, Status } from "@/types";
+import { Address0x, OpenOrderEvent, Status } from "@/types";
 
 export const useChangeOrderStatus = (
-  address: string,
+  address: Address0x,
   poolAddress: string,
   transactionHash: string
 ) => {

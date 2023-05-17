@@ -5,10 +5,7 @@ interface Props {
   groupButtonHandler: (item: number) => void;
 }
 
-const AmountGroupButton: React.FC<Props> = ({
-  disabled,
-  groupButtonHandler,
-}) => {
+const GroupButton: React.FC<Props> = ({ disabled, groupButtonHandler }) => {
   const buttons = [25, 50, 75, 100];
 
   return (
@@ -51,4 +48,4 @@ const AmountGroupButton: React.FC<Props> = ({
   );
 };
 
-export default AmountGroupButton;
+export default GroupButton;

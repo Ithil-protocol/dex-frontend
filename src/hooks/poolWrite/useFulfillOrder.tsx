@@ -6,7 +6,7 @@ import {
 } from "@/hooks/contracts/pool";
 import { toast } from "react-toastify";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
-import { Pool } from "@/types";
+import { Address0x, Pool } from "@/types";
 import { useDeadline } from "@/hooks/useDeadline";
 
 interface FulfillOrderProps {
@@ -30,7 +30,7 @@ export const useFulfillOrder = ({
     address: pool.address,
     args: [
       amount,
-      address as `0x${string}`,
+      address as Address0x,
       minReceived,
       maxPaid,
       utils.parseUnits(time.toString(), 0),

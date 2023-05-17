@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, CircularProgress, TextField } from "@mui/material";
-import { factoryAddress } from "@/config/factory.mjs";
+import { factoryAddress } from "@/config/factory";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { factorySchema } from "@/data/forms";
 import {
@@ -11,12 +11,10 @@ import {
 } from "@/hooks/contracts/factory";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { FactoryInputs } from "@/types";
+import { Address0x, FactoryInputs } from "@/types";
 import { useWaitForTransaction } from "wagmi";
 
-interface Props {}
-
-const Factory: React.FC<Props> = () => {
+const Factory = () => {
   const {
     formState: { isSubmitting },
     handleSubmit,
@@ -28,8 +26,9 @@ const Factory: React.FC<Props> = () => {
   const { data } = useFactoryPools({
     address: factoryAddress,
     args: [
-      getValues("underlyingAddress") as `0x${string}`,
-      getValues("accountingAddress") as `0x${string}`,
+      getValues("underlyingAddress") as Address0x,
+      getValues("accountingAddress") as Address0x,
+      Number(getValues("tick")),
     ],
     cacheTime: 0,
     watch: true,
@@ -37,15 +36,16 @@ const Factory: React.FC<Props> = () => {
   const { config } = usePrepareFactoryCreatePool({
     address: factoryAddress,
     args: [
-      getValues("underlyingAddress") as `0x${string}`,
-      getValues("accountingAddress") as `0x${string}`,
-      1,
+      getValues("underlyingAddress") as Address0x,
+      getValues("accountingAddress") as Address0x,
+      Number(getValues("tick")),
     ],
   });
   const { data: writeData, write } = useFactoryCreatePool({
     ...config,
   });
-  const { data: waitedData } = useWaitForTransaction({
+
+  useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
       toast.success(
@@ -57,7 +57,7 @@ const Factory: React.FC<Props> = () => {
     },
   });
 
-  const handleFormSubmit = (e) => undefined;
+  const handleFormSubmit = () => undefined;
 
   return (
     <Box
@@ -86,6 +86,12 @@ const Factory: React.FC<Props> = () => {
             color="secondary"
             {...register("accountingAddress")}
             label="accounting address"
+          />
+          <TextField
+            type="number"
+            color="secondary"
+            {...register("tick")}
+            label="tick"
           />
 
           <LoadingButton

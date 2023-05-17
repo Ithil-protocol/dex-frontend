@@ -16,9 +16,7 @@ import { fixPrecision } from "@/utility/converters";
 import MarketSellConfirmation from "@/components/CreateOrder/Confirmation/MarketSellConfirmation";
 import { utils } from "ethers";
 
-interface Props {}
-
-const MarketSell: React.FC<Props> = () => {
+const MarketSell = () => {
   const [open, setOpen] = useState(false);
 
   const {
@@ -107,7 +105,7 @@ const MarketSell: React.FC<Props> = () => {
             padding: "5px",
           }}
         >
-          <MarketAmount
+          <MarketAmount<MarketInputs>
             availableLabel={availableLabel}
             control={control}
             groupButtonDisabled={groupButtonDisabled}

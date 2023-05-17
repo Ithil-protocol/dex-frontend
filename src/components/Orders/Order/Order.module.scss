@@ -37,3 +37,24 @@
 .value {
   color: $color-green;
 }
+
+.flick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.winking {
+  animation: winking 0.5s;
+}
+
+@keyframes winking {
+  from {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  to {
+    background: transparent;
+  }
+}

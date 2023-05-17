@@ -9,11 +9,7 @@ interface Props {
   orders: HistoryEvent[];
 }
 
-const OrdersTableBody: React.FC<Props> = ({
-  orders,
-  headsLength,
-  isLoading,
-}) => {
+const Body: React.FC<Props> = ({ orders, headsLength, isLoading }) => {
   return (
     <TableBody>
       {isLoading ? (
@@ -25,4 +21,4 @@ const OrdersTableBody: React.FC<Props> = ({
   );
 };
 
-export default OrdersTableBody;
+export default Body;

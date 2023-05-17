@@ -19,5 +19,6 @@ export const factorySchema: ObjectSchema<FactoryInputs> = object()
   .shape({
     underlyingAddress: string().required(),
     accountingAddress: string().required(),
+    tick: string().required(),
   })
   .required();

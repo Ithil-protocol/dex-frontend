@@ -1,7 +1,8 @@
+import { Address0x } from "@/types";
 import { useAccount, useBalance } from "wagmi";
 
 interface TokenBalanceProps {
-  tokenAddress: `0x${string}` | undefined;
+  tokenAddress: Address0x | undefined;
 }
 
 export const useTokenBalance = ({ tokenAddress }: TokenBalanceProps) => {

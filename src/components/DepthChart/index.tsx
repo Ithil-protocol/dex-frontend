@@ -17,10 +17,7 @@ const DepthChart = () => {
   const { data: buyData } = useFormatBuyData();
   const { data: sellData } = useFormatSellData();
 
-  const [pair, defaultPool] = usePoolStore((store) => [
-    store.pair,
-    store.default,
-  ]);
+  const [defaultPool] = usePoolStore((store) => [store.default]);
 
   if (!buyData || !sellData) return null;
 
@@ -79,7 +76,6 @@ const DepthChart = () => {
               tick={{ fill: "white" }}
               fontSize={12}
               fontWeight={300}
-              // tickCount={10}
             />
             <YAxis
               dataKey="y"
@@ -92,7 +88,6 @@ const DepthChart = () => {
                   ? ""
                   : briefing(value, defaultPool.underlying.displayPrecision)
               }
-              // tickMargin={-10}
               fontSize={12}
               fontWeight={300}
               tick={{ fill: "white" }}

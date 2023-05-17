@@ -3,7 +3,7 @@ import { TableCell, TableHead, TableRow } from "@mui/material";
 interface Props {
   heads: string[];
 }
-const TradesTableHead: React.FC<Props> = ({ heads }) => {
+const Head: React.FC<Props> = ({ heads }) => {
   return (
     <TableHead>
       <TableRow>
@@ -15,4 +15,4 @@ const TradesTableHead: React.FC<Props> = ({ heads }) => {
   );
 };
 
-export default TradesTableHead;
+export default Head;
