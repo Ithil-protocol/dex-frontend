@@ -50,6 +50,7 @@ export interface OpenOrderEvent {
   index: BigNumber;
   price: number;
   rawAmount: BigNumber;
+  rawExecuted: BigNumber;
   rawPrice: BigNumber;
   rawStaked: BigNumber;
   side: Side;

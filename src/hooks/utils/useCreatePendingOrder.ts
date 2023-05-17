@@ -69,6 +69,7 @@ export const useCreatePendingOrder = ({
             timestamp: Date.now(),
             transactionHash,
             executed: 0,
+            rawExecuted: constants.Zero,
           },
           ...prev,
         ];

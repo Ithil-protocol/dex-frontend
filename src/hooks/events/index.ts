@@ -11,6 +11,7 @@ import {
 import { useGetConverters } from "@/hooks/converters";
 import { contractABI } from "@/store/abi";
 import { usePoolStore } from "@/store";
+import { constants } from "ethers";
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
@@ -95,6 +96,7 @@ export const useUserOrderCreatedEvents = () => {
           index,
           price: sellPriceConverter(rawPrice),
           rawAmount,
+          rawExecuted,
           rawPrice,
           rawStaked,
           side: "sell",
@@ -148,6 +150,7 @@ export const useUserOrderCreatedEvents = () => {
           index,
           price: buyPriceConverter(rawPrice),
           rawAmount,
+          rawExecuted,
           rawPrice,
           rawStaked,
           side: "buy",
