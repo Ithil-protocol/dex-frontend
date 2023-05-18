@@ -9,12 +9,13 @@ import { network } from "../config/network.ts";
 import { factoryAddress } from "../config/factory.ts";
 import { factoryABI } from "../store/abi.ts";
 import { allProviders } from "../config/providers.ts";
+import { publicProvider } from "wagmi/providers/public";
 
 const { loadEnvConfig } = nextEnv;
 
 loadEnvConfig(process.cwd());
 
-const { provider } = configureChains([network], allProviders);
+const { provider } = configureChains([network], [publicProvider()]);
 
 createClient({
   autoConnect: true,
