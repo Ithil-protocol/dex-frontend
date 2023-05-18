@@ -426,7 +426,7 @@ export const useUserOrderFulfilledEvents = () => {
           rawAmount,
           rawPrice,
           rawStaked,
-          side: offerer === address ? "buy" : "sell",
+          side: offerer === address ? "sell" : "buy",
           staked: stakedConverter(rawStaked),
           status: totalFill ? "fulfilled" : "partially filled",
           timestamp: sellBlocks[i].timestamp * 1000,
