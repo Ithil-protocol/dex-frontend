@@ -100,20 +100,24 @@ export const useSellEventOrderFulfilled = () => {
         (prev) => {
           if (!prev) return;
 
-          return prev.map((order) => {
-            const isItemExist =
-              order.rawPrice.eq(price) && order.index.eq(orderIndex);
+          return prev
+            .map((order) => {
+              const isItemExist =
+                order.rawPrice.eq(price) && order.index.eq(orderIndex);
 
-            if (isItemExist) {
-              const newRawExecuted = order.rawExecuted.add(amount);
-              return {
-                ...order,
-                executed: sellAmountConverter(newRawExecuted, sellPool),
-                rawExecuted: newRawExecuted,
-              };
-            }
-            return order;
-          });
+              if (isItemExist) {
+                const newRawExecuted = order.rawExecuted.add(amount);
+                const executed = sellAmountConverter(newRawExecuted, sellPool);
+
+                return {
+                  ...order,
+                  executed,
+                  rawExecuted: newRawExecuted,
+                };
+              }
+              return order;
+            })
+            .filter((item) => !item.rawExecuted.isZero());
         }
       );
     },
