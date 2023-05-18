@@ -83,7 +83,7 @@ export const useBuyEventOrderFulfilled = () => {
                 rawAmount,
                 rawPrice,
                 rawStaked,
-                side: "buy",
+                side: offerer === address ? "buy" : "sell",
                 staked: stakedConverter(rawStaked),
                 status: totalFill ? "fulfilled" : "partially filled",
                 timestamp: Date.now(),
