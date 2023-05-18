@@ -104,11 +104,8 @@ export const useBuyEventOrderFulfilled = () => {
 
           return prev
             .map((order) => {
-              //BUG: index is zero in last fulfill event if it filled partially first:solved
               const isItemExist =
                 order.rawPrice.eq(price) && order.index.eq(orderIndex);
-              // const isItemExist =
-              //   order.rawPrice.eq(price) && address === offerer;
 
               if (isItemExist) {
                 const newRawExecuted = order.rawExecuted.add(amount);
