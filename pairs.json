@@ -17,7 +17,7 @@
   {
     "tick": 1,
     "base": 10,
-    "chartUrl": "BITSTAMP:USDTUSDC",
+    "chartUrl": "UNISWAP3ETH:USDTUSDC",
     "underlying": {
       "label": "USDT",
       "address": "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
