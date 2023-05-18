@@ -3,7 +3,7 @@ import { Event } from "ethers";
 import { useGetConvertersBySide } from "@/hooks/converters";
 import { usePoolStore } from "@/store";
 import { contractABI } from "@/store/abi";
-import { HistoryEvent, OrderBook } from "@/types";
+import { Address0x, HistoryEvent, OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
 import { removeCanceledOrder } from "./helpers";
 import { buy_volume } from "@/data/constants";
@@ -36,6 +36,7 @@ export const useBuyEventOrderCancelled = () => {
               return {
                 ...item,
                 volume: item.volume.sub(amount),
+                animated: false,
               };
             }
             return item;
@@ -75,7 +76,7 @@ export const useBuyEventOrderCancelled = () => {
 
       removeCanceledOrder(
         queryClient,
-        address as string,
+        address as Address0x,
         poolAddress,
         price,
         index

@@ -1,6 +1,6 @@
-import { Table, TableContainer } from "@mui/material";
-import OrdersTableHead from "./Head";
-import OrdersTableBody from "./Body";
+import { Table as MuiTable, TableContainer } from "@mui/material";
+import Head from "./Head";
+import Body from "./Body";
 import { OpenOrderEvent } from "@/types";
 import { usePoolStore } from "@/store";
 
@@ -9,7 +9,7 @@ interface Props {
   isLoading: boolean;
 }
 
-const OpenOrdersTable: React.FC<Props> = ({ orders, isLoading }) => {
+const Table: React.FC<Props> = ({ orders, isLoading }) => {
   const pair = usePoolStore((state) => state.pair);
 
   const heads = [
@@ -18,6 +18,7 @@ const OpenOrdersTable: React.FC<Props> = ({ orders, isLoading }) => {
     "side",
     "status",
     `amount (${pair.underlyingLabel})`,
+    `executed (${pair.underlyingLabel})`,
     `price (${pair.accountingLabel})`,
     `total (${pair.accountingLabel})`,
     "boost (ETH)",
@@ -30,16 +31,16 @@ const OpenOrdersTable: React.FC<Props> = ({ orders, isLoading }) => {
         maxHeight: "300px",
       }}
     >
-      <Table size="small">
-        <OrdersTableHead heads={heads} />
-        <OrdersTableBody
+      <MuiTable size="small">
+        <Head heads={heads} />
+        <Body
           headsLength={heads.length}
           orders={orders}
           isLoading={isLoading}
         />
-      </Table>
+      </MuiTable>
     </TableContainer>
   );
 };
 
-export default OpenOrdersTable;
+export default Table;

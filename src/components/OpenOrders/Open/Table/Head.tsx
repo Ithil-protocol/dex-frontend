@@ -4,7 +4,7 @@ interface Props {
   heads: string[];
 }
 
-const OrdersTableHead: React.FC<Props> = ({ heads }) => {
+const Head: React.FC<Props> = ({ heads }) => {
   return (
     <TableHead>
       <TableRow>
@@ -23,4 +23,4 @@ const OrdersTableHead: React.FC<Props> = ({ heads }) => {
   );
 };
 
-export default OrdersTableHead;
+export default Head;

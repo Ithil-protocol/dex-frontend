@@ -1,6 +1,6 @@
-import { Table, TableContainer } from "@mui/material";
-import OrdersTableHead from "./Head";
-import OrdersTableBody from "./Body";
+import { Table as MuiTable, TableContainer } from "@mui/material";
+import Head from "./Head";
+import Body from "./Body";
 import { HistoryEvent } from "@/types";
 import { usePoolStore } from "@/store";
 
@@ -9,7 +9,7 @@ interface Props {
   orders: HistoryEvent[];
 }
 
-const OrderHistoryTable: React.FC<Props> = ({ orders, isLoading }) => {
+const Table: React.FC<Props> = ({ orders, isLoading }) => {
   const pair = usePoolStore((state) => state.pair);
 
   const heads = [
@@ -29,16 +29,16 @@ const OrderHistoryTable: React.FC<Props> = ({ orders, isLoading }) => {
         maxHeight: "300px",
       }}
     >
-      <Table size="small">
-        <OrdersTableHead heads={heads} />
-        <OrdersTableBody
+      <MuiTable size="small">
+        <Head heads={heads} />
+        <Body
           isLoading={isLoading}
           headsLength={heads.length}
           orders={orders}
         />
-      </Table>
+      </MuiTable>
     </TableContainer>
   );
 };
 
-export default OrderHistoryTable;
+export default Table;

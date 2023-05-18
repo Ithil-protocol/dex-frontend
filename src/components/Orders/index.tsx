@@ -14,6 +14,7 @@ import {
 } from "@/hooks/events/contract";
 
 const Orders = () => {
+  // subscribe hook at this level to avoid unexpected rerenders
   useSellEventOrderCreated();
   useBuyEventOrderCreated();
   useBuyEventOrderFulfilled();

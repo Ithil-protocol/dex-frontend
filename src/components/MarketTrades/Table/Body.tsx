@@ -7,7 +7,7 @@ interface Props {
   headsLength: number;
 }
 
-const TradesTableBody: React.FC<Props> = ({ headsLength }) => {
+const Body: React.FC<Props> = ({ headsLength }) => {
   const { data: trades, isLoading } = useAllOrderFulfilledEvents();
 
   return (
@@ -21,4 +21,4 @@ const TradesTableBody: React.FC<Props> = ({ headsLength }) => {
   );
 };
 
-export default TradesTableBody;
+export default Body;

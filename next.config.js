@@ -1,5 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require("path");
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * @type {import('next').NextConfig}
@@ -12,7 +16,7 @@ const nextConfig = {
   swcMinify: true,
 
   sassOptions: {
-    includePaths: [path.join(__dirname)],
+    includePaths: [__dirname],
     prependData: "@use 'src/sass' as *;",
   },
 
@@ -45,4 +49,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

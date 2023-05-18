@@ -7,7 +7,6 @@ import {
   DialogTitle,
   Skeleton,
 } from "@mui/material";
-import { usePoolPreviewOrder } from "@/hooks/contracts/pool";
 import { usePoolStore } from "@/store";
 import { LimitFinalValues } from "@/types";
 import styles from "./LimitConfirmation.module.scss";
@@ -42,11 +41,7 @@ const LimitConfirmation: React.FC<Props> = ({
   waitedSuccess,
   modalCloseHandler,
 }) => {
-  const [side, pool, pair] = usePoolStore((state) => [
-    state.side,
-    state.pool,
-    state.pair,
-  ]);
+  const [side, pair] = usePoolStore((state) => [state.side, state.pair]);
 
   const converters = useGetConvertersBySide(side);
 

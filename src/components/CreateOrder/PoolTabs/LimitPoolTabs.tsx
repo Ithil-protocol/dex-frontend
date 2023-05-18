@@ -6,9 +6,7 @@ import Tabs from "@mui/material/Tabs";
 import LimitBuy from "@/components/CreateOrder/Form/Limit/Buy";
 import LimitSell from "@/components/CreateOrder/Form/Limit/Sell";
 
-interface Props {}
-
-const LimitPoolTabs: React.FC<Props> = () => {
+const LimitPoolTabs = () => {
   const theme = useTheme();
 
   const [side, updateSide, type] = usePoolStore((store) => [

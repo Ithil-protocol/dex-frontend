@@ -17,9 +17,7 @@ import Info from "@/components/Common/Info";
 import { fixPrecision } from "@/utility/converters";
 import MarketBuyConfirmation from "@/components/CreateOrder/Confirmation/MarketBuyConfirmation";
 
-interface Props {}
-
-const MarketBuy: React.FC<Props> = () => {
+const MarketBuy = () => {
   const [open, setOpen] = useState(false);
   const {
     control,

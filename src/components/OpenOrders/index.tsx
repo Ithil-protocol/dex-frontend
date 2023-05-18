@@ -3,8 +3,8 @@ import WrapperTab from "@/components/Common/WrapperTab";
 import { useState } from "react";
 
 import Tabs from "@mui/material/Tabs";
-import OpenedOrders from "./Open";
-import OrderHistory from "./History";
+import Open from "./Open";
+import History from "./History";
 
 type OpenHistory = "history" | "open";
 
@@ -35,11 +35,11 @@ export const OpenOrders = () => {
       </div>
 
       <div role="tabpanel" hidden={value !== "open"}>
-        <OpenedOrders />
+        <Open />
       </div>
 
       <div role="tabpanel" hidden={value !== "history"}>
-        <OrderHistory />
+        <History />
       </div>
     </Box>
   );

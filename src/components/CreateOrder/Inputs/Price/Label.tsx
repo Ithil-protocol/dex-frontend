@@ -2,7 +2,7 @@ import WrapperInputLabel from "@/components/Common/WrapperInputLabel";
 import { usePoolStore } from "@/store";
 import styles from "./Label.module.scss";
 
-const PriceLabel = () => {
+const Label = () => {
   const [pair] = usePoolStore((state) => [state.pair]);
   const ChipComponent = (
     <span className={styles.chip}>{pair.accountingLabel}</span>
@@ -18,4 +18,4 @@ const PriceLabel = () => {
   );
 };
 
-export default PriceLabel;
+export default Label;

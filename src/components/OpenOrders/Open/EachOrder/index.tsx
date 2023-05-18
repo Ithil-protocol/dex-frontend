@@ -97,6 +97,12 @@ const Order: React.FC<Props> = ({ data }) => {
 
       <TableCell>
         <span>
+          <PreciseNumber num={data.executed} isPrice={false} />
+        </span>
+      </TableCell>
+
+      <TableCell>
+        <span>
           <PreciseNumber num={data.price} isPrice={true} />
         </span>
       </TableCell>

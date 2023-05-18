@@ -29,6 +29,7 @@ export const useSellVolumes = () => {
         value: item.price,
         volume: item.volume,
         type: "sell" as const,
+        animated: true,
       };
     });
   });

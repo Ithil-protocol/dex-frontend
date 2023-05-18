@@ -12,7 +12,7 @@ import styles from "./LimitConfirmation.module.scss";
 import { useSellAmountConverter } from "@/hooks/converters";
 import { capitalizeFirstLetter } from "@/utility";
 import { LoadingButton } from "@mui/lab";
-import { providers, utils } from "ethers";
+import { providers } from "ethers";
 
 import { fixPrecision } from "@/utility/converters";
 import TransactionResponse from "./TransactionResponse";
@@ -76,11 +76,7 @@ const MarketBuyConfirmation: React.FC<Props> = ({
               finalValues.pool.accounting.displayPrecision
             )}
         </RowContainer>
-        <RowContainer
-          label={pair.accountingLabel}
-          isLoading={previewLoading}
-          title="Max slippage"
-        >
+        <RowContainer isLoading={previewLoading} title="Max slippage">
           {preview && appConfig.slippage(pair.tick) * 100 + "%"}
         </RowContainer>
         <RowContainer

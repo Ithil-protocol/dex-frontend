@@ -1,7 +1,7 @@
 import { contractABI } from "@/store/abi";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePoolStore } from "@/store";
-import { OrderBook } from "@/types";
+import { Address0x, OrderBook } from "@/types";
 import { useAccount, useContractEvent } from "wagmi";
 import { updateOrderFromPendingToOpen } from "./helpers";
 import { sell_volume } from "@/data/constants";
@@ -31,12 +31,14 @@ export const useSellEventOrderCreated = () => {
             newArray[index] = {
               ...newArray[index],
               volume: newArray[index].volume.add(amount),
+              animated: false,
             };
           } else {
             newArray.push({
               value: price,
               volume: amount,
               type: "sell" as const,
+              animated: false,
             });
             newArray.sort((a, b) => {
               if (b.value.gt(a.value)) return 1;
@@ -51,7 +53,7 @@ export const useSellEventOrderCreated = () => {
 
       updateOrderFromPendingToOpen(
         queryClient,
-        address as string,
+        address as Address0x,
         poolAddress,
         rest
       );

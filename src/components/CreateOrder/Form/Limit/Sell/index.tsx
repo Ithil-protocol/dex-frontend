@@ -18,9 +18,7 @@ import LimitConfirmation from "@/components/CreateOrder/Confirmation/LimitConfir
 import { useGetMaxBoost } from "@/hooks/useGetMaxBoost";
 import Boost from "@/components/CreateOrder/Inputs/Boost";
 
-interface Props {}
-
-const LimitSell: React.FC<Props> = () => {
+const LimitSell = () => {
   const [open, setOpen] = useState(false);
   const { control, handleSubmit, setValue } = useForm<LimitInputs>({
     resolver: yupResolver(limitSchema),
@@ -134,7 +132,10 @@ const LimitSell: React.FC<Props> = () => {
             text={`Current Allowance: ${currentAllowance} ${pair.underlyingLabel}`}
           />
 
-          <Price control={control} endLabel={pair.accountingLabel} />
+          <Price<LimitInputs>
+            control={control}
+            endLabel={pair.accountingLabel}
+          />
 
           <Boost
             groupButtonDisabled={maxBoostLoading}

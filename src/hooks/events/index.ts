@@ -1,10 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { readContracts, useAccount } from "wagmi";
 import { useBuyContract, useSellContract } from "@/hooks/contract";
-import { HistoryEvent, MarketEvent, OpenOrderEvent, Status } from "@/types";
+import {
+  Address0x,
+  HistoryEvent,
+  MarketEvent,
+  OpenOrderEvent,
+  Status,
+} from "@/types";
 import { useGetConverters } from "@/hooks/converters";
 import { contractABI } from "@/store/abi";
 import { usePoolStore } from "@/store";
+import { constants } from "ethers";
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
@@ -56,7 +63,7 @@ export const useUserOrderCreatedEvents = () => {
             return readContracts({
               contracts: [
                 {
-                  address: item.address as `0x${string}`,
+                  address: item.address as Address0x,
                   args: [item.args!.price, item.args!.index],
                   abi: contractABI,
                   functionName: "getOrder",
@@ -75,21 +82,21 @@ export const useUserOrderCreatedEvents = () => {
           index,
         } = item.args!;
 
-        const status: Status = sellOrders[i].underlyingAmount.isZero()
-          ? "fulfilled"
-          : "open";
-
+        const { underlyingAmount } = sellOrders[i];
+        const status: Status = underlyingAmount.isZero() ? "fulfilled" : "open";
         if (status !== "open") continue;
 
         const amount = sellAmountConverter(rawAmount);
-        if (rawAmount.isZero()) continue;
+        const rawExecuted = rawAmount.sub(underlyingAmount);
 
         results.push({
           address: item.address,
           amount,
+          executed: sellAmountConverter(rawExecuted),
           index,
           price: sellPriceConverter(rawPrice),
           rawAmount,
+          rawExecuted,
           rawPrice,
           rawStaked,
           side: "sell",
@@ -110,7 +117,7 @@ export const useUserOrderCreatedEvents = () => {
             return readContracts({
               contracts: [
                 {
-                  address: item.address as `0x${string}`,
+                  address: item.address as Address0x,
                   args: [item.args!.price, item.args!.index],
                   abi: contractABI,
                   functionName: "getOrder",
@@ -123,27 +130,27 @@ export const useUserOrderCreatedEvents = () => {
 
       for (const [i, item] of buyEvents.entries()) {
         const {
-          price: rawPrice,
-          underlyingAmount: rawAmount,
-          staked: rawStaked,
           index,
+          price: rawPrice,
+          staked: rawStaked,
+          underlyingAmount: rawAmount,
         } = item.args!;
 
-        const status: Status = buyOrders[i].underlyingAmount.isZero()
-          ? "fulfilled"
-          : "open";
-
+        const { underlyingAmount } = buyOrders[i];
+        const status: Status = underlyingAmount.isZero() ? "fulfilled" : "open";
         if (status !== "open") continue;
 
         const amount = buyAmountConverter(rawAmount, rawPrice);
-        if (rawAmount.isZero()) continue;
+        const rawExecuted = rawAmount.sub(underlyingAmount);
 
         results.push({
           address: item.address,
           amount,
+          executed: buyAmountConverter(rawExecuted, rawPrice),
           index,
           price: buyPriceConverter(rawPrice),
           rawAmount,
+          rawExecuted,
           rawPrice,
           rawStaked,
           side: "buy",
@@ -160,26 +167,6 @@ export const useUserOrderCreatedEvents = () => {
 
   return useQuery(["userOrderCreatedEvent", address, poolAddress], getEvents);
 };
-
-// export const useAllOrderCreatedEvents = () => {
-
-//   const {address:poolAddress} = usePoolStore(state=>state.default);
-
-//   const buyContract = useBuyContract();
-//   const sellContract = useSellContract();
-
-//   const getEvents = async () => {
-//     let results: Event[] = [];
-//     if (buyContract && sellContract) {
-//       const sellEvents = await sellContract.queryFilter("OrderCreated");
-//       const buyEvents = await buyContract.queryFilter("OrderCreated");
-//       results = [...sellEvents, ...buyEvents];
-//     }
-//     return results;
-//   };
-
-//   return useQuery(["allOrderCreatedEvent",poolAddress], getEvents);
-// };
 
 export const useUserOrderCancelledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
@@ -396,7 +383,12 @@ export const useUserOrderFulfilledEvents = () => {
       );
 
       for (const [i, item] of buyEvents.entries()) {
-        const { price: rawPrice, amount: rawAmount } = item.args!;
+        const {
+          amount: rawAmount,
+          offerer,
+          price: rawPrice,
+          totalFill,
+        } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
@@ -406,9 +398,9 @@ export const useUserOrderFulfilledEvents = () => {
           rawAmount,
           rawPrice,
           rawStaked,
-          side: "buy",
+          side: offerer === address ? "buy" : "sell",
           staked: stakedConverter(rawStaked),
-          status: "fulfilled",
+          status: totalFill ? "fulfilled" : "partially filled",
           timestamp: buyBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });
@@ -419,7 +411,12 @@ export const useUserOrderFulfilledEvents = () => {
         sellEvents.map((item) => item.getBlock())
       );
       for (const [i, item] of sellEvents.entries()) {
-        const { price: rawPrice, amount: rawAmount } = item.args!;
+        const {
+          amount: rawAmount,
+          offerer,
+          price: rawPrice,
+          totalFill,
+        } = item.args!;
 
         const { value: rawStaked } = await item.getTransaction();
 
@@ -429,9 +426,9 @@ export const useUserOrderFulfilledEvents = () => {
           rawAmount,
           rawPrice,
           rawStaked,
-          side: "sell",
+          side: offerer === address ? "sell" : "buy",
           staked: stakedConverter(rawStaked),
-          status: "fulfilled",
+          status: totalFill ? "fulfilled" : "partially filled",
           timestamp: sellBlocks[i].timestamp * 1000,
           transactionHash: item.transactionHash,
         });
