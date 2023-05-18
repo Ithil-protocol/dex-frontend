@@ -9,13 +9,16 @@ interface Props {
   children: React.ReactNode;
 }
 
-const reactQueryConfig: QueryClientConfig = {
+export const reactQueryConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
-      staleTime: 1 * 60 * 60 * 1000,
       cacheTime: 6 * 60 * 60 * 1000,
       retry: false,
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: "always",
+      networkMode: "offlineFirst",
+    },
+    mutations: {
+      networkMode: "offlineFirst",
     },
   },
 };

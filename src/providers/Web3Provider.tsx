@@ -11,6 +11,8 @@ import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import { network } from "@/config/network";
 import { allProviders } from "@/config/providers";
+import { QueryClient, QueryClientConfig } from "@tanstack/react-query";
+import { reactQueryConfig } from "./ReactQueryProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -31,6 +33,7 @@ const client = createClient({
   provider,
   webSocketProvider,
   connectors,
+  queryClient: new QueryClient(reactQueryConfig),
 });
 
 const Web3Provider: React.FC<Props> = ({ children }) => {
