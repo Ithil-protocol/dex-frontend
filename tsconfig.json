@@ -25,7 +25,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es6",
-    "allowImportingTsExtensions":true
+    "allowImportingTsExtensions": true
   },
   "exclude": ["node_modules"],
   "include": [

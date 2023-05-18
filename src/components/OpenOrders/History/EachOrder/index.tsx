@@ -50,10 +50,10 @@ const Order: React.FC<Props> = ({ data }) => {
 
       <TableCell>
         <Chip
-          sx={{ width: 80, color: "white" }}
+          sx={{ width: 100, color: "white" }}
           size="small"
           variant="filled"
-          color={data.status === "fulfilled" ? "success" : "error"}
+          color={data.status === "canceled" ? "error" : "success"}
           component={"a"}
           label={data.status}
           onClick={() =>

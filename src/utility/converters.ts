@@ -21,7 +21,7 @@ export const sellPriceConverter = (price: BigNumber, pool: Pool) => {
 };
 
 export const sellAmountConverter = (amount: BigNumber, pool: Pool) => {
-  return utils.formatUnits(amount, pool.underlying.decimals);
+  return Number(utils.formatUnits(amount, pool.underlying.decimals));
 };
 
 export const fixPrecision = (value: number, precision: number) => {

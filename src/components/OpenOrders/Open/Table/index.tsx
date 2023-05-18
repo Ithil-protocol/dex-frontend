@@ -18,6 +18,7 @@ const Table: React.FC<Props> = ({ orders, isLoading }) => {
     "side",
     "status",
     `amount (${pair.underlyingLabel})`,
+    `executed (${pair.underlyingLabel})`,
     `price (${pair.accountingLabel})`,
     `total (${pair.accountingLabel})`,
     "boost (ETH)",

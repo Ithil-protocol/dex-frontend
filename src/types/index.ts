@@ -20,6 +20,7 @@ export type Status =
   | "error"
   | "fulfilled"
   | "open"
+  | "partially filled"
   | "pending";
 
 export type BoostFactor = 0 | 0.4 | 0.7 | 1;
@@ -38,23 +39,25 @@ export interface HistoryEvent {
   side: Side;
   staked: number;
   status: Status;
-  transactionHash: string;
   timestamp: number;
+  transactionHash: string;
 }
 
 export interface OpenOrderEvent {
   address: string;
   amount: number;
+  executed: number;
   index: BigNumber;
   price: number;
   rawAmount: BigNumber;
+  rawExecuted: BigNumber;
   rawPrice: BigNumber;
   rawStaked: BigNumber;
   side: Side;
   staked: number;
-  transactionHash: string;
-  timestamp: number;
   status: Status;
+  timestamp: number;
+  transactionHash: string;
 }
 
 export interface MarketEvent {
