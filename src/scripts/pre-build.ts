@@ -8,31 +8,13 @@ import { Pair } from "../types";
 import { network } from "../config/network.ts";
 import { factoryAddress } from "../config/factory.ts";
 import { factoryABI } from "../store/abi.ts";
+import { allProviders } from "../config/providers.ts";
 
 const { loadEnvConfig } = nextEnv;
 
 loadEnvConfig(process.cwd());
 
-const { provider } = configureChains(
-  [network],
-  [
-    jsonRpcProvider({
-      rpc: () => ({
-        http: process.env.NEXT_PUBLIC_INFURA_HTTP_ADDRESS!,
-      }),
-    }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: process.env.NEXT_PUBLIC_ALCHEMY_HTTP_ADDRESS!,
-      }),
-    }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: process.env.NEXT_PUBLIC_BLOCKPI_HTTP_ADDRESS!,
-      }),
-    }),
-  ]
-);
+const { provider } = configureChains([network], allProviders);
 
 createClient({
   autoConnect: true,

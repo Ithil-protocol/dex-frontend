@@ -14,10 +14,10 @@ const PreciseNumber: React.FC<Props> = ({ num, isPrice }) => {
   if (num === undefined) return null;
 
   if (isPrice) {
-    const displayPrice = num !== 0 ? num : "< " + Math.pow(10, -pricePrecision);
+    const displayPrice = num !== 0 ? num : "<" + Math.pow(10, -pricePrecision);
     return <>{displayPrice}</>;
   }
-  const displayAmount = num !== 0 ? num : "< " + Math.pow(10, -amountPrecision);
+  const displayAmount = num !== 0 ? num : "<" + Math.pow(10, -amountPrecision);
   return <>{displayAmount}</>;
 };
 
