@@ -15,6 +15,7 @@ export const CandlestickChart = () => {
   return (
     <Box height={"100%"}>
       <AdvancedRealTimeChartNoSSR
+        interval="60"
         height="100%"
         theme="dark"
         autosize
