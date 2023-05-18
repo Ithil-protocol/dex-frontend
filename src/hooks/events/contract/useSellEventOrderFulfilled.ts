@@ -25,6 +25,7 @@ export const useSellEventOrderFulfilled = () => {
     abi: contractABI,
     eventName: "OrderFulfilled",
     async listener(...rest) {
+      const offerer = rest[1];
       const orderIndex = rest[0];
       const price = rest[4];
       const amount = rest[3];
@@ -102,8 +103,11 @@ export const useSellEventOrderFulfilled = () => {
 
           return prev
             .map((order) => {
+              //BUG: index is zero in last fulfill event if it filled partially first
+              // const isItemExist =
+              //   order.rawPrice.eq(price) && order.index.eq(orderIndex);
               const isItemExist =
-                order.rawPrice.eq(price) && order.index.eq(orderIndex);
+                order.rawPrice.eq(price) && address === offerer;
 
               if (isItemExist) {
                 const newRawExecuted = order.rawExecuted.add(amount);
@@ -117,7 +121,7 @@ export const useSellEventOrderFulfilled = () => {
               }
               return order;
             })
-            .filter((item) => !item.rawExecuted.isZero());
+            .filter((item) => !item.rawAmount.eq(item.rawExecuted));
         }
       );
     },
