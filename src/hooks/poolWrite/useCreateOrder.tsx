@@ -66,7 +66,7 @@ export const useCreateOrder = ({
   } = usePoolCreateOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, { toastId: error.name });
     },
     onSuccess: (...args) => {
       transactionHash.current = args[0].hash;
@@ -86,7 +86,8 @@ export const useCreateOrder = ({
         <TransactionToast
           text="Order created successfully."
           hash={data.transactionHash}
-        />
+        />,
+        { toastId: data.transactionHash }
       );
     },
     onError: (error) => {

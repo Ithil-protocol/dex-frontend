@@ -48,7 +48,7 @@ export const useFulfillOrder = ({
   } = usePoolFulfillOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, { toastId: error.name });
     },
   });
 
@@ -59,7 +59,8 @@ export const useFulfillOrder = ({
         <TransactionToast
           text="Order fulfilled successfully."
           hash={data.transactionHash}
-        />
+        />,
+        { toastId: data.transactionHash }
       );
     },
   });

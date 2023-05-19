@@ -52,7 +52,8 @@ const Factory = () => {
         <TransactionToast
           text="Pool generated successfully"
           hash={data.transactionHash}
-        />
+        />,
+        { toastId: data.transactionHash }
       );
     },
   });

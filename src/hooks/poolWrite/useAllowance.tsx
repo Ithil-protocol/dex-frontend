@@ -46,7 +46,7 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   } = useTokenApprove({
     ...config,
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, { toastId: error.name });
     },
   });
 
@@ -57,7 +57,8 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
         <TransactionToast
           text="Contract approved successfully."
           hash={data.transactionHash}
-        />
+        />,
+        { toastId: data.transactionHash }
       );
     },
   });

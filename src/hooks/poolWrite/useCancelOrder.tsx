@@ -41,7 +41,7 @@ export const useCancelOrder = ({
   const { write: cancel, data: writeData } = usePoolCancelOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, { toastId: error.name });
     },
     onSuccess: () => changeOrderStatus("canceling"),
   });
@@ -53,7 +53,8 @@ export const useCancelOrder = ({
         <TransactionToast
           text="Order canceled successfully."
           hash={data.transactionHash}
-        />
+        />,
+        { toastId: data.transactionHash }
       );
     },
     onError: () => changeOrderStatus("error"),
