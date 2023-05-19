@@ -11,7 +11,16 @@ import {
 import { useGetConverters } from "@/hooks/converters";
 import { contractABI } from "@/store/abi";
 import { usePoolStore } from "@/store";
-import { constants } from "ethers";
+import { BigNumber } from "ethers";
+
+interface CustomEvent {
+  offerer: `0x${string}`;
+  recipient: `0x${string}`;
+  underlyingAmount: BigNumber;
+  staked: BigNumber;
+  previous: BigNumber;
+  next: BigNumber;
+}
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
@@ -50,29 +59,29 @@ export const useUserOrderCreatedEvents = () => {
         null,
         null
       );
-      const sellEvents = await sellContract.queryFilter(sellFilter);
-      const buyEvents = await buyContract.queryFilter(buyFilter);
+      const sellEvents = (await sellContract.queryFilter(sellFilter))
+        .reverse()
+        .slice(0, 10);
+      const buyEvents = (await buyContract.queryFilter(buyFilter))
+        .reverse()
+        .slice(0, 10);
 
       const sellBlocks = await Promise.all(
         sellEvents.map((item) => item.getBlock())
       );
 
       const sellOrders = (
-        await Promise.all(
-          sellEvents.map((item) => {
-            return readContracts({
-              contracts: [
-                {
-                  address: item.address as Address0x,
-                  args: [item.args!.price, item.args!.index],
-                  abi: contractABI,
-                  functionName: "getOrder",
-                },
-              ],
-            });
-          })
-        )
-      ).flat();
+        await readContracts({
+          contracts: sellEvents.map((item) => {
+            return {
+              address: item.address as Address0x,
+              args: [item.args!.price, item.args!.index],
+              abi: contractABI,
+              functionName: "getOrder",
+            };
+          }),
+        })
+      ).flat() as CustomEvent[];
 
       for (const [i, item] of sellEvents.entries()) {
         const {
@@ -112,21 +121,17 @@ export const useUserOrderCreatedEvents = () => {
       );
 
       const buyOrders = (
-        await Promise.all(
-          buyEvents.map((item) => {
-            return readContracts({
-              contracts: [
-                {
-                  address: item.address as Address0x,
-                  args: [item.args!.price, item.args!.index],
-                  abi: contractABI,
-                  functionName: "getOrder",
-                },
-              ],
-            });
-          })
-        )
-      ).flat();
+        await readContracts({
+          contracts: buyEvents.map((item) => {
+            return {
+              address: item.address as Address0x,
+              args: [item.args!.price, item.args!.index],
+              abi: contractABI,
+              functionName: "getOrder",
+            };
+          }),
+        })
+      ).flat() as CustomEvent[];
 
       for (const [i, item] of buyEvents.entries()) {
         const {
@@ -197,8 +202,12 @@ export const useUserOrderCancelledEvents = () => {
         null,
         null
       );
-      const sellEvents = await sellContract.queryFilter(sellFilter);
-      const buyEvents = await buyContract.queryFilter(buyFilter);
+      const sellEvents = (await sellContract.queryFilter(sellFilter))
+        .reverse()
+        .slice(0, 10);
+      const buyEvents = (await buyContract.queryFilter(buyFilter))
+        .reverse()
+        .slice(0, 10);
 
       const sellBlocks = await Promise.all(
         sellEvents.map((item) => item.getBlock())
@@ -365,16 +374,24 @@ export const useUserOrderFulfilledEvents = () => {
         null,
         null
       );
-      const sellEventsOfferer = await sellContract.queryFilter(
-        sellFilterOfferer
-      );
-      const sellEventsFulfiller = await sellContract.queryFilter(
-        sellFilterFulfiller
-      );
-      const buyEventsOfferer = await buyContract.queryFilter(buyFilterOfferer);
-      const buyEventsFulfiller = await buyContract.queryFilter(
-        buyFilterFulfiller
-      );
+      const sellEventsOfferer = (
+        await sellContract.queryFilter(sellFilterOfferer)
+      )
+        .reverse()
+        .slice(0, 10);
+      const sellEventsFulfiller = (
+        await sellContract.queryFilter(sellFilterFulfiller)
+      )
+        .reverse()
+        .slice(0, 10);
+      const buyEventsOfferer = (await buyContract.queryFilter(buyFilterOfferer))
+        .reverse()
+        .slice(0, 10);
+      const buyEventsFulfiller = (
+        await buyContract.queryFilter(buyFilterFulfiller)
+      )
+        .reverse()
+        .slice(0, 10);
 
       const buyEvents = [...buyEventsOfferer, ...buyEventsFulfiller];
 
