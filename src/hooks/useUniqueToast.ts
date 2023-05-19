@@ -1,9 +1,16 @@
 import useToastStore from "@/store";
 
 export const useUniqueToast = () => {
-  const toastIds = useToastStore((state) => state.toastIds);
+  const [toastIds, updateToastIds] = useToastStore((state) => [
+    state.toastIds,
+    state.updateToastIds,
+  ]);
 
   return (id: string) => {
-    return toastIds.includes(id);
+    const isExist = toastIds.includes(id);
+    if (!isExist) {
+      updateToastIds(id);
+    }
+    return isExist;
   };
 };
