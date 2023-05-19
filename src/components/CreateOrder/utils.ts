@@ -1,7 +1,6 @@
 import { OrderBook, Pool } from "@/types";
 import { BigNumber, constants, utils } from "ethers";
 import {
-  usePoolGetNextPriceLevel,
   usePoolPreviewOrder,
   usePoolPreviewTake,
 } from "@/hooks/contracts/pool";
@@ -9,7 +8,6 @@ import { appConfig } from "@/config";
 import { usePoolStore } from "@/store";
 import { STAKED_DECIMALS } from "@/config/constants";
 import { useBuyVolumes } from "@/hooks/contract";
-import { useBuyAmountConverter } from "@/hooks/converters";
 import { buyAmountConverter } from "@/utility/converters";
 import { useMemo } from "react";
 

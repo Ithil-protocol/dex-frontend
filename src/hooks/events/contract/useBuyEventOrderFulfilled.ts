@@ -25,10 +25,8 @@ export const useBuyEventOrderFulfilled = () => {
     eventName: "OrderFulfilled",
     async listener(...rest) {
       const orderIndex = rest[0];
-      const offerer = rest[1];
       const amount = rest[3];
       const price = rest[4];
-      const totalFill = rest[5];
 
       queryClient.setQueryData<OrderBook[]>(
         [buy_volume, buyPool.address],

@@ -2,9 +2,14 @@
   "dictionaries": [],
   "dictionaryDefinitions": [],
   "ignorePaths": [],
-  "ignoreRegExpList": ["0x(.*)?", "id:(.*)?", "apiKey:(.*)?"],
+  "ignoreRegExpList": [
+    "0x(.*)?",
+    "id:(.*)?",
+    "apiKey:(.*)?"
+  ],
   "ignoreWords": [
     "ARBITRUM",
+    "BLOCKPI",
     "BTCUSDT",
     "BigNumberish",
     "CLEANME",
@@ -29,6 +34,7 @@
     "raleway",
     "roboto",
     "rushstack",
+    "sepolia",
     "snyk",
     "sonarjs",
     "spila",
@@ -39,6 +45,7 @@
     "tsbuildinfo",
     "vercel",
     "wagmi",
+    "wizardex",
     "zustand"
   ],
   "import": [],
