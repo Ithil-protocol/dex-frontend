@@ -68,7 +68,9 @@ export const useCreateOrder = ({
   } = usePoolCreateOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message, { toastId: error.name });
+      if (isUniqueToast(error.name)) {
+        toast.error(error.message, { toastId: error.name });
+      }
     },
     onSuccess: (...args) => {
       transactionHash.current = args[0].hash;
@@ -94,7 +96,9 @@ export const useCreateOrder = ({
       }
     },
     onError: (error) => {
-      toast.error(error.message);
+      if (isUniqueToast(error.name)) {
+        toast.error(error.message);
+      }
       changeOrderStatus("error");
     },
   });

@@ -50,7 +50,9 @@ export const useFulfillOrder = ({
   } = usePoolFulfillOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message, { toastId: error.name });
+      if (isUniqueToast(error.name)) {
+        toast.error(error.message, { toastId: error.name });
+      }
     },
   });
 

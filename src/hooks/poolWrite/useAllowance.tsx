@@ -48,7 +48,9 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   } = useTokenApprove({
     ...config,
     onError: (error) => {
-      toast.error(error.message, { toastId: error.name });
+      if (isUniqueToast(error.name)) {
+        toast.error(error.message, { toastId: error.name });
+      }
     },
   });
 

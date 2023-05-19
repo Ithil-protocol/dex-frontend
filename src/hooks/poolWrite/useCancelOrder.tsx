@@ -43,7 +43,9 @@ export const useCancelOrder = ({
   const { write: cancel, data: writeData } = usePoolCancelOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message, { toastId: error.name });
+      if (isUniqueToast(error.name)) {
+        toast.error(error.message, { toastId: error.name });
+      }
     },
     onSuccess: () => changeOrderStatus("canceling"),
   });
