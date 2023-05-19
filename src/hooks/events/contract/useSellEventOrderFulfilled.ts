@@ -25,7 +25,6 @@ export const useSellEventOrderFulfilled = () => {
     abi: contractABI,
     eventName: "OrderFulfilled",
     async listener(...rest) {
-      const offerer = rest[1];
       const orderIndex = rest[0];
       const price = rest[4];
       const amount = rest[3];

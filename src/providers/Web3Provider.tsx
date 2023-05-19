@@ -4,14 +4,10 @@ import {
   midnightTheme,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { WagmiConfig, configureChains, createClient, sepolia } from "wagmi";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { infuraProvider } from "wagmi/providers/infura";
-import { publicProvider } from "wagmi/providers/public";
+import { WagmiConfig, configureChains, createClient } from "wagmi";
 import { network } from "@/config/network";
 import { allProviders } from "@/config/providers";
-import { QueryClient, QueryClientConfig } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { reactQueryConfig } from "./ReactQueryProvider";
 
 interface Props {
