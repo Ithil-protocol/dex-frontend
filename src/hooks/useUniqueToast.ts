@@ -11,6 +11,6 @@ export const useUniqueToast = () => {
     if (!isExist) {
       updateToastIds(id);
     }
-    return isExist;
+    return !isExist;
   };
 };

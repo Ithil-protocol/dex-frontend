@@ -10,6 +10,7 @@ import {
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { Address0x, Pool, Token } from "@/types";
 import { fixPrecision } from "@/utility/converters";
+import { useUniqueToast } from "../useUniqueToast";
 
 interface AllowanceProps {
   amount: string | undefined;
@@ -17,6 +18,7 @@ interface AllowanceProps {
   token: Token;
 }
 export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
+  const isUniqueToast = useUniqueToast();
   const [isApproved, setIsApproved] = useState(false);
   const { address } = useAccount();
   const { data: allowanceValue } = useTokenAllowance({
@@ -53,13 +55,14 @@ export const useAllowance = ({ amount = "0", pool, token }: AllowanceProps) => {
   const { isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
-      toast.success(
-        <TransactionToast
-          text="Contract approved successfully."
-          hash={data.transactionHash}
-        />,
-        { toastId: data.transactionHash }
-      );
+      if (isUniqueToast(data.transactionHash)) {
+        toast.success(
+          <TransactionToast
+            text="Contract approved successfully."
+            hash={data.transactionHash}
+          />
+        );
+      }
     },
   });
   useLayoutEffect(() => {

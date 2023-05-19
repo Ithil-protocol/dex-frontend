@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { Address0x, Pool } from "@/types";
 import { useDeadline } from "@/hooks/useDeadline";
+import { useUniqueToast } from "../useUniqueToast";
 
 interface FulfillOrderProps {
   amount: BigNumber;
@@ -22,6 +23,7 @@ export const useFulfillOrder = ({
   maxPaid,
   pool,
 }: FulfillOrderProps) => {
+  const isUniqueToast = useUniqueToast();
   const time = useDeadline();
 
   const { address } = useAccount();
@@ -55,13 +57,14 @@ export const useFulfillOrder = ({
   const { data: waitedData, isLoading: waitLoading } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
-      toast.success(
-        <TransactionToast
-          text="Order fulfilled successfully."
-          hash={data.transactionHash}
-        />,
-        { toastId: data.transactionHash }
-      );
+      if (isUniqueToast(data.transactionHash)) {
+        toast.success(
+          <TransactionToast
+            text="Order fulfilled successfully."
+            hash={data.transactionHash}
+          />
+        );
+      }
     },
   });
 

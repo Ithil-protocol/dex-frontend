@@ -13,8 +13,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Address0x, FactoryInputs } from "@/types";
 import { useWaitForTransaction } from "wagmi";
+import { useUniqueToast } from "@/hooks/useUniqueToast";
 
 const Factory = () => {
+  const isUniqueToast = useUniqueToast();
   const {
     formState: { isSubmitting },
     handleSubmit,
@@ -48,13 +50,14 @@ const Factory = () => {
   useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
-      toast.success(
-        <TransactionToast
-          text="Pool generated successfully"
-          hash={data.transactionHash}
-        />,
-        { toastId: data.transactionHash }
-      );
+      if (isUniqueToast(data.transactionHash)) {
+        toast.success(
+          <TransactionToast
+            text="Pool generated successfully"
+            hash={data.transactionHash}
+          />
+        );
+      }
     },
   });
 
