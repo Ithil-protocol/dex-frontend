@@ -2,39 +2,6 @@
   {
     "sell": {
       "underlying": {
-        "displayPrecision": 2,
-        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
-        "decimals": 18
-      },
-      "accounting": {
-        "displayPrecision": 6,
-        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
-        "decimals": 18
-      },
-      "address": "0x0A9B51B9a51553ABFCc798dAcaBeFC8AE5BCB215"
-    },
-    "buy": {
-      "underlying": {
-        "displayPrecision": 6,
-        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
-        "decimals": 18
-      },
-      "accounting": {
-        "displayPrecision": 2,
-        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
-        "decimals": 18
-      },
-      "address": "0x3b4C98c3c5c121193caC9cB0A50A6F96EdfDBc5D"
-    },
-    "base": 10,
-    "tick": 1,
-    "chartUrl": "UNISWAP3ARBITRUM:WETHDAIXX",
-    "underlyingLabel": "DAI",
-    "accountingLabel": "WETH"
-  },
-  {
-    "sell": {
-      "underlying": {
         "displayPrecision": 6,
         "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
         "decimals": 18
@@ -59,7 +26,7 @@
       },
       "address": "0x3b4C98c3c5c121193caC9cB0A50A6F96EdfDBc5D"
     },
-    "base": 10,
+    "base": 0.5,
     "tick": 1,
     "chartUrl": "UNISWAP3ARBITRUM:WETHDAI",
     "underlyingLabel": "WETH",
@@ -74,10 +41,76 @@
       },
       "accounting": {
         "displayPrecision": 6,
+        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
+        "decimals": 18
+      },
+      "address": "0x3b4C98c3c5c121193caC9cB0A50A6F96EdfDBc5D"
+    },
+    "buy": {
+      "underlying": {
+        "displayPrecision": 6,
+        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
+        "decimals": 18
+      },
+      "accounting": {
+        "displayPrecision": 2,
+        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
+        "decimals": 18
+      },
+      "address": "0x0A9B51B9a51553ABFCc798dAcaBeFC8AE5BCB215"
+    },
+    "base": 10000,
+    "tick": 1,
+    "chartUrl": "UNISWAP3ARBITRUM:WETHDAIXX",
+    "underlyingLabel": "DAI",
+    "accountingLabel": "WETH"
+  },
+  {
+    "sell": {
+      "underlying": {
+        "displayPrecision": 6,
         "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
         "decimals": 8
       },
+      "accounting": {
+        "displayPrecision": 2,
+        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
+        "decimals": 18
+      },
       "address": "0x64d18eDDfE5f214A50F113ee5C9835F0033f6688"
+    },
+    "buy": {
+      "underlying": {
+        "displayPrecision": 2,
+        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
+        "decimals": 18
+      },
+      "accounting": {
+        "displayPrecision": 6,
+        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
+        "decimals": 8
+      },
+      "address": "0x0b5aAE55Ac02d86c3D279A8728F446cdcFbF8584"
+    },
+    "base": 10,
+    "tick": 5,
+    "chartUrl": "UNISWAP3ARBITRUM:WETHDAI",
+    "underlyingLabel": "WBTC",
+    "accountingLabel": "DAI"
+  },
+  {
+    "sell": {
+      "underlying": {
+        "displayPrecision": 2,
+        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
+        "decimals": 18
+      },
+      "accounting": {
+        "displayPrecision": 6,
+        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
+        "decimals": 8
+      },
+      "address": "0x0b5aAE55Ac02d86c3D279A8728F446cdcFbF8584"
     },
     "buy": {
       "underlying": {
@@ -90,7 +123,7 @@
         "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
         "decimals": 18
       },
-      "address": "0x0b5aAE55Ac02d86c3D279A8728F446cdcFbF8584"
+      "address": "0x64d18eDDfE5f214A50F113ee5C9835F0033f6688"
     },
     "base": 10,
     "tick": 5,
@@ -106,72 +139,6 @@
         "decimals": 8
       },
       "accounting": {
-        "displayPrecision": 2,
-        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
-        "decimals": 18
-      },
-      "address": "0x64d18eDDfE5f214A50F113ee5C9835F0033f6688"
-    },
-    "buy": {
-      "underlying": {
-        "displayPrecision": 2,
-        "address": "0x450637ab161716238e39272da1a3c2ccfc15c9a2",
-        "decimals": 18
-      },
-      "accounting": {
-        "displayPrecision": 6,
-        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
-        "decimals": 8
-      },
-      "address": "0x0b5aAE55Ac02d86c3D279A8728F446cdcFbF8584"
-    },
-    "base": 10,
-    "tick": 5,
-    "chartUrl": "UNISWAP3ARBITRUM:WETHDAI",
-    "underlyingLabel": "WBTC",
-    "accountingLabel": "DAI"
-  },
-  {
-    "sell": {
-      "underlying": {
-        "displayPrecision": 6,
-        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
-        "decimals": 18
-      },
-      "accounting": {
-        "displayPrecision": 6,
-        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
-        "decimals": 8
-      },
-      "address": "0xdFdb4Be364e70e359544bcA29fd24cBBfe8F0B12"
-    },
-    "buy": {
-      "underlying": {
-        "displayPrecision": 6,
-        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
-        "decimals": 8
-      },
-      "accounting": {
-        "displayPrecision": 6,
-        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
-        "decimals": 18
-      },
-      "address": "0x3838B1675080e720C5E33194de3C0B75838f806A"
-    },
-    "base": 10,
-    "tick": 10,
-    "chartUrl": "UNISWAP3ARBITRUM:WETHDAIXX3",
-    "underlyingLabel": "WETH",
-    "accountingLabel": "WBTC"
-  },
-  {
-    "sell": {
-      "underlying": {
-        "displayPrecision": 6,
-        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
-        "decimals": 8
-      },
-      "accounting": {
         "displayPrecision": 6,
         "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
         "decimals": 18
@@ -196,5 +163,38 @@
     "chartUrl": "UNISWAP3ARBITRUM:WETHDAI",
     "underlyingLabel": "WBTC",
     "accountingLabel": "WETH"
+  },
+  {
+    "sell": {
+      "underlying": {
+        "displayPrecision": 6,
+        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
+        "decimals": 18
+      },
+      "accounting": {
+        "displayPrecision": 6,
+        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
+        "decimals": 8
+      },
+      "address": "0x3838B1675080e720C5E33194de3C0B75838f806A"
+    },
+    "buy": {
+      "underlying": {
+        "displayPrecision": 6,
+        "address": "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
+        "decimals": 8
+      },
+      "accounting": {
+        "displayPrecision": 6,
+        "address": "0x710BC8FcE37189b3E0B7bc0581966CAa48f86E7b",
+        "decimals": 18
+      },
+      "address": "0xdFdb4Be364e70e359544bcA29fd24cBBfe8F0B12"
+    },
+    "base": 10,
+    "tick": 10,
+    "chartUrl": "UNISWAP3ARBITRUM:WETHDAIXX3",
+    "underlyingLabel": "WETH",
+    "accountingLabel": "WBTC"
   }
 ]

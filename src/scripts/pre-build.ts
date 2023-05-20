@@ -79,7 +79,7 @@ createClient({
   })) as unknown as Pair[];
 
   for (let i = 0; i < addressesLength * 2; i++) {
-    const isEven = i % 2;
+    const isEven = i % 2 === 0;
     const j = Math.floor(i / 2);
 
     newData[i].base = isEven
@@ -95,8 +95,12 @@ createClient({
     newData[i].accountingLabel = isEven
       ? newPools[j].accounting.label
       : newPools[j].underlying.label;
-    newData[i].sell.address = sellPoolAddresses[j] as `0x${string}`;
-    newData[i].buy.address = buyPoolAddresses[j] as `0x${string}`;
+    newData[i].sell.address = isEven
+      ? (sellPoolAddresses[j] as `0x${string}`)
+      : (buyPoolAddresses[j] as `0x${string}`);
+    newData[i].buy.address = isEven
+      ? (buyPoolAddresses[j] as `0x${string}`)
+      : (sellPoolAddresses[j] as `0x${string}`);
     newData[i].sell.underlying.displayPrecision = isEven
       ? newPools[j].underlying.displayPrecision
       : newPools[j].accounting.displayPrecision;

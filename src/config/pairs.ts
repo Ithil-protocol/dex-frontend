@@ -3,8 +3,8 @@ import { PairInitial } from "@/types";
 export const pairs: PairInitial[] = [
   {
     tick: 1,
-    undToAccBase: 10,
-    accToUndBase: 10,
+    undToAccBase: 0.5,
+    accToUndBase: 50,
     undToAccChartUrl: "UNISWAP3ARBITRUM:WETHDAI",
     accToUndChartUrl: "UNISWAP3ARBITRUM:WETHDAIXX",
     underlying: {
