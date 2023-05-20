@@ -23,7 +23,7 @@ export const pairs: PairInitial[] = [
     undToAccBase: 10,
     accToUndBase: 10,
     undToAccChartUrl: "UNISWAP3ARBITRUM:WETHDAI",
-    accToUndChartUrl: "UNISWAP3ARBITRUM:WETHDAIXX2",
+    accToUndChartUrl: "UNISWAP3ARBITRUM:DAIWETH",
     underlying: {
       label: "WBTC",
       address: "0x6a9783Fc3397cF904d7225C99D2f679f6f5E4858",
