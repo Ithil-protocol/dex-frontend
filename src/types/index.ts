@@ -83,6 +83,24 @@ export interface Pool {
 export type Side = "sell" | "buy";
 export type LimitMarket = "limit" | "market";
 
+export interface PairInitial {
+  tick: number;
+  undToAccBase: number;
+  accToUndBase: number;
+  undToAccChartUrl: string;
+  accToUndChartUrl: string;
+  underlying: {
+    label: string;
+    address: `0x${string}`;
+    displayPrecision: number;
+  };
+  accounting: {
+    label: string;
+    address: `0x${string}`;
+    displayPrecision: number;
+  };
+}
+
 export interface Pair {
   underlyingLabel: string;
   accountingLabel: string;
