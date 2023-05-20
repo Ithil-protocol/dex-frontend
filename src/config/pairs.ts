@@ -35,4 +35,21 @@ export const pairs: PairInitial[] = [
       displayPrecision: 2,
     },
   },
+  {
+    tick: 10,
+    undToAccBase: 10,
+    accToUndBase: 10,
+    undToAccChartUrl: "UNISWAP3ARBITRUM:WETHARB",
+    accToUndChartUrl: "UNISWAP3ARBITRUM:ARBWETH",
+    underlying: {
+      label: "WETH",
+      address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+      displayPrecision: 2,
+    },
+    accounting: {
+      label: "ARB",
+      address: "0x912CE59144191C1204E64559FE8253a0e49E6548",
+      displayPrecision: 4,
+    },
+  },
 ];
