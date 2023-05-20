@@ -9,6 +9,7 @@ import { network } from "@/config/network";
 import { allProviders } from "@/config/providers";
 import { QueryClient } from "@tanstack/react-query";
 import { reactQueryConfig } from "./ReactQueryProvider";
+import Disclaimer from "@/components/Common/Disclaimer";
 
 interface Props {
   children: React.ReactNode;
@@ -35,7 +36,11 @@ const client = createClient({
 const Web3Provider: React.FC<Props> = ({ children }) => {
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider chains={chains} theme={midnightTheme()}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={midnightTheme()}
+        appInfo={{ appName: "Wizardex", disclaimer: Disclaimer }}
+      >
         {children}
       </RainbowKitProvider>
     </WagmiConfig>
