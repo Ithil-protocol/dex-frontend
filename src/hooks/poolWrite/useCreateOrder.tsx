@@ -11,6 +11,7 @@ import { useDeadline } from "@/hooks/useDeadline";
 import { useRef } from "react";
 import { useChangeOrderStatus } from "@/hooks/utils/useChangeOrderStatus";
 import { useCreatePendingOrder } from "@/hooks/utils/useCreatePendingOrder";
+import { useUniqueToast } from "../useUniqueToast";
 
 interface CreateOrderProps {
   amount: BigNumber;
@@ -27,6 +28,7 @@ export const useCreateOrder = ({
   price,
   side,
 }: CreateOrderProps) => {
+  const isUniqueToast = useUniqueToast();
   const time = useDeadline();
   const transactionHash = useRef("");
   const { address } = useAccount();
@@ -66,7 +68,7 @@ export const useCreateOrder = ({
   } = usePoolCreateOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, { toastId: error.name });
     },
     onSuccess: (...args) => {
       transactionHash.current = args[0].hash;
@@ -82,12 +84,14 @@ export const useCreateOrder = ({
   } = useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
-      toast.success(
-        <TransactionToast
-          text="Order created successfully."
-          hash={data.transactionHash}
-        />
-      );
+      if (isUniqueToast(data.transactionHash)) {
+        toast.success(
+          <TransactionToast
+            text="Order created successfully."
+            hash={data.transactionHash}
+          />
+        );
+      }
     },
     onError: (error) => {
       toast.error(error.message);

@@ -1,5 +1,5 @@
 import { usePoolStore } from "@/store";
-import { BigNumber, utils } from "ethers";
+import { BigNumber } from "ethers";
 import { buyAmountConverter, fixPrecision } from "@/utility/converters";
 
 export const useBuyAmountConverter = () => {

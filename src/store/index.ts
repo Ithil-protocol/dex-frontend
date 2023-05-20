@@ -1,5 +1,5 @@
 import { pairs } from "@/data/pools";
-import { LimitMarket, PoolState, Side } from "@/types";
+import { LimitMarket, PoolState, Side, ToastIds } from "@/types";
 import { create } from "zustand";
 
 type Key = `${LimitMarket}-${Side}`;
@@ -51,3 +51,16 @@ export const usePoolStore = create<PoolState>((set) => ({
     });
   },
 }));
+
+const useToastStore = create<ToastIds>((set) => ({
+  toastIds: [],
+  updateToastIds: (toastId) => {
+    set((state) => {
+      return {
+        toastIds: [...state.toastIds, toastId],
+      };
+    });
+  },
+}));
+
+export default useToastStore;

@@ -1,13 +1,16 @@
-import { CandlestickChart } from "@/components/CandlestickChart";
+import CandlestickChart from "@/components/CandlestickChart";
 import CreateOrder from "@/components/CreateOrder";
 import DepthChart from "@/components/DepthChart";
 import MarketTrades from "@/components/MarketTrades";
 import Navbar from "@/components/Navbar";
 import { OpenOrders } from "@/components/OpenOrders";
 import Orders from "@/components/Orders";
+import { usePoolStore } from "@/store";
 import styles from "@/styles/panel.module.scss";
 
 const Panel = () => {
+  const pair = usePoolStore((store) => store.pair);
+
   return (
     <div className={styles.layout}>
       <div className={styles.navbar}>
@@ -17,7 +20,7 @@ const Panel = () => {
         <Orders />
       </div>
       <div className={styles.candlestick}>
-        <CandlestickChart />
+        <CandlestickChart pair={pair} />
       </div>
       <div className={styles.form}>
         <CreateOrder />

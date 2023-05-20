@@ -4,15 +4,12 @@ import {
   midnightTheme,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { WagmiConfig, configureChains, createClient, sepolia } from "wagmi";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { infuraProvider } from "wagmi/providers/infura";
-import { publicProvider } from "wagmi/providers/public";
+import { WagmiConfig, configureChains, createClient } from "wagmi";
 import { network } from "@/config/network";
 import { allProviders } from "@/config/providers";
-import { QueryClient, QueryClientConfig } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { reactQueryConfig } from "./ReactQueryProvider";
+import Disclaimer from "@/components/Common/Disclaimer";
 
 interface Props {
   children: React.ReactNode;
@@ -24,7 +21,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "wizardex",
+  appName: "Wizardex",
   chains,
 });
 
@@ -39,7 +36,11 @@ const client = createClient({
 const Web3Provider: React.FC<Props> = ({ children }) => {
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider chains={chains} theme={midnightTheme()}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={midnightTheme()}
+        appInfo={{ appName: "Wizardex", disclaimer: Disclaimer }}
+      >
         {children}
       </RainbowKitProvider>
     </WagmiConfig>

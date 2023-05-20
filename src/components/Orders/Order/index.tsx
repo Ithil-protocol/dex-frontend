@@ -23,6 +23,7 @@ const Order: React.FC<Props> = ({ data, isLoading }) => {
       }, animationDuration);
       return () => clearTimeout(timeoutId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.volume]);
 
   const pair = usePoolStore((state) => state.pair);

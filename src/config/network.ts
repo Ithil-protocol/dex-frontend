@@ -1,3 +1,3 @@
-import { goerli, sepolia, mainnet, arbitrum } from "wagmi/chains";
+import { sepolia } from "wagmi/chains";
 
 export const network = sepolia;
