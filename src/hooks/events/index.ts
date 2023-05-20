@@ -12,6 +12,7 @@ import { useGetConverters } from "@/hooks/converters";
 import { contractABI } from "@/store/abi";
 import { usePoolStore } from "@/store";
 import { BigNumber } from "ethers";
+import { useCalcEventTime } from "../useCalcEventTime";
 
 interface CustomEvent {
   offerer: `0x${string}`;
@@ -24,7 +25,7 @@ interface CustomEvent {
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -40,7 +41,7 @@ export const useUserOrderCreatedEvents = () => {
   const getEvents = async () => {
     const results: OpenOrderEvent[] = [];
 
-    if (sellContract && buyContract && address) {
+    if (sellContract && buyContract && address && EventTime) {
       const sellFilter = sellContract.filters.OrderCreated(
         address,
         null,
@@ -59,8 +60,20 @@ export const useUserOrderCreatedEvents = () => {
         null,
         null
       );
-      const sellEvents = (await sellContract.queryFilter(sellFilter)).reverse();
-      const buyEvents = (await buyContract.queryFilter(buyFilter)).reverse();
+      const sellEvents = (
+        await sellContract.queryFilter(
+          sellFilter,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
+      ).reverse();
+      const buyEvents = (
+        await buyContract.queryFilter(
+          buyFilter,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
+      ).reverse();
 
       const sellBlocks = await Promise.all(
         sellEvents.map((item) => item.getBlock())
@@ -169,7 +182,7 @@ export const useUserOrderCreatedEvents = () => {
 
 export const useUserOrderCancelledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -183,7 +196,7 @@ export const useUserOrderCancelledEvents = () => {
 
   const getEvents = async () => {
     const results: HistoryEvent[] = [];
-    if (buyContract && sellContract && address) {
+    if (buyContract && sellContract && address && EventTime) {
       const sellFilter = sellContract.filters.OrderCancelled(
         null,
         address,
@@ -196,10 +209,22 @@ export const useUserOrderCancelledEvents = () => {
         null,
         null
       );
-      const sellEvents = (await sellContract.queryFilter(sellFilter))
+      const sellEvents = (
+        await sellContract.queryFilter(
+          sellFilter,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
+      )
         .reverse()
         .slice(0, 10);
-      const buyEvents = (await buyContract.queryFilter(buyFilter))
+      const buyEvents = (
+        await buyContract.queryFilter(
+          buyFilter,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
+      )
         .reverse()
         .slice(0, 10);
 
@@ -264,7 +289,7 @@ export const useUserOrderCancelledEvents = () => {
 
 export const useAllOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -277,11 +302,23 @@ export const useAllOrderFulfilledEvents = () => {
   const getEvents = async () => {
     const results: MarketEvent[] = [];
 
-    if (buyContract && sellContract) {
-      const sellEvents = (await sellContract.queryFilter("OrderFulfilled"))
+    if (buyContract && sellContract && EventTime) {
+      const sellEvents = (
+        await sellContract.queryFilter(
+          "OrderFulfilled",
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
+      )
         .reverse()
         .slice(0, 25);
-      const buyEvents = (await buyContract.queryFilter("OrderFulfilled"))
+      const buyEvents = (
+        await buyContract.queryFilter(
+          "OrderFulfilled",
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
+      )
         .reverse()
         .slice(0, 25);
 
@@ -324,6 +361,7 @@ export const useAllOrderFulfilledEvents = () => {
 
 export const useUserOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -336,7 +374,7 @@ export const useUserOrderFulfilledEvents = () => {
   const sellContract = useSellContract();
   const getEvents = async () => {
     const results: HistoryEvent[] = [];
-    if (buyContract && sellContract && address) {
+    if (buyContract && sellContract && address && EventTime) {
       const sellFilterOfferer = sellContract.filters.OrderFulfilled(
         null,
         address,
@@ -370,20 +408,38 @@ export const useUserOrderFulfilledEvents = () => {
         null
       );
       const sellEventsOfferer = (
-        await sellContract.queryFilter(sellFilterOfferer)
+        await sellContract.queryFilter(
+          sellFilterOfferer,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
       )
         .reverse()
         .slice(0, 10);
       const sellEventsFulfiller = (
-        await sellContract.queryFilter(sellFilterFulfiller)
+        await sellContract.queryFilter(
+          sellFilterFulfiller,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
       )
         .reverse()
         .slice(0, 10);
-      const buyEventsOfferer = (await buyContract.queryFilter(buyFilterOfferer))
+      const buyEventsOfferer = (
+        await buyContract.queryFilter(
+          buyFilterOfferer,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
+      )
         .reverse()
         .slice(0, 10);
       const buyEventsFulfiller = (
-        await buyContract.queryFilter(buyFilterFulfiller)
+        await buyContract.queryFilter(
+          buyFilterFulfiller,
+          EventTime.fromBlockNumber,
+          EventTime.toBlockNumber
+        )
       )
         .reverse()
         .slice(0, 10);
