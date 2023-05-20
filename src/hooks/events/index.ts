@@ -25,7 +25,7 @@ interface CustomEvent {
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -183,7 +183,7 @@ export const useUserOrderCreatedEvents = () => {
 
 export const useUserOrderCancelledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -290,7 +290,7 @@ export const useUserOrderCancelledEvents = () => {
 
 export const useAllOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 1 * 24 });
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -364,7 +364,7 @@ export const useAllOrderFulfilledEvents = () => {
 
 export const useUserOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
