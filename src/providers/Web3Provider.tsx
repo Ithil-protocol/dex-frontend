@@ -21,7 +21,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "wizardex",
+  appName: "Wizardex",
   chains,
 });
 
