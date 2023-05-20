@@ -59,12 +59,8 @@ export const useUserOrderCreatedEvents = () => {
         null,
         null
       );
-      const sellEvents = (await sellContract.queryFilter(sellFilter))
-        .reverse()
-        .slice(0, 10);
-      const buyEvents = (await buyContract.queryFilter(buyFilter))
-        .reverse()
-        .slice(0, 10);
+      const sellEvents = (await sellContract.queryFilter(sellFilter)).reverse();
+      const buyEvents = (await buyContract.queryFilter(buyFilter)).reverse();
 
       const sellBlocks = await Promise.all(
         sellEvents.map((item) => item.getBlock())
