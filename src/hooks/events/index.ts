@@ -177,6 +177,7 @@ export const useUserOrderCreatedEvents = () => {
 
   return useQuery(["userOrderCreatedEvent", address, poolAddress], getEvents, {
     staleTime: Infinity,
+    enabled: !!EventTime,
   });
 };
 
@@ -283,7 +284,7 @@ export const useUserOrderCancelledEvents = () => {
   return useQuery(
     ["userOrderCancelledEvents", address, poolAddress],
     getEvents,
-    { staleTime: Infinity }
+    { staleTime: Infinity, enabled: !!EventTime }
   );
 };
 
@@ -356,7 +357,9 @@ export const useAllOrderFulfilledEvents = () => {
     return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
-  return useQuery(["allOrderFulfilledEvents", poolAddress], getEvents);
+  return useQuery(["allOrderFulfilledEvents", poolAddress], getEvents, {
+    enabled: !!EventTime,
+  });
 };
 
 export const useUserOrderFulfilledEvents = () => {
@@ -509,7 +512,7 @@ export const useUserOrderFulfilledEvents = () => {
   return useQuery(
     ["userOrderFulfilledEvents", address, poolAddress],
     getEvents,
-    { staleTime: Infinity }
+    { staleTime: Infinity, enabled: !!EventTime }
   );
 };
 

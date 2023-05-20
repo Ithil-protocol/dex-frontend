@@ -10,7 +10,7 @@ export const useCalcEventTime = ({ periodInHour }: CalcEventTimeProps) => {
   const calcBlockNumber = async () => {
     const currentBlockNumber = await provider.getBlockNumber();
     const fromBlockNumber = currentBlockNumber - periodInHour * 60 * 6; // Assuming an average of 10 seconds per block
-    const toBlockNumber = currentBlockNumber + 1000;
+    const toBlockNumber = currentBlockNumber;
 
     return { fromBlockNumber, toBlockNumber };
   };
