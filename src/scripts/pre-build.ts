@@ -2,7 +2,7 @@ import { configureChains, createClient, erc20ABI } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { readContracts } from "wagmi";
 import fs from "fs";
-import addresses from "../../pairs.json" assert { type: "json" };
+import { pairs as addresses } from "../config/pairs.ts";
 import nextEnv from "@next/env";
 import { Pair } from "../types";
 import { network } from "../config/network.ts";
@@ -32,8 +32,6 @@ createClient({
     functionName: "pools",
   }));
 
-  console.log("sellPoolAddressesContracts", sellPoolAddressesContracts);
-
   const buyPoolAddressesContracts = newPools.map((item) => ({
     address: factoryAddress as `0x${string}`,
     args: [item.accounting.address, item.underlying.address, item.tick],
@@ -44,8 +42,6 @@ createClient({
   const sellPoolAddresses = await readContracts({
     contracts: sellPoolAddressesContracts,
   });
-
-  console.log("sellPoolAddresses", sellPoolAddresses);
 
   const buyPoolAddresses = await readContracts({
     contracts: buyPoolAddressesContracts,
