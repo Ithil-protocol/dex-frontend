@@ -59,7 +59,7 @@
       },
       "address": "0x0A9B51B9a51553ABFCc798dAcaBeFC8AE5BCB215"
     },
-    "base": 10000,
+    "base": 50,
     "tick": 1,
     "chartUrl": "UNISWAP3ARBITRUM:WETHDAIXX",
     "underlyingLabel": "DAI",
@@ -127,7 +127,7 @@
     },
     "base": 10,
     "tick": 5,
-    "chartUrl": "UNISWAP3ARBITRUM:WETHDAIXX2",
+    "chartUrl": "UNISWAP3ARBITRUM:DAIWETH",
     "underlyingLabel": "DAI",
     "accountingLabel": "WBTC"
   },
