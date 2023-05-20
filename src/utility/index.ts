@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { Order, OrderObj } from "@/types";
 import { fixPrecision } from "./converters";
-import { icons } from "../../icons";
+import { icons } from "@/config/icons";
 import Generic from "cryptocurrency-icons/svg/icon/generic.svg";
 
 export const convertOrdersArrayToUniqueObj = (orders: Order[]) => {

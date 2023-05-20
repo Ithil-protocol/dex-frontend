@@ -1,7 +1,8 @@
 import { configureChains, createClient, erc20ABI } from "wagmi";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { readContracts } from "wagmi";
 import fs from "fs";
-import addresses from "../../pairs.json" assert { type: "json" };
+import { pairs as addresses } from "../config/pairs.ts";
 import nextEnv from "@next/env";
 import { Pair } from "../types";
 import { network } from "../config/network.ts";
@@ -66,7 +67,7 @@ createClient({
     contracts: accountingTokensContracts,
   })) as number[];
 
-  const newData: Pair[] = [...Array(addressesLength)].map((_) => ({
+  const newData: Pair[] = [...Array(addressesLength * 2)].map((_) => ({
     sell: {
       underlying: {},
       accounting: {},
@@ -77,34 +78,65 @@ createClient({
     },
   })) as unknown as Pair[];
 
-  for (let i = 0; i < addressesLength; i++) {
-    newData[i].base = newPools[i].base;
-    newData[i].tick = newPools[i].tick;
-    newData[i].chartUrl = newPools[i].chartUrl;
-    newData[i].underlyingLabel = newPools[i].underlying.label;
-    newData[i].accountingLabel = newPools[i].accounting.label;
-    newData[i].sell.address = sellPoolAddresses[i] as `0x${string}`;
-    newData[i].buy.address = buyPoolAddresses[i] as `0x${string}`;
-    newData[i].sell.underlying.displayPrecision =
-      newPools[i].underlying.displayPrecision;
-    newData[i].buy.underlying.displayPrecision =
-      newPools[i].accounting.displayPrecision;
-    newData[i].sell.accounting.displayPrecision =
-      newPools[i].accounting.displayPrecision;
-    newData[i].buy.accounting.displayPrecision =
-      newPools[i].underlying.displayPrecision;
-    newData[i].sell.underlying.address = newPools[i].underlying
-      .address as `0x${string}`;
-    newData[i].buy.underlying.address = newPools[i].accounting
-      .address as `0x${string}`;
-    newData[i].sell.accounting.address = newPools[i].accounting
-      .address as `0x${string}`;
-    newData[i].buy.accounting.address = newPools[i].underlying
-      .address as `0x${string}`;
-    newData[i].sell.underlying.decimals = underlyingTokensDecimals[i];
-    newData[i].buy.underlying.decimals = accountingTokensDecimals[i];
-    newData[i].sell.accounting.decimals = accountingTokensDecimals[i];
-    newData[i].buy.accounting.decimals = underlyingTokensDecimals[i];
+  for (let i = 0; i < addressesLength * 2; i++) {
+    const isEven = i % 2 === 0;
+    const j = Math.floor(i / 2);
+
+    newData[i].base = isEven
+      ? newPools[j].undToAccBase
+      : newPools[j].accToUndBase;
+    newData[i].tick = newPools[j].tick;
+    newData[i].chartUrl = isEven
+      ? newPools[j].undToAccChartUrl
+      : newPools[j].accToUndChartUrl;
+    newData[i].underlyingLabel = isEven
+      ? newPools[j].underlying.label
+      : newPools[j].accounting.label;
+    newData[i].accountingLabel = isEven
+      ? newPools[j].accounting.label
+      : newPools[j].underlying.label;
+    newData[i].sell.address = isEven
+      ? (sellPoolAddresses[j] as `0x${string}`)
+      : (buyPoolAddresses[j] as `0x${string}`);
+    newData[i].buy.address = isEven
+      ? (buyPoolAddresses[j] as `0x${string}`)
+      : (sellPoolAddresses[j] as `0x${string}`);
+    newData[i].sell.underlying.displayPrecision = isEven
+      ? newPools[j].underlying.displayPrecision
+      : newPools[j].accounting.displayPrecision;
+    newData[i].buy.underlying.displayPrecision = isEven
+      ? newPools[j].accounting.displayPrecision
+      : newPools[j].underlying.displayPrecision;
+    newData[i].sell.accounting.displayPrecision = isEven
+      ? newPools[j].accounting.displayPrecision
+      : newPools[j].underlying.displayPrecision;
+    newData[i].buy.accounting.displayPrecision = isEven
+      ? newPools[j].underlying.displayPrecision
+      : newPools[j].accounting.displayPrecision;
+    newData[i].sell.underlying.address = isEven
+      ? (newPools[j].underlying.address as `0x${string}`)
+      : (newPools[j].accounting.address as `0x${string}`);
+    newData[i].buy.underlying.address = isEven
+      ? (newPools[j].accounting.address as `0x${string}`)
+      : (newPools[j].underlying.address as `0x${string}`);
+    newData[i].sell.accounting.address = isEven
+      ? (newPools[j].accounting.address as `0x${string}`)
+      : (newPools[j].underlying.address as `0x${string}`);
+    newData[i].buy.accounting.address = isEven
+      ? (newPools[j].underlying.address as `0x${string}`)
+      : (newPools[j].accounting.address as `0x${string}`);
+    newData[i].sell.underlying.decimals = isEven
+      ? underlyingTokensDecimals[j]
+      : accountingTokensDecimals[j];
+    newData[i].buy.underlying.decimals = isEven
+      ? accountingTokensDecimals[j]
+      : underlyingTokensDecimals[j];
+    newData[i].sell.accounting.decimals = isEven
+      ? accountingTokensDecimals[j]
+      : underlyingTokensDecimals[j];
+    newData[i].buy.accounting.decimals = isEven
+      ? underlyingTokensDecimals[j]
+      : accountingTokensDecimals[j];
   }
 
   fs.writeFileSync("./src/data/pools.json", JSON.stringify(newData));
