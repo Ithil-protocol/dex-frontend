@@ -9,6 +9,7 @@ import TransactionToast from "@/components/Common/Toast/TransactionToast";
 import { Address0x, Pool } from "@/types";
 import { usePoolStore } from "@/store";
 import { useChangeOrderStatus } from "../utils/useChangeOrderStatus";
+import { useUniqueToast } from "../useUniqueToast";
 
 interface CancelOrderProps {
   transactionHash: string;
@@ -23,6 +24,7 @@ export const useCancelOrder = ({
   pool,
   price,
 }: CancelOrderProps) => {
+  const isUniqueToast = useUniqueToast();
   const { address } = useAccount();
   const { address: poolAddress } = usePoolStore((state) => state.default);
 
@@ -41,7 +43,7 @@ export const useCancelOrder = ({
   const { write: cancel, data: writeData } = usePoolCancelOrder({
     ...config,
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, { toastId: error.name });
     },
     onSuccess: () => changeOrderStatus("canceling"),
   });
@@ -49,12 +51,14 @@ export const useCancelOrder = ({
   useWaitForTransaction({
     hash: writeData?.hash,
     onSuccess: (data) => {
-      toast.success(
-        <TransactionToast
-          text="Order canceled successfully."
-          hash={data.transactionHash}
-        />
-      );
+      if (isUniqueToast(data.transactionHash)) {
+        toast.success(
+          <TransactionToast
+            text="Order canceled successfully."
+            hash={data.transactionHash}
+          />
+        );
+      }
     },
     onError: () => changeOrderStatus("error"),
   });

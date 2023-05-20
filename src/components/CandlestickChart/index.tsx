@@ -1,6 +1,8 @@
 import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
 import { usePoolStore } from "@/store";
+import { memo } from "react";
+import { Pair } from "@/types";
 const AdvancedRealTimeChartNoSSR = dynamic(
   () =>
     import("react-ts-tradingview-widgets").then((w) => w.AdvancedRealTimeChart),
@@ -9,9 +11,11 @@ const AdvancedRealTimeChartNoSSR = dynamic(
   }
 );
 
-export const CandlestickChart = () => {
-  const pair = usePoolStore((store) => store.pair);
+interface Props {
+  pair: Pair;
+}
 
+const CandlestickChart = ({ pair }: Props) => {
   return (
     <Box height={"100%"}>
       <AdvancedRealTimeChartNoSSR
@@ -25,3 +29,7 @@ export const CandlestickChart = () => {
     </Box>
   );
 };
+
+export default memo(CandlestickChart, (prevProps, nextProps) => {
+  return prevProps.pair === nextProps.pair;
+});

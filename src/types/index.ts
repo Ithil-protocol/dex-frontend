@@ -211,3 +211,8 @@ export interface MarketBuyFinalValues {
 }
 
 export type Address0x = `0x${string}`;
+
+export interface ToastIds {
+  toastIds: string[];
+  updateToastIds: (id: string) => void;
+}

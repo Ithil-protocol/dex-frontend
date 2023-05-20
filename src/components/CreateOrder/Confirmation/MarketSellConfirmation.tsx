@@ -9,7 +9,6 @@ import { usePoolPreviewTake } from "@/hooks/contracts/pool";
 import { usePoolStore } from "@/store";
 import { MarketSellFinalValues } from "@/types";
 import styles from "./LimitConfirmation.module.scss";
-import { useBuyAmountConverter } from "@/hooks/converters";
 import { capitalizeFirstLetter } from "@/utility";
 import { LoadingButton } from "@mui/lab";
 import { providers, utils } from "ethers";

@@ -14,7 +14,7 @@ export const reactQueryConfig: QueryClientConfig = {
     queries: {
       cacheTime: 6 * 60 * 60 * 1000,
       retry: false,
-      refetchOnWindowFocus: "always",
+      refetchOnWindowFocus: true,
       networkMode: "offlineFirst",
     },
     mutations: {
