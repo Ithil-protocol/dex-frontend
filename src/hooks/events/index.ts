@@ -289,7 +289,7 @@ export const useUserOrderCancelledEvents = () => {
 
 export const useAllOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 14 * 24 });
+  const { data: EventTime } = useCalcEventTime({ periodInHour: 1 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
