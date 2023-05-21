@@ -1,5 +1,4 @@
 import { configureChains, createClient, erc20ABI } from "wagmi";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { readContracts } from "wagmi";
 import fs from "fs";
 import { pairs as addresses } from "../config/pairs.ts";
