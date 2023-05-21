@@ -1,11 +1,12 @@
 import { PairInitial } from "@/types";
 
+const undToAccChartUrl = "UNISWAP3ARBITRUM:WETHDAI";
 export const pairs: PairInitial[] = [
   {
     tick: 1,
     undToAccBase: 0.5,
     accToUndBase: 50,
-    undToAccChartUrl: "UNISWAP3ARBITRUM:WETHDAI",
+    undToAccChartUrl,
     accToUndChartUrl: "UNISWAP3ARBITRUM:WETHDAIXX",
     underlying: {
       label: "WETH",
@@ -22,7 +23,7 @@ export const pairs: PairInitial[] = [
     tick: 5,
     undToAccBase: 10,
     accToUndBase: 10,
-    undToAccChartUrl: "UNISWAP3ARBITRUM:WETHDAI",
+    undToAccChartUrl,
     accToUndChartUrl: "UNISWAP3ARBITRUM:DAIWETH",
     underlying: {
       label: "WBTC",
@@ -39,7 +40,7 @@ export const pairs: PairInitial[] = [
     tick: 10,
     undToAccBase: 10,
     accToUndBase: 10,
-    undToAccChartUrl: "UNISWAP3ARBITRUM:WETHDAI",
+    undToAccChartUrl,
     accToUndChartUrl: "UNISWAP3ARBITRUM:WETHDAIXX3",
     underlying: {
       label: "WBTC",
