@@ -21,6 +21,11 @@ export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
 
   return (
     <Html lang="en">
+      <script
+        dangerouslySetInnerHTML={{
+          __html: "<!-- Developed by SPILA. All right reserved for ITHIL -->",
+        }}
+      />
       <Head>
         <title>WizarDex - by Ithil</title>
         <meta

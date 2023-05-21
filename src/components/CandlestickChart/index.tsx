@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
-import { usePoolStore } from "@/store";
 import { memo } from "react";
 import { Pair } from "@/types";
 const AdvancedRealTimeChartNoSSR = dynamic(
