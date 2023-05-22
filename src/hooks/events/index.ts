@@ -25,7 +25,6 @@ interface CustomEvent {
 
 export const useUserOrderCreatedEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -41,7 +40,7 @@ export const useUserOrderCreatedEvents = () => {
   const getEvents = async () => {
     const results: OpenOrderEvent[] = [];
 
-    if (sellContract && buyContract && address && EventTime) {
+    if (sellContract && buyContract && address) {
       const sellFilter = sellContract.filters.OrderCreated(
         address,
         null,
@@ -63,16 +62,8 @@ export const useUserOrderCreatedEvents = () => {
 
       const [buyEvents, sellEvents] = (
         await Promise.all([
-          buyContract.queryFilter(
-            buyFilter,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
-          sellContract.queryFilter(
-            sellFilter,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
+          buyContract.queryFilter(buyFilter),
+          sellContract.queryFilter(sellFilter),
         ])
       ).map((item) => item.reverse());
 
@@ -174,13 +165,11 @@ export const useUserOrderCreatedEvents = () => {
 
   return useQuery(["userOrderCreatedEvent", address, poolAddress], getEvents, {
     staleTime: Infinity,
-    enabled: !!EventTime,
   });
 };
 
 export const useUserOrderCancelledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -194,7 +183,7 @@ export const useUserOrderCancelledEvents = () => {
 
   const getEvents = async () => {
     const results: HistoryEvent[] = [];
-    if (buyContract && sellContract && address && EventTime) {
+    if (buyContract && sellContract && address) {
       const sellFilter = sellContract.filters.OrderCancelled(
         null,
         address,
@@ -210,16 +199,8 @@ export const useUserOrderCancelledEvents = () => {
 
       const [sellEvents, buyEvents] = (
         await Promise.all([
-          sellContract.queryFilter(
-            sellFilter,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
-          buyContract.queryFilter(
-            buyFilter,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
+          sellContract.queryFilter(sellFilter),
+          buyContract.queryFilter(buyFilter),
         ])
       ).map((item) => item.reverse().slice(0, 10));
 
@@ -274,13 +255,12 @@ export const useUserOrderCancelledEvents = () => {
   return useQuery(
     ["userOrderCancelledEvents", address, poolAddress],
     getEvents,
-    { staleTime: Infinity, enabled: !!EventTime }
+    { staleTime: Infinity }
   );
 };
 
 export const useAllOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -293,19 +273,11 @@ export const useAllOrderFulfilledEvents = () => {
   const getEvents = async () => {
     const results: MarketEvent[] = [];
 
-    if (buyContract && sellContract && EventTime) {
+    if (buyContract && sellContract) {
       const [sellEvents, buyEvents] = (
         await Promise.all([
-          sellContract.queryFilter(
-            "OrderFulfilled",
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
-          buyContract.queryFilter(
-            "OrderFulfilled",
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
+          sellContract.queryFilter("OrderFulfilled"),
+          buyContract.queryFilter("OrderFulfilled"),
         ])
       ).map((item) => item.reverse().slice(0, 25));
 
@@ -340,14 +312,11 @@ export const useAllOrderFulfilledEvents = () => {
     return results.sort((a, b) => b.timestamp - a.timestamp);
   };
 
-  return useQuery(["allOrderFulfilledEvents", poolAddress], getEvents, {
-    enabled: !!EventTime,
-  });
+  return useQuery(["allOrderFulfilledEvents", poolAddress], getEvents, {});
 };
 
 export const useUserOrderFulfilledEvents = () => {
   const { address: poolAddress } = usePoolStore((state) => state.default);
-  const { data: EventTime } = useCalcEventTime({ periodInHour: 100 * 24 });
   const {
     buyAmountConverter,
     buyPriceConverter,
@@ -360,7 +329,7 @@ export const useUserOrderFulfilledEvents = () => {
   const sellContract = useSellContract();
   const getEvents = async () => {
     const results: HistoryEvent[] = [];
-    if (buyContract && sellContract && address && EventTime) {
+    if (buyContract && sellContract && address) {
       const sellFilterOfferer = sellContract.filters.OrderFulfilled(
         null,
         address,
@@ -401,29 +370,13 @@ export const useUserOrderFulfilledEvents = () => {
         buyEventsFulfiller,
       ] = (
         await Promise.all([
-          sellContract.queryFilter(
-            sellFilterOfferer,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
+          sellContract.queryFilter(sellFilterOfferer),
 
-          sellContract.queryFilter(
-            sellFilterFulfiller,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
+          sellContract.queryFilter(sellFilterFulfiller),
 
-          buyContract.queryFilter(
-            buyFilterOfferer,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
+          buyContract.queryFilter(buyFilterOfferer),
 
-          buyContract.queryFilter(
-            buyFilterFulfiller,
-            EventTime.fromBlockNumber,
-            EventTime.toBlockNumber
-          ),
+          buyContract.queryFilter(buyFilterFulfiller),
         ])
       ).map((item) => item.reverse().slice(0, 10));
 
@@ -493,7 +446,7 @@ export const useUserOrderFulfilledEvents = () => {
   return useQuery(
     ["userOrderFulfilledEvents", address, poolAddress],
     getEvents,
-    { staleTime: Infinity, enabled: !!EventTime }
+    { staleTime: Infinity }
   );
 };
 
